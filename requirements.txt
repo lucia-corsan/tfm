@@ -1,0 +1,12 @@
+folium==0.17.0
+geopandas==1.0.1
+ipykernel==6.29.5
+matplotlib==3.9.2
+mapclassify==2.8.1
+nbformat==5.10.4
+pandas==2.2.3
+pyarrow==17.0.0
+python-dotenv==1.0.1
+requests==2.32.3
+shapely==2.0.6
+tqdm==4.66.5
