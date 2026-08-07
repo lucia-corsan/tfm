@@ -1,8 +1,19 @@
 .env
 .venv/
+.DS_Store
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+.coverage
+htmlcov/
+
+# React Native / Expo
+app/node_modules/
+app/.expo/
+app/dist/
+app/android/
+app/ios/
+npm-debug.log*
 
 # Generated analysis outputs. Keep notebooks and source code in git, not raw data.
 data/raw/

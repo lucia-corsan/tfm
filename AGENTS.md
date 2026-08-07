@@ -9,7 +9,7 @@ Este repositorio contiene un TFM de IA aplicada: una app movil local-first para 
 El MVP debe permitir:
 
 - Configurar un perfil inicial de usuario y preferencias de accesibilidad.
-- Buscar rutas peatonales origen-destino sin GPS real.
+- Buscar rutas peatonales origen-destino y navegar con GPS solo en primer plano.
 - Comparar rutas alternativas por indice de accesibilidad, confianza e incertidumbre.
 - Explicar por que una ruta se recomienda sobre otra.
 - Generar narracion turn-by-turn en espanol, lista para TTS.
@@ -46,7 +46,7 @@ Documentos esperados al inicio:
 
 ### Python
 
-- Usar Python 3.13.
+- Usar Python 3.9.
 - Usar FastAPI, Pydantic v2, httpx async y pytest.
 - Toda funcion publica debe tener type hints y docstring breve estilo Google.
 - Usar `pydantic.BaseModel` para datos que cruzan limites de modulo o API.
@@ -174,8 +174,8 @@ Orden recomendado de trabajo:
 2. Estudio de densidad de datos en Madrid.
 3. Modelo de accesibilidad personalizable.
 4. Backend MVP local.
-5. App movil MVP sin GPS real.
+5. App movil MVP con navegacion simulada.
 6. Feedback y aprendizaje adaptativo.
-7. Evaluacion academica.
-8. GPS real.
+7. GPS en primer plano y rerouting confirmado.
+8. Evaluacion academica.
 9. VLMs como extension final.
