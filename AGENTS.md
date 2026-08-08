@@ -2,36 +2,41 @@
 
 Instrucciones para agentes y colaboradores que trabajen en este TFM.
 
-## Contexto Del Proyecto
+## Contexto del proyecto
 
-Este repositorio contiene un TFM de IA aplicada: una app movil local-first para Madrid capital que recomienda rutas peatonales accesibles y personalizadas para personas ciegas o con baja vision.
+Este repositorio contiene un TFM de IA aplicada: una aplicación móvil
+`local-first` para Madrid capital que recomienda rutas peatonales accesibles y
+personalizadas para personas ciegas o con baja visión.
 
 El MVP debe permitir:
 
 - Configurar un perfil inicial de usuario y preferencias de accesibilidad.
 - Buscar rutas peatonales origen-destino y navegar con GPS solo en primer plano.
-- Comparar rutas alternativas por indice de accesibilidad, confianza e incertidumbre.
-- Explicar por que una ruta se recomienda sobre otra.
-- Generar narracion turn-by-turn en espanol, lista para TTS.
+- Comparar rutas alternativas por índice de adecuación, confianza e incertidumbre.
+- Explicar por qué una ruta se recomienda sobre otra.
+- Generar narración `turn-by-turn` en español, lista para TTS.
 
-La IA principal del proyecto es el sistema de decision/ranking adaptativo: indice de accesibilidad explicable mas aprendizaje por feedback del usuario. Los VLMs quedan como extension final y opcional, no como nucleo inicial del MVP.
+La IA principal del proyecto es el sistema de decisión y clasificación adaptativa
+(*ranking*): índice de adecuación explicable más aprendizaje mediante la
+retroalimentación del usuario. Los
+VLM quedan como extensión final y opcional, no como núcleo inicial del MVP.
 
-## Estructura Esperada
+## Estructura esperada
 
-Mantener esta organizacion salvo que se explique y justifique un cambio:
+Mantener esta organización salvo que se explique y justifique un cambio:
 
 ```text
-backend/      # FastAPI + logica de dominio
-  routing/    # cliente OpenRouteService primero; Valhalla como evolucion
-  scoring/    # indice de accesibilidad explicable y testeable
-  enrichment/ # OpenStreetMap, Overpass y Mapillary metadata
+backend/      # FastAPI + lógica de dominio
+  routing/    # cliente OpenRouteService primero; Valhalla como evolución
+  scoring/    # índice de adecuación explicable y fácil de probar
+  enrichment/ # OpenStreetMap, Overpass y metadatos Mapillary
   narration/  # plantillas deterministas para instrucciones
-  feedback/   # aprendizaje adaptativo seguro por feedback
-ml/           # experimentos IA/VLM; no produccion
+  feedback/   # aprendizaje adaptativo seguro por retroalimentación
+ml/           # experimentos IA/VLM; no producción
 app/          # React Native + Expo + TypeScript
-docs/         # arquitectura, especificacion, seguridad, journal
-tests/        # tests pytest del backend y logica
-notebooks/    # exploracion reproducible
+docs/         # arquitectura, especificación, seguridad y journal
+tests/        # pruebas pytest del backend y la lógica
+notebooks/    # exploración reproducible
 ```
 
 Documentos esperados al inicio:
@@ -42,50 +47,102 @@ Documentos esperados al inicio:
 - `docs/safety.md`
 - `docs/journal.md`
 
-## Estilo De Codigo
+### Organización de la documentación
+
+`docs/README.md` es el índice principal y define la fuente oficial de cada tema.
+Mantener en la raíz los documentos normativos anteriores y clasificar el resto:
+
+```text
+docs/
+  product/     # alcance, contratos y comportamiento de usuario
+  research/    # decisiones, metodología y componentes de IA
+  evaluation/  # plan, experimentos, resultados y limitaciones
+  operations/  # entorno, caché, servicios externos e incidencias
+  memoria/     # guion y capítulos académicos en construcción
+  figures/     # inventario y pies de figuras
+  templates/   # plantillas documentales
+  private/     # notas locales no evaluables; siempre ignoradas
+```
+
+Toda funcionalidad nueva debe seguir `docs/templates/feature.md` e indicar estado,
+problema, requisitos, alternativas, decisión, justificación, entradas y salidas,
+implementación, pruebas, resultados, riesgos, texto base para la memoria y
+trabajo pendiente. Colocarla según su responsabilidad principal y enlazarla
+desde `docs/README.md`.
+
+No duplicar explicaciones completas en `docs/journal.md`: registrar una entrada
+cronológica breve y enlazar la fuente principal. Los capítulos de `docs/memoria`
+integran las fuentes técnicas, pero no deben convertirse en una segunda fuente
+de especificaciones.
+
+Toda la documentación y todos los textos de interfaz escritos en español deben
+respetar la ortografía académica, incluidas las tildes, los signos de apertura y
+la concordancia. Antes de entregar un cambio, revisar también los anglicismos
+innecesarios; los identificadores de código y los términos técnicos que deban
+conservarse se escribirán entre comillas o con formato de código.
+
+La documentación sanitizada se versiona y debe ser adecuada para los
+evaluadores y para una eventual publicación del repositorio. No incluir tokens,
+rutas locales, correos privados, trazas GPS, datos de participantes ni
+decisiones obsoletas sin marcarlas como históricas. Guardar las notas no
+evaluables en `docs/private/`, que permanece ignorada; no usar esa carpeta para
+almacenar secretos reales.
+
+## Estilo de código
 
 ### Python
 
 - Usar Python 3.9.
-- Usar FastAPI, Pydantic v2, httpx async y pytest.
-- Toda funcion publica debe tener type hints y docstring breve estilo Google.
-- Usar `pydantic.BaseModel` para datos que cruzan limites de modulo o API.
-- Mantener el scoring como logica determinista, pura cuando sea posible y facil de testear.
-- Usar `logging`, nunca `print`, en codigo de aplicacion.
-- No hardcodear claves, tokens ni secretos. Usar variables de entorno y `.env` local no versionado.
-- No inventar tags OSM, endpoints ni parametros externos. Si hay duda, marcar `# TODO: verificar en docs oficiales`.
+- Usar FastAPI, Pydantic v2, httpx asíncrono y pytest.
+- Toda función pública debe tener type hints y un docstring breve de estilo Google.
+- Usar `pydantic.BaseModel` para datos que cruzan límites de módulo o de API.
+- Mantener el scoring como lógica determinista, pura cuando sea posible y fácil
+  de probar.
+- Usar `logging`, nunca `print`, en código de aplicación.
+- No codificar claves, tokens ni secretos. Usar variables de entorno y `.env`
+  local no versionado.
+- No inventar tags OSM, endpoints ni parámetros externos. Si hay dudas, marcar
+  `# TODO: verificar en docs oficiales`.
 
-### TypeScript / React Native
+### TypeScript y React Native
 
 - Usar React Native + Expo + TypeScript.
 - Componentes funcionales con hooks; no usar clases.
 - Props tipadas con `interface`.
 - Un componente por archivo, con nombres `PascalCase.tsx`.
-- Strings de UI en `app/i18n/es.ts`, no hardcodeadas en JSX.
-- Todo elemento interactivo debe tener `accessibilityLabel`, `accessibilityHint` cuando aporte valor y `accessibilityRole` correcto.
-- Cumplir contraste WCAG 2.2 AA y tamanos tactiles minimos de 44 x 44 pt.
+- Strings de UI en `app/i18n/es.ts`, no codificadas directamente en JSX.
+- Todo elemento interactivo debe tener `accessibilityLabel`,
+  `accessibilityHint` cuando aporte valor y `accessibilityRole` correcto.
+- Cumplir contraste WCAG 2.2 AA y tamaños táctiles mínimos de 44 × 44 pt.
 
-## Reglas De Seguridad Y Accesibilidad
+## Reglas de seguridad y accesibilidad
 
-- Nunca afirmar que una ruta es "accesible" de forma absoluta.
-- Toda ruta debe exponer indice, confianza, incertidumbre y razones.
+- Nunca afirmar que una ruta es «accesible» de forma absoluta.
+- Toda ruta debe exponer índice, confianza, incertidumbre y razones.
 - Un dato desconocido nunca suma como evidencia positiva.
-- Los atributos `unknown` deben penalizar, reducir confianza o generar aviso.
-- Un falso positivo de accesibilidad es critico: es preferible avisar incertidumbre antes que prometer seguridad.
-- El aprendizaje por feedback no puede eliminar penalizaciones criticas ni ocultar incertidumbre.
-- No enviar datos personales o ubicacion del usuario a terceros sin consentimiento explicito.
+- Los atributos `unknown` deben penalizar, reducir la confianza o generar un aviso.
+- Un falso positivo de accesibilidad es crítico: es preferible avisar de la
+  incertidumbre antes que prometer seguridad.
+- El aprendizaje por retroalimentación no puede eliminar penalizaciones críticas ni
+  ocultar incertidumbre.
+- No enviar datos personales ni la ubicación del usuario a terceros sin
+  consentimiento explícito.
 
-## IA En El Proyecto
+## IA en el proyecto
 
 Separar claramente:
 
-- Determinista: routing, reglas base de scoring, narracion por plantillas.
-- IA principal: ranking adaptativo mediante indice de accesibilidad y aprendizaje por feedback.
-- Experimental: VLMs sobre Mapillary para enriquecer atributos faltantes, solo al final y en notebooks reproducibles.
+- Determinista: cálculo de rutas, reglas base de puntuación y narración por
+  plantillas.
+- IA principal: clasificación adaptativa mediante un índice de adecuación y
+  aprendizaje por retroalimentación.
+- Experimental: VLM sobre Mapillary para enriquecer atributos faltantes, solo al
+  final y en notebooks reproducibles.
 
-No usar un LLM para decidir si una ruta es segura. Si se usa un LLM para narracion, debe reformular informacion ya validada, no inventar datos.
+No usar un LLM para decidir si una ruta es segura. Si se usa un LLM para la
+narración, debe reformular información ya validada, no inventar datos.
 
-## Tests
+## Pruebas
 
 Cuando exista el backend, ejecutar:
 
@@ -93,31 +150,32 @@ Cuando exista el backend, ejecutar:
 python -m pytest
 ```
 
-Cuando exista lint Python, ejecutar:
+Cuando exista lint de Python, ejecutar:
 
 ```powershell
 python -m ruff check .
 ```
 
-Cuando exista la app Expo, ejecutar:
+Cuando exista la aplicación Expo, ejecutar:
 
 ```powershell
 npm test
 npm run lint
 ```
 
-Tests minimos esperados:
+Pruebas mínimas esperadas:
 
-- Scoring con distintos perfiles de usuario.
-- Ranking con pesos diferentes y orden esperado.
-- Incertidumbre: `unknown` nunca mejora el indice.
-- Narracion: avisos obligatorios cuando hay baja confianza.
-- Feedback: ajuste de pesos sin romper limites de seguridad.
-- API: validacion de entrada, errores externos y respuestas estructuradas.
+- Puntuación con distintos perfiles de usuario.
+- Clasificación con pesos diferentes y orden esperado.
+- Incertidumbre: `unknown` nunca mejora el índice.
+- Narración: avisos obligatorios cuando hay baja confianza.
+- Retroalimentación: ajuste de pesos sin romper límites de seguridad.
+- API: validación de entrada, errores externos y respuestas estructuradas.
 
-Si no puedes ejecutar tests porque el proyecto aun no esta inicializado, dilo explicitamente en la respuesta final.
+Si no puedes ejecutar las pruebas porque el proyecto aún no está inicializado,
+dilo explícitamente en la respuesta final.
 
-## Arranque Local
+## Arranque local
 
 Backend previsto:
 
@@ -125,57 +183,63 @@ Backend previsto:
 uvicorn backend.main:app --reload
 ```
 
-App movil prevista:
+Aplicación móvil prevista:
 
 ```powershell
 npm install
 npm run start
 ```
 
-No asumir que estos comandos existen hasta que se haya creado la estructura correspondiente. Si se cambian los comandos reales, actualizar este archivo y el README.
+No asumir que estos comandos existen hasta que se haya creado la estructura
+correspondiente. Si cambian los comandos reales, actualizar este archivo y el
+README.
 
-## Flujo De Trabajo
+## Flujo de trabajo
 
-- Antes de cambios de arquitectura, scoring o seguridad, actualizar o proponer cambios en `docs/`.
-- Trabajar en slices pequenos y verticales.
-- No implementar "todo el modulo" si se puede entregar una pieza testeable menor.
-- Anotar decisiones relevantes en `docs/journal.md`.
-- Mantener commits pequenos y descriptivos.
-- No subir `.env`, datasets pesados, imagenes Mapillary descargadas masivamente ni modelos `.bin`/`.safetensors`.
+- Antes de introducir cambios de arquitectura, scoring o seguridad, actualizar
+  o proponer cambios en `docs/`.
+- Trabajar en slices pequeños y verticales.
+- No implementar «todo el módulo» si se puede entregar una pieza menor y fácil
+  de probar.
+- Anotar las decisiones relevantes en `docs/journal.md`.
+- Mantener commits pequeños y descriptivos.
+- No subir `.env`, datasets pesados, imágenes Mapillary descargadas masivamente
+  ni modelos `.bin` o `.safetensors`.
 
-## Cambios Grandes
+## Cambios grandes
 
-No hagas cambios grandes sin explicarlos antes en la conversacion o en una nota de plan.
+No hacer cambios grandes sin explicarlos antes en la conversación o en una nota
+de planificación.
 
-Se considera cambio grande:
+Se considera un cambio grande:
 
-- Cambiar stack tecnologico.
-- Cambiar estructura principal del repo.
-- Introducir una nueva dependencia pesada.
-- Cambiar la formula del indice de accesibilidad.
-- Cambiar la politica de incertidumbre o seguridad.
+- Cambiar el stack tecnológico.
+- Cambiar la estructura principal del repositorio.
+- Introducir una dependencia pesada.
+- Cambiar la fórmula del índice de adecuación.
+- Cambiar la política de incertidumbre o seguridad.
 - Sustituir OpenRouteService por otro motor.
-- Anadir GPS real.
-- Integrar VLMs o LLMs en flujos de usuario.
+- Añadir GPS real.
+- Integrar VLM o LLM en flujos de usuario.
 
-Para cambios grandes, explica:
+Para cambios grandes, explicar:
 
-1. Que problema resuelve.
-2. Que alternativas se descartaron.
-3. Que archivos o modulos toca.
-4. Como se va a probar.
-5. Que riesgos introduce.
+1. Qué problema resuelve.
+2. Qué alternativas se descartaron.
+3. Qué archivos o módulos afecta.
+4. Cómo se va a probar.
+5. Qué riesgos introduce.
 
-## Prioridades Actuales
+## Prioridades actuales
 
 Orden recomendado de trabajo:
 
-1. Documentacion base del TFM.
+1. Documentación base del TFM.
 2. Estudio de densidad de datos en Madrid.
 3. Modelo de accesibilidad personalizable.
 4. Backend MVP local.
-5. App movil MVP con navegacion simulada.
-6. Feedback y aprendizaje adaptativo.
+5. Aplicación móvil MVP con navegación simulada.
+6. Retroalimentación y aprendizaje adaptativo.
 7. GPS en primer plano y rerouting confirmado.
-8. Evaluacion academica.
-9. VLMs como extension final.
+8. Evaluación académica.
+9. VLM como extensión final.
