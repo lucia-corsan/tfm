@@ -1,0 +1,108 @@
+{
+  "scenario_id": "moncloa_principe_pio",
+  "name": "Moncloa a Príncipe Pío",
+  "description": "Escenario sintético para desarrollar y probar la comparación de rutas sin realizar peticiones externas.",
+  "origin": {"latitude": 40.4353, "longitude": -3.7191},
+  "destination": {"latitude": 40.4211, "longitude": -3.7206},
+  "routes": [
+    {
+      "route_id": "balanced_route",
+      "name": "Alternativa equilibrada",
+      "source": "fixture",
+      "category": "balanced",
+      "is_synthetic": true,
+      "geometry": [
+        {"latitude": 40.4353, "longitude": -3.7191},
+        {"latitude": 40.4317, "longitude": -3.7178},
+        {"latitude": 40.4271, "longitude": -3.7190},
+        {"latitude": 40.4211, "longitude": -3.7206}
+      ],
+      "features": {
+        "distance_m": 1810.0,
+        "duration_s": 1470.0,
+        "detour_ratio": 1.08,
+        "crossing_count": 8,
+        "signalized_crossing_count": 6,
+        "complex_crossing_count": 1,
+        "instruction_count": 12,
+        "turn_count": 7,
+        "sidewalk_coverage_ratio": 0.82,
+        "maximum_slope_percent": 7.0,
+        "sidewalk": {"state": "favorable", "coverage_ratio": 0.82, "sources": ["fixture"]},
+        "step_free": {"state": "favorable", "coverage_ratio": 0.9, "sources": ["fixture"]},
+        "pedestrian_access": {"state": "favorable", "coverage_ratio": 1.0, "sources": ["fixture"]},
+        "crossing_compatibility": {"state": "favorable", "coverage_ratio": 0.75, "sources": ["fixture"]},
+        "slope": {"state": "unfavorable", "coverage_ratio": 0.7, "sources": ["fixture"], "note": "El escenario simula un tramo con pendiente relevante."}
+      },
+      "uncertainty": {"unknown_attributes": [], "limitations": []}
+    },
+    {
+      "route_id": "fewer_crossings_route",
+      "name": "Alternativa con cruces más sencillos",
+      "source": "fixture",
+      "category": "fewer_complex_crossings",
+      "is_synthetic": true,
+      "geometry": [
+        {"latitude": 40.4353, "longitude": -3.7191},
+        {"latitude": 40.4320, "longitude": -3.7217},
+        {"latitude": 40.4264, "longitude": -3.7228},
+        {"latitude": 40.4211, "longitude": -3.7206}
+      ],
+      "features": {
+        "distance_m": 1980.0,
+        "duration_s": 1610.0,
+        "detour_ratio": 1.18,
+        "crossing_count": 5,
+        "signalized_crossing_count": 4,
+        "complex_crossing_count": 0,
+        "instruction_count": 13,
+        "turn_count": 8,
+        "sidewalk_coverage_ratio": 0.74,
+        "maximum_slope_percent": null,
+        "sidewalk": {"state": "favorable", "coverage_ratio": 0.74, "sources": ["fixture"]},
+        "step_free": {"state": "favorable", "coverage_ratio": 0.8, "sources": ["fixture"]},
+        "pedestrian_access": {"state": "favorable", "coverage_ratio": 1.0, "sources": ["fixture"]},
+        "crossing_compatibility": {"state": "favorable", "coverage_ratio": 0.8, "sources": ["fixture"]},
+        "slope": {"state": "unknown", "coverage_ratio": 0.0, "sources": [], "note": "No existe evidencia sintética suficiente sobre la pendiente."}
+      },
+      "uncertainty": {
+        "unknown_attributes": ["slope"],
+        "limitations": ["No hay información suficiente sobre la pendiente de esta alternativa."]
+      }
+    },
+    {
+      "route_id": "simple_route",
+      "name": "Alternativa más sencilla de seguir",
+      "source": "fixture",
+      "category": "simple_or_short",
+      "is_synthetic": true,
+      "geometry": [
+        {"latitude": 40.4353, "longitude": -3.7191},
+        {"latitude": 40.4290, "longitude": -3.7159},
+        {"latitude": 40.4243, "longitude": -3.7170},
+        {"latitude": 40.4211, "longitude": -3.7206}
+      ],
+      "features": {
+        "distance_m": 1675.0,
+        "duration_s": 1380.0,
+        "detour_ratio": 1.0,
+        "crossing_count": 9,
+        "signalized_crossing_count": 5,
+        "complex_crossing_count": 2,
+        "instruction_count": 8,
+        "turn_count": 4,
+        "sidewalk_coverage_ratio": null,
+        "maximum_slope_percent": 5.5,
+        "sidewalk": {"state": "unknown", "coverage_ratio": 0.35, "sources": ["fixture"], "note": "La cobertura simulada de aceras es insuficiente."},
+        "step_free": {"state": "unknown", "coverage_ratio": 0.45, "sources": ["fixture"], "note": "No se confirma la ausencia de escalones en todo el recorrido."},
+        "pedestrian_access": {"state": "favorable", "coverage_ratio": 1.0, "sources": ["fixture"]},
+        "crossing_compatibility": {"state": "unfavorable", "coverage_ratio": 0.85, "sources": ["fixture"]},
+        "slope": {"state": "favorable", "coverage_ratio": 0.8, "sources": ["fixture"]}
+      },
+      "uncertainty": {
+        "unknown_attributes": ["sidewalk", "step_free"],
+        "limitations": ["Falta evidencia suficiente sobre aceras y ausencia de escalones."]
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+"""Shared domain contracts for routing, scoring, and API modules."""
+
+from backend.domain.models import (
+    AccessibilityAttribute,
+    AccessibilityEvidence,
+    DataSource,
+    EvidenceState,
+    GeoPoint,
+    MobilityProfile,
+    PreferenceWeights,
+    RouteCandidate,
+    RouteCategory,
+    RouteFeatures,
+    RouteScenario,
+    RouteSource,
+    UncertaintySummary,
+)
+
+__all__ = [
+    "AccessibilityAttribute",
+    "AccessibilityEvidence",
+    "DataSource",
+    "EvidenceState",
+    "GeoPoint",
+    "MobilityProfile",
+    "PreferenceWeights",
+    "RouteCandidate",
+    "RouteCategory",
+    "RouteFeatures",
+    "RouteScenario",
+    "RouteSource",
+    "UncertaintySummary",
+]
