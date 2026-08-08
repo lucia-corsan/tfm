@@ -1,0 +1,29 @@
+# Pies de figura y tabla
+
+Estado: `En implementación`  
+Última actualización: 8 de agosto de 2026.
+
+## Convención
+
+Cada pie debe indicar qué muestra, ámbito, fuentes y carácter propio o adaptado.
+No debe interpretar más de lo que permite la evidencia.
+
+## FIG-01 — Flujo de selección del área piloto
+
+Flujo metodológico del estudio de disponibilidad de datos para seleccionar el
+área piloto. Elaboración propia a partir de datos de OpenStreetMap y metadatos de
+Mapillary.
+
+## FIG-02 — Cobertura de datos en el interior de la M-30
+
+Comparación espacial de idoneidad, diversidad temática OSM, densidad de
+elementos de accesibilidad y cobertura fotográfica de calles. La cobertura de
+datos reduce incertidumbre, pero no demuestra por sí sola la accesibilidad del
+entorno. Fuente: OpenStreetMap y Mapillary; elaboración propia.
+
+## Plantilla
+
+### FIG-XX — Título corto
+
+Descripción objetiva. Ámbito y fecha de los datos. Fuente y transformaciones.
+Limitación interpretativa relevante. Elaboración propia o adaptación.
