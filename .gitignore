@@ -19,4 +19,6 @@ npm-debug.log*
 data/raw/
 data/processed/
 outputs/
-docs/
+
+# Local notes that are not part of the evaluator-facing documentation.
+docs/private/

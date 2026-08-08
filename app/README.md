@@ -1,4 +1,4 @@
-# App Android
+# Aplicación Android
 
 Aplicación React Native con Expo SDK 57 y TypeScript. Android es la plataforma
 prioritaria y toda funcionalidad se diseña para poder utilizarse con TalkBack.
@@ -17,7 +17,7 @@ npm run lint
 npm run typecheck
 ```
 
-Para comprobar que Metro puede construir el bundle Android sin arrancar un
+Para comprobar que Metro puede construir el paquete Android sin arrancar un
 emulador:
 
 ```bash
@@ -32,7 +32,7 @@ npm run start
 
 La primera pantalla puede probarse inicialmente con Expo Go. GPS, reconocimiento
 de voz y otras integraciones nativas se validarán después mediante una
-development build.
+compilación de desarrollo (*development build*).
 
 ## Organización
 

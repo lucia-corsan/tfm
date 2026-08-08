@@ -7,7 +7,7 @@ absoluta.
 
 ## Estado
 
-El repositorio está en la primera fase del MVP. El primer slice utiliza rutas
+El repositorio está en la primera fase del MVP. El primer incremento funcional utiliza rutas
 locales reproducibles antes de integrar OpenRouteService, GPS y aprendizaje
 adaptativo.
 
@@ -31,7 +31,7 @@ python -m pip install -r requirements-dev.txt
 Las dependencias geoespaciales del notebook se instalan por separado:
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-notebooks.txt
 ```
 
 Preparar la configuración local:
@@ -62,7 +62,7 @@ python -m pytest
 python -m ruff check .
 ```
 
-## App Android
+## Aplicación Android
 
 ```bash
 cd app
@@ -73,7 +73,7 @@ npm run typecheck
 npm run start
 ```
 
-La app usa Expo SDK 57, React Native 0.86 y TypeScript estricto. El bundle
+La aplicación usa Expo SDK 57, React Native 0.86 y TypeScript estricto. El paquete
 Android puede validarse sin emulador con el comando documentado en `app/README.md`.
 
 ## Configuración y secretos
@@ -83,5 +83,6 @@ Android puede validarse sin emulador con el comando documentado en `app/README.m
 - No se registran coordenadas de navegación, audio ni tokens.
 - Los datos descargados y los resultados generados permanecen ignorados.
 
-La documentación extensa de trabajo se conserva localmente en `docs/`, también
-ignorada por decisión del proyecto.
+La documentación técnica y académica sanitizada se versiona en `docs/`. Las
+notas personales o históricas no evaluables permanecen en `docs/private/`, que
+está ignorada por Git.
