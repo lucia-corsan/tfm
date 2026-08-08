@@ -61,7 +61,7 @@ lector de pantalla real.
 
 ### Decisiones
 
-- Se crea `backend/domain` como contrato compartido entre routing, scoring y API.
+- Se crea `backend/domain` como modelo compartido entre routing, scoring y API.
 - La evidencia usa tres estados explícitos: favorable, desfavorable y desconocido.
 - Perfil, restricciones críticas y preferencias graduables se mantienen separados.
 - El porcentaje de incertidumbre se deriva de los atributos desconocidos, en vez
@@ -76,12 +76,12 @@ lector de pantalla real.
 - Regla estructural que impide ocultar evidencia desconocida.
 - Fixture reproducible Moncloa–Argüelles–Príncipe Pío con tres alternativas y
   distintos niveles de incertidumbre.
-- Pruebas de contratos y carga del escenario local.
+- Pruebas de modelos, reglas de validación y carga del escenario local.
 
 Los atributos de los fixtures son ejemplos sintéticos para desarrollo y no se
 consideran mediciones reales del área piloto.
 
-La justificación extensa de los contratos, su relación con los datos reales y
+La justificación extensa de los modelos, su relación con los datos reales y
 sus limitaciones actuales se ha consolidado en
 `docs/research/modelo-dominio-accesibilidad.md` para facilitar su reutilización
 en la memoria.
@@ -165,3 +165,41 @@ original y se distinguirán mediante formato de código o cursiva.
   funcionalidades.
 - Validación de los enlaces internos después de actualizar títulos y
   terminología.
+
+## 8 de agosto de 2026 — Ranking explicable del día 3
+
+### Decisiones
+
+- Las diez categorías del estudio OSM se conservan como evidencia detallada,
+  pero los aspectos relacionados de un mismo cruce se agregan para evitar doble
+  conteo.
+- Las restricciones críticas se aplican antes del coste gradual y solo una
+  incompatibilidad confirmada puede descartar una ruta.
+- Los pesos se normalizan para sumar uno sin modificar el perfil declarado.
+- Los costes usan escalas fijas entre cero y uno; los techos iniciales se
+  someterán a análisis de sensibilidad.
+- Adecuación, confianza e incertidumbre permanecen separadas.
+- Las razones y los avisos son estructuras derivadas del cálculo; la traducción
+  a texto para interfaz, TalkBack y TTS se realizará mediante plantillas.
+
+### Trabajo completado
+
+- Ampliación del dominio y los *fixtures* con cruces, semáforos, sonido,
+  vibración, pavimento podotáctil, bordillos, aceras, rampas, escalones,
+  superficie y pendiente.
+- Evaluación pura de cinco restricciones críticas.
+- Normalización de pesos y costes temáticos.
+- Cálculo trazable de adecuación, confianza e incertidumbre.
+- Ranking determinista, rutas rechazadas, factores explicativos y avisos.
+- Perfiles de prueba que demuestran cambios de orden reproducibles.
+
+### Verificaciones
+
+```text
+Ruff: correcto.
+Pytest: 41/41.
+```
+
+Los resultados son validaciones técnicas sobre datos sintéticos. No demuestran
+todavía accesibilidad real ni sustituyen la evaluación con rutas enriquecidas y
+usuarios.

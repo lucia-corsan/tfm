@@ -13,7 +13,7 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 
 | ID | Fecha | Pregunta | Datos | Sistema de referencia | Estado | Evidencia |
 | --- | --- | --- | --- | --- | --- | --- |
-| EXP-001 | Pendiente | `unknown` no mejora una ruta | *Fixtures* | Puntuación sin penalización | Diseñado | Pruebas del día 3 |
+| EXP-001 | 8 de agosto de 2026 | `unknown` no mejora una ruta | *Fixtures* | Misma ruta con evidencia favorable | Validación técnica superada | `tests/scoring/test_scorer.py` |
 | EXP-002 | Pendiente | Recuperación de preferencias | Perfiles sintéticos | Pesos fijos | Pendiente | — |
 | EXP-003 | Pendiente | Sensibilidad del rerouting | GPS simulado | Umbral único | Pendiente | — |
 

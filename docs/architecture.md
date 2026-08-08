@@ -33,15 +33,15 @@ Servicio de comparación
 La aplicación no contendrá la clave de ORS. Las peticiones externas se realizarán desde
 el backend y el proveedor de *fixtures* permitirá trabajar sin conexión.
 
-## Contratos
+## Especificaciones compartidas
 
 Los límites HTTP usarán Pydantic v2. La aplicación mantendrá tipos TypeScript
 equivalentes y centralizados. Los datos desconocidos se representarán de forma
 explícita, nunca mediante valores favorables por defecto.
 
-### Modelo de dominio inicial
+### Modelo de dominio y decisión explicable
 
-Los contratos compartidos se concentran en `backend/domain/models.py` para que
+Los modelos de datos compartidos se concentran en `backend/domain/models.py` para que
 el proveedor de rutas, el scoring y la API utilicen la misma definición. El
 primer corte vertical contiene:
 
@@ -50,7 +50,10 @@ primer corte vertical contiene:
 - Evidencia trivaluada: `favorable`, `unfavorable` o `unknown`.
 - Características medibles de cada ruta.
 - Resumen explícito de incertidumbre.
-- Candidato de ruta sin puntuación todavía.
+- Candidato de ruta independiente del proveedor.
+- Restricciones críticas aplicadas antes de cualquier coste gradual.
+- Costes normalizados, adecuación, confianza e incertidumbre separadas.
+- Ranking determinista con factores explicativos y avisos estructurados.
 
 Los pesos representan importancia relativa, no seguridad. Las restricciones
 críticas (`avoid_steps`, acceso peatonal y compatibilidad de cruces) se modelan
@@ -68,3 +71,8 @@ encuentra en `docs/product/alcance-mvp.md`.
 La definición detallada de perfil, preferencias, evidencia, rutas e
 incertidumbre, junto con la justificación de cada decisión, se encuentra en
 `docs/research/modelo-dominio-accesibilidad.md`.
+
+La fórmula, sus escalas iniciales, la política de restricciones y los resultados
+sintéticos del día 3 se documentan en
+`docs/research/scoring-explicable.md`. La API consumirá estos resultados sin
+duplicar la lógica en la aplicación móvil.
