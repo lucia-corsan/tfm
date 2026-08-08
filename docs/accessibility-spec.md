@@ -39,6 +39,13 @@ Los pesos graduables serán no negativos y deberán contener al menos una
 preferencia activa. Se normalizarán al calcular el scoring; no sustituirán las
 restricciones críticas.
 
+La evidencia conservará por separado pasos de peatones, semáforos, ayudas
+acústicas o vibratorias, pavimento podotáctil, bordillos, aceras, rampas,
+escalones, superficie y pendiente. Los atributos relacionados de un mismo cruce
+se agruparán en pocas preferencias comprensibles para evitar doble conteo y una
+interfaz excesivamente compleja. El detalle seguirá disponible para avisos y
+explicaciones accesibles.
+
 ## Navegación
 
 La narración será determinista y compartirá una única fuente estructurada con

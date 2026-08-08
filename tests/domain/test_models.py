@@ -24,8 +24,10 @@ def test_preference_weights_require_one_active_dimension() -> None:
         PreferenceWeights(
             distance=0.0,
             complex_crossings=0.0,
+            crossing_support=0.0,
             sidewalk_evidence=0.0,
             steps=0.0,
+            surface=0.0,
             orientation_complexity=0.0,
             slope=0.0,
             uncertainty=0.0,
@@ -38,6 +40,26 @@ def test_route_features_reject_impossible_crossing_counts() -> None:
     route = load_pilot_route_scenario().routes[0]
     payload = route.features.model_dump(mode="json")
     payload["signalized_crossing_count"] = payload["crossing_count"] + 1
+
+    with pytest.raises(ValidationError, match="cannot exceed total crossings"):
+        RouteFeatures.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    "field",
+    [
+        "audible_signal_crossing_count",
+        "vibration_signal_crossing_count",
+        "tactile_paving_crossing_count",
+        "compatible_kerb_crossing_count",
+    ],
+)
+def test_route_features_reject_impossible_crossing_support_counts(field: str) -> None:
+    """Crossing-support subsets cannot contain more records than all crossings."""
+
+    route = load_pilot_route_scenario().routes[0]
+    payload = route.features.model_dump(mode="json")
+    payload[field] = payload["crossing_count"] + 1
 
     with pytest.raises(ValidationError, match="cannot exceed total crossings"):
         RouteFeatures.model_validate(payload)

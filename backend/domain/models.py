@@ -37,6 +37,12 @@ class AccessibilityAttribute(str, Enum):
     STEP_FREE = "step_free"
     PEDESTRIAN_ACCESS = "pedestrian_access"
     CROSSING_COMPATIBILITY = "crossing_compatibility"
+    TRAFFIC_SIGNALS = "traffic_signals"
+    AUDIBLE_SIGNALS = "audible_signals"
+    TACTILE_PAVING = "tactile_paving"
+    KERB = "kerb"
+    RAMP_ACCESS = "ramp_access"
+    SURFACE = "surface"
     SLOPE = "slope"
 
 
@@ -76,8 +82,10 @@ class PreferenceWeights(DomainModel):
 
     distance: float = Field(default=1.0, ge=0.0)
     complex_crossings: float = Field(default=1.0, ge=0.0)
+    crossing_support: float = Field(default=1.0, ge=0.0)
     sidewalk_evidence: float = Field(default=1.0, ge=0.0)
     steps: float = Field(default=1.0, ge=0.0)
+    surface: float = Field(default=1.0, ge=0.0)
     orientation_complexity: float = Field(default=1.0, ge=0.0)
     slope: float = Field(default=1.0, ge=0.0)
     uncertainty: float = Field(default=1.0, ge=0.0)
@@ -118,15 +126,28 @@ class RouteFeatures(DomainModel):
     detour_ratio: float = Field(ge=1.0, le=3.0)
     crossing_count: int = Field(ge=0)
     signalized_crossing_count: int = Field(ge=0)
+    audible_signal_crossing_count: int = Field(ge=0)
+    vibration_signal_crossing_count: int = Field(ge=0)
+    tactile_paving_crossing_count: int = Field(ge=0)
+    compatible_kerb_crossing_count: Optional[int] = Field(default=None, ge=0)
     complex_crossing_count: int = Field(ge=0)
+    step_count: Optional[int] = Field(default=None, ge=0)
+    ramp_count: Optional[int] = Field(default=None, ge=0)
     instruction_count: int = Field(ge=1)
     turn_count: int = Field(ge=0)
     sidewalk_coverage_ratio: Optional[float] = Field(default=None, ge=0.0, le=1.0)
+    surface_coverage_ratio: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     maximum_slope_percent: Optional[float] = Field(default=None, ge=0.0, le=30.0)
     sidewalk: AccessibilityEvidence
     step_free: AccessibilityEvidence
     pedestrian_access: AccessibilityEvidence
     crossing_compatibility: AccessibilityEvidence
+    traffic_signals: AccessibilityEvidence
+    audible_signals: AccessibilityEvidence
+    tactile_paving: AccessibilityEvidence
+    kerb: AccessibilityEvidence
+    ramp_access: AccessibilityEvidence
+    surface: AccessibilityEvidence
     slope: AccessibilityEvidence
 
     @model_validator(mode="after")
@@ -142,6 +163,17 @@ class RouteFeatures(DomainModel):
 
         if self.signalized_crossing_count > self.crossing_count:
             raise ValueError("signalized crossings cannot exceed total crossings")
+        if self.audible_signal_crossing_count > self.crossing_count:
+            raise ValueError("audible-signal crossings cannot exceed total crossings")
+        if self.vibration_signal_crossing_count > self.crossing_count:
+            raise ValueError("vibration-signal crossings cannot exceed total crossings")
+        if self.tactile_paving_crossing_count > self.crossing_count:
+            raise ValueError("tactile-paving crossings cannot exceed total crossings")
+        if (
+            self.compatible_kerb_crossing_count is not None
+            and self.compatible_kerb_crossing_count > self.crossing_count
+        ):
+            raise ValueError("compatible-kerb crossings cannot exceed total crossings")
         if self.complex_crossing_count > self.crossing_count:
             raise ValueError("complex crossings cannot exceed total crossings")
         if self.turn_count > self.instruction_count:
@@ -162,6 +194,12 @@ class RouteFeatures(DomainModel):
             AccessibilityAttribute.STEP_FREE: self.step_free,
             AccessibilityAttribute.PEDESTRIAN_ACCESS: self.pedestrian_access,
             AccessibilityAttribute.CROSSING_COMPATIBILITY: self.crossing_compatibility,
+            AccessibilityAttribute.TRAFFIC_SIGNALS: self.traffic_signals,
+            AccessibilityAttribute.AUDIBLE_SIGNALS: self.audible_signals,
+            AccessibilityAttribute.TACTILE_PAVING: self.tactile_paving,
+            AccessibilityAttribute.KERB: self.kerb,
+            AccessibilityAttribute.RAMP_ACCESS: self.ramp_access,
+            AccessibilityAttribute.SURFACE: self.surface,
             AccessibilityAttribute.SLOPE: self.slope,
         }
 
@@ -230,9 +268,7 @@ class RouteCandidate(DomainModel):
         }
         declared_unknown = set(self.uncertainty.unknown_attributes)
         if expected_unknown != declared_unknown:
-            raise ValueError(
-                "uncertainty must list exactly the attributes with unknown evidence"
-            )
+            raise ValueError("uncertainty must list exactly the attributes with unknown evidence")
         return self
 
 

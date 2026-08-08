@@ -2,7 +2,7 @@
 
 import pytest
 
-from backend.domain import RouteCategory, RouteSource
+from backend.domain import AccessibilityAttribute, RouteCategory, RouteSource
 from backend.routing.fixtures import load_pilot_route_scenario
 
 
@@ -28,8 +28,8 @@ def test_pilot_fixture_exposes_increasing_uncertainty() -> None:
 
     assert uncertainty_by_route == {
         "balanced_route": pytest.approx(0.0),
-        "fewer_crossings_route": pytest.approx(0.2),
-        "simple_route": pytest.approx(0.4),
+        "fewer_crossings_route": pytest.approx(1 / 11),
+        "simple_route": pytest.approx(4 / 11),
     }
 
 
@@ -38,4 +38,30 @@ def test_computed_uncertainty_is_in_serialized_contract() -> None:
 
     route = load_pilot_route_scenario().routes[1]
 
-    assert route.model_dump(mode="json")["uncertainty"]["unknown_ratio"] == pytest.approx(0.2)
+    assert route.model_dump(mode="json")["uncertainty"]["unknown_ratio"] == pytest.approx(1 / 11)
+
+
+def test_fixture_features_cover_all_modeled_accessibility_attributes() -> None:
+    """Every synthetic route must expose evidence for the complete OSM mapping."""
+
+    scenario = load_pilot_route_scenario()
+
+    for route in scenario.routes:
+        assert set(route.features.evidence_by_attribute()) == set(AccessibilityAttribute)
+
+
+def test_fixture_represents_all_ten_osm_study_categories() -> None:
+    """The fixture contract must retain every category from the density study."""
+
+    route = load_pilot_route_scenario().routes[0]
+    features = route.features
+
+    assert features.crossing_count >= features.signalized_crossing_count
+    assert features.audible_signal_crossing_count >= features.vibration_signal_crossing_count
+    assert features.tactile_paving_crossing_count > 0
+    assert features.compatible_kerb_crossing_count is not None
+    assert features.sidewalk_coverage_ratio is not None
+    assert features.ramp_count is not None
+    assert features.step_count is not None
+    assert features.surface_coverage_ratio is not None
+    assert features.maximum_slope_percent is not None

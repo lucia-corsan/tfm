@@ -28,13 +28,13 @@ Scoring, confianza e incertidumbre
 Comparación explicable en la aplicación
 ```
 
-Los contratos se encuentran en `backend/domain/models.py`. Se implementan con
+Los modelos se encuentran en `backend/domain/models.py`. Se implementan con
 Pydantic v2 porque los mismos objetos se utilizarán en los límites entre módulos
 y, posteriormente, en las peticiones y respuestas de FastAPI.
 
 ## 2. Validación estricta de los datos
 
-Todos los contratos heredan de un modelo base configurado con
+Todos los modelos heredan de un modelo base configurado con
 `extra="forbid"`. Por tanto, un campo no documentado provoca un error de
 validación en vez de ser ignorado silenciosamente.
 
@@ -85,16 +85,19 @@ Los pesos declarados (`PreferenceWeights`) expresan la importancia relativa de:
 
 - Distancia.
 - Cruces complejos.
+- Ayudas de cruce, que agrupan semáforos, sonido, vibración, pavimento
+  podotáctil y configuración del bordillo.
 - Evidencia sobre aceras.
 - Escalones como coste graduable cuando no actúen como prohibición.
+- Superficie peatonal.
 - Complejidad de orientación.
 - Pendiente.
 - Incertidumbre.
 
 Todos los pesos deben ser no negativos y al menos uno debe ser mayor que cero.
-Se normalizarán en la fase de scoring para que sumen uno. Esta normalización no
-forma parte del contrato porque el modelo conserva la intención original del
-usuario y el scoring es responsable de transformarla en coeficientes de cálculo.
+Se normalizarán en la fase de scoring para que sumen uno. El perfil conserva los
+valores declarados por el usuario y el scoring los transforma en coeficientes de
+cálculo sin modificar esos valores originales.
 
 La separación permite distinguir dos efectos:
 
@@ -171,21 +174,36 @@ explicar por qué se conoce o desconoce una característica. Mapillary no se
 considerará una fuente de verdad automática: sus metadatos indican cobertura y
 una eventual revisión visual aporta evidencia limitada, no una garantía.
 
-## 6. Dimensiones iniciales de accesibilidad
+## 6. Dimensiones de accesibilidad y correspondencia con OSM
 
-El MVP comienza con cinco dimensiones temáticas (`AccessibilityAttribute`):
+Antes de implementar la puntuación se amplía el modelo para conservar las diez
+categorías examinadas en el estudio de densidad. Estas categorías no se tratan
+como diez puntos positivos independientes: varias describen aspectos relacionados
+de un mismo cruce y deben agregarse sin duplicar su influencia.
 
-1. `sidewalk`: evidencia sobre aceras.
-2. `step_free`: ausencia o presencia de escalones.
-3. `pedestrian_access`: acceso peatonal permitido y conocido.
-4. `crossing_compatibility`: adecuación de los cruces al perfil.
-5. `slope`: información sobre pendiente.
+| Categoría del estudio OSM | Representación en el dominio |
+| --- | --- |
+| Pasos de peatones | `crossing_compatibility` y conteos de cruces |
+| Semáforos | `traffic_signals` y cruces semaforizados |
+| Señales acústicas o vibratorias | `audible_signals` y conteos separados de sonido y vibración |
+| Pavimento podotáctil | `tactile_paving` |
+| Bordillos y rebajes | `kerb` |
+| Aceras | `sidewalk` |
+| Rampas o accesibilidad `wheelchair` | `ramp_access` como evidencia complementaria |
+| Escaleras | `step_free` y conteo de escalones conocido |
+| Superficie de vías peatonales | `surface` |
+| Pendiente | `slope` |
 
-El conjunto es deliberadamente reducido. Permite implementar, explicar y
-evaluar las invariantes de seguridad antes de añadir superficie, pavimento
-táctil, señales acústicas, vados u otras características OSM. Ampliar el número
-de atributos sin validar primero su significado y cobertura produciría una
-apariencia de precisión difícil de justificar.
+El modelo mantiene además `pedestrian_access`, que no procede de una de esas
+diez consultas agregadas, pero resulta necesario para representar si el tránsito
+peatonal está permitido.
+
+La mera presencia de una etiqueta no se interpreta como favorable. Consultas
+como `tactile_paving` o `traffic_signals:sound` recuperan tanto valores positivos
+como negativos. El enriquecimiento real deberá interpretar cada valor y conservar
+como desconocida la ausencia de evidencia. Los detalles se agruparán en pocas
+preferencias comprensibles para el usuario, pero permanecerán disponibles para
+explicaciones, confianza y auditoría.
 
 ## 7. Características de una ruta
 
@@ -196,9 +214,12 @@ apariencia de precisión difícil de justificar.
 - Distancia en metros y duración en segundos.
 - Proporción de desvío respecto a la ruta de referencia.
 - Número total de cruces.
-- Cruces semaforizados y cruces complejos.
+- Cruces semaforizados, con señal acústica, con vibración, con pavimento
+  podotáctil, con bordillo compatible y cruces complejos.
+- Conteos conocidos de escalones y rampas.
 - Número de instrucciones y de giros.
 - Proporción conocida de aceras, cuando puede calcularse.
+- Proporción conocida de superficie peatonal.
 - Pendiente máxima, cuando existe evidencia suficiente.
 
 El número de instrucciones y giros se utilizará como aproximación inicial a la
@@ -208,9 +229,10 @@ porque una ruta corta puede resultar más difícil de seguir.
 ### 7.2. Evidencia temática
 
 Cada ruta incorpora un objeto `AccessibilityEvidence` para aceras, ausencia de
-escalones, acceso peatonal, compatibilidad de cruces y pendiente. Así se evita
-que una cifra aislada, como una pendiente máxima, aparezca sin indicar la
-cobertura y procedencia que la respaldan.
+escalones, acceso peatonal, compatibilidad de cruces, semáforos, ayudas acústicas
+o vibratorias, pavimento podotáctil, bordillos, rampas, superficie y pendiente.
+Así se evita que una cifra aislada aparezca sin indicar la cobertura y
+procedencia que la respaldan.
 
 La característica `sidewalk_coverage_ratio` describe la proporción física del
 recorrido para la que se ha identificado una acera. En cambio, el
@@ -232,14 +254,17 @@ Para una ruta \(r\), el cálculo inicial es:
 U(r) = número de atributos desconocidos / número total de atributos modelados
 ```
 
-Como inicialmente existen cinco dimensiones:
+Como existen once dimensiones temáticas, una ruta con un único atributo
+desconocido tiene una incertidumbre temática de (1/11). Esta cifra cambiará
+únicamente si se modifica explícitamente el conjunto de atributos modelados:
 
 | Atributos desconocidos | Incertidumbre temática |
 | ---: | ---: |
 | 0 | 0 % |
-| 1 | 20 % |
-| 2 | 40 % |
-| 5 | 100 % |
+| 1 | 9,09 % |
+| 2 | 18,18 % |
+| 4 | 36,36 % |
+| 11 | 100 % |
 
 El porcentaje no se introduce manualmente; se deriva de la lista para evitar
 contradicciones. Además:
@@ -299,8 +324,8 @@ observaciones reales.
 | Alternativa | Compromiso representado | Incertidumbre inicial |
 | --- | --- | ---: |
 | Equilibrada | Distancia intermedia y buena cobertura, pero pendiente desfavorable | 0 % |
-| Cruces más sencillos | Mayor distancia, menos cruces y pendiente desconocida | 20 % |
-| Más sencilla de seguir | Menos instrucciones, pero cruces desfavorables y falta de evidencia sobre aceras y escalones | 40 % |
+| Cruces más sencillos | Mayor distancia, menos cruces y pendiente desconocida | 9,09 % |
+| Más sencilla de seguir | Menos instrucciones, pero cruces y superficie desfavorables y cuatro atributos desconocidos | 36,36 % |
 
 Los contrastes son intencionados. El fixture no pretende anticipar cuál debe
 ganar, sino crear conflictos útiles para verificar el algoritmo:
@@ -349,13 +374,14 @@ Las pruebas de `tests/domain/test_models.py` y
 - Imposibilidad de ocultar un atributo desconocido.
 - Marcado obligatorio de los fixtures como sintéticos.
 - Presencia de tres alternativas distintas.
-- Cálculo de incertidumbre del 0 %, 20 % y 40 %.
-- Inclusión del porcentaje calculado en el contrato serializado para la app.
+- Representación de las diez categorías OSM del estudio de densidad.
+- Cálculo de incertidumbre del 0 %, 9,09 % y 36,36 %.
+- Inclusión del porcentaje calculado en los datos serializados para la app.
 
-Estas pruebas no demuestran todavía que el ranking sea correcto. Construyen la
-base para las siguientes pruebas: restricciones críticas, normalización de costes,
+Estas pruebas de dominio se complementan ahora con las pruebas de
+`tests/scoring/`, que verifican restricciones críticas, normalización de costes,
 `unknown` sin beneficio positivo, confianza, explicaciones y orden esperado para
-distintos perfiles.
+distintos perfiles. La suite completa alcanza 41 pruebas.
 
 ## 13. Estado actual y limitaciones
 
@@ -365,15 +391,13 @@ El trabajo completado define y valida el dominio, pero todavía no incluye:
 - Formulario móvil de preferencias.
 - Proveedor real de ORS.
 - Enriquecimiento de rutas con el dataset OSM.
-- Fórmula de adecuación al perfil.
-- Estimación final de confianza.
-- Aplicación efectiva de restricciones críticas.
 - Aprendizaje online de pesos.
+- Calibración de la fórmula y de la confianza con rutas reales.
 
-Mantener explícita esta frontera evita presentar un contrato de datos como si ya
-fuera un sistema de recomendación completo. La siguiente fase implementará las
-restricciones y el scoring como funciones puras y demostrará mediante pruebas que
-un atributo desconocido nunca mejora una alternativa.
+Mantener explícita esta frontera evita presentar la validación sintética como si
+ya fuera una evaluación de navegación real. El ranking está implementado como
+lógica pura; la siguiente fase lo expondrá mediante la API y posteriormente
+enriquecerá rutas reales sin cambiar sus reglas de seguridad.
 
 ## 14. Síntesis para la memoria
 
