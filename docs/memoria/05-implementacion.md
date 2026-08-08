@@ -8,8 +8,9 @@ Estado: `En implementación`
 FastAPI, configuración por entorno, modelos Pydantic y pruebas con pytest. El
 ranking explicable ya aplica restricciones críticas, costes normalizados,
 adecuación, confianza, incertidumbre, razones y avisos sobre *fixtures*
-reproducibles. Quedan pendientes los proveedores reales y los endpoints de
-comparación.
+reproducibles. `POST /api/v1/routes/compare` expone ya este resultado mediante
+modelos validados, proveedor intercambiable y errores sanitizados. Quedan
+pendientes ORS, búsqueda y rerouting.
 
 ## Aplicación Android
 

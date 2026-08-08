@@ -203,3 +203,44 @@ Pytest: 41/41.
 Los resultados son validaciones técnicas sobre datos sintéticos. No demuestran
 todavía accesibilidad real ni sustituyen la evaluación con rutas enriquecidas y
 usuarios.
+
+## 8 de agosto de 2026 — API de comparación del día 4
+
+### Decisiones
+
+- La aplicación envía origen, destino y perfil, pero no elige el proveedor de
+  rutas; esta decisión pertenece a la configuración del backend.
+- Un servicio independiente coordina proveedor, restricciones, ranking y
+  respuesta para evitar lógica de decisión dentro del endpoint.
+- El proveedor de *fixtures* solo resuelve las coordenadas del trayecto piloto,
+  con una tolerancia determinista de `0,00001` grados.
+- Las rutas aceptadas conservan geometría, métricas, factores y avisos; las
+  incompatibles se devuelven separadas con códigos de restricción.
+- Los errores 404, 422 y 503 utilizan códigos estables y no repiten coordenadas,
+  URLs externas ni credenciales.
+
+### Trabajo completado
+
+- Modelos Pydantic públicos de petición, respuesta y error.
+- Abstracción de proveedor y primera implementación mediante *fixtures*.
+- Servicio de comparación reutilizable fuera de FastAPI.
+- Endpoint `POST /api/v1/routes/compare` documentado mediante OpenAPI.
+- Personalización del orden mediante los pesos enviados en el perfil.
+- Pruebas de validación, seguridad, reproducibilidad y esquemas HTTP.
+
+### Verificaciones
+
+```text
+Ruff: correcto.
+Pytest: 58/58.
+Swagger: respuesta 200 verificada con el perfil centrado en cruces.
+```
+
+La comprobación manual confirmó que `fewer_crossings_route` ocupa el primer
+puesto cuando `complex_crossings` recibe todo el peso, que `balanced_route`
+pasa al segundo puesto y que `simple_route` se mantiene excluida por cruces
+incompatibles. Esto demuestra que los pesos modifican el ranking sin alterar
+las restricciones críticas.
+
+La API continúa utilizando datos sintéticos. ORS, los datos reales y la conexión
+con la aplicación móvil pertenecen a las siguientes fases.

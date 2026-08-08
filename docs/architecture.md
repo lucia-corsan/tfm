@@ -23,6 +23,8 @@ Servicio de comparación
 ```
 
 - `backend/routing`: proveedores intercambiables y rerouting.
+- `backend/services`: coordinación entre proveedor, restricciones, ranking y
+  modelos de respuesta.
 - `backend/enrichment`: relación entre geometrías y atributos OSM.
 - `backend/scoring`: restricciones, adecuación, confianza y diversidad.
 - `backend/narration`: instrucciones y explicaciones verificables.
@@ -32,6 +34,11 @@ Servicio de comparación
 
 La aplicación no contendrá la clave de ORS. Las peticiones externas se realizarán desde
 el backend y el proveedor de *fixtures* permitirá trabajar sin conexión.
+
+El endpoint de comparación no contiene la fórmula. Delega en un servicio que
+obtiene el escenario del proveedor configurado, ejecuta el mismo ranking probado
+de forma aislada y construye la respuesta de la API. Esta capa evita acoplar
+FastAPI, ORS y el sistema de decisión.
 
 ## Especificaciones compartidas
 

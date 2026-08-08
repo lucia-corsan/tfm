@@ -27,8 +27,11 @@ Mantener esta organización salvo que se explique y justifique un cambio:
 
 ```text
 backend/      # FastAPI + lógica de dominio
+  api/        # modelos HTTP y endpoints versionados
+  domain/     # modelos de datos compartidos y reglas de validación
   routing/    # cliente OpenRouteService primero; Valhalla como evolución
   scoring/    # índice de adecuación explicable y fácil de probar
+  services/   # coordinación entre proveedores, scoring y API
   enrichment/ # OpenStreetMap, Overpass y metadatos Mapillary
   narration/  # plantillas deterministas para instrucciones
   feedback/   # aprendizaje adaptativo seguro por retroalimentación

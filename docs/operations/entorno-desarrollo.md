@@ -54,7 +54,7 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 41 pruebas superadas tras el día 3.
+- Backend: Ruff correcto y 58 pruebas superadas tras el día 4.
 - App: Jest, ESLint, TypeScript y Expo Doctor correctos.
 - Bundle Android generado.
 - Pantalla inicial probada con TalkBack.
