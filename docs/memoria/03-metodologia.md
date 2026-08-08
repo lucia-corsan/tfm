@@ -6,7 +6,7 @@ Estado: `En implementación`
 ## Diseño general
 
 Desarrollo iterativo mediante incrementos funcionales verticales pequeños,
-contratos validados, *fixtures* reproducibles y transición posterior a rutas
+modelos validados, *fixtures* reproducibles y transición posterior a rutas
 reales.
 
 ## Selección del área piloto

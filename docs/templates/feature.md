@@ -45,7 +45,7 @@ accesibilidad y aportación académica.
 ## Implementación
 
 - Módulos afectados.
-- Funciones o contratos principales.
+- Funciones, modelos o esquemas principales.
 - Dependencias externas.
 - Estado real de implementación.
 

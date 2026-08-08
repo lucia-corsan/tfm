@@ -74,6 +74,6 @@ de inteligencia artificial.
 
 ## Trabajo pendiente
 
-- [ ] Definir el contrato de instrucciones.
+- [ ] Definir el modelo de instrucciones.
 - [ ] Implementar plantillas españolas.
 - [ ] Integrar TTS y política de solapamiento con TalkBack.

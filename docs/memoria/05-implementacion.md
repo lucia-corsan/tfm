@@ -5,8 +5,10 @@ Estado: `En implementación`
 
 ## Backend
 
-FastAPI, configuración por entorno, modelos Pydantic y pruebas con pytest.
-Quedan pendientes la puntuación, los proveedores y los endpoints de
+FastAPI, configuración por entorno, modelos Pydantic y pruebas con pytest. El
+ranking explicable ya aplica restricciones críticas, costes normalizados,
+adecuación, confianza, incertidumbre, razones y avisos sobre *fixtures*
+reproducibles. Quedan pendientes los proveedores reales y los endpoints de
 comparación.
 
 ## Aplicación Android
@@ -33,4 +35,4 @@ implementación final y enlazar evidencias.
 - [Journal](../journal.md).
 - [Entorno](../operations/entorno-desarrollo.md).
 - [Incidencias](../operations/incidencias.md).
-- [API](../product/api-contracts.md).
+- [Especificación de la API](../product/especificacion-api.md).

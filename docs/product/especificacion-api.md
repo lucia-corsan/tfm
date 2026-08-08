@@ -1,7 +1,9 @@
-# Contratos de la API del MVP
+# Especificación de la API del MVP
 
-Estado: `En implementación`  
-Última actualización: 8 de agosto de 2026  
+Estado: `En implementación`
+
+Última actualización: 8 de agosto de 2026
+
 Responsabilidad principal: `product`
 
 ## Problema que resuelve
@@ -22,7 +24,7 @@ la interfaz no dependa de la implementación de ORS, OSM o scoring.
 | Alternativa | Ventajas | Inconvenientes | Decisión |
 | --- | --- | --- | --- |
 | Lógica en la app | Menos infraestructura | Expone claves y duplica reglas | Descartada |
-| API FastAPI local | Contratos claros y secretos en backend | Requiere dos procesos | Adoptada |
+| API FastAPI local | Especificación clara y secretos en backend | Requiere dos procesos | Adoptada |
 
 ## Decisión adoptada
 
@@ -33,7 +35,7 @@ La API tendrá inicialmente:
 - `POST /api/v1/routes/compare`, pendiente.
 - `POST /api/v1/routes/reroute`, pendiente.
 
-Los contratos detallados previstos se conservan en
+Los esquemas detallados previstos se conservan en
 [el alcance del MVP](alcance-mvp.md#9-api-prevista). Al implementar cada
 operación, este documento sustituirá la descripción prevista por los esquemas
 reales de entrada, salida y error.
@@ -54,12 +56,12 @@ confirmada y aplicará el mismo perfil y las mismas restricciones.
 - Entrada de la aplicación: `backend/main.py`.
 - Router versionado: `backend/api/router.py`.
 - Salud: `backend/api/routes/health.py`.
-- Contratos de dominio: `backend/domain/models.py`.
+- Modelos de dominio: `backend/domain/models.py`.
 
 ## Pruebas
 
 El endpoint de salud dispone de una prueba de API. Faltan la validación de
-peticiones, el tratamiento de errores externos y los contratos completos de
+peticiones, el tratamiento de errores externos y los esquemas completos de
 comparación.
 
 ## Resultados
@@ -69,15 +71,15 @@ local. Resto pendiente.
 
 ## Riesgos y limitaciones
 
-- Los contratos previstos pueden necesitar campos adicionales al integrar ORS.
+- Los esquemas previstos pueden necesitar campos adicionales al integrar ORS.
 - No se debe exponer una fórmula interna como promesa absoluta de accesibilidad.
 
 ## Texto base para la memoria
 
 Se adoptó una API local con FastAPI como frontera entre la interfaz y los
 servicios geoespaciales. Esta separación protege las credenciales, centraliza
-las invariantes de seguridad y permite validar de forma independiente los
-contratos de comparación y rerouting.
+las invariantes de seguridad y permite validar de forma independiente las
+especificaciones de comparación y rerouting.
 
 ## Trabajo pendiente
 

@@ -418,7 +418,7 @@ TalkBack leerá el contenido presentado por la interfaz mediante propiedades com
 
 El TTS de la aplicación reproducirá el texto generado por `narration`, bien al pulsar «Escuchar instrucción» o, cuando resulte apropiado, al avanzar a una nueva maniobra.
 
-Ambos canales utilizarán una única fuente de verdad. El contrato de dominio incluirá un objeto equivalente a:
+Ambos canales utilizarán una única fuente de verdad. El modelo de dominio incluirá un objeto equivalente a:
 
 ```ts
 interface NavigationInstruction {

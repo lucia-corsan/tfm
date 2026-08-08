@@ -54,7 +54,7 @@ Mantener en la raíz los documentos normativos anteriores y clasificar el resto:
 
 ```text
 docs/
-  product/     # alcance, contratos y comportamiento de usuario
+  product/     # alcance, especificaciones y comportamiento de usuario
   research/    # decisiones, metodología y componentes de IA
   evaluation/  # plan, experimentos, resultados y limitaciones
   operations/  # entorno, caché, servicios externos e incidencias

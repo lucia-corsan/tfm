@@ -8,7 +8,7 @@ Estado: `En implementación`
 Aplicación Expo accesible, API FastAPI, proveedor intercambiable de rutas,
 enriquecimiento OSM, puntuación, narración y aprendizaje local.
 
-## Contratos de dominio
+## Modelos de dominio
 
 Describir perfil, evidencia, características, incertidumbre, rutas y escenarios.
 

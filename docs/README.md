@@ -20,13 +20,13 @@ seguridad externa.
 - [Seguridad](safety.md): invariantes que ningún módulo puede incumplir.
 - [Journal](journal.md): cronología breve y enlaces a decisiones.
 
-Estos cinco documentos permanecen en la raíz porque también son los contratos
-esperados por `AGENTS.md`.
+Estos cinco documentos permanecen en la raíz porque también son las especificaciones
+esperadas por `AGENTS.md`.
 
 ### Producto y comportamiento
 
 - [Alcance y plan del MVP](product/alcance-mvp.md).
-- [Contratos de API](product/api-contracts.md).
+- [Especificación de la API](product/especificacion-api.md).
 - [GPS y rerouting](product/gps-rerouting.md).
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
 
