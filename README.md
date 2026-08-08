@@ -55,20 +55,26 @@ Comprobarla en otra terminal:
 curl http://127.0.0.1:8000/api/v1/health
 ```
 
-## Calidad
+## Calidad del backend
 
 ```bash
 python -m pytest
 python -m ruff check .
 ```
 
-Cuando la app esté inicializada:
+## App Android
 
 ```bash
 cd app
-npm install
+npm ci
+npm test
+npm run lint
+npm run typecheck
 npm run start
 ```
+
+La app usa Expo SDK 57, React Native 0.86 y TypeScript estricto. El bundle
+Android puede validarse sin emulador con el comando documentado en `app/README.md`.
 
 ## Configuración y secretos
 
