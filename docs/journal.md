@@ -244,3 +244,52 @@ las restricciones críticas.
 
 La API continúa utilizando datos sintéticos. ORS, los datos reales y la conexión
 con la aplicación móvil pertenecen a las siguientes fases.
+
+## 9 de agosto de 2026 — Comparación móvil del día 5
+
+### Decisiones
+
+- La app separa tipos, validación en ejecución, cliente HTTP, estado y
+  presentación para no duplicar el sistema de decisión en la pantalla.
+- Se mantiene una validación móvil explícita sin añadir otra dependencia. Se
+  revisará esta elección si el esquema público aumenta de forma sustancial.
+- La URL local se configura con `EXPO_PUBLIC_API_URL`; ninguna credencial puede
+  almacenarse en variables públicas de Expo.
+- El perfil de cruces utiliza un peso ocho veces mayor para esa dimensión, pero
+  conserva activas las otras ocho. Así demuestra sensibilidad sin ignorar
+  distancia, pendiente o incertidumbre.
+- Las respuestas antiguas se ignoran cuando cambia el perfil, evitando asociar
+  un ranking a una selección que ya no está activa.
+- La interfaz anuncia un resumen breve del resultado. Las métricas, razones y
+  avisos quedan disponibles mediante navegación para no saturar TalkBack.
+- La app traduce estructuras recibidas; no recalcula adecuación ni genera
+  razones diferentes de las utilizadas por el backend.
+
+### Trabajo completado
+
+- Tipos TypeScript equivalentes a los modelos públicos de comparación.
+- Validación de estructura, rangos, identificadores, ranking y coherencia
+  matemática de las respuestas.
+- Configuración específica de Android Emulator y cliente HTTP sin registros de
+  coordenadas.
+- Perfiles equilibrado y orientado a cruces sencillos.
+- Estado inicial, carga, resultado, error y descarte de respuestas obsoletas.
+- Pantalla accesible con métricas, factores, avisos, descartes y reintento.
+- Eliminación de la portada técnica y sus componentes, ya sustituidos por el
+  primer flujo funcional.
+
+### Verificaciones
+
+```text
+Backend: Ruff correcto y Pytest 58/58.
+App: Jest 26/26, ESLint correcto y TypeScript estricto correcto.
+Integración directa: HTTP 200 y `fewer_crossings_route` en primer lugar con los
+pesos exactos del perfil móvil.
+Diff: sin errores de espacios.
+```
+
+La validación manual en el Pixel confirmó el orden de ambos perfiles, el error
+con FastAPI detenido, la recuperación tras reiniciarlo y la lectura de controles
+y resultados mediante TalkBack. El día 5 y la primera semana quedan cerrados.
+Las rutas continúan siendo sintéticas; este resultado demuestra la integración
+técnica y el cambio explicable de ranking, no la accesibilidad real del corredor.

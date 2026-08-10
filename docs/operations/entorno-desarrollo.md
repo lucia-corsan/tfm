@@ -1,7 +1,9 @@
 # Entorno de desarrollo reproducible
 
-Estado: `Validado`  
-Última actualización: 8 de agosto de 2026  
+Estado: `Validado`
+
+Última actualización: 9 de agosto de 2026
+
 Responsabilidad principal: `operations`
 
 ## Backend
@@ -41,6 +43,19 @@ npm run typecheck
 npm run android
 ```
 
+La aplicación usa por defecto
+`http://10.0.2.2:8000/api/v1` para alcanzar FastAPI desde Android Emulator. Si
+se necesita otro entorno, crear `app/.env.local` a partir de
+`app/.env.example`:
+
+```text
+EXPO_PUBLIC_API_URL=http://10.0.2.2:8000/api/v1
+```
+
+La URL es configuración pública. Nunca se deben introducir tokens o claves en
+una variable `EXPO_PUBLIC_*`, porque Expo incorpora su valor al código de la
+aplicación.
+
 ## SDK de Android
 
 `ANDROID_HOME` apunta a `$HOME/Library/Android/sdk`. El `PATH` incluye
@@ -54,10 +69,12 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 58 pruebas superadas tras el día 4.
-- App: Jest, ESLint, TypeScript y Expo Doctor correctos.
+- Backend: Ruff correcto y 58 pruebas superadas tras el día 5.
+- App: 26 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+  validado durante la configuración inicial del entorno.
 - Bundle Android generado.
-- Pantalla inicial probada con TalkBack.
+- Comparación validada manualmente con TalkBack, ambos perfiles y recuperación
+  tras detener y reiniciar FastAPI.
 
 ## Limitaciones
 

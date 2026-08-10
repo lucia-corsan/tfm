@@ -139,4 +139,4 @@ especificaciones de comparación y rerouting.
 - [ ] Implementar búsqueda de lugares.
 - [x] Implementar comparación de rutas con el proveedor de *fixtures*.
 - [ ] Implementar rerouting confirmado.
-- [ ] Crear tipos TypeScript equivalentes.
+- [x] Crear tipos TypeScript equivalentes y validación móvil en ejecución.

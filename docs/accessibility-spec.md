@@ -51,3 +51,26 @@ explicaciones accesibles.
 La narración será determinista y compartirá una única fuente estructurada con
 la interfaz y TTS. Con TalkBack activo se evitarán locuciones automáticas que
 puedan solaparse con el lector de pantalla.
+
+## Comparación móvil implementada
+
+La primera pantalla funcional aplica los principios anteriores de esta manera:
+
+- Los perfiles se exponen como botones de opción con nombre, ayuda y estado de
+  selección.
+- El botón de comparación comunica su estado desactivado mientras espera la
+  respuesta, evitando envíos duplicados.
+- La carga usa una región dinámica moderada y estado ocupado.
+- Los errores usan un aviso prioritario y conservan un botón de reintento.
+- El resumen anuncia únicamente el número de rutas disponibles y descartadas;
+  el resto permanece navegable para no producir una locución automática larga.
+- Adecuación, confianza e incertidumbre se muestran con nombre y porcentaje, no
+  solo mediante posición o color.
+- Razones, advertencias y descartes proceden de la misma respuesta estructurada
+  del backend.
+- El orden de lectura coincide con el orden visual; no se utiliza la API
+  experimental para forzar el foco.
+
+Estas propiedades están cubiertas por pruebas de componentes, pero su utilidad
+real debe confirmarse manualmente con TalkBack en el emulador y, posteriormente,
+con una evaluación de usabilidad acotada.

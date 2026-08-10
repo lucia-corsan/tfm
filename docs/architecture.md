@@ -11,7 +11,11 @@ interfaz para que cada parte pueda probarse con datos reproducibles.
 
 ```text
 Aplicación Android
-    ↓ HTTP/JSON
+    ├── presentación accesible
+    ├── estado local de comparación
+    ├── validación de respuestas
+    └── cliente HTTP
+            ↓ HTTP/JSON
 FastAPI
     ↓
 Servicio de comparación
@@ -35,6 +39,18 @@ Servicio de comparación
 La aplicación no contendrá la clave de ORS. Las peticiones externas se realizarán desde
 el backend y el proveedor de *fixtures* permitirá trabajar sin conexión.
 
+La aplicación también se divide por responsabilidades. Los componentes no
+realizan peticiones ni calculan puntuaciones; un hook controla los estados y un
+cliente pequeño representa la frontera HTTP. Los tipos TypeScript documentan la
+estructura y una validación en ejecución comprueba rangos, identificadores,
+orden y coherencia matemática antes de que una respuesta llegue a la pantalla.
+De este modo, el tipado estático no se confunde con validación de datos externos.
+
+La dirección del backend es configuración pública mediante
+`EXPO_PUBLIC_API_URL`, con `10.0.2.2` como dirección predeterminada para Android
+Emulator. No se almacenarán secretos en variables `EXPO_PUBLIC_*`, dado que Expo
+las incorpora al código de la aplicación.
+
 El endpoint de comparación no contiene la fórmula. Delega en un servicio que
 obtiene el escenario del proveedor configurado, ejecuta el mismo ranking probado
 de forma aislada y construye la respuesta de la API. Esta capa evita acoplar
@@ -45,6 +61,11 @@ FastAPI, ORS y el sistema de decisión.
 Los límites HTTP usarán Pydantic v2. La aplicación mantendrá tipos TypeScript
 equivalentes y centralizados. Los datos desconocidos se representarán de forma
 explícita, nunca mediante valores favorables por defecto.
+
+El estado móvil ignora cualquier respuesta que pertenezca a una selección de
+perfil anterior. Esta regla evita una condición de carrera en la que una
+petición lenta podría sobrescribir un resultado más reciente y presentar una
+recomendación bajo el perfil incorrecto.
 
 ### Modelo de dominio y decisión explicable
 
