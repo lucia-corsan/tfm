@@ -1,5 +1,5 @@
-import { WelcomeScreen } from '@/screens/WelcomeScreen';
+import { RouteComparisonScreen } from '@/screens/RouteComparisonScreen';
 
 export default function HomeScreen() {
-  return <WelcomeScreen />;
+  return <RouteComparisonScreen />;
 }

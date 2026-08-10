@@ -2,13 +2,15 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 interface PrimaryButtonProps {
   accessibilityHint: string;
-  expanded: boolean;
+  disabled?: boolean;
+  expanded?: boolean;
   label: string;
   onPress: () => void;
 }
 
 export function PrimaryButton({
   accessibilityHint,
+  disabled = false,
   expanded,
   label,
   onPress,
@@ -18,9 +20,14 @@ export function PrimaryButton({
       accessibilityHint={accessibilityHint}
       accessibilityLabel={label}
       accessibilityRole="button"
-      accessibilityState={{ expanded }}
+      accessibilityState={{ disabled, expanded }}
+      disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+      style={({ pressed }) => [
+        styles.button,
+        disabled && styles.buttonDisabled,
+        pressed && !disabled && styles.buttonPressed,
+      ]}
     >
       <Text style={styles.label}>{label}</Text>
     </Pressable>
@@ -40,6 +47,9 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     backgroundColor: '#432B9B',
+  },
+  buttonDisabled: {
+    backgroundColor: '#887DAE',
   },
   label: {
     color: '#FFFFFF',

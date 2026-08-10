@@ -1,16 +1,100 @@
 export const ES = {
   appName: 'Rutas a tu medida',
-  welcome: {
+  routeComparison: {
     eyebrow: 'MVP · Madrid',
-    title: 'Compara rutas peatonales según tus preferencias',
+    title: 'Compara rutas para caminar según tus preferencias',
     description:
-      'Cada alternativa mostrará su adecuación al perfil, la confianza de los datos y la incertidumbre conocida.',
-    statusTitle: 'Base técnica preparada',
-    statusDescription:
-      'La conexión con las rutas locales se añadirá en el siguiente paso del desarrollo.',
-    detailsButton: 'Ver principios del sistema',
-    detailsHint: 'Muestra cómo se comunicarán la seguridad y la incertidumbre.',
-    details:
-      'La aplicación no prometerá que una ruta sea accesible. Explicará la evidencia disponible y mantendrá la decisión final en tus manos.',
+      'Prueba cómo cambia la recomendación entre Moncloa y Príncipe Pío al modificar el perfil.',
+    profileSectionTitle: 'Elige un perfil para esta comparación',
+    profileGroupLabel: 'Perfiles de preferencias',
+    profiles: {
+      balanced_demo: {
+        label: 'Preferencias equilibradas',
+        description: 'Valora por igual distancia, cruces, orientación, pendiente e incertidumbre.',
+        hint: 'Selecciona un perfil que mantiene la misma importancia inicial para todos los factores.',
+      },
+      simpler_crossings_demo: {
+        label: 'Priorizar cruces sencillos',
+        description: 'Da más importancia a reducir la complejidad de los cruces sin ignorar los demás datos.',
+        hint: 'Selecciona un perfil que aumenta la importancia de evitar cruces complejos.',
+      },
+    },
+    compareButton: 'Comparar rutas',
+    compareHint: 'Solicita al servidor hasta tres alternativas para el perfil seleccionado.',
+    loadingButton: 'Comparando rutas…',
+    loading: 'Estamos comparando las alternativas. Espera un momento.',
+    idleTitle: 'Comparación preparada',
+    idleDescription:
+      'Selecciona un perfil y pulsa Comparar rutas. En esta fase se utilizan datos sintéticos reproducibles.',
+    resultSummary: (accepted: number, rejected: number) =>
+      `Comparación terminada. ${accepted} rutas disponibles y ${rejected} descartadas.`,
+    resultTitle: 'Alternativas ordenadas',
+    resultIntroduction:
+      'La primera posición indica mayor adecuación al perfil, no una garantía absoluta de accesibilidad.',
+    rankLabel: (rank: number) => `Puesto ${rank}`,
+    syntheticData: 'Datos sintéticos para desarrollo',
+    distance: 'Distancia',
+    duration: 'Duración estimada',
+    adequacy: 'Adecuación al perfil',
+    confidence: 'Confianza de los datos',
+    uncertainty: 'Información desconocida',
+    reasonsTitle: 'Por qué ocupa esta posición',
+    warningsTitle: 'Aspectos que debes tener en cuenta',
+    rejectedTitle: 'Alternativas descartadas',
+    rejectedDescription:
+      'Estas rutas incumplen una restricción crítica del perfil y no participan en el ranking.',
+    noWarnings: 'No se han generado avisos con los datos disponibles.',
+    disclaimer:
+      'La aplicación compara evidencia disponible. La decisión final sobre el recorrido permanece en tus manos.',
+    retryButton: 'Reintentar comparación',
+    retryHint: 'Vuelve a solicitar las rutas con el mismo perfil.',
+    errorTitle: 'No hemos podido comparar las rutas',
+    errors: {
+      invalid_request: 'El perfil o el trayecto enviado no es válido.',
+      route_scenario_not_found: 'Todavía no hay rutas de prueba para este trayecto.',
+      routing_provider_unavailable: 'El servicio de rutas no está disponible ahora mismo.',
+      invalid_response: 'El servidor ha devuelto datos que la aplicación no puede interpretar.',
+      network_error: 'No se ha podido conectar con el servidor. Comprueba que el backend esté encendido.',
+    },
+    dimensions: {
+      distance: 'distancia',
+      complex_crossings: 'complejidad de los cruces',
+      crossing_support: 'ayudas disponibles en los cruces',
+      sidewalk_evidence: 'evidencia sobre las aceras',
+      steps: 'presencia de escalones',
+      surface: 'información sobre la superficie',
+      orientation_complexity: 'complejidad para orientarse',
+      slope: 'pendiente',
+      uncertainty: 'cantidad de información desconocida',
+    },
+    reasonKinds: {
+      relative_advantage: 'Ventaja respecto a las demás alternativas',
+      low_absolute_cost: 'Condición favorable según la escala utilizada',
+      least_costly_active_factor: 'Factor más favorable de esta alternativa',
+    },
+    attributes: {
+      sidewalk: 'aceras',
+      step_free: 'ausencia de escalones',
+      pedestrian_access: 'acceso peatonal',
+      crossing_compatibility: 'compatibilidad de los cruces',
+      traffic_signals: 'semáforos',
+      audible_signals: 'señales acústicas',
+      tactile_paving: 'pavimento podotáctil',
+      kerb: 'bordillos',
+      ramp_access: 'rampas',
+      surface: 'superficie',
+      slope: 'pendiente',
+    },
+    warningStates: {
+      unknown: 'Información no confirmada',
+      unfavorable: 'Evidencia desfavorable',
+    },
+    constraints: {
+      steps: 'Se han confirmado escalones y el perfil indica evitarlos.',
+      pedestrian_access: 'No se ha confirmado un acceso peatonal compatible.',
+      incompatible_crossings: 'Se han detectado cruces incompatibles con el perfil.',
+      maximum_slope: 'La pendiente confirmada supera el máximo aceptado.',
+      maximum_detour: 'El desvío supera el máximo aceptado.',
+    },
   },
 } as const;
