@@ -1,0 +1,901 @@
+tolerance_m,overlap_threshold,maximum_length_difference_ratio,case_id,description,expected_duplicate,predicted_duplicate,correct,measured_overlap_ratio,relative_length_difference
+1.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.8,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.8,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.8,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.8,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.8,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.8,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.8,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.8,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.8,0.03,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.8,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.85,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.85,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.85,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.85,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.85,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.85,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.85,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.85,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.85,0.03,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.85,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.9,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.9,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.9,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.9,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.9,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.9,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.9,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.9,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.9,0.03,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.9,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.95,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.95,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.95,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.95,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.95,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.95,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.95,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.95,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.95,0.03,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.95,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.98,0.03,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.98,0.03,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.98,0.03,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.98,0.03,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.98,0.03,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.98,0.03,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.98,0.03,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.98,0.03,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.98,0.03,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.98,0.03,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.8,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.8,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.8,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.8,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.8,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.8,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.8,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.8,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.8,0.05,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.8,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.85,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.85,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.85,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.85,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.85,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.85,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.85,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.85,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.85,0.05,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.85,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.9,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.9,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.9,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.9,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.9,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.9,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.9,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.9,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.9,0.05,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.9,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.95,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.95,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.95,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.95,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.95,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.95,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.95,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.95,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.95,0.05,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.95,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.98,0.05,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.98,0.05,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.98,0.05,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.98,0.05,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.98,0.05,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.98,0.05,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.98,0.05,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.98,0.05,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.98,0.05,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.98,0.05,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+1.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+1.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+1.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,False,False,0.4999999999126571,7.999564853229903e-05
+1.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9979859995131848,0.004016012228797362
+1.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+1.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.4925808382840329,0.02626415831689548
+1.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.014377914918320779,0.005063008324770341
+1.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5434392656087945,0.0007426033151323986
+1.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+2.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+2.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+2.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,0.9999999998253798,7.999564853229903e-05
+2.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,0.9999921802044264,0.004016012228797362
+2.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+2.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.49795767948012043,0.02626415831689548
+2.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.028755829836697954,0.005063008324770341
+2.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.5872495573499478,0.0007426033151323986
+2.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+3.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+3.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+3.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+3.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+3.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+3.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5033345206762081,0.02626415831689548
+3.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.04313374475501873,0.005063008324770341
+3.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.6310598490910436,0.0007426033151323986
+3.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+5.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+5.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+5.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+5.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+5.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,False,True,0.0,5.820766091346741e-14
+5.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5140882030684362,0.02626415831689548
+5.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.07188957459171669,0.005063008324770341
+5.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.7186804325732679,0.0007426033151323986
+5.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,True,False,0.8501113078105672,0.0007426033151323986
+8.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+8.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+8.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+8.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+8.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+8.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+8.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+8.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.530218726656699,0.02626415831689548
+8.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.11502331934679307,0.005063008324770341
+8.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,False,True,0.8501113078105672,0.0007426033151323986
+8.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.8,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.8,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.8,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.8,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.8,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.8,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.8,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.8,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.8,0.1,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.8,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.85,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.85,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.85,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.85,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.85,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.85,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.85,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.85,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.85,0.1,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.85,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.9,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.9,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.9,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.9,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.9,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.9,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.9,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.9,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.9,0.1,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.9,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.95,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.95,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.95,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.95,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.95,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.95,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.95,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.95,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.95,0.1,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.95,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
+10.0,0.98,0.1,P1,Geometría idéntica,True,True,True,1.0,0.0
+10.0,0.98,0.1,P2,Mismo trazado con más vértices,True,True,True,1.0,0.0
+10.0,0.98,0.1,P3,Desplazamiento submétrico interior,True,True,True,1.0,2.5599934451746195e-06
+10.0,0.98,0.1,P4,Ruido alterno de hasta dos metros,True,True,True,1.0,7.999564853229903e-05
+10.0,0.98,0.1,P5,Extremos interiores desplazados dos metros,True,True,True,1.0,0.004016012228797362
+10.0,0.98,0.1,N1,Recorrido paralelo separado seis metros,False,True,False,1.0,5.820766091346741e-14
+10.0,0.98,0.1,N2,Desvío localizado en un punto de decisión,False,False,True,0.5409724090488741,0.02626415831689548
+10.0,0.98,0.1,N3,Calle alternativa durante el tramo central,False,False,True,0.143779149183491,0.005063008324770341
+10.0,0.98,0.1,N4,Ramal diferente en el último quinto,False,True,False,1.0,0.0007426033151323986
+10.0,0.98,0.1,N5,Recorrido paralelo separado veinte metros,False,False,True,0.0,5.820766091346741e-14
