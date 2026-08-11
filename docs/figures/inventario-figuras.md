@@ -1,7 +1,7 @@
 # Inventario de figuras y tablas
 
 Estado: `En implementación`  
-Última actualización: 8 de agosto de 2026.
+Última actualización: 10 de agosto de 2026.
 
 | ID | Contenido | Capítulo | Estado | Archivo final |
 | --- | --- | --- | --- | --- |

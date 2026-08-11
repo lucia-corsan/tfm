@@ -2,7 +2,7 @@
 
 Estado: `Validado`
 
-Última actualización: 9 de agosto de 2026
+Última actualización: 11 de agosto de 2026
 
 Responsabilidad principal: `operations`
 
@@ -11,6 +11,7 @@ Responsabilidad principal: `operations`
 - macOS sobre Apple Silicon.
 - Python 3.9 en `.venv`.
 - FastAPI, Pydantic v2, httpx async y pytest.
+- pyproj y Shapely para proyección y comparación métrica de rutas.
 - Ruff para lint y comprobaciones estáticas.
 
 Comprobaciones:
@@ -25,6 +26,15 @@ Arranque:
 ```bash
 uvicorn backend.main:app --reload
 ```
+
+Preparación o validación de la instantánea OSM del área piloto:
+
+```bash
+python -m backend.enrichment.fetch_pilot_snapshot
+```
+
+La ruta local se configura mediante `OSM_SNAPSHOT_PATH`. La instantánea está
+ignorada por Git y una ejecución repetida reutiliza el archivo validado.
 
 ## Aplicación móvil
 
@@ -69,7 +79,8 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 58 pruebas superadas tras el día 5.
+- Backend: Ruff correcto y 118 pruebas superadas tras preparar la instantánea
+  OSM orientada a rutas.
 - App: 26 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.

@@ -2,7 +2,7 @@
 
 Estado: `En implementación`
 
-Última actualización: 8 de agosto de 2026
+Última actualización: 11 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -74,6 +74,13 @@ La respuesta incluirá:
 - Hasta tres factores explicativos y todos los avisos derivados de la evidencia.
 - Rutas descartadas con sus motivos de incompatibilidad crítica.
 
+El backend podrá generar y analizar más rutas de las que devuelve. Esta
+colección interna permitirá ampliar y deduplicar candidatas antes del
+enriquecimiento, las restricciones y el ranking. La respuesta pública seguirá
+conteniendo entre cero y tres alternativas para no trasladar la complejidad de
+la búsqueda a la interfaz accesible. El diseño y su evaluación se detallan en
+[Generación y diversidad de rutas candidatas](../research/generacion-rutas-candidatas.md).
+
 No se devolverá una afirmación booleana de «ruta accesible». La aplicación
 recibirá evidencia suficiente para mostrar alternativas y mantener la decisión
 final en la persona usuaria.
@@ -115,11 +122,12 @@ sanitizados y esquema OpenAPI.
 `GET /api/v1/health` y `POST /api/v1/routes/compare` responden correctamente en
 las pruebas. El perfil predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza 58 pruebas. La validación manual en la documentación interactiva
+backend alcanza 118 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La
-entrega del día 4 queda cerrada.
+entrega del día 4 queda cerrada. Las diez pruebas añadidas posteriormente
+corresponden a la preparación OSM y no modifican este comportamiento de la API.
 
 ## Riesgos y limitaciones
 

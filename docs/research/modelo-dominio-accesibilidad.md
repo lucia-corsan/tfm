@@ -205,6 +205,11 @@ como desconocida la ausencia de evidencia. Los detalles se agruparán en pocas
 preferencias comprensibles para el usuario, pero permanecerán disponibles para
 explicaciones, confianza y auditoría.
 
+La correspondencia implementada, los valores ambiguos y la instantánea con
+geometrías completas se documentan en
+[Preparación de OSM para rutas](preparacion-osm-para-rutas.md). Esta preparación
+conserva indicadores crudos; no sustituye la agregación por corredor.
+
 ## 7. Características de una ruta
 
 `RouteFeatures` combina magnitudes numéricas con evidencia temática.

@@ -1,7 +1,8 @@
 # Alcance y plan de desarrollo del MVP
 
-Fecha: 7 de agosto de 2026  
-Estado: documento de planificación previo a la implementación  
+Fecha inicial: 7 de agosto de 2026
+Última actualización: 11 de agosto de 2026
+Estado: `En implementación`
 Ámbito piloto: Moncloa–Argüelles–Príncipe Pío, Madrid
 
 ## 1. Propósito del documento
@@ -23,7 +24,8 @@ La aplicación permitirá a una persona ciega o con baja visión:
 
 1. Configurar restricciones y preferencias de movilidad.
 2. Introducir un origen y un destino.
-3. Obtener hasta tres rutas peatonales alternativas.
+3. Analizar una colección interna de rutas candidatas y recibir hasta tres
+   alternativas peatonales finales.
 4. Compararlas mediante criterios explicables.
 5. Elegir una ruta conservando la decisión final.
 6. Seguir instrucciones mediante TalkBack, TTS y controles accesibles.
@@ -36,15 +38,17 @@ El flujo general será:
 ```text
 Usuario introduce origen, destino y perfil
                     ↓
-          ORS genera rutas candidatas
+    ORS genera un primer conjunto de candidatas
                     ↓
-       OSM enriquece cada ruta con atributos
+ deduplicación y posible ampliación escalonada
+                    ↓
+       OSM enriquece cada candidata con atributos
                     ↓
  Restricciones críticas eliminan rutas incompatibles
                     ↓
  Scoring y aprendizaje ordenan las rutas restantes
                     ↓
- La app muestra adecuación, confianza e incertidumbre
+ La app muestra hasta tres rutas con adecuación, confianza e incertidumbre
                     ↓
  GPS detecta una posible desviación
                     ↓
@@ -71,6 +75,12 @@ ORS devolverá:
 - Instrucciones paso a paso.
 - Segmentos y maniobras.
 - Información adicional disponible, como identificadores de vías OSM, superficie, tipo de vía o pendiente.
+
+La API no enumera todos los caminos posibles. Las alternativas devueltas forman
+un conjunto inicial que puede omitir recorridos mejores después del análisis de
+accesibilidad. El MVP evaluará una ampliación escalonada y deduplicada, pero
+seguirá mostrando como máximo tres rutas para mantener una comparación
+comprensible con TalkBack.
 
 Documentación oficial relevante:
 
@@ -141,7 +151,9 @@ Por tanto, `osm_accessibility_points.parquet` no se utilizará como única fuent
 
 ### 4.2. Dataset OSM específico para rutas
 
-Para el MVP se preparará un segundo conjunto de datos limitado al área piloto y orientado al análisis de recorridos. Este conservará las geometrías y etiquetas necesarias para relacionar una ruta con:
+Para el MVP se ha preparado un segundo conjunto de datos limitado al área piloto
+y orientado al análisis de recorridos. Conserva las geometrías y etiquetas
+necesarias para relacionar una ruta con:
 
 - Vías y segmentos utilizados.
 - Cruces próximos o atravesados.
@@ -150,7 +162,12 @@ Para el MVP se preparará un segundo conjunto de datos limitado al área piloto 
 - Aceras y superficies conocidas.
 - Atributos críticos ausentes o desconocidos.
 
-ORS puede devolver identificadores de vías OSM mediante información adicional. Estos identificadores se combinarán con consultas o cachés dirigidas al corredor de cada ruta. Las consultas a Overpass no formarán parte del camino crítico de cada petición de usuario: los datos del área piloto se descargarán, validarán y almacenarán previamente.
+ORS puede devolver identificadores de vías OSM mediante información adicional.
+Estos identificadores se combinarán con la instantánea dirigida al corredor de
+cada ruta. Las consultas a Overpass no forman parte del camino crítico de cada
+petición de usuario: los datos del área piloto se descargan, validan y almacenan
+previamente. La preparación y sus resultados se detallan en
+[Preparación de OSM para rutas](../research/preparacion-osm-para-rutas.md).
 
 El flujo de enriquecimiento será:
 
@@ -357,17 +374,24 @@ La aplicación intentará presentar:
 2. Ruta con menos cruces complejos.
 3. Ruta más sencilla de seguir, o la más corta si resulta más útil.
 
-El solapamiento se estimará como:
+El solapamiento se estima de forma simétrica sobre líneas proyectadas a metros:
 
 ```text
-longitud compartida / longitud de la ruta más corta del par
+solapamiento = mínimo(
+    longitud de A dentro del corredor de B / longitud de A,
+    longitud de B dentro del corredor de A / longitud de B
+)
 ```
 
-Umbrales iniciales:
+La regla calibrada considera casi duplicadas únicamente las rutas con:
 
-- Menos del 70 %: rutas suficientemente diferentes.
-- Entre 70 % y 85 %: diferencia limitada, que se indicará.
-- Más del 85 %: no se mostrará como alternativa independiente.
+- Tolerancia espacial de 2 metros.
+- Solapamiento mínimo del 98 %.
+- Diferencia máxima de longitud del 3 %.
+
+La hipótesis anterior de 10 metros y 85 % se descartó porque generó falsos
+positivos. El experimento completo se describe en
+[la calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 
 Si no existen tres opciones útiles, la aplicación mostrará dos o una y explicará el motivo.
 

@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 8 de agosto de 2026.
+Última actualización: 11 de agosto de 2026.
 
 ## Propósito
 
@@ -37,10 +37,14 @@ esperadas por `AGENTS.md`.
 - [Scoring explicable](research/scoring-explicable.md).
 - [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md).
 - [Función de ORS, OSM y Mapillary](research/fuentes-ors-osm-mapillary.md).
+- [Integración de OpenRouteService](research/integracion-openrouteservice.md).
+- [Preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).
+- [Generación y diversidad de rutas candidatas](research/generacion-rutas-candidatas.md).
 
 ### Evaluación
 
 - [Plan de evaluación](evaluation/plan-evaluacion.md).
+- [Calibración de la deduplicación espacial](evaluation/calibracion-deduplicacion-espacial.md).
 - [Registro de experimentos](evaluation/experimentos.md).
 - [Resultados](evaluation/resultados.md).
 - [Limitaciones](evaluation/limitaciones.md).

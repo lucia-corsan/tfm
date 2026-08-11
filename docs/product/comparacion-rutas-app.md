@@ -2,7 +2,7 @@
 
 Estado: `Validado`
 
-Última actualización: 9 de agosto de 2026
+Última actualización: 11 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -152,7 +152,7 @@ valores en textos españoles; no recalcula la puntuación.
 La validación automática de la app alcanza 26 pruebas distribuidas en seis
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono e interfaz. ESLint y TypeScript estricto no
-detectan errores. Las 58 pruebas del backend siguen superándose, por lo que la
+detectan errores. Las 118 pruebas del backend siguen superándose, por lo que la
 integración móvil no ha modificado el sistema de decisión.
 
 Una comprobación directa contra FastAPI con los pesos exactos del perfil móvil

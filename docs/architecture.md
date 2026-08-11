@@ -21,6 +21,7 @@ FastAPI
 Servicio de comparación
     ├── proveedor de *fixtures*
     ├── proveedor ORS
+    ├── agregación y deduplicación de candidatas
     ├── enriquecimiento OSM
     ├── restricciones y scoring
     └── narración determinista
@@ -55,6 +56,25 @@ El endpoint de comparación no contiene la fórmula. Delega en un servicio que
 obtiene el escenario del proveedor configurado, ejecuta el mismo ranking probado
 de forma aislada y construye la respuesta de la API. Esta capa evita acoplar
 FastAPI, ORS y el sistema de decisión.
+
+La generación y el ranking constituyen etapas distintas. El backend podrá
+analizar una colección interna mayor que la respuesta pública, pero la app
+recibirá como máximo tres alternativas. La ampliación será escalonada y nunca
+relajará restricciones críticas. Esta separación se documenta en
+`docs/research/generacion-rutas-candidatas.md`.
+
+La deduplicación combina una huella exacta con una comparación espacial
+simétrica. Esta última proyecta las líneas a `EPSG:25830` y aplica la regla
+calibrada de 2 metros, 98 % de solapamiento y 3 % de diferencia de longitud. La
+justificación, el barrido y sus límites se encuentran en
+[la calibración espacial](evaluation/calibracion-deduplicacion-espacial.md).
+
+El enriquecimiento no reutiliza los puntos representativos del estudio de
+densidad. Una instantánea independiente conserva nodos y geometrías completas
+de las vías del corredor piloto. La consulta, su fecha base y su esquema se
+validan en cada lectura; Overpass queda fuera del flujo de comparación. La
+correspondencia entre etiquetas y dimensiones se detalla en
+[la preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).
 
 ## Especificaciones compartidas
 

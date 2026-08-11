@@ -1,13 +1,46 @@
 # Resultados de evaluación
 
-Estado: `Propuesto`  
-Última actualización: 8 de agosto de 2026  
+Estado: `En implementación`
+Última actualización: 11 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
 
-Pendiente de ejecutar los experimentos. Este documento contendrá únicamente
-resultados obtenidos; las expectativas se mantienen en el plan de evaluación.
+La integración técnica con ORS y la caché ya se han validado. La evaluación del
+ranking con rutas enriquecidas, el aprendizaje, el rerouting y la usabilidad
+completa permanecen pendientes.
+
+## Integración de rutas reales
+
+La primera petición del corredor piloto devolvió HTTP 200 y tres rutas base:
+2.715, 2.734 y 2.868 metros, con 32, 40 y 29 instrucciones respectivamente. Una
+segunda ejecución idéntica recuperó la respuesta de la caché sin repetir la
+petición. Este resultado valida transporte, modelos y reutilización local; no
+valida todavía accesibilidad ni calidad de la recomendación.
+
+Las tres alternativas presentan métricas diferentes, pero todavía no se ha
+interpretan como una enumeración completa de rutas. Con la configuración
+espacial calibrada, sus solapamientos por pares fueron 23,84 %, 31,25 % y
+22,56 %, por lo que las tres se conservaron. `EXP-005` comparará este sistema de
+referencia con una colección interna ampliada y deduplicada.
+
+## Deduplicación espacial
+
+`EXP-005A` evaluó 90 configuraciones sobre diez pares sintéticos etiquetados,
+con 900 decisiones individuales. La configuración de 2 metros, 98 % de
+solapamiento y 3 % de diferencia máxima de longitud obtuvo 100 % de exactitud,
+precisión, sensibilidad y F1 en ese banco, sin falsos positivos. La tolerancia
+de 1 metro produjo un falso negativo y las de 8 y 10 metros produjeron falsos
+positivos. El resultado valida la regla para el incremento técnico, pero no
+demuestra una exactitud general del 100 % en rutas reales.
+
+## Preparación de evidencia OSM
+
+La instantánea orientada a rutas contiene 3.670 elementos únicos y 16.630
+coordenadas completas dentro del corredor piloto. La consulta y la lectura se
+validaron mediante diez pruebas específicas y una segunda ejecución utilizó la
+caché sin tráfico HTTP. Este resultado valida la preparación de los datos, no
+todavía la asociación espacial ni el estado de accesibilidad de las rutas.
 
 ## Puntuación estática
 
@@ -34,4 +67,5 @@ Las pruebas del flujo completo están pendientes.
 
 | Experimento | Métrica principal | Sistema de referencia | Sistema evaluado | Interpretación |
 | --- | ---: | ---: | ---: | --- |
-| Pendiente | — | — | — | — |
+| EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
+| EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |

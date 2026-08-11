@@ -293,3 +293,161 @@ con FastAPI detenido, la recuperación tras reiniciarlo y la lectura de controle
 y resultados mediante TalkBack. El día 5 y la primera semana quedan cerrados.
 Las rutas continúan siendo sintéticas; este resultado demuestra la integración
 técnica y el cambio explicable de ranking, no la accesibilidad real del corredor.
+
+## 10 de agosto de 2026 — Rutas base reales de la semana 2, día 1
+
+### Decisiones
+
+- ORS utiliza `foot-walking` porque el ámbito son recorridos peatonales para
+  personas ciegas o con baja visión; `wheelchair` representaría necesidades de
+  movilidad diferentes.
+- La respuesta elegida es GeoJSON para disponer de coordenadas explícitas.
+- Se solicitan hasta tres alternativas, instrucciones en español y datos
+  auxiliares de pendiente, superficie y tipo de vía.
+- La prohibición de escalones se transmite a ORS, pero no se interpreta como
+  garantía absoluta porque depende de la cobertura de sus datos.
+- Las rutas ORS se mantienen como rutas base hasta completar el enriquecimiento
+  OSM. No se asigna cero a cruces u obstáculos que ORS no haya medido.
+- La caché es local, privada, versionada y ajena a posiciones GPS de navegación.
+
+### Trabajo completado
+
+- Modelos validados para petición, GeoJSON, instrucciones, segmentos,
+  procedencia y datos auxiliares.
+- Cliente `httpx` asíncrono con tiempo máximo, reintentos acotados y errores
+  sanitizados.
+- Caché atómica con claves SHA-256 sin credenciales y detección de entradas
+  corruptas o reutilizadas para otra consulta.
+- Transformación a rutas base con geometría en el orden interno, métricas,
+  instrucciones y giros derivados de los códigos oficiales.
+- Proveedor interno y comando de comprobación manual para el corredor piloto.
+- Bloqueo deliberado de la exposición pública hasta completar OSM.
+
+### Verificaciones
+
+```text
+Pruebas específicas de ORS: 33/33.
+Backend completo: Pytest 91/91.
+Ruff: correcto.
+Petición real a ORS: HTTP 200 y 3 rutas base válidas.
+Caché: segunda ejecución idéntica sin nueva petición HTTP.
+```
+
+Las rutas obtenidas midieron 2.715, 2.734 y 2.868 metros; sus duraciones fueron
+1.955, 1.968 y 2.065 segundos, y contuvieron 32, 40 y 29 instrucciones. Estas
+medidas validan la integración técnica, no la accesibilidad de los recorridos.
+
+La justificación, los riesgos, la privacidad y el texto reutilizable en la
+memoria se detallan en
+[Integración de OpenRouteService](research/integracion-openrouteservice.md).
+
+## 10 de agosto de 2026 — Ampliación del conjunto de rutas candidatas
+
+### Problema identificado
+
+Una petición ORS devuelve un conjunto pequeño de alternativas. El ranking solo
+puede elegir entre esas rutas y, por tanto, una candidata más adecuada podría
+quedar fuera antes del enriquecimiento. Las tres rutas actuales no se
+interpretarán como todas las posibilidades.
+
+### Decisión
+
+- Mantener la consulta actual como sistema de referencia de bajo coste.
+- Diseñar una ampliación escalonada cuando las rutas sean redundantes o pocas
+  sobrevivan a las restricciones.
+- Deduplicar geometrías antes de interpretar el tamaño del conjunto.
+- Analizar hasta un límite interno pendiente de calibración y mostrar un máximo
+  de tres rutas.
+- No relajar restricciones críticas si ninguna alternativa resulta compatible.
+- Evaluar diversidad, disponibilidad, adecuación, incertidumbre, latencia y
+  llamadas; no afirmar una tasa de recuperación (*recall*) sin una verdad de
+  referencia.
+- Tratar instrucciones y giros como aproximaciones técnicas de complejidad de
+  orientación y someter sus escalas a sensibilidad.
+
+### Estado
+
+La decisión y `EXP-005` están documentados. El diseño está aprobado y su
+implementación ha comenzado con la deduplicación exacta; la integración actual
+de tres rutas continúa siendo el sistema de referencia. La fuente principal es
+[Generación y diversidad de rutas candidatas](research/generacion-rutas-candidatas.md).
+
+### Primer incremento implementado: deduplicación exacta
+
+- Se genera una huella SHA-256 a partir de la secuencia de coordenadas ya
+  validada por Pydantic.
+- La comparación conserva el sentido de la ruta y no redondea coordenadas.
+- Se mantiene la primera aparición y se registran los índices de los duplicados
+  para permitir auditoría posterior.
+- El proveedor ORS elimina estas repeticiones antes de crear rutas base.
+- Las rutas con diferente muestreo o pequeñas variaciones pasan después a una
+  comparación espacial independiente.
+
+Verificación: 5 pruebas unitarias de deduplicación, 4 del proveedor, 97 pruebas
+del backend y Ruff sin incidencias.
+
+### Segundo incremento implementado: similitud espacial calibrada
+
+- Se proyectan las rutas a ETRS89 / UTM zona 30N para medir en metros.
+- El solapamiento utiliza la menor cobertura de ambas líneas y se combina con
+  su diferencia relativa de longitud.
+- Se fijaron antes del barrido diez pares sintéticos: cinco duplicados y cinco
+  distintos, incluidos paralelos y desvíos en puntos de decisión.
+- Se compararon 6 tolerancias, 5 solapamientos y 3 umbrales de longitud: 90
+  configuraciones y 900 predicciones.
+- La selección descartó primero cualquier falso positivo y resolvió empates con
+  la opción más restrictiva.
+- Se adoptaron 2 metros, 98 % de solapamiento y 3 % de diferencia de longitud.
+- La configuración obtuvo 100 % en el banco sintético, sin interpretar ese
+  valor como exactitud general.
+- Las tres rutas ORS reales presentaron solapamientos entre 22,56 % y 31,25 % y
+  continuaron separadas.
+- Se generaron dos tablas CSV públicas para conservar tanto las métricas de las
+  90 configuraciones como sus 900 predicciones individuales.
+
+La fuente principal, los resultados completos y las amenazas a la validez se
+encuentran en
+[Calibración de la deduplicación espacial](evaluation/calibracion-deduplicacion-espacial.md).
+
+Verificación final: 108/108 pruebas del backend, Ruff correcto, 26/26 pruebas de
+la aplicación, ESLint y TypeScript correctos.
+
+## 11 de agosto de 2026 — Preparación OSM de la semana 2, día 2
+
+### Decisiones
+
+- No reutilizar los puntos representativos del estudio de densidad para medir
+  coincidencia lineal con las rutas.
+- Descargar una instantánea independiente y acotada al corredor piloto.
+- Conservar geometrías completas mediante `out body geom`, etiquetas originales,
+  fecha base, versión de esquema y huella SHA-256 de la consulta.
+- Incluir la red peatonal relevante aunque falten etiquetas de accesibilidad,
+  porque la cobertura desconocida debe poder medirse.
+- Interpretar valores como indicadores preliminares; ningún elemento aislado
+  establece todavía el estado de accesibilidad de una ruta.
+- Considerar ambiguas las aceras de un solo lado, los bordillos enrasados, las
+  rampas genéricas y las pendientes sin magnitud.
+- Exigir contexto `highway` a la evidencia lineal y de acceso para excluir
+  edificios y equipamientos ajenos al itinerario.
+
+### Trabajo completado
+
+- Correspondencia auditable entre once familias y todas las dimensiones del
+  dominio.
+- Consulta estable, cliente asíncrono, cambio de endpoint y errores sanitizados.
+- Modelos validados para caja geográfica, nodos, vías y metadatos.
+- Caché atómica con permisos `0600` y rechazo de consultas incompatibles.
+- Instantánea local de 3.670 elementos, 2.838 vías y 16.630 coordenadas.
+- Revisión de los valores reales observados sin dejar valores no reconocidos en
+  las claves con reglas preliminares.
+
+### Verificación
+
+```text
+Pruebas específicas de preparación OSM: 10/10.
+Segunda ejecución: caché válida, sin petición HTTP.
+Huella de consulta: 944b1058b3aaa91f8297bf4a40c5eae2976a2bf0ef067045f06c36b98cf75a33.
+```
+
+La fuente principal y el texto reutilizable en la memoria se encuentran en
+[Preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).

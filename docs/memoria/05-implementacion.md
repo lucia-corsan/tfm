@@ -1,7 +1,7 @@
 # 5. Implementación
 
 Estado: `En implementación`  
-Última actualización: 9 de agosto de 2026.
+Última actualización: 11 de agosto de 2026.
 
 ## Backend
 
@@ -9,8 +9,46 @@ FastAPI, configuración por entorno, modelos Pydantic y pruebas con pytest. El
 ranking explicable ya aplica restricciones críticas, costes normalizados,
 adecuación, confianza, incertidumbre, razones y avisos sobre *fixtures*
 reproducibles. `POST /api/v1/routes/compare` expone ya este resultado mediante
-modelos validados, proveedor intercambiable y errores sanitizados. Quedan
-pendientes ORS, búsqueda y rerouting.
+modelos validados, proveedor intercambiable y errores sanitizados.
+
+La base de ORS ya está implementada mediante modelos de transporte, cliente
+`httpx` asíncrono, reintentos acotados, errores sanitizados, caché privada y
+extracción de rutas base. Las respuestas GeoJSON conservan geometría, distancia,
+duración, instrucciones y datos auxiliares. Aún no se convierten en candidatos
+puntuables: falta el enriquecimiento OSM que impide confundir un atributo no
+proporcionado con una barrera inexistente. También quedan pendientes búsqueda y
+rerouting.
+
+Una prueba contra el servicio real devolvió tres alternativas de 2.715, 2.734 y
+2.868 metros. Sus instrucciones fueron 32, 40 y 29, respectivamente. La
+repetición de la consulta no generó tráfico HTTP, lo que confirmó la lectura de
+la caché. Estas medidas demuestran la integración técnica, pero no se utilizan
+como resultado de accesibilidad antes del enriquecimiento OSM.
+
+La preparación de OSM ya dispone de modelos para nodos y vías, una consulta
+estable con geometrías completas, un cliente asíncrono con cambio de endpoint y
+una caché local validada. La instantánea del corredor contiene 3.670 elementos
+únicos, de los cuales 2.838 son vías, y conserva 16.630 coordenadas. Las reglas
+preliminares cubren las diez familias del estudio y el acceso peatonal, pero no
+generan todavía candidatos puntuables: el índice espacial, la asociación al
+corredor y la agregación pertenecen al siguiente incremento.
+
+Estas tres rutas constituyen el sistema de referencia de generación, no todas
+las posibilidades. Se ha propuesto un agregador escalonado que podrá analizar
+hasta un límite interno de rutas únicas, ampliar la búsqueda si quedan pocas
+alternativas compatibles y devolver solo las tres mejor clasificadas. La
+deduplicación exacta ya se ejecuta antes de extraer las rutas base. Utiliza una
+huella SHA-256 de la secuencia validada de coordenadas, conserva la primera
+aparición y registra los índices coincidentes. No aplica redondeo ni similitud
+espacial en esta primera fase.
+
+La segunda fase proyecta las líneas con pyproj a ETRS89 / UTM zona 30N y emplea
+Shapely para medir la longitud de cada ruta contenida en un corredor alrededor
+de la otra. La regla simétrica calibrada exige 2 metros de tolerancia, 98 % de
+solapamiento y menos del 3 % de diferencia de longitud. Se integró después de
+comparar 90 configuraciones y priorizar las que no eliminaban ninguna ruta
+distinta. La ampliación escalonada y el experimento de coste-beneficio
+permanecen pendientes.
 
 ## Aplicación Android
 
@@ -65,13 +103,15 @@ y las métricas se expresan textualmente para no depender del color.
 
 ## Datos y servicios
 
-Caché exploratoria OSM/Mapillary completada. Pendientes integración ORS y
-enriquecimiento por corredor.
+Caché exploratoria OSM/Mapillary completada. La caché ORS utiliza archivos
+atómicos con permisos privados, claves opacas sin credenciales y validación en
+cada lectura. La instantánea OSM orientada a rutas también está validada y
+almacenada localmente; está pendiente la agregación por corredor.
 
 ## Calidad
 
-Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. Tras el día 5,
-el backend mantiene 58 pruebas superadas y la aplicación alcanza 26 pruebas en
+Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
+mantiene 118 pruebas superadas y la aplicación alcanza 26 pruebas en
 seis grupos, además de superar lint y comprobación estricta de tipos.
 
 ## Decisiones e incidencias
@@ -86,3 +126,7 @@ implementación final y enlazar evidencias.
 - [Incidencias](../operations/incidencias.md).
 - [Especificación de la API](../product/especificacion-api.md).
 - [Comparación en la app](../product/comparacion-rutas-app.md).
+- [Integración de ORS](../research/integracion-openrouteservice.md).
+- [Generación de candidatas](../research/generacion-rutas-candidatas.md).
+- [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
+- [Preparación de OSM para rutas](../research/preparacion-osm-para-rutas.md).
