@@ -192,7 +192,8 @@ ambiguos.
 - La proximidad a la ruta no basta para decidir qué lado de una calle se utiliza.
 - La clasificación preliminar de superficies es una hipótesis conservadora que
   deberá someterse a sensibilidad con rutas reales.
-- No se han calculado todavía coberturas, estados finales ni puntuaciones.
+- La asociación espacial sigue siendo una aproximación y debe contrastarse con
+  casos revisados manualmente.
 
 ## Texto base para la memoria
 
@@ -203,21 +204,22 @@ corredor Moncloa–Príncipe Pío mediante una consulta Overpass con geometrías
 completas. El ámbito acotado reduce el coste y permite retirar Overpass del flujo
 de navegación. La respuesta se valida, se identifica mediante una huella de la
 consulta y se almacena de forma atómica. Las etiquetas se conservan sin
-confundir presencia, ausencia y desconocimiento: su interpretación inicial solo
-produce indicadores auditables, mientras que los estados de accesibilidad se
-calcularán después de asociar cada elemento al corredor y combinar evidencias
-relacionadas. La instantánea contiene 3.670 elementos únicos y 16.630
-coordenadas, suficientes para iniciar el enriquecimiento de las rutas reales sin
+confundir presencia, ausencia y desconocimiento. El índice métrico, el corredor
+calibrado y la unión de intervalos permiten obtener cobertura, estado e
+incertidumbre por ruta sin interpretar como favorable un dato ausente. La
+calibración seleccionó 5 m para la asociación general y una regla más estricta
+para confirmar barreras críticas. La instantánea contiene 3.670 elementos
+únicos y 16.630 coordenadas, suficientes para enriquecer las rutas reales sin
 atribuir accesibilidad a partir de puntos centrales.
 
 ## Trabajo pendiente
 
-- [ ] Construir un índice espacial métrico sobre la instantánea.
-- [ ] Definir y calibrar el ancho del corredor de asociación.
-- [ ] Agregar etiquetas relacionadas sin doble conteo.
-- [ ] Calcular cobertura, estado final e incertidumbre por ruta.
+- [x] Construir un índice espacial métrico sobre la instantánea.
+- [x] Definir y calibrar el ancho del corredor de asociación.
+- [x] Agregar etiquetas relacionadas sin doble conteo.
+- [x] Calcular cobertura, estado final e incertidumbre por ruta.
 - [ ] Validar manualmente casos limítrofes de cruces y aceras laterales.
-- [ ] Conectar las rutas enriquecidas con restricciones y puntuación.
+- [x] Conectar las rutas enriquecidas con restricciones y puntuación.
 
 ## Referencias y evidencias
 
@@ -232,6 +234,10 @@ atribuir accesibilidad a partir de puntos centrales.
 - [Pendientes](https://wiki.openstreetmap.org/wiki/Key%3Aincline).
 - `tests/enrichment/test_osm_mapping.py`.
 - `tests/enrichment/test_osm_snapshot.py`.
+- `tests/enrichment/test_spatial_index.py`.
+- `tests/enrichment/test_route_association.py`.
+- `tests/enrichment/test_route_enrichment.py`.
+- [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 
 ## Revisión previa a la publicación
 

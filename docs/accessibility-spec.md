@@ -15,6 +15,11 @@
 - `accessibilityHint` cuando aclare el resultado de una acción.
 - Objetivos táctiles de al menos 44 por 44 puntos.
 - Orden de foco lógico.
+- Cada encabezado y párrafo informativo relevante debe constituir una parada de
+  lectura independiente; no se agruparán tarjetas completas ni se dependerá de
+  que TalkBack descubra por sí solo texto estático intermedio.
+- Los elementos accesibles en español declaran el idioma BCP 47 `es-ES` para
+  que el lector de pantalla pueda solicitar una voz compatible al sistema.
 - Contraste mínimo WCAG 2.2 AA.
 - Anuncios no intrusivos para carga, errores y rerouting.
 
@@ -70,7 +75,15 @@ La primera pantalla funcional aplica los principios anteriores de esta manera:
   del backend.
 - El orden de lectura coincide con el orden visual; no se utiliza la API
   experimental para forzar el foco.
+- La introducción de resultados, los encabezados de sección y cada razón o
+  advertencia se exponen como nodos independientes. De este modo pueden
+  recorrerse párrafo por párrafo y no se salta directamente desde las métricas
+  a la advertencia siguiente.
+- Los nodos accesibles declaran `es-ES`. Esta propiedad comunica el idioma del
+  contenido, pero no instala ni sustituye la voz de síntesis configurada en
+  Android; el dispositivo debe disponer de una voz española.
 
-Estas propiedades están cubiertas por pruebas de componentes, pero su utilidad
+Estas propiedades están cubiertas por pruebas de componentes, incluida una
+regresión que exige paradas independientes y el idioma `es-ES`. Su utilidad
 real debe confirmarse manualmente con TalkBack en el emulador y, posteriormente,
 con una evaluación de usabilidad acotada.

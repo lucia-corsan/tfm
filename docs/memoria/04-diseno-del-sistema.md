@@ -1,7 +1,7 @@
 # 4. Diseño del sistema
 
 Estado: `En implementación`  
-Última actualización: 10 de agosto de 2026.
+Última actualización: 11 de agosto de 2026.
 
 ## Arquitectura
 
@@ -13,6 +13,13 @@ ORS produce rutas base validadas y cacheables, pero no objetos puntuables. El
 enriquecimiento OSM debe completar la representación de evidencia antes de que
 el sistema aplique restricciones o calcule adecuación, confianza e
 incertidumbre.
+
+El enriquecimiento real proyecta las geometrías a `EPSG:25830`, consulta un
+índice espacial y asocia evidencia dentro de un corredor general de 5 m. Las
+restricciones críticas no dependen de ese único umbral: una barrera debe estar
+a un máximo de 0,5 m y, si es lineal, mantener al menos 3 m de alineación. La
+separación entre contexto general y confirmación crítica protege frente a
+objetos de calles paralelas.
 
 El conjunto interno podrá contener más rutas que la respuesta pública. Un
 agregador escalonado ampliará la búsqueda cuando las primeras alternativas sean
@@ -54,6 +61,7 @@ generación de razones.
 - [Integración de ORS](../research/integracion-openrouteservice.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
+- [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 - [Puntuación explicable](../research/scoring-explicable.md).
 - [Seguridad](../safety.md).
 - [Accesibilidad](../accessibility-spec.md).

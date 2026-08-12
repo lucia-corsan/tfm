@@ -1,7 +1,7 @@
 # Plan de evaluación académica
 
 Estado: `Vigente`  
-Última actualización: 10 de agosto de 2026
+Última actualización: 11 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Preguntas de evaluación
@@ -17,6 +17,8 @@ Responsabilidad principal: `evaluation`
    las tres alternativas de una única petición ORS?
 7. ¿El beneficio de ampliar candidatas compensa la latencia y las peticiones
    adicionales?
+8. ¿Qué ancho de asociación conserva evidencia OSM útil sin atribuir demasiada
+   infraestructura próxima a las rutas?
 
 ## Sistemas de referencia
 
@@ -44,6 +46,8 @@ Responsabilidad principal: `evaluation`
 - Sensibilidad del coste de orientación a instrucciones y giros.
 - Exactitud, precisión, sensibilidad y falsos positivos de la deduplicación
   espacial.
+- Elementos OSM asociados, cobertura longitudinal, confianza, incertidumbre y
+  estabilidad del ranking según el ancho del corredor.
 
 ## Conjuntos de prueba
 
@@ -95,3 +99,5 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
 - [ ] Aprobar el protocolo de prueba física.
 - [ ] Ejecutar `EXP-005` para comparar tres rutas con la colección ampliada.
 - [x] Ejecutar `EXP-005A` y conservar todas sus configuraciones y predicciones.
+- [x] Ejecutar `EXP-006` sobre corredores de 5, 10, 15 y 20 m.
+- [ ] Completar la revisión visual manual de casos limítrofes de `EXP-006`.

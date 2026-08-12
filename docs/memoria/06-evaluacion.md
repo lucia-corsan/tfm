@@ -1,7 +1,7 @@
 # 6. Evaluación y resultados
 
 Estado: `En implementación`
-Última actualización: 10 de agosto de 2026.
+Última actualización: 11 de agosto de 2026.
 
 ## Preguntas e hipótesis
 
@@ -45,6 +45,14 @@ y mantuvo separadas las tres rutas ORS reales. Este resultado valida el
 incremento técnico, no una exactitud general del 100 %. Los experimentos de
 generación ampliada, scoring real y aprendizaje permanecen pendientes.
 
+La sensibilidad del enriquecimiento comparó corredores OSM de 5, 10, 15 y
+20 m. El valor de 5 m asoció 418 elementos y mantuvo coberturas de acera entre
+el 62,8 % y el 73,7 %. Ampliar a 10 m incorporó un 27,3 % más de elementos,
+pero solo elevó la confianza media en 1,8 puntos porcentuales y cambió el primer
+puesto. Se seleccionó 5 m de forma conservadora. El resultado es una
+calibración técnica local y todavía requiere inspección manual; no demuestra
+accesibilidad ni exactitud general.
+
 ## Amenazas a la validez
 
 Cobertura geográfica limitada, datos incompletos, perfiles sintéticos y pruebas
@@ -59,3 +67,4 @@ diseño y deberán complementarse con pares reales revisados.
 - [Limitaciones](../evaluation/limitaciones.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
+- [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).

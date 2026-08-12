@@ -1,0 +1,5 @@
+corridor_width_m,unique_matched_element_count,accepted_route_count,mean_confidence,mean_unknown_ratio,ranking_order
+5.0,418,3,0.3911215883578947,0.2727272727272727,ors_route_1|ors_route_2|ors_route_3
+10.0,532,3,0.409127789397254,0.2727272727272727,ors_route_2|ors_route_1|ors_route_3
+15.0,649,3,0.43562505822973335,0.2727272727272727,ors_route_1|ors_route_2|ors_route_3
+20.0,765,3,0.4477641450344318,0.2727272727272727,ors_route_2|ors_route_1|ors_route_3

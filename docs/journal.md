@@ -451,3 +451,106 @@ Huella de consulta: 944b1058b3aaa91f8297bf4a40c5eae2976a2bf0ef067045f06c36b98cf7
 
 La fuente principal y el texto reutilizable en la memoria se encuentran en
 [Preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).
+
+## 11 de agosto de 2026 — Enriquecimiento OSM de la semana 2, día 3
+
+### Decisiones
+
+- Proyectar rutas y evidencia a ETRS89 / UTM zona 30N y consultar un índice
+  espacial en lugar de recorrer toda la instantánea por cada ruta.
+- Asociar contexto general mediante un corredor configurable y conservar la
+  distancia exacta de cada elemento para auditoría.
+- Calcular la cobertura como unión de intervalos sobre la ruta para evitar el
+  doble conteo de vías solapadas.
+- Seleccionar 5 m como corredor inicial después de comparar 5, 10, 15 y 20 m.
+- Confirmar barreras críticas con una regla independiente: 0,5 m de distancia y
+  3 m de alineación para vías.
+- Asociar señales y apoyos a cruces cartografiados antes de tratarlos como
+  evidencia peatonal.
+- Mantener Mapillary como contexto de cobertura visual; no influye en el
+  ranking de este incremento.
+
+### Incidencias relevantes
+
+Una primera agregación de cobertura basada directamente en operaciones
+geométricas produjo valores no monótonos al ampliar el corredor. Se sustituyó
+por intervalos proyectados y unidos sobre la línea de la ruta. También se
+detectaron falsos descartes por escalones o accesos próximos en calles
+paralelas. La solución no consistió en ignorar esas etiquetas, sino en separar
+la asociación contextual de la confirmación estricta de una barrera.
+
+### Resultados
+
+Con 5 m se asociaron 418 elementos únicos. Con 10 m se asociaron 532, un 27,3 %
+más, pero la confianza media solo pasó de 0,391 a 0,409 y cambió la ruta situada
+en primer lugar. Los corredores mayores continuaron aumentando la confianza
+aparente sin reducir la proporción temática desconocida, que permaneció en
+0,273. Se adoptó 5 m porque mantiene coberturas de acera entre el 62,8 % y el
+73,7 % y reduce el riesgo de incorporar infraestructura adyacente.
+
+Por ruta, el cambio de 5 a 10 m aumentó los elementos entre un 26,5 % y un
+29,6 %, y los cruces entre un 25,9 % y un 50,0 %. Esta comparación se conserva
+como indicio cuantitativo de posible contaminación por calles vecinas, no como
+demostración de la procedencia de cada objeto.
+
+Las tres rutas reales se transforman ya en candidatos puntuables y el proveedor
+ORS puede responder a `/api/v1/routes/compare`. El proveedor sintético continúa
+siendo el predeterminado. Se generaron dos CSV versionados para conservar los
+resultados agregados y por ruta.
+
+La fuente principal, la tabla completa, los límites y el texto para la memoria
+se encuentran en
+[Calibración del corredor OSM](evaluation/calibracion-corredor-osm.md).
+
+## 11 de agosto de 2026 — Búsqueda local de lugares de la semana 2, día 4
+
+### Decisión
+
+El primer incremento de búsqueda utilizará un catálogo local pequeño antes de
+integrar geocodificación externa. La decisión permite seleccionar ubicaciones
+reproducibles dentro del área piloto, evita transmitir búsquedas y ofrece un
+respaldo sin red. La búsqueda ignorará mayúsculas y tildes, ordenará los
+resultados de forma determinista y no se presentará como cobertura completa de
+Madrid.
+
+### Secuencia de implementación
+
+1. Modelo y catálogo local con coordenadas WGS84 validadas.
+2. Función pura de búsqueda y ordenación.
+3. Endpoint `GET /api/v1/places/search` con límites explícitos.
+4. Pruebas de coincidencia, tildes, límites, ausencia de resultados y OpenAPI.
+5. Integración móvil posterior, únicamente después de validar el backend.
+
+### Resultado
+
+Los cinco pasos se completaron en orden. La app permite buscar y seleccionar el
+origen y el destino, envía sus coordenadas reales a la comparación y bloquea la
+petición cuando ambos lugares coinciden. Se mantuvieron Moncloa y Príncipe Pío
+como selección inicial para conservar una demostración reproducible. El estado
+final alcanza 157 pruebas en el backend y 37 en la app, además de superar Ruff,
+TypeScript y ESLint. Queda pendiente comprobar manualmente los nuevos controles
+con TalkBack en el emulador.
+
+## 12 de agosto de 2026 — Corrección del recorrido con TalkBack
+
+### Incidencia
+
+La revisión manual mostró que TalkBack pasaba de las tres métricas de una ruta
+directamente al aviso, omitiendo el texto introductorio, el encabezado y las
+razones situadas entre ambos. También pronunciaba el contenido español con una
+voz inglesa configurada en el emulador.
+
+### Decisión y solución
+
+- Se evitó agrupar tarjetas completas en una sola parada de lectura.
+- Cada encabezado, párrafo y razón relevante se expone como un nodo accesible
+  independiente siguiendo el mismo orden que la presentación visual.
+- Los elementos accesibles declaran el idioma `es-ES`.
+- Se añadió una prueba de regresión que comprueba las paradas independientes y
+  el idioma declarado.
+- No se fuerza desde la app un cambio de voz global: Android y la persona usuaria
+  conservan el control del motor de síntesis. Es necesario instalar y seleccionar
+  una voz española en el dispositivo para obtener pronunciación de España.
+
+La aplicación alcanza 37 pruebas automáticas. Queda pendiente repetir la
+revisión manual con TalkBack después de configurar la voz española.

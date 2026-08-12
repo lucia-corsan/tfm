@@ -15,6 +15,11 @@ Responsabilidad principal: `evaluation`
   caminos posibles. Una alternativa útil puede quedar fuera antes del ranking.
 - La instantánea OSM refleja el corredor y la fecha base seleccionados; no
   generaliza a toda Madrid ni resuelve automáticamente el lado de marcha.
+- Una relación de proximidad no demuestra que un elemento pertenezca a la acera
+  o al ramal exacto utilizados. El filtro estricto reduce el riesgo en barreras
+  críticas, pero no resuelve por completo la topología peatonal.
+- ORS y la evidencia local comparten OSM como fuente de base; su alineación
+  espacial no constituye una validación independiente.
 
 ## Modelo
 
@@ -40,6 +45,12 @@ Responsabilidad principal: `evaluation`
   disponibilidad observada.
 - La calibración espacial utiliza diez pares sintéticos y etiquetas de diseño;
   su 100 % de exactitud no estima el rendimiento general sobre rutas reales.
+- La calibración del corredor OSM utiliza tres rutas de una única pareja
+  origen-destino. La selección de 5 m necesita revisión manual y repetición en
+  otros trayectos antes de generalizarse.
+- El aumento cuantitativo de elementos al ampliar el corredor es compatible con
+  la incorporación de calles vecinas, pero no demuestra la pertenencia de cada
+  objeto. Esa interpretación exige revisar topología, etiquetas y contexto.
 
 ## Tecnología
 
@@ -56,6 +67,8 @@ Responsabilidad principal: `evaluation`
   coste.
 - Umbrales espaciales conservadores, registro de descartes y ampliación prevista
   con pares reales revisados.
+- Corredor general de 5 m y confirmación independiente de barreras críticas a
+  0,5 m, con al menos 3 m de alineación para vías.
 - Análisis de sensibilidad.
 - Sistemas de referencia diferenciados.
 - Registro completo de experimentos y fallos.

@@ -76,6 +76,20 @@ validan en cada lectura; Overpass queda fuera del flujo de comparación. La
 correspondencia entre etiquetas y dimensiones se detalla en
 [la preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).
 
+Las geometrías ORS y OSM se proyectan a ETRS89 / UTM zona 30N
+(`EPSG:25830`) y se consultan mediante un índice espacial. El corredor general
+de asociación se ha fijado inicialmente en 5 m tras comparar 5, 10, 15 y 20 m
+con las mismas rutas reales. Las barreras críticas no se confirman por estar
+dentro del corredor: exigen una distancia máxima de 0,5 m y, para vías, al
+menos 3 m de alineación. Esta separación reduce el riesgo de atribuir a la ruta
+una escalera o restricción de una calle paralela. La calibración y sus límites
+se detallan en [la evaluación del corredor OSM](evaluation/calibracion-corredor-osm.md).
+
+El proveedor de rutas se resuelve por configuración. `fixture` conserva el
+flujo reproducible y sin red; `ors` ejecuta de forma asíncrona la generación,
+la asociación OSM, el enriquecimiento conservador, las restricciones y el mismo
+ranking explicable antes de responder a la aplicación.
+
 ## Especificaciones compartidas
 
 Los límites HTTP usarán Pydantic v2. La aplicación mantendrá tipos TypeScript

@@ -1,7 +1,7 @@
 # Pies de figura y tabla
 
 Estado: `En implementación`  
-Última actualización: 10 de agosto de 2026.
+Última actualización: 11 de agosto de 2026.
 
 ## Convención
 

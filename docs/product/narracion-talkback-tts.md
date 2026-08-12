@@ -1,7 +1,7 @@
 # Narración determinista, TalkBack y TTS
 
 Estado: `Vigente`  
-Última actualización: 8 de agosto de 2026  
+Última actualización: 12 de agosto de 2026
 Responsabilidad principal: `product`
 
 ## Problema que resuelve
@@ -47,6 +47,12 @@ texto visible, etiqueta accesible y frase apta para TTS.
 La compatibilidad inicial de la pantalla Expo con TalkBack está validada. El
 módulo de narración y la coordinación con TTS están pendientes.
 
+La interfaz declara `es-ES` en los elementos accesibles y separa encabezados,
+párrafos, razones y avisos como paradas de lectura. Esta indicación ayuda a
+TalkBack a elegir la pronunciación adecuada, pero la voz disponible y su
+variante regional pertenecen a la configuración de síntesis de Android. La app
+no cambia esa preferencia global sin consentimiento.
+
 ## Pruebas
 
 - Orden de foco y lectura de controles.
@@ -56,8 +62,13 @@ módulo de narración y la coordinación con TTS están pendientes.
 
 ## Resultados
 
-TalkBack lee correctamente la pantalla inicial del MVP en un Pixel 9 virtual con
-Android 16. La navegación paso a paso (*turn-by-turn*) todavía no se ha implementado.
+TalkBack lee la pantalla inicial del MVP en un Pixel 9 virtual con Android 16.
+Una revisión posterior detectó dos problemas: pronunciación inglesa del texto
+español por la voz configurada en el emulador y omisión de párrafos estáticos
+entre las métricas y los avisos. La interfaz ya declara `es-ES` y expone cada
+párrafo relevante como foco independiente. Queda pendiente repetir la prueba
+manual tras seleccionar una voz de español de España. La navegación paso a paso
+(*turn-by-turn*) todavía no se ha implementado.
 
 ## Riesgos y limitaciones
 

@@ -1,7 +1,7 @@
 # Integración de OpenRouteService
 
-Estado: `En implementación`
-Última actualización: 10 de agosto de 2026
+Estado: `Validado`
+Última actualización: 11 de agosto de 2026
 Responsabilidad principal: `research`
 
 ## Problema que resuelve
@@ -62,10 +62,10 @@ conjunto de candidatas producido por ORS. La limitación, la ampliación escalon
 y su evaluación se desarrollan en
 [Generación y diversidad de rutas candidatas](generacion-rutas-candidatas.md).
 
-La respuesta se validará primero mediante modelos internos específicos de ORS.
-Durante el día 1 de la segunda semana se almacenará como conjunto de rutas base,
-todavía no como `RouteScenario`. La activación en `/routes/compare` se aplaza
-hasta enriquecer cada corredor con OSM.
+La respuesta se valida primero mediante modelos internos específicos de ORS y se
+almacena como conjunto de rutas base. El proveedor real la transforma después
+en un `RouteScenario` enriquecido con OSM antes de activar restricciones y
+puntuación en `/routes/compare`.
 
 Esta frontera evita un error semántico presente en una conversión prematura: el
 modelo actual necesita conteos numéricos de cruces. Asignar cero cuando ORS no
@@ -136,9 +136,10 @@ positiva.
 Los modelos, el cliente, la caché y el proveedor interno de rutas base están
 implementados. `python -m backend.routing.check_ors` permite comprobar el
 corredor piloto con configuración local y solo muestra resúmenes sin
-coordenadas. La integración pública con el proveedor intercambiable permanece
-desactivada hasta que exista una transformación segura tras el enriquecimiento
-OSM.
+coordenadas. La integración pública está disponible mediante el proveedor
+`ors`: antes de puntuar, cada geometría se asocia a la instantánea OSM local y
+se transforma en evidencia conservadora. El proveedor `fixture` sigue siendo el
+predeterminado para desarrollo reproducible sin red.
 
 ## Pruebas
 
@@ -155,11 +156,10 @@ OSM.
 
 ## Resultados
 
-Se añadieron 33 pruebas específicas de ORS: 12 de modelos y transformación, 10
-del cliente HTTP, 7 de caché y 3 del proveedor interno, además de la prueba
-existente que comprueba que el proveedor real aún no se expone en la API. La
-regresión completa del backend supera 91 de 91 pruebas y Ruff no detecta
-incidencias.
+El cliente, la caché, la transformación y los dos proveedores se verifican con
+pruebas sin red. El proveedor real se simula con rutas base y una instantánea
+controladas para comprobar que el enriquecimiento ocurre antes del ranking y
+que los fallos se convierten en errores sanitizados.
 
 La prueba manual del 10 de agosto de 2026 obtuvo una respuesta HTTP 200 y tres
 rutas base válidas para el corredor piloto:
@@ -174,9 +174,15 @@ La segunda ejecución devolvió exactamente los mismos resúmenes sin realizar
 otra petición HTTP, lo que verifica el uso de la caché. Las diferencias entre
 alternativas muestran un intercambio inicial entre longitud, tiempo y número de
 instrucciones: la tercera es 153 metros más larga que la primera, pero contiene
-tres instrucciones menos. Esto no permite recomendarla todavía, porque faltan
-los atributos de accesibilidad y el número de instrucciones no mide por sí solo
-la dificultad de orientación.
+tres instrucciones menos. El número de instrucciones no mide por sí solo la
+dificultad de orientación.
+
+Tras incorporar el enriquecimiento, las tres rutas reales producen candidatos
+validados, atraviesan las mismas restricciones y se ordenan mediante la misma
+función utilizada por los datos sintéticos. La API devolvió HTTP 200 con las
+tres fuentes identificadas como ORS y sin exponer credenciales. El análisis de
+sensibilidad espacial se documenta en
+[la calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 
 ## Riesgos y limitaciones
 
@@ -217,8 +223,8 @@ constituye evidencia positiva.
 - [x] Eliminar geometrías exactamente duplicadas antes del enriquecimiento.
 - [x] Calibrar e integrar la deduplicación espacial conservadora.
 - [x] Preparar una instantánea OSM validada con geometrías completas.
-- [ ] Enriquecer las geometrías con el conjunto OSM del área piloto.
-- [ ] Activar ORS en `/routes/compare` únicamente tras validar el enriquecimiento.
+- [x] Enriquecer las geometrías con el conjunto OSM del área piloto.
+- [x] Activar ORS en `/routes/compare` tras validar el enriquecimiento.
 - [ ] Calibrar los parámetros de generación de alternativas con rutas reales.
 - [ ] Comparar la consulta actual con una colección interna ampliada y
   deduplicada.

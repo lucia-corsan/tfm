@@ -36,6 +36,16 @@ python -m backend.enrichment.fetch_pilot_snapshot
 La ruta local se configura mediante `OSM_SNAPSHOT_PATH`. La instantánea está
 ignorada por Git y una ejecución repetida reutiliza el archivo validado.
 
+Evaluación reproducible del corredor:
+
+```bash
+python -m backend.enrichment.evaluate_corridor_widths
+```
+
+Los CSV se guardan en `docs/evaluation/artifacts/` y no contienen claves ni
+tokens. Para activar las rutas reales en la API se usa `ROUTING_PROVIDER=ors`;
+el valor predeterminado continúa siendo `fixture`.
+
 ## Aplicación móvil
 
 - Node.js 24.
@@ -79,9 +89,9 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 118 pruebas superadas tras preparar la instantánea
-  OSM orientada a rutas.
-- App: 26 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+- Backend: Ruff correcto y 157 pruebas superadas tras conectar el
+  enriquecimiento OSM con rutas reales y la búsqueda local de lugares.
+- App: 37 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación

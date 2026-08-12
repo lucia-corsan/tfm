@@ -16,8 +16,8 @@ el perfil, la API y la aplicación Android.
 
 ## Requisitos
 
-- Solicitar al backend la comparación del trayecto sintético
-  Moncloa–Príncipe Pío con el perfil seleccionado.
+- Solicitar al backend la comparación de los lugares seleccionados con el perfil
+  elegido; Moncloa–Príncipe Pío permanece como recorrido inicial reproducible.
 - Mostrar rutas aceptadas y descartadas sin afirmar que una alternativa es
   accesible de forma absoluta.
 - Comunicar adecuación, confianza e incertidumbre mediante texto además de
@@ -113,6 +113,8 @@ Módulos implementados:
 - `app/src/api/types.ts`: tipos públicos de la API.
 - `app/src/api/validation.ts`: comprobación de respuestas en ejecución.
 - `app/src/api/client.ts`: petición HTTP y traducción de errores técnicos.
+- `app/src/components/PlaceSearchField.tsx`: selección accesible de origen y
+  destino mediante el catálogo local.
 - `app/src/features/route-comparison/`: perfiles, estado y presentación.
 - `app/i18n/es.ts`: todos los textos visibles y accesibles.
 
@@ -130,7 +132,8 @@ incertidumbre ni el resto de la evidencia. En ambos perfiles continúan activas
 las mismas restricciones críticas.
 
 La pantalla reemplaza la portada técnica provisional y presenta un flujo único:
-selección de perfil, acción de comparación, estado dinámico y resultados. Las
+selección de lugares y perfil, acción de comparación, estado dinámico y
+resultados. Las
 tarjetas muestran las tres métricas como texto, los factores recibidos del
 backend, los avisos y las rutas descartadas. La app solo transforma códigos y
 valores en textos españoles; no recalcula la puntuación.
@@ -146,13 +149,17 @@ valores en textos españoles; no recalcula la puntuación.
 - Cambio de la primera ruta al seleccionar el perfil de cruces sencillos.
 - Presentación textual de las tres métricas, razones, avisos y descartes.
 - Roles, etiquetas, estados de selección y anuncios dinámicos accesibles.
+- Paradas independientes para la introducción, los encabezados y cada razón,
+  todas identificadas con el idioma `es-ES`.
+- Búsqueda de lugares, validación de sus respuestas, propagación de coordenadas
+  y bloqueo de origen y destino iguales.
 
 ## Resultados
 
-La validación automática de la app alcanza 26 pruebas distribuidas en seis
+La validación automática de la app alcanza 37 pruebas distribuidas en seis
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono e interfaz. ESLint y TypeScript estricto no
-detectan errores. Las 118 pruebas del backend siguen superándose, por lo que la
+detectan errores. Las 157 pruebas del backend siguen superándose, por lo que la
 integración móvil no ha modificado el sistema de decisión.
 
 Una comprobación directa contra FastAPI con los pesos exactos del perfil móvil
@@ -160,11 +167,15 @@ obtuvo respuesta 200 y el orden `fewer_crossings_route`, `balanced_route`. Por
 tanto, el cambio esperado no depende únicamente de la respuesta simulada en las
 pruebas de componentes.
 
-La prueba manual en el emulador Pixel confirmó los dos órdenes esperados, el
+La primera prueba manual en el emulador Pixel confirmó los dos órdenes esperados, el
 tratamiento del backend apagado y la recuperación mediante reintento. TalkBack
 permitió recorrer la selección, el botón, el resumen, las métricas, los avisos y
-la alternativa descartada. Con estas evidencias, la funcionalidad queda
-validada sobre el escenario sintético.
+la alternativa descartada. Una revisión más detallada detectó que algunos textos
+estáticos entre las métricas y los avisos no recibían foco y que el motor del
+emulador pronunciaba el español con una voz inglesa. Se corrigió la primera
+incidencia mediante nodos de lectura independientes y se añadió `es-ES` a los
+elementos accesibles. Queda pendiente repetir la comprobación manual con una voz
+española instalada antes de considerar cerrado este aspecto.
 
 ## Riesgos y limitaciones
 

@@ -27,6 +27,7 @@ esperadas por `AGENTS.md`.
 
 - [Alcance y plan del MVP](product/alcance-mvp.md).
 - [Especificación de la API](product/especificacion-api.md).
+- [Búsqueda y selección de lugares](product/busqueda-lugares.md).
 - [GPS y rerouting](product/gps-rerouting.md).
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
 
@@ -45,6 +46,7 @@ esperadas por `AGENTS.md`.
 
 - [Plan de evaluación](evaluation/plan-evaluacion.md).
 - [Calibración de la deduplicación espacial](evaluation/calibracion-deduplicacion-espacial.md).
+- [Calibración del corredor entre rutas y OSM](evaluation/calibracion-corredor-osm.md).
 - [Registro de experimentos](evaluation/experimentos.md).
 - [Resultados](evaluation/resultados.md).
 - [Limitaciones](evaluation/limitaciones.md).

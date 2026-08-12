@@ -31,8 +31,10 @@ la interfaz no dependa de la implementación de ORS, OSM o scoring.
 La API tendrá inicialmente:
 
 - `GET /api/v1/health`, ya implementado.
-- `GET /api/v1/places/search`, pendiente.
-- `POST /api/v1/routes/compare`, ya implementado con *fixtures*.
+- `GET /api/v1/places/search`, implementado inicialmente con un catálogo local
+  del área piloto.
+- `POST /api/v1/routes/compare`, ya implementado con *fixtures* y ORS
+  enriquecido.
 - `POST /api/v1/routes/reroute`, pendiente.
 
 Los esquemas detallados previstos se conservan en
@@ -47,6 +49,29 @@ probar la validación sin depender de la interfaz móvil.
 
 ## Datos de entrada y salida
 
+### `GET /api/v1/places/search`
+
+La primera versión recibe `q`, entre 2 y 80 caracteres, y `limit`, entre 1 y
+10. Busca por nombre y alias en un catálogo local reducido de Moncloa,
+Argüelles, Príncipe Pío y Plaza de España. La comparación ignora mayúsculas y
+tildes, de modo que `principe` encuentra `Príncipe Pío`.
+
+Cada resultado incluye un identificador estable, nombre, descripción,
+coordenadas WGS84 y procedencia `pilot_catalog`. El orden prioriza coincidencia
+exacta, inicio del nombre, inicio de una palabra y coincidencia parcial. Los
+empates son deterministas.
+
+Se adopta este catálogo antes de integrar un geocodificador externo porque:
+
+- permite probar selección de origen y destino sin red;
+- evita enviar textos de búsqueda a terceros;
+- mantiene ubicaciones reproducibles dentro de la instantánea OSM;
+- proporciona un respaldo accesible cuando falle un servicio externo.
+
+No pretende ser un buscador completo de Madrid. La integración futura de un
+proveedor externo deberá conservar el catálogo como respaldo, limitarse al área
+piloto y documentar consentimiento, privacidad, latencia y errores.
+
 ### `POST /api/v1/routes/compare`
 
 La petición recibirá:
@@ -55,9 +80,14 @@ La petición recibirá:
 - `destination`: latitud y longitud WGS84, distinta del origen.
 - `profile`: restricciones críticas y pesos declarados.
 
-El proveedor no se seleccionará desde la aplicación. La configuración del
-backend decidirá entre `fixture` y, posteriormente, ORS. Así se evita que una
+El proveedor no se selecciona desde la aplicación. La configuración del
+backend decide entre `fixture` y ORS enriquecido. Así se evita que una
 petición pueda activar servicios externos o eludir el entorno reproducible.
+
+El proveedor ORS solo acepta trayectos contenidos en la instantánea del área
+piloto. Obtiene rutas base, asocia la evidencia OSM dentro del corredor
+configurado, construye estados e incertidumbre y ejecuta después las mismas
+restricciones y puntuación que el proveedor sintético.
 
 El proveedor sintético exige el origen y el destino del escenario piloto y
 tolera una diferencia máxima de `0,00001` grados para absorber redondeos de
@@ -90,7 +120,7 @@ final en la persona usuaria.
 - `422`: cuerpo, coordenadas, pesos o perfil no válidos.
 - `404`: el proveedor de *fixtures* no dispone de un escenario para ese origen y
   destino.
-- `503`: proveedor configurado pero todavía no disponible o fallo externo sin
+- `503`: proveedor no disponible, instantánea local ausente o fallo externo sin
   respuesta válida.
 
 Los errores utilizarán códigos estables para que la aplicación traduzca el
@@ -106,6 +136,8 @@ mismo perfil y las mismas restricciones.
 - Salud: `backend/api/routes/health.py`.
 - Modelos de dominio: `backend/domain/models.py`.
 - Modelos de comparación: `backend/api/models/routes.py`.
+- Modelos y catálogo de lugares: `backend/places/`.
+- Endpoint de búsqueda: `backend/api/routes/places.py`.
 - Endpoint de comparación: `backend/api/routes/compare.py`.
 - Proveedores intercambiables: `backend/routing/providers.py`.
 - Servicio de comparación: `backend/services/route_comparison.py`.
@@ -115,25 +147,30 @@ mismo perfil y las mismas restricciones.
 Las pruebas verifican validación de modelos, trayectos iguales, campos no
 documentados, unión entre ruta y puntuación, resolución del *fixture*, tolerancia
 de coordenadas, personalización, reproducibilidad, errores 404/422/503
-sanitizados y esquema OpenAPI.
+sanitizados, esquema OpenAPI y transformación del proveedor ORS enriquecido.
+Para la búsqueda se comprueban coincidencias sin tildes, alias internos, orden
+determinista, límites, ausencia de resultados y respuestas públicas validadas.
 
 ## Resultados
 
-`GET /api/v1/health` y `POST /api/v1/routes/compare` responden correctamente en
-las pruebas. El perfil predeterminado devuelve dos rutas aceptadas y una
+`GET /api/v1/health`, `GET /api/v1/places/search` y
+`POST /api/v1/routes/compare` responden correctamente en las pruebas. El perfil
+predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza 118 pruebas. La validación manual en la documentación interactiva
+backend alcanza 157 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La
-entrega del día 4 queda cerrada. Las diez pruebas añadidas posteriormente
-corresponden a la preparación OSM y no modifican este comportamiento de la API.
+entrega del día 4 queda cerrada. Las pruebas posteriores añaden la preparación y
+el enriquecimiento OSM sin modificar este comportamiento del proveedor
+sintético.
 
 ## Riesgos y limitaciones
 
 - Los esquemas previstos pueden necesitar campos adicionales al integrar ORS.
 - No se debe exponer una fórmula interna como promesa absoluta de accesibilidad.
-- El endpoint actual solo resuelve el trayecto sintético Moncloa–Príncipe Pío.
+- El proveedor sintético solo resuelve el trayecto preparado. El proveedor ORS
+  real se limita al ámbito cubierto por la instantánea piloto.
 
 ## Texto base para la memoria
 
@@ -144,7 +181,7 @@ especificaciones de comparación y rerouting.
 
 ## Trabajo pendiente
 
-- [ ] Implementar búsqueda de lugares.
+- [x] Implementar la primera búsqueda local de lugares del área piloto.
 - [x] Implementar comparación de rutas con el proveedor de *fixtures*.
 - [ ] Implementar rerouting confirmado.
 - [x] Crear tipos TypeScript equivalentes y validación móvil en ejecución.

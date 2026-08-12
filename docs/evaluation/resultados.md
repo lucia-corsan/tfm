@@ -6,9 +6,9 @@ Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
 
-La integración técnica con ORS y la caché ya se han validado. La evaluación del
-ranking con rutas enriquecidas, el aprendizaje, el rerouting y la usabilidad
-completa permanecen pendientes.
+La integración técnica con ORS, la caché y el enriquecimiento OSM ya se han
+validado. La evaluación del aprendizaje, el rerouting y la usabilidad completa
+permanecen pendientes.
 
 ## Integración de rutas reales
 
@@ -18,8 +18,8 @@ segunda ejecución idéntica recuperó la respuesta de la caché sin repetir la
 petición. Este resultado valida transporte, modelos y reutilización local; no
 valida todavía accesibilidad ni calidad de la recomendación.
 
-Las tres alternativas presentan métricas diferentes, pero todavía no se ha
-interpretan como una enumeración completa de rutas. Con la configuración
+Las tres alternativas presentan métricas diferentes, pero no se interpretan
+como una enumeración completa de rutas. Con la configuración
 espacial calibrada, sus solapamientos por pares fueron 23,84 %, 31,25 % y
 22,56 %, por lo que las tres se conservaron. `EXP-005` comparará este sistema de
 referencia con una colección interna ampliada y deduplicada.
@@ -34,13 +34,20 @@ de 1 metro produjo un falso negativo y las de 8 y 10 metros produjeron falsos
 positivos. El resultado valida la regla para el incremento técnico, pero no
 demuestra una exactitud general del 100 % en rutas reales.
 
-## Preparación de evidencia OSM
+## Enriquecimiento de rutas con evidencia OSM
 
 La instantánea orientada a rutas contiene 3.670 elementos únicos y 16.630
-coordenadas completas dentro del corredor piloto. La consulta y la lectura se
-validaron mediante diez pruebas específicas y una segunda ejecución utilizó la
-caché sin tráfico HTTP. Este resultado valida la preparación de los datos, no
-todavía la asociación espacial ni el estado de accesibilidad de las rutas.
+coordenadas completas dentro del corredor piloto. El índice métrico, la
+asociación espacial, la agregación de once familias, la cobertura longitudinal y
+la incertidumbre están conectados con restricciones y puntuación.
+
+`EXP-006` comparó corredores de 5, 10, 15 y 20 m sobre las mismas tres rutas. El
+corredor de 5 m asoció 418 elementos y obtuvo una confianza media de 0,391. Con
+10 m se asociaron 532 elementos y la confianza fue 0,409, pero el primer puesto
+cambió y los cruces crecieron entre un 26 % y un 50 %. Se seleccionó 5 m para
+reducir contaminación espacial. La incertidumbre media permaneció en 0,273 en
+los cuatro casos, lo que evita confundir más proximidad con más conocimiento
+temático.
 
 ## Puntuación estática
 
@@ -69,3 +76,4 @@ Las pruebas del flujo completo están pendientes.
 | --- | ---: | ---: | ---: | --- |
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |
+| EXP-006 | 418 elementos; confianza media 0,391 | Corredor de 10 m | Corredor de 5 m | Menos contaminación potencial con cobertura útil; revisión manual pendiente |

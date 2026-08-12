@@ -70,6 +70,26 @@ etiquetas crudas se transforman inicialmente en indicadores positivos,
 negativos o ambiguos, pero el estado final solo se establecerá después de la
 asociación espacial y de combinar etiquetas relacionadas.
 
+La asociación se calibró mediante un análisis de sensibilidad con corredores de
+5, 10, 15 y 20 m, manteniendo fijas las rutas, los datos y el perfil. Se eligió
+5 m porque preservó cobertura longitudinal útil y redujo la incorporación de
+elementos próximos que alteraba el orden de las alternativas. Las barreras
+críticas se someten a una comprobación geométrica independiente y más estricta.
+La cobertura se calcula como unión de intervalos proyectados sobre la ruta para
+evitar sumar dos veces tramos cubiertos por varias geometrías OSM.
+
+De 5 a 10 m, los elementos asociados crecieron entre un 26,5 % y un 29,6 % por
+ruta y los cruces entre un 25,9 % y un 50,0 %. La confianza media solo aumentó
+0,018 y cambió la primera posición. El patrón es compatible con la incorporación
+de calles, aceras o ramales vecinos, aunque esa procedencia requiere inspección
+manual y no se deduce exclusivamente de los conteos.
+
+Una primera unión geométrica bidimensional produjo disminuciones de cobertura
+al ampliar el corredor, resultado contrario a la inclusión entre corredores.
+Se sustituyó por intervalos de distancia sobre la propia ruta: los tramos se
+proyectan, ordenan y fusionan antes de sumar su longitud. De este modo se evita
+el doble conteo y se puede comprobar explícitamente la monotonía.
+
 ## Fuentes internas
 
 - [Selección del área piloto](../research/seleccion-area-piloto.md).
@@ -78,5 +98,6 @@ asociación espacial y de combinar etiquetas relacionadas.
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Preparación de OSM para rutas](../research/preparacion-osm-para-rutas.md).
+- [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 - [Plan de evaluación](../evaluation/plan-evaluacion.md).
 - [Entorno](../operations/entorno-desarrollo.md).

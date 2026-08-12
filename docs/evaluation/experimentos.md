@@ -1,7 +1,7 @@
 # Registro de experimentos
 
 Estado: `En implementación`
-Última actualización: 10 de agosto de 2026
+Última actualización: 11 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Convención
@@ -19,6 +19,7 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-004 | 10 de agosto de 2026 | ORS devuelve rutas base válidas y reutiliza la caché | Corredor piloto | Primera ejecución con red | Validación técnica superada | `backend/routing/check_ors.py` |
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
+| EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
 
 ### EXP-004 — Descarga y reutilización de rutas base ORS
 
@@ -98,6 +99,31 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 - Limitaciones: no existe una verdad de referencia exhaustiva y el área piloto
   no representa toda Madrid.
 - Archivos reproducibles: pendientes.
+
+### EXP-006 — Sensibilidad del corredor de enriquecimiento OSM
+
+- Fecha y versión del código: 11 de agosto de 2026, semana 2, día 3.
+- Pregunta o hipótesis: aumentar el corredor recupera más evidencia, pero puede
+  atribuir a la ruta infraestructura de calles o aceras adyacentes.
+- Datos y versión: tres rutas ORS almacenadas en caché, instantánea OSM con fecha
+  base `2026-08-11T07:12:44Z` y perfil equilibrado.
+- Parámetros: corredores de 5, 10, 15 y 20 m; barreras críticas confirmadas a
+  un máximo de 0,5 m y con 3 m de alineación para vías.
+- Sistema de referencia: corredor inicial de 10 m.
+- Métricas: elementos únicos asociados, cruces y apoyos, cobertura de acera y
+  superficie, confianza, incertidumbre, aceptación y orden.
+- Criterio de éxito: conservar evidencia longitudinal útil y todas las rutas
+  compatibles, minimizando la sensibilidad a objetos próximos.
+- Resultado: 5 m asoció 418 elementos, frente a 532 con 10 m. El incremento del
+  27,3 % solo elevó la confianza media de 0,391 a 0,409 y cambió el primer
+  puesto. Con 5 m se conservaron coberturas de acera del 62,8 % al 73,7 % y de
+  superficie del 94,4 % al 99,6 %.
+- Interpretación: se seleccionó 5 m de forma conservadora. La confianza máxima
+  no se utilizó como sustituto de la exactitud espacial.
+- Limitaciones: tres rutas de un único trayecto, fuente OSM compartida por el
+  grafo y la evidencia, y validación manual pendiente.
+- Archivos reproducibles: dos CSV, script, pruebas y mapa detallados en
+  [la calibración](calibracion-corredor-osm.md).
 
 ## Plantilla de experimento
 

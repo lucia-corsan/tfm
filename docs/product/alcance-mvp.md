@@ -305,7 +305,9 @@ Comprueba que el backend está funcionando.
 
 ### `GET /api/v1/places/search?q=...`
 
-Busca ubicaciones dentro del área piloto. Tendrá lugares predefinidos como respaldo cuando el proveedor externo no esté disponible.
+Busca ubicaciones dentro del área piloto. La primera implementación utiliza un
+catálogo local de cuatro lugares como base reproducible y privada. Un proveedor
+externo podrá añadirse después, manteniendo el catálogo como respaldo.
 
 ### `POST /api/v1/routes/compare`
 
