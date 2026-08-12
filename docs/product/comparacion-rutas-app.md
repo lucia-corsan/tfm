@@ -2,7 +2,7 @@
 
 Estado: `Validado`
 
-Última actualización: 11 de agosto de 2026
+Última actualización: 12 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -132,6 +132,11 @@ Cada petición recibe una versión incremental; si se cambia el perfil antes de
 recibir la respuesta, el resultado antiguo se ignora para que nunca aparezca
 asociado a la selección nueva.
 
+Este estado local es, por ahora, volátil: la selección vuelve al perfil
+equilibrado al reiniciar la app y el backend no la persiste. La persistencia se
+incorporará junto al aprendizaje adaptativo mediante SQLite en el dispositivo;
+no se utilizará una base de datos remota para perfiles de usuario.
+
 El perfil equilibrado asigna peso `1` a las nueve dimensiones. El perfil de
 cruces sencillos asigna peso `8` a `complex_crossings` y mantiene peso `1` en
 las ocho dimensiones restantes. Esta elección extrema pero no exclusiva permite
@@ -177,10 +182,10 @@ independiente de la evidencia desfavorable.
 
 ## Resultados
 
-La validación automática de la app alcanza 43 pruebas distribuidas en seis
+La validación automática de la app alcanza 46 pruebas distribuidas en seis
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono e interfaz. ESLint y TypeScript estricto no
-detectan errores. Las 157 pruebas del backend siguen superándose, por lo que la
+detectan errores. Las 175 pruebas del backend siguen superándose, por lo que la
 integración móvil no ha modificado el sistema de decisión.
 
 Una comprobación directa contra FastAPI con los pesos exactos del perfil móvil

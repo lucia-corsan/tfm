@@ -121,6 +121,13 @@ Los pesos representan importancia relativa, no seguridad. Las restricciones
 críticas (`avoid_steps`, acceso peatonal y compatibilidad de cruces) se modelan
 por separado y no podrán ser modificadas por el aprendizaje posterior.
 
+Actualmente, la selección del perfil solo permanece en memoria durante la
+sesión móvil y el backend no almacena preferencias. La fase de aprendizaje
+añadirá SQLite como base de datos local del dispositivo para los pesos
+declarados y aprendidos. No se prevé una base de datos remota ni una cuenta de
+usuario: cada petición seguirá incluyendo el perfil activo y el backend
+continuará sin estado respecto a la identidad de la persona.
+
 Los *fixtures* de `backend/routing/fixture_data/` son escenarios sintéticos para
 las pruebas y el desarrollo sin red. Sus geometrías sitúan el ejercicio en el
 corredor

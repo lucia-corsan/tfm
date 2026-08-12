@@ -1,7 +1,7 @@
 # Aprendizaje adaptativo de preferencias
 
 Estado: `Propuesto`  
-Última actualización: 8 de agosto de 2026  
+Última actualización: 12 de agosto de 2026
 Responsabilidad principal: `research`
 
 ## Problema que resuelve
@@ -48,6 +48,34 @@ coordenadas exactas, audio ni direcciones escritas.
 
 Pendiente para la semana 4. Las restricciones críticas permanecerán fuera del
 vector aprendido.
+
+### Estado actual y persistencia prevista
+
+En la versión actual todavía no existe persistencia de preferencias. Los dos
+perfiles de demostración se definen como constantes en la aplicación y el perfil
+seleccionado se mantiene únicamente en la memoria del componente mediante
+`useState`. Al recargar o cerrar la app se recupera el perfil equilibrado. El
+backend recibe las restricciones y los pesos en cada petición, calcula el
+ranking y no guarda un perfil de usuario.
+
+Cuando se implemente el aprendizaje adaptativo, las preferencias declaradas y
+los pesos aprendidos se guardarán en SQLite dentro del dispositivo Android.
+SQLite es una base de datos, pero en este diseño será local: no habrá una base
+remota, una cuenta de usuario ni sincronización en la nube. La app enviará al
+backend únicamente el perfil activo necesario para calcular cada comparación.
+
+Esta elección sigue el enfoque *local-first*, reduce la exposición de datos
+personales y permite conservar las preferencias sin conexión. Como
+contrapartida, el aprendizaje pertenecerá a un único dispositivo y se perderá
+si se desinstala la aplicación o se borran sus datos. Para el alcance del TFM,
+esta limitación es preferible a introducir autenticación, sincronización y una
+infraestructura remota que no aportan valor al experimento principal.
+
+La base local almacenará pesos declarados y aprendidos, vectores de
+características, la alternativa elegida, una fecha aproximada y los estados de
+pesos anterior y posterior. No guardará direcciones escritas, coordenadas
+exactas, audio ni recorridos GPS. También se ofrecerán controles para desactivar
+el aprendizaje y restablecer los pesos declarados.
 
 ## Pruebas
 

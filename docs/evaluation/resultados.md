@@ -1,7 +1,7 @@
 # Resultados de evaluación
 
 Estado: `En implementación`
-Última actualización: 11 de agosto de 2026
+Última actualización: 12 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
@@ -67,8 +67,12 @@ Pendiente.
 
 ## Accesibilidad y usabilidad
 
-La pantalla inicial se ha recorrido correctamente con TalkBack en Android 16.
-Las pruebas del flujo completo están pendientes.
+La pantalla de comparación se ha recorrido correctamente con TalkBack en
+Android 16. La validación manual cubrió los perfiles, las rutas aceptadas y
+descartadas, los fallos recuperables, la procedencia de los datos, los atributos
+desconocidos y la búsqueda de una dirección real del área piloto. La prueba
+confirma el funcionamiento técnico y el orden de lectura en el emulador; no
+sustituye una evaluación de usabilidad con participantes.
 
 ## Tabla maestra
 

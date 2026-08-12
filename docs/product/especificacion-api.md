@@ -51,26 +51,29 @@ probar la validación sin depender de la interfaz móvil.
 
 ### `GET /api/v1/places/search`
 
-La primera versión recibe `q`, entre 2 y 80 caracteres, y `limit`, entre 1 y
-10. Busca por nombre y alias en un catálogo local reducido de Moncloa,
-Argüelles, Príncipe Pío y Plaza de España. La comparación ignora mayúsculas y
-tildes, de modo que `principe` encuentra `Príncipe Pío`.
+La operación recibe `q`, entre 2 y 80 caracteres, y `limit`, entre 1 y 10. El
+proveedor `catalog` busca por nombre y alias en cuatro lugares reproducibles.
+El proveedor `ors` combina ese catálogo con geocodificación de calles, portales
+y lugares mediante la API pública de ORS/Pelias.
 
 Cada resultado incluye un identificador estable, nombre, descripción,
-coordenadas WGS84 y procedencia `pilot_catalog`. El orden prioriza coincidencia
-exacta, inicio del nombre, inicio de una palabra y coincidencia parcial. Los
-empates son deterministas.
+coordenadas WGS84 y procedencia `pilot_catalog` u `ors_geocoder`. Los resultados
+externos se restringen al rectángulo de la instantánea OSM y el backend vuelve a
+validar cada coordenada antes de exponerla. Los identificadores externos son
+opacos y no revelan los identificadores internos del proveedor.
 
-Se adopta este catálogo antes de integrar un geocodificador externo porque:
+El catálogo se conserva después de integrar el geocodificador porque:
 
 - permite probar selección de origen y destino sin red;
 - evita enviar textos de búsqueda a terceros;
 - mantiene ubicaciones reproducibles dentro de la instantánea OSM;
 - proporciona un respaldo accesible cuando falle un servicio externo.
 
-No pretende ser un buscador completo de Madrid. La integración futura de un
-proveedor externo deberá conservar el catálogo como respaldo, limitarse al área
-piloto y documentar consentimiento, privacidad, latencia y errores.
+La búsqueda externa solo se ejecuta tras una acción explícita y usa una caché
+privada con claves SHA-256. Si falla, una coincidencia local sigue disponible;
+si la consulta libre no tiene respaldo, la API devuelve el error estable
+`place_search_unavailable` para que la app no confunda un fallo con cero
+resultados. La operación no pretende todavía cubrir todo Madrid.
 
 ### `POST /api/v1/routes/compare`
 
@@ -120,8 +123,8 @@ final en la persona usuaria.
 - `422`: cuerpo, coordenadas, pesos o perfil no válidos.
 - `404`: el proveedor de *fixtures* no dispone de un escenario para ese origen y
   destino.
-- `503`: proveedor no disponible, instantánea local ausente o fallo externo sin
-  respuesta válida.
+- `503`: proveedor de rutas o de búsqueda no disponible, instantánea local
+  ausente o fallo externo sin respuesta válida.
 
 Los errores utilizarán códigos estables para que la aplicación traduzca el
 mensaje. No incluirán tokens, URLs externas completas ni coordenadas en texto.

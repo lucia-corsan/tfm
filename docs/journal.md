@@ -636,3 +636,60 @@ alternativas compatibles, evita hablar de una primera posición y mantiene
 visibles las restricciones incumplidas. La validación final alcanza 157 pruebas
 del backend y 43 de la aplicación; Ruff, TypeScript y ESLint terminan sin
 errores.
+
+## 12 de agosto de 2026 — Búsqueda libre de direcciones en el área piloto
+
+### Problema
+
+El catálogo de cuatro lugares permite probar el flujo, pero no permite elegir
+una calle o un portal arbitrarios. Ampliar únicamente el geocodificador a toda
+Madrid sería incoherente: ORS podría generar una geometría fuera de la zona para
+la que existe evidencia OSM preparada.
+
+### Decisión
+
+- Integrar en el backend la geocodificación pública de ORS, basada en Pelias.
+- Restringir las consultas y validar otra vez los resultados con el rectángulo
+  de la instantánea OSM del área piloto.
+- Mantener la clave fuera de la aplicación móvil.
+- Ejecutar búsquedas solo por acción explícita, no en cada pulsación.
+- Añadir caché privada y conservar el catálogo como respaldo reproducible.
+- Tratar geocodificación y routing como responsabilidades distintas: la primera
+  convierte texto en coordenadas y la segunda genera rutas entre ellas.
+
+### Implementación y validación automática
+
+Se implementaron modelos mínimos de Pelias, cliente HTTP asíncrono, validación
+posterior de coordenadas, identificadores públicos opacos, caché privada y un
+proveedor híbrido con respaldo local. La caché guarda solo resultados públicos
+validados y usa un nombre SHA-256; una consulta equivalente con diferencias de
+tildes y espacios reutiliza la misma entrada.
+
+La primera consulta real resolvió «Calle de Ferraz 22» dentro del área piloto.
+Una repetición idéntica se sirvió desde la caché en aproximadamente 0,17
+segundos. La suite alcanza 175 pruebas del backend y 46 de la aplicación; Ruff,
+TypeScript y ESLint finalizan sin errores. Queda pendiente la comprobación
+manual con TalkBack antes de cerrar la semana 2.
+
+Durante la revisión de privacidad se identificó que los logs informativos de
+`httpx` y los registros de acceso de Uvicorn pueden contener la URL completa de
+una petición GET y, por tanto, el texto de la dirección. FastAPI configura ahora
+ambos loggers en nivel `WARNING`. Se conservan los errores necesarios para
+diagnóstico, pero no se imprimen las consultas correctas ni sus coordenadas.
+
+### Validación manual y cierre de la semana 2
+
+La prueba en Android Emulator confirmó el flujo completo de búsqueda libre:
+introducir una dirección real del área piloto, obtener un resultado válido,
+seleccionarlo como origen o destino y solicitar la comparación con sus
+coordenadas. El resultado es una parada independiente de TalkBack y no expone la
+credencial de ORS. Con las 175 pruebas del backend, las 46 de la app y las
+comprobaciones de Ruff, TypeScript y ESLint ya superadas, se considera cerrada
+la segunda semana.
+
+También se aclaró el alcance de la persistencia. En este momento, la selección
+del perfil vive solo en el estado de React Native y se reinicia al cerrar la
+app; FastAPI no almacena preferencias. En la fase de aprendizaje, SQLite
+guardará localmente en el dispositivo los pesos declarados y aprendidos y la
+señal mínima de las elecciones. No se añadirá una base remota, ni se guardarán
+direcciones, coordenadas exactas o audio.

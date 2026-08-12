@@ -1,7 +1,7 @@
 # 5. Implementación
 
 Estado: `En implementación`  
-Última actualización: 11 de agosto de 2026.
+Última actualización: 12 de agosto de 2026.
 
 ## Backend
 
@@ -16,7 +16,8 @@ La base de ORS ya está implementada mediante modelos de transporte, cliente
 extracción de rutas base. Las respuestas GeoJSON conservan geometría, distancia,
 duración, instrucciones y datos auxiliares. El proveedor real las asocia con la
 instantánea OSM y las convierte en candidatos puntuables antes de aplicar
-restricciones. También quedan pendientes búsqueda y rerouting.
+restricciones. La búsqueda de calles ya está integrada dentro del área piloto;
+el rerouting permanece pendiente.
 
 Una prueba contra el servicio real devolvió tres alternativas de 2.715, 2.734 y
 2.868 metros. Sus instrucciones fueron 32, 40 y 29, respectivamente. La
@@ -64,8 +65,9 @@ primer flujo vertical ya permite seleccionar un perfil reproducible, solicitar
 la comparación al backend y presentar rutas ordenadas, razones, avisos y
 alternativas descartadas. La pantalla se validó manualmente en Android Emulator
 con ambos perfiles, fallo y recuperación del backend y navegación mediante
-TalkBack. Búsqueda, persistencia del perfil y navegación pertenecen a fases
-posteriores.
+TalkBack. La búsqueda libre de direcciones del área piloto también se validó de
+extremo a extremo. La persistencia del perfil y la navegación pertenecen a
+fases posteriores.
 
 ### Separación de responsabilidades en la app
 
@@ -99,6 +101,14 @@ La aplicación no recalcula la recomendación. Traduce a español los factores y
 avisos estructurados del backend, garantizando que la interfaz visual y TalkBack
 describan las mismas variables empleadas por el sistema de decisión.
 
+En el incremento actual, el perfil seleccionado se conserva únicamente durante
+la sesión mediante el estado del componente y se incluye en cada petición. El
+backend calcula el ranking sin almacenar usuarios ni preferencias. La fase de
+aprendizaje incorporará SQLite como base local en el dispositivo para conservar
+los pesos declarados y aprendidos. Se descartó una base remota porque exigiría
+cuentas, sincronización y una superficie de privacidad innecesarias para el
+experimento del TFM.
+
 ### Estados y accesibilidad
 
 El flujo diferencia estado inicial, carga, éxito y error. Si se cambia el perfil
@@ -120,7 +130,7 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 157 pruebas superadas y la aplicación alcanza 43 pruebas en
+mantiene 175 pruebas superadas y la aplicación alcanza 46 pruebas en
 seis grupos, además de superar lint y comprobación estricta de tipos.
 
 ## Decisiones e incidencias
