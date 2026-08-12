@@ -1,10 +1,28 @@
 """HTTP tests for local pilot-place search."""
 
+from collections.abc import Iterator
+
+import pytest
 from fastapi.testclient import TestClient
 
+from backend.config import Settings, get_settings
 from backend.main import app
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def _use_catalog_provider() -> Iterator[None]:
+    """Keep local endpoint tests independent from the developer's ``.env``."""
+
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        place_search_provider="catalog",
+        _env_file=None,
+    )
+    try:
+        yield
+    finally:
+        app.dependency_overrides.clear()
 
 
 def test_places_endpoint_finds_unaccented_query() -> None:
@@ -64,6 +82,35 @@ def test_places_endpoint_sanitizes_invalid_query_and_limit() -> None:
     assert limit_response.json() == {"code": "invalid_request"}
 
 
+def test_external_search_configuration_keeps_local_fallback() -> None:
+    """A known catalog place remains available without an external credential."""
+
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        place_search_provider="ors",
+        _env_file=None,
+    )
+
+    response = client.get("/api/v1/places/search", params={"q": "Moncloa"})
+
+    assert response.status_code == 200
+    assert response.json()["places"][0]["place_id"] == "moncloa"
+
+
+def test_external_search_failure_is_not_presented_as_an_empty_result() -> None:
+    """Free text without a usable geocoder produces a retryable safe error."""
+
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        place_search_provider="ors",
+        _env_file=None,
+    )
+
+    response = client.get("/api/v1/places/search", params={"q": "Ferraz 22"})
+
+    assert response.status_code == 503
+    assert response.json() == {"code": "place_search_unavailable"}
+    assert "Ferraz" not in response.text
+
+
 def test_openapi_documents_place_search_response_and_validation_error() -> None:
     """The generated API schema exposes the stable mobile-facing place models."""
 
@@ -75,5 +122,8 @@ def test_openapi_documents_place_search_response_and_validation_error() -> None:
         "schema"
     ] == {"$ref": "#/components/schemas/PlaceSearchResponse"}
     assert operation["responses"]["422"]["content"]["application/json"][
+        "schema"
+    ] == {"$ref": "#/components/schemas/ErrorResponse"}
+    assert operation["responses"]["503"]["content"]["application/json"][
         "schema"
     ] == {"$ref": "#/components/schemas/ErrorResponse"}

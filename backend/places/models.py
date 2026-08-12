@@ -16,4 +16,4 @@ class PlaceResult(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     description: str = Field(min_length=1, max_length=180)
     location: GeoPoint
-    source: Literal["pilot_catalog"] = "pilot_catalog"
+    source: Literal["pilot_catalog", "ors_geocoder"] = "pilot_catalog"

@@ -40,8 +40,9 @@ Preparar la configuración local:
 cp .env.example .env
 ```
 
-El proveedor `fixture` no necesita secretos. `ORS_API_KEY` solo será obligatorio
-cuando se active el proveedor real.
+Los proveedores `fixture` y `catalog` no necesitan secretos. `ORS_API_KEY` solo
+será obligatorio al activar rutas o geocodificación reales. Para buscar calles
+dentro del área piloto se utiliza `PLACE_SEARCH_PROVIDER=ors`.
 
 Arrancar la API:
 

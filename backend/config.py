@@ -19,9 +19,12 @@ class Settings(BaseSettings):
 
     app_env: Literal["development", "test", "production"] = "development"
     routing_provider: Literal["fixture", "ors"] = "fixture"
+    place_search_provider: Literal["catalog", "ors"] = "catalog"
     ors_api_key: Optional[SecretStr] = None
     ors_timeout_seconds: float = Field(default=20.0, gt=0.0, le=120.0)
     ors_cache_dir: Path = Path("data/raw/ors")
+    ors_geocode_timeout_seconds: float = Field(default=10.0, gt=0.0, le=60.0)
+    ors_geocode_cache_dir: Path = Path("data/raw/ors-geocoding")
     osm_snapshot_path: Path = Path(
         "data/raw/osm-routing/moncloa_principe_pio.snapshot.json"
     )

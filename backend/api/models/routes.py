@@ -108,6 +108,7 @@ class ApiErrorCode(str, Enum):
     INVALID_REQUEST = "invalid_request"
     ROUTE_SCENARIO_NOT_FOUND = "route_scenario_not_found"
     ROUTING_PROVIDER_UNAVAILABLE = "routing_provider_unavailable"
+    PLACE_SEARCH_UNAVAILABLE = "place_search_unavailable"
 
 
 class ErrorResponse(ApiModel):
