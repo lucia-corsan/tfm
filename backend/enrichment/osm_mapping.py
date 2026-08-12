@@ -382,6 +382,55 @@ def parse_incline_percent(value: str) -> Optional[float]:
     return parsed if parsed <= 100.0 else None
 
 
+def families_for_tags(tags: dict[str, str]) -> frozenset[OsmFeatureFamily]:
+    """Classify one OSM element into every relevant evidence family.
+
+    Args:
+        tags: Validated raw OSM tags.
+
+    Returns:
+        All applicable families without forcing a single-label classification.
+    """
+
+    families: set[OsmFeatureFamily] = set()
+    highway = tags.get("highway")
+    if highway == "crossing" or "crossing" in tags:
+        families.add(OsmFeatureFamily.CROSSINGS)
+    if (
+        highway == "traffic_signals"
+        or tags.get("crossing") == "traffic_signals"
+        or tags.get("crossing:signals") == "yes"
+    ):
+        families.add(OsmFeatureFamily.TRAFFIC_SIGNALS)
+    if any(
+        key in tags
+        for key in (
+            "traffic_signals:sound",
+            "traffic_signals:vibration",
+            "traffic_signals:floor_vibration",
+        )
+    ):
+        families.add(OsmFeatureFamily.SIGNAL_ASSISTANCE)
+    if "tactile_paving" in tags:
+        families.add(OsmFeatureFamily.TACTILE_PAVING)
+    if "kerb" in tags or tags.get("barrier") == "kerb":
+        families.add(OsmFeatureFamily.KERBS)
+    sidewalk_keys = ("sidewalk", "sidewalk:left", "sidewalk:right", "sidewalk:both")
+    if any(key in tags for key in sidewalk_keys) or tags.get("footway") == "sidewalk":
+        families.add(OsmFeatureFamily.SIDEWALKS)
+    if any(key in tags for key in ("ramp", "ramp:wheelchair", "wheelchair")):
+        families.add(OsmFeatureFamily.RAMPS_OR_WHEELCHAIR)
+    if highway == "steps":
+        families.add(OsmFeatureFamily.STEPS)
+    if "surface" in tags or "smoothness" in tags:
+        families.add(OsmFeatureFamily.SURFACE)
+    if "incline" in tags:
+        families.add(OsmFeatureFamily.INCLINE)
+    if "foot" in tags or "access" in tags:
+        families.add(OsmFeatureFamily.PEDESTRIAN_ACCESS)
+    return frozenset(families)
+
+
 def all_overpass_selectors() -> tuple[str, ...]:
     """Return unique selectors for the pilot routing snapshot.
 

@@ -10,7 +10,7 @@ from backend.routing.providers import RouteScenarioProvider
 from backend.scoring import rank_routes
 
 
-def compare_routes(
+async def compare_routes(
     request: RouteCompareRequest,
     provider: RouteScenarioProvider,
 ) -> RouteCompareResponse:
@@ -27,7 +27,11 @@ def compare_routes(
         RouteScenarioNotFoundError: If the provider cannot resolve the endpoints.
     """
 
-    scenario = provider.get_scenario(request.origin, request.destination)
+    scenario = await provider.get_scenario(
+        request.origin,
+        request.destination,
+        request.profile,
+    )
     ranking = rank_routes(request.profile, scenario.routes)
     candidates = {route.route_id: route for route in scenario.routes}
     accepted_routes = [

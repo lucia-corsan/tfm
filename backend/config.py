@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     osm_snapshot_path: Path = Path(
         "data/raw/osm-routing/moncloa_principe_pio.snapshot.json"
     )
+    osm_route_corridor_width_m: float = Field(default=5.0, ge=1.0, le=50.0)
 
 
 @lru_cache

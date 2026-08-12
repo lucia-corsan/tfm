@@ -49,8 +49,8 @@ async def compare_routes(
     """
 
     try:
-        provider = create_route_scenario_provider(settings.routing_provider)
-        return compare_routes_service(request, provider)
+        provider = create_route_scenario_provider(settings)
+        return await compare_routes_service(request, provider)
     except RouteScenarioNotFoundError:
         error = ErrorResponse(code=ApiErrorCode.ROUTE_SCENARIO_NOT_FOUND)
         return JSONResponse(

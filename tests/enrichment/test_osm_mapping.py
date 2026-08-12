@@ -6,6 +6,7 @@ from backend.enrichment.osm_mapping import (
     OsmFeatureFamily,
     OsmTagIndicator,
     all_overpass_selectors,
+    families_for_tags,
     interpret_tag_value,
     parse_incline_percent,
 )
@@ -62,3 +63,25 @@ def test_incline_parser_preserves_unknown_magnitude() -> None:
     assert parse_incline_percent("up") is None
     assert parse_incline_percent("10°") is None
     assert parse_incline_percent("steep") is None
+
+
+def test_one_element_can_belong_to_multiple_evidence_families() -> None:
+    """Compound crossing tags remain available to every relevant dimension."""
+
+    families = families_for_tags(
+        {
+            "highway": "crossing",
+            "crossing": "traffic_signals",
+            "traffic_signals:sound": "yes",
+            "tactile_paving": "yes",
+            "kerb": "lowered",
+        }
+    )
+
+    assert families == {
+        OsmFeatureFamily.CROSSINGS,
+        OsmFeatureFamily.TRAFFIC_SIGNALS,
+        OsmFeatureFamily.SIGNAL_ASSISTANCE,
+        OsmFeatureFamily.TACTILE_PAVING,
+        OsmFeatureFamily.KERBS,
+    }
