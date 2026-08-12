@@ -3,7 +3,7 @@ export interface GeoPoint {
   longitude: number;
 }
 
-export type PlaceSource = 'pilot_catalog';
+export type PlaceSource = 'pilot_catalog' | 'ors_geocoder';
 
 export interface PlaceResult {
   place_id: string;
@@ -150,7 +150,8 @@ export interface RouteCompareResponse {
 export type ApiErrorCode =
   | 'invalid_request'
   | 'route_scenario_not_found'
-  | 'routing_provider_unavailable';
+  | 'routing_provider_unavailable'
+  | 'place_search_unavailable';
 
 export interface ApiErrorResponse {
   code: ApiErrorCode;

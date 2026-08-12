@@ -11,10 +11,10 @@ export const ES = {
     samePlaceError: 'El origen y el destino deben ser lugares distintos.',
     placeSearch: {
       selectedLabel: 'Lugar seleccionado',
-      loading: 'Buscando lugares del área piloto.',
+      loading: 'Buscando direcciones y lugares del área piloto.',
       minimumCharacters: 'Escribe al menos dos caracteres para buscar.',
-      noResults: 'No se han encontrado lugares en el catálogo del área piloto.',
-      error: 'No se ha podido consultar el catálogo de lugares.',
+      noResults: 'No se han encontrado direcciones ni lugares dentro del área piloto.',
+      error: 'No se ha podido completar la búsqueda. Inténtalo de nuevo.',
       origin: {
         label: 'Origen',
         inputLabel: 'Buscar lugar de origen',
@@ -94,6 +94,7 @@ export const ES = {
       invalid_request: 'El perfil o el trayecto enviado no es válido.',
       route_scenario_not_found: 'Todavía no hay rutas de prueba para este trayecto.',
       routing_provider_unavailable: 'El servicio de rutas no está disponible ahora mismo.',
+      place_search_unavailable: 'El servicio de búsqueda de direcciones no está disponible ahora mismo.',
       invalid_response: 'El servidor ha devuelto datos que la aplicación no puede interpretar.',
       network_error: 'No se ha podido conectar con el servidor. Comprueba que el backend esté encendido.',
     },

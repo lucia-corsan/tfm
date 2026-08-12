@@ -416,6 +416,47 @@ describe('<RouteComparisonScreen />', () => {
     );
   });
 
+  test('selects a geocoded street address and sends its coordinates', async () => {
+    const address = {
+      place_id: 'ors_0123456789abcdef01234567',
+      name: 'Calle de Ferraz 22',
+      description: 'Calle de Ferraz 22, Madrid, España',
+      location: { latitude: 40.4298, longitude: -3.7185 },
+      source: 'ors_geocoder' as const,
+    };
+    const search = jest.fn().mockResolvedValue({ places: [address] });
+    const compare = jest.fn().mockResolvedValue(response());
+    const screen = await render(
+      <RouteComparisonScreen compare={compare} search={search} />,
+    );
+    const user = userEvent.setup();
+
+    fireEvent.changeText(
+      screen.getByLabelText(
+        ES.routeComparison.placeSearch.origin.inputLabel,
+      ),
+      'Ferraz 22',
+    );
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.routeComparison.placeSearch.origin.searchButton,
+      }),
+    );
+    await user.press(
+      await screen.findByRole('button', {
+        name: `${address.name}. ${address.description}`,
+      }),
+    );
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+
+    expect(search).toHaveBeenCalledWith('Ferraz 22');
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({ origin: address.location }),
+    );
+  });
+
   test('blocks a comparison when both selected places are the same', async () => {
     const moncloa = {
       place_id: 'moncloa',

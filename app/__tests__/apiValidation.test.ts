@@ -193,6 +193,21 @@ describe('place-search API validation', () => {
     ).toThrow(InvalidApiResponseError);
   });
 
+  test('accepts a validated ORS geocoder result inside the public schema', () => {
+    const response = parsePlaceSearchResponse({
+      places: [
+        {
+          ...validPlaces.places[0],
+          place_id: 'ors_0123456789abcdef01234567',
+          name: 'Calle de Ferraz, 22',
+          source: 'ors_geocoder',
+        },
+      ],
+    });
+
+    expect(response.places[0].source).toBe('ors_geocoder');
+  });
+
   test('rejects duplicate place identifiers', () => {
     expect(() =>
       parsePlaceSearchResponse({

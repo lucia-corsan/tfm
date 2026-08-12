@@ -178,6 +178,21 @@ describe('place-search API client', () => {
     );
   });
 
+  test('preserves the retryable external place-search error', async () => {
+    const fetchMock = jest.fn().mockResolvedValue(
+      mockedResponse({ code: 'place_search_unavailable' }, 503),
+    );
+
+    await expect(
+      searchPlaces('Ferraz 22', {
+        fetchImplementation: fetchMock as typeof fetch,
+      }),
+    ).rejects.toMatchObject({
+      code: 'place_search_unavailable',
+      status: 503,
+    });
+  });
+
   test('turns a network failure into the shared controlled error', async () => {
     const fetchMock = jest.fn().mockRejectedValue(new Error('connection refused'));
 

@@ -67,6 +67,7 @@ const API_ERROR_CODES: ApiErrorCode[] = [
   'invalid_request',
   'route_scenario_not_found',
   'routing_provider_unavailable',
+  'place_search_unavailable',
 ];
 
 export class InvalidApiResponseError extends Error {
@@ -138,7 +139,10 @@ function parsePlaceResult(value: unknown): PlaceResult {
     name: asString(place.name),
     description: asString(place.description),
     location: parseGeoPoint(place.location),
-    source: asEnumValue(place.source, ['pilot_catalog'] as const),
+    source: asEnumValue(
+      place.source,
+      ['pilot_catalog', 'ors_geocoder'] as const,
+    ),
   };
 }
 
