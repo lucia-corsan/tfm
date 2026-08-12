@@ -170,10 +170,14 @@ export function RouteComparisonScreen({ compare, search }: RouteComparisonScreen
               )}
             </AccessibleText>
             <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-              {ES.routeComparison.resultTitle}
+              {state.response.routes.length > 0
+                ? ES.routeComparison.resultTitle
+                : ES.routeComparison.noAcceptedRoutesTitle}
             </AccessibleText>
             <AccessibleText style={styles.infoText}>
-              {ES.routeComparison.resultIntroduction}
+              {state.response.routes.length > 0
+                ? ES.routeComparison.resultIntroduction
+                : ES.routeComparison.noAcceptedRoutesDescription}
             </AccessibleText>
             {state.response.routes.map((route) => (
               <RouteCard key={route.route_id} route={route} />

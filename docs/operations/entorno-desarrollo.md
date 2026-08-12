@@ -91,7 +91,7 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 - Backend: Ruff correcto y 157 pruebas superadas tras conectar el
   enriquecimiento OSM con rutas reales y la búsqueda local de lugares.
-- App: 37 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+- App: 43 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación

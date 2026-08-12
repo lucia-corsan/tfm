@@ -23,6 +23,11 @@ el perfil, la API y la aplicación Android.
 - Comunicar adecuación, confianza e incertidumbre mediante texto además de
   cualquier recurso visual.
 - Exponer razones y avisos derivados del cálculo, sin recrearlos en la app.
+- Identificar por separado el motor que genera el recorrido y la fuente de la
+  evidencia empleada para evaluarlo.
+- Explicar el porcentaje de incertidumbre enumerando los atributos que carecen
+  de evidencia concluyente.
+- No confundir información desconocida con evidencia desfavorable.
 - Diferenciar los estados inicial, de carga, de resultado y de error.
 - Permitir reintentar una petición fallida.
 - Mantener etiquetas, roles, estados y orden de lectura compatibles con
@@ -105,6 +110,9 @@ lectura para evitar depender de una API experimental de orden de foco.
 - Avisos de evidencia desconocida o desfavorable.
 - Alternativas descartadas y códigos de incompatibilidad.
 - Estado comprensible ante validación incorrecta o fallo de conexión.
+- Estado específico cuando todas las candidatas incumplen restricciones: no se
+  presenta una primera posición inexistente y se conservan los motivos de
+  descarte.
 
 ## Implementación
 
@@ -138,6 +146,14 @@ tarjetas muestran las tres métricas como texto, los factores recibidos del
 backend, los avisos y las rutas descartadas. La app solo transforma códigos y
 valores en textos españoles; no recalcula la puntuación.
 
+En las rutas reales, cada tarjeta identifica explícitamente dos procedencias:
+OpenRouteService calcula la geometría e instrucciones del recorrido y
+OpenStreetMap aporta la evidencia con la que se estiman adecuación, confianza e
+incertidumbre. La interfaz obtiene los atributos desconocidos filtrando los
+avisos estructurados cuyo estado es `unknown`; no reconstruye ese estado ni
+modifica el cálculo del backend. Estos atributos se muestran en una sección
+independiente de la evidencia desfavorable.
+
 ## Pruebas
 
 - Aceptación de una respuesta completa y válida.
@@ -145,6 +161,8 @@ valores en textos españoles; no recalcula la puntuación.
   no consecutivos.
 - Serialización correcta de ambos perfiles.
 - Respuesta correcta, error HTTP, respuesta incompatible y fallo de red.
+- Mensaje accesible y recuperable para cada código de error público.
+- Ausencia de rutas aceptadas con presentación de las alternativas descartadas.
 - Transiciones inicial, carga, resultado y error.
 - Cambio de la primera ruta al seleccionar el perfil de cruces sencillos.
 - Presentación textual de las tres métricas, razones, avisos y descartes.
@@ -153,10 +171,13 @@ valores en textos españoles; no recalcula la puntuación.
   todas identificadas con el idioma `es-ES`.
 - Búsqueda de lugares, validación de sus respuestas, propagación de coordenadas
   y bloqueo de origen y destino iguales.
+- Identificación visible y accesible de ORS y OSM en rutas no sintéticas.
+- Correspondencia entre el porcentaje de incertidumbre y la lista de atributos
+  desconocidos recibida de la API.
 
 ## Resultados
 
-La validación automática de la app alcanza 37 pruebas distribuidas en seis
+La validación automática de la app alcanza 43 pruebas distribuidas en seis
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono e interfaz. ESLint y TypeScript estricto no
 detectan errores. Las 157 pruebas del backend siguen superándose, por lo que la
@@ -179,8 +200,9 @@ española instalada antes de considerar cerrado este aspecto.
 
 ## Riesgos y limitaciones
 
-- Los datos siguen siendo sintéticos y no permiten extraer conclusiones sobre
-  la accesibilidad real del trayecto.
+- Las rutas reales proceden de ORS y se enriquecen con la instantánea OSM
+  disponible. Esto permite evaluar el sistema con evidencia real, pero no
+  convierte el resultado en una garantía absoluta de accesibilidad.
 - La dirección `10.0.2.2` es específica de Android Emulator; un dispositivo
   físico necesitará la dirección local del equipo.
 - Las variables `EXPO_PUBLIC_*` quedan visibles en el código compilado. Solo se
@@ -209,7 +231,7 @@ recomendación válida.
 - [x] Construir la pantalla y sus componentes accesibles.
 - [x] Validar ambos rankings, el fallo de red, la recuperación y TalkBack en
   Android Emulator.
-- [ ] Sustituir el escenario sintético por rutas reales durante la semana 2.
+- [x] Sustituir el escenario sintético por rutas reales durante la semana 2.
 
 ## Referencias y evidencias
 

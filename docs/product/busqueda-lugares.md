@@ -93,7 +93,7 @@ inventados.
 ## Resultados
 
 La búsqueda, el cliente HTTP y los selectores de la pantalla están validados de
-forma automática. El backend supera 157 pruebas y la aplicación, 37 pruebas,
+forma automática. El backend supera 157 pruebas y la aplicación, 43 pruebas,
 además de las comprobaciones de Ruff, TypeScript y ESLint. La comprobación
 manual del nuevo flujo con TalkBack sigue pendiente.
 

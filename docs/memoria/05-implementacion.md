@@ -120,7 +120,7 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 157 pruebas superadas y la aplicación alcanza 37 pruebas en
+mantiene 157 pruebas superadas y la aplicación alcanza 43 pruebas en
 seis grupos, además de superar lint y comprobación estricta de tipos.
 
 ## Decisiones e incidencias

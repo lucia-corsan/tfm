@@ -54,25 +54,37 @@ export const ES = {
     loading: 'Estamos comparando las alternativas. Espera un momento.',
     idleTitle: 'Comparación preparada',
     idleDescription:
-      'Selecciona un perfil y pulsa Comparar rutas. En esta fase se utilizan datos sintéticos reproducibles.',
+      'Selecciona un perfil y pulsa Comparar rutas. El servidor indicará la procedencia de cada alternativa.',
     resultSummary: (accepted: number, rejected: number) =>
       `Comparación terminada. ${accepted} rutas disponibles y ${rejected} descartadas.`,
     resultTitle: 'Alternativas ordenadas',
     resultIntroduction:
       'La primera posición indica mayor adecuación al perfil, no una garantía absoluta de accesibilidad.',
+    noAcceptedRoutesTitle: 'No hay rutas compatibles con este perfil',
+    noAcceptedRoutesDescription:
+      'Las alternativas encontradas incumplen al menos una restricción crítica. Revisa los motivos de descarte antes de cambiar tus preferencias.',
     rankLabel: (rank: number) => `Puesto ${rank}`,
     syntheticData: 'Datos sintéticos para desarrollo',
+    realData: 'Ruta real enriquecida',
+    realDataProvenance:
+      'Recorrido generado por OpenRouteService y evaluado con evidencia de OpenStreetMap.',
     distance: 'Distancia',
     duration: 'Duración estimada',
     adequacy: 'Adecuación al perfil',
     confidence: 'Confianza de los datos',
     uncertainty: 'Información desconocida',
     reasonsTitle: 'Por qué ocupa esta posición',
-    warningsTitle: 'Aspectos que debes tener en cuenta',
+    unknownEvidenceTitle: 'Información que falta por confirmar',
+    unknownEvidenceIntroduction: (percentage: string, count: number) =>
+      `${percentage} de información desconocida. ${count === 1 ? 'Este aspecto no tiene evidencia concluyente:' : `Estos ${count} aspectos no tienen evidencia concluyente:`}`,
+    noUnknownEvidence:
+      'No hay atributos clasificados como desconocidos con los datos disponibles.',
+    unfavorableEvidenceTitle: 'Evidencia desfavorable encontrada',
+    noUnfavorableEvidence:
+      'No se ha encontrado evidencia desfavorable con los datos disponibles.',
     rejectedTitle: 'Alternativas descartadas',
     rejectedDescription:
       'Estas rutas incumplen una restricción crítica del perfil y no participan en el ranking.',
-    noWarnings: 'No se han generado avisos con los datos disponibles.',
     disclaimer:
       'La aplicación compara evidencia disponible. La decisión final sobre el recorrido permanece en tus manos.',
     retryButton: 'Reintentar comparación',

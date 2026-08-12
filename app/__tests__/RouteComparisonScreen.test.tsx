@@ -184,13 +184,85 @@ describe('<RouteComparisonScreen />', () => {
       name: /Ventaja respecto a las demás alternativas: distancia/,
     });
     const warningsHeader = screen.getAllByRole('header', {
-      name: ES.routeComparison.warningsTitle,
+      name: ES.routeComparison.unfavorableEvidenceTitle,
     })[0];
 
     expect(introduction.props.accessibilityLanguage).toBe('es-ES');
     expect(reasonsHeader.props.accessibilityLanguage).toBe('es-ES');
     expect(firstReason.props.accessibilityLanguage).toBe('es-ES');
     expect(warningsHeader.props.accessibilityLanguage).toBe('es-ES');
+  });
+
+  test('explains real route provenance and the attributes behind uncertainty', async () => {
+    const realRoute: ComparedRoute = {
+      ...route('ors_route_1', 'Alternativa más corta', 1, 0.62),
+      source: 'ors',
+      is_synthetic: false,
+      score: {
+        ...route('ors_route_1', 'Alternativa más corta', 1, 0.62).score,
+        route_id: 'ors_route_1',
+        uncertainty: 3 / 11,
+      },
+      warnings: [
+        {
+          attribute: 'step_free',
+          state: 'unknown',
+          coverage_ratio: 0,
+          note: 'La ausencia de escalones cartografiados no confirma una ruta sin escalones.',
+        },
+        {
+          attribute: 'crossing_compatibility',
+          state: 'unknown',
+          coverage_ratio: 0.69,
+          note: 'Compatibilidad estimada solo a partir de cruces peatonales declarados.',
+        },
+        {
+          attribute: 'slope',
+          state: 'unknown',
+          coverage_ratio: 0,
+          note: 'Pendiente numérica no disponible.',
+        },
+        {
+          attribute: 'audible_signals',
+          state: 'unfavorable',
+          coverage_ratio: 0.47,
+          note: 'Ayudas acústicas o vibratorias declaradas en OSM.',
+        },
+      ],
+    };
+    const realResponse: RouteCompareResponse = {
+      ...response(),
+      routes: [realRoute],
+      rejected_routes: [],
+    };
+    const compare = jest.fn().mockResolvedValue(realResponse);
+    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+
+    await screen.findByRole('text', { name: ES.routeComparison.realData });
+    screen.getByRole('text', {
+      name: ES.routeComparison.realDataProvenance,
+    });
+    screen.getByRole('text', {
+      name: ES.routeComparison.unknownEvidenceIntroduction('27 %', 3),
+    });
+    screen.getByRole('text', {
+      name: /Información no confirmada sobre ausencia de escalones/,
+    });
+    screen.getByRole('text', {
+      name: /Información no confirmada sobre compatibilidad de los cruces/,
+    });
+    screen.getByRole('text', {
+      name: /Información no confirmada sobre pendiente/,
+    });
+    screen.getByRole('alert', {
+      name: /Evidencia desfavorable sobre señales acústicas/,
+    });
+    expect(screen.queryByText(ES.routeComparison.syntheticData)).toBeNull();
   });
 
   test('sends the crossings profile and presents its changed order', async () => {
@@ -257,8 +329,14 @@ describe('<RouteComparisonScreen />', () => {
     await act(async () => resolveComparison?.(response()));
   });
 
-  test('announces a network error and offers an accessible retry', async () => {
-    const compare = jest.fn().mockRejectedValue(new RouteApiError('network_error'));
+  test.each([
+    'invalid_request',
+    'route_scenario_not_found',
+    'routing_provider_unavailable',
+    'invalid_response',
+    'network_error',
+  ] as const)('presents the controlled %s error without technical details', async (code) => {
+    const compare = jest.fn().mockRejectedValue(new RouteApiError(code));
     const screen = await render(<RouteComparisonScreen compare={compare} />);
     const user = userEvent.setup();
 
@@ -267,9 +345,34 @@ describe('<RouteComparisonScreen />', () => {
     );
 
     await screen.findByRole('alert', {
-      name: `${ES.routeComparison.errorTitle}. ${ES.routeComparison.errors.network_error}`,
+      name: `${ES.routeComparison.errorTitle}. ${ES.routeComparison.errors[code]}`,
     });
     screen.getByRole('button', { name: ES.routeComparison.retryButton });
+    expect(screen.queryByText(/HTTP|localhost|10\.0\.2\.2|ORS_API_KEY/)).toBeNull();
+  });
+
+  test('explains when every candidate violates a critical restriction', async () => {
+    const rejectedOnly: RouteCompareResponse = {
+      ...response(),
+      routes: [],
+    };
+    const compare = jest.fn().mockResolvedValue(rejectedOnly);
+    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+
+    await screen.findByRole('header', {
+      name: ES.routeComparison.noAcceptedRoutesTitle,
+    });
+    screen.getByRole('text', {
+      name: ES.routeComparison.noAcceptedRoutesDescription,
+    });
+    screen.getByRole('header', { name: ES.routeComparison.rejectedTitle });
+    screen.getByText(ES.routeComparison.constraints.incompatible_crossings);
+    expect(screen.queryByText(ES.routeComparison.resultIntroduction)).toBeNull();
   });
 
   test('searches a place and sends its selected coordinates', async () => {

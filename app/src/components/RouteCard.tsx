@@ -17,6 +17,13 @@ interface RouteCardProps {
 }
 
 export function RouteCard({ route }: RouteCardProps) {
+  const unknownWarnings = route.warnings.filter(
+    (warning) => warning.state === 'unknown',
+  );
+  const unfavorableWarnings = route.warnings.filter(
+    (warning) => warning.state === 'unfavorable',
+  );
+
   return (
     <View style={[styles.card, route.rank === 1 && styles.recommendedCard]}>
       <View style={styles.topLine}>
@@ -28,7 +35,18 @@ export function RouteCard({ route }: RouteCardProps) {
             {ES.routeComparison.syntheticData}
           </AccessibleText>
         )}
+        {route.source === 'ors' && !route.is_synthetic && (
+          <AccessibleText style={styles.realData}>
+            {ES.routeComparison.realData}
+          </AccessibleText>
+        )}
       </View>
+
+      {route.source === 'ors' && !route.is_synthetic && (
+        <AccessibleText style={styles.provenance}>
+          {ES.routeComparison.realDataProvenance}
+        </AccessibleText>
+      )}
 
       <AccessibleText accessibilityRole="header" style={styles.title}>
         {route.name}
@@ -66,14 +84,41 @@ export function RouteCard({ route }: RouteCardProps) {
       ))}
 
       <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-        {ES.routeComparison.warningsTitle}
+        {ES.routeComparison.unknownEvidenceTitle}
       </AccessibleText>
-      {route.warnings.length === 0 ? (
+      {unknownWarnings.length === 0 ? (
         <AccessibleText style={styles.detail}>
-          {ES.routeComparison.noWarnings}
+          {ES.routeComparison.noUnknownEvidence}
         </AccessibleText>
       ) : (
-        route.warnings.map((warning) => (
+        <>
+          <AccessibleText style={styles.detail}>
+            {ES.routeComparison.unknownEvidenceIntroduction(
+              formatPercentage(route.score.uncertainty),
+              unknownWarnings.length,
+            )}
+          </AccessibleText>
+          {unknownWarnings.map((warning) => (
+            <AccessibleText
+              accessibilityLabel={describeWarning(warning)}
+              key={warning.attribute}
+              style={styles.unknownWarning}
+            >
+              {describeWarning(warning)}
+            </AccessibleText>
+          ))}
+        </>
+      )}
+
+      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
+        {ES.routeComparison.unfavorableEvidenceTitle}
+      </AccessibleText>
+      {unfavorableWarnings.length === 0 ? (
+        <AccessibleText style={styles.detail}>
+          {ES.routeComparison.noUnfavorableEvidence}
+        </AccessibleText>
+      ) : (
+        unfavorableWarnings.map((warning) => (
           <View
             accessible
             accessibilityLanguage="es-ES"
@@ -124,6 +169,21 @@ const styles = StyleSheet.create({
     borderColor: '#7A5BD1',
     borderWidth: 2,
   },
+  provenance: {
+    color: '#285A4B',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  realData: {
+    backgroundColor: '#DDF3EA',
+    borderRadius: 10,
+    color: '#17523E',
+    fontSize: 12,
+    fontWeight: '700',
+    overflow: 'hidden',
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+  },
   sectionTitle: {
     color: '#17213A',
     fontSize: 16,
@@ -164,5 +224,16 @@ const styles = StyleSheet.create({
     color: '#533B0C',
     fontSize: 14,
     lineHeight: 20,
+  },
+  unknownWarning: {
+    backgroundColor: '#F1EFF7',
+    borderColor: '#B7AEC9',
+    borderRadius: 12,
+    borderWidth: 1,
+    color: '#40384F',
+    fontSize: 14,
+    lineHeight: 20,
+    overflow: 'hidden',
+    padding: 12,
   },
 });

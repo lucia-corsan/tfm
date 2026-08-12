@@ -73,6 +73,16 @@ La primera pantalla funcional aplica los principios anteriores de esta manera:
   solo mediante posición o color.
 - Razones, advertencias y descartes proceden de la misma respuesta estructurada
   del backend.
+- La procedencia de las rutas se comunica mediante texto, no únicamente con una
+  insignia visual.
+- Si no queda ninguna alternativa compatible, se anuncia de forma explícita y
+  no se utiliza lenguaje que presuponga la existencia de una ruta recomendada.
+- Los atributos desconocidos se enumeran individualmente debajo de la métrica
+  de incertidumbre; la persona no tiene que deducir el significado de un
+  porcentaje aislado.
+- La evidencia desconocida y la desfavorable se presentan en secciones
+  diferentes para evitar que TalkBack comunique ambas como si representaran el
+  mismo riesgo.
 - El orden de lectura coincide con el orden visual; no se utiliza la API
   experimental para forzar el foco.
 - La introducción de resultados, los encabezados de sección y cada razón o
