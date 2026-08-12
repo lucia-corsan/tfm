@@ -554,3 +554,85 @@ voz inglesa configurada en el emulador.
 
 La aplicación alcanza 37 pruebas automáticas. Queda pendiente repetir la
 revisión manual con TalkBack después de configurar la voz española.
+
+## 12 de agosto de 2026 — Procedencia e incertidumbre de las rutas reales
+
+### Problema
+
+La primera presentación de las rutas ORS mostraba adecuación, confianza e
+información desconocida, pero no explicaba de forma inmediata qué fuente había
+generado el recorrido ni qué atributos componían el porcentaje de
+incertidumbre. Además, los estados desconocido y desfavorable compartían una
+misma sección visual.
+
+### Decisión
+
+- Identificar ORS como motor del recorrido y OSM como fuente de evidencia.
+- Mantener ambos papeles separados: OSM no genera la ruta y ORS no proporciona
+  toda la evidencia de accesibilidad empleada por el sistema.
+- Enumerar los atributos `unknown` ya recibidos en los avisos de la API.
+- Presentar la evidencia desfavorable en una sección distinta.
+- Mantener el cálculo exclusivamente en el backend; la app solo selecciona y
+  transforma a lenguaje comprensible estados estructurados existentes.
+
+La mejora se validará con una respuesta ORS representativa y pruebas de lectura
+independiente con `es-ES`.
+
+### Implementación y validación
+
+La tarjeta de cada ruta real identifica ahora por separado el origen del
+recorrido y el de la evidencia: OpenRouteService genera la geometría y las
+instrucciones, mientras que OpenStreetMap aporta los atributos usados para
+evaluarla. El porcentaje de información desconocida se acompaña del número y
+la lista de atributos que no pudieron confirmarse. Los datos desfavorables se
+muestran en otra sección para evitar que «desconocido» se interprete como
+«obstáculo confirmado».
+
+Durante las pruebas se detectó que envolver cada aviso en un contenedor y un
+texto accesibles creaba dos paradas semánticas para TalkBack. Se sustituyó esa
+estructura por un único nodo accesible por aviso. Así, la persona puede recorrer
+los atributos pendientes uno a uno sin que se anuncien dos veces.
+
+El conjunto completo de la aplicación supera 38 pruebas en seis grupos. La
+comprobación estricta de tipos y ESLint también finalizan sin errores. Queda
+pendiente la validación manual del nuevo orden de lectura en el emulador.
+
+La comprobación manual posterior confirmó la procedencia, la separación entre
+información desconocida y desfavorable y una única parada de TalkBack por
+atributo. Con ello se considera validada esta presentación en el emulador.
+
+## 12 de agosto de 2026 — Tratamiento de ausencia de alternativas y fallos
+
+### Problema
+
+Una respuesta con todas las rutas descartadas es válida y distinta de un fallo
+de red. La pantalla podía mostrar en ese caso una explicación sobre la «primera
+posición», aunque no existiera ninguna alternativa aceptada. Además, solo el
+fallo de conexión tenía una prueba completa de presentación accesible.
+
+### Decisión
+
+- Mostrar un estado específico cuando no queda ninguna ruta compatible.
+- Conservar y explicar las rutas descartadas y sus restricciones incumplidas.
+- No reutilizar ese estado para los fallos de ORS o de red.
+- Probar por separado petición inválida, trayecto no disponible, proveedor no
+  disponible, respuesta incompatible y pérdida de conexión.
+
+### Incidencia de reproducibilidad
+
+La suite completa reveló que dos pruebas HTTP esperaban el proveedor sintético,
+pero heredaban `ROUTING_PROVIDER=ors` del archivo `.env` local. El código de
+producción funcionaba correctamente; la prueba no estaba aislada del entorno de
+la desarrolladora. Se añadió una configuración explícita y automática del
+proveedor sintético en esas pruebas. Los casos que verifican ORS siguen
+activándolo deliberadamente. De esta forma, cambiar el proveedor local ya no
+altera los resultados reproducibles de la integración continua.
+
+### Resultado
+
+La pantalla distingue los cinco fallos mediante mensajes sanitizados y ofrece
+un reintento accesible. Cuando todas las rutas se descartan, anuncia que no hay
+alternativas compatibles, evita hablar de una primera posición y mantiene
+visibles las restricciones incumplidas. La validación final alcanza 157 pruebas
+del backend y 43 de la aplicación; Ruff, TypeScript y ESLint terminan sin
+errores.

@@ -1,5 +1,8 @@
 """HTTP tests for profile-aware route comparison."""
 
+from collections.abc import Iterator
+
+import pytest
 from fastapi.testclient import TestClient
 
 from backend.config import Settings, get_settings
@@ -8,6 +11,20 @@ from backend.main import app
 from backend.routing.fixtures import load_pilot_route_scenario
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def _use_fixture_provider() -> Iterator[None]:
+    """Isolate deterministic API tests from the developer's local provider."""
+
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        routing_provider="fixture",
+        _env_file=None,
+    )
+    try:
+        yield
+    finally:
+        app.dependency_overrides.clear()
 
 
 def _valid_payload() -> dict[str, object]:
