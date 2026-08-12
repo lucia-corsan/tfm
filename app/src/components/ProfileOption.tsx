@@ -18,6 +18,7 @@ export function ProfileOption({
   return (
     <Pressable
       accessibilityHint={hint}
+      accessibilityLanguage="es-ES"
       accessibilityLabel={label}
       accessibilityRole="radio"
       accessibilityState={{ selected }}

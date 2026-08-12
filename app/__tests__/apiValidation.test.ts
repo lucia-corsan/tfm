@@ -1,6 +1,7 @@
 import {
   InvalidApiResponseError,
   parseApiErrorResponse,
+  parsePlaceSearchResponse,
   parseRouteCompareResponse,
 } from '@/api/validation';
 
@@ -154,5 +155,49 @@ describe('route comparison API validation', () => {
     expect(() => parseApiErrorResponse({ code: 'token_leaked' })).toThrow(
       InvalidApiResponseError,
     );
+  });
+});
+
+describe('place-search API validation', () => {
+  const validPlaces = {
+    places: [
+      {
+        place_id: 'principe_pio',
+        name: 'Príncipe Pío',
+        description: 'Intercambiador y entorno de la estación de Príncipe Pío.',
+        location: { latitude: 40.4211, longitude: -3.7206 },
+        source: 'pilot_catalog',
+      },
+    ],
+  };
+
+  test('accepts a bounded result from the pilot catalog', () => {
+    expect(parsePlaceSearchResponse(validPlaces)).toEqual(validPlaces);
+  });
+
+  test('rejects unknown sources and coordinates outside WGS84', () => {
+    expect(() =>
+      parsePlaceSearchResponse({
+        places: [{ ...validPlaces.places[0], source: 'untrusted_provider' }],
+      }),
+    ).toThrow(InvalidApiResponseError);
+    expect(() =>
+      parsePlaceSearchResponse({
+        places: [
+          {
+            ...validPlaces.places[0],
+            location: { latitude: 100, longitude: -3.7206 },
+          },
+        ],
+      }),
+    ).toThrow(InvalidApiResponseError);
+  });
+
+  test('rejects duplicate place identifiers', () => {
+    expect(() =>
+      parsePlaceSearchResponse({
+        places: [validPlaces.places[0], validPlaces.places[0]],
+      }),
+    ).toThrow(InvalidApiResponseError);
   });
 });

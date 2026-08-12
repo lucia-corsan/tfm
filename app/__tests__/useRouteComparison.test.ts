@@ -83,4 +83,42 @@ describe('route comparison state', () => {
 
     expect(result.current.state).toEqual({ status: 'idle' });
   });
+
+  test('sends the selected origin and destination to the comparison', async () => {
+    const compare = jest.fn().mockResolvedValue(successfulResponse());
+    const { result } = await renderHook(() => useRouteComparison(compare));
+
+    await act(() => {
+      result.current.selectOrigin({
+        place_id: 'arguelles',
+        name: 'Argüelles',
+        description: 'Entorno de la estación de Argüelles.',
+        location: { latitude: 40.4304497, longitude: -3.7155854 },
+        source: 'pilot_catalog',
+      });
+    });
+    await act(async () => {
+      await result.current.compareSelectedProfile();
+    });
+
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({
+        origin: { latitude: 40.4304497, longitude: -3.7155854 },
+        destination: { latitude: 40.4211, longitude: -3.7206 },
+      }),
+    );
+  });
+
+  test('does not compare when origin and destination are the same place', async () => {
+    const compare = jest.fn();
+    const { result } = await renderHook(() => useRouteComparison(compare));
+
+    await act(() => result.current.selectOrigin(result.current.destination));
+    await act(async () => {
+      await result.current.compareSelectedProfile();
+    });
+
+    expect(result.current.canCompare).toBe(false);
+    expect(compare).not.toHaveBeenCalled();
+  });
 });

@@ -1,13 +1,28 @@
 import type {
+  GeoPoint,
   MobilityProfile,
+  PlaceResult,
   PreferenceWeights,
   RouteCompareRequest,
 } from '@/api/types';
 
 export type DemoProfileId = 'balanced_demo' | 'simpler_crossings_demo';
 
-const PILOT_ORIGIN = { latitude: 40.4353, longitude: -3.7191 } as const;
-const PILOT_DESTINATION = { latitude: 40.4211, longitude: -3.7206 } as const;
+export const PILOT_ORIGIN_PLACE: PlaceResult = {
+  place_id: 'moncloa',
+  name: 'Moncloa',
+  description: 'Intercambiador y entorno de la plaza de Moncloa.',
+  location: { latitude: 40.4353, longitude: -3.7191 },
+  source: 'pilot_catalog',
+};
+
+export const PILOT_DESTINATION_PLACE: PlaceResult = {
+  place_id: 'principe_pio',
+  name: 'Príncipe Pío',
+  description: 'Intercambiador y entorno de la estación de Príncipe Pío.',
+  location: { latitude: 40.4211, longitude: -3.7206 },
+  source: 'pilot_catalog',
+};
 
 const BALANCED_WEIGHTS: PreferenceWeights = {
   distance: 1,
@@ -51,10 +66,12 @@ export const DEMO_PROFILES: Record<DemoProfileId, MobilityProfile> = {
 
 export function buildPilotComparisonRequest(
   profileId: DemoProfileId,
+  origin: GeoPoint = PILOT_ORIGIN_PLACE.location,
+  destination: GeoPoint = PILOT_DESTINATION_PLACE.location,
 ): RouteCompareRequest {
   return {
-    origin: { ...PILOT_ORIGIN },
-    destination: { ...PILOT_DESTINATION },
+    origin: { ...origin },
+    destination: { ...destination },
     profile: {
       ...DEMO_PROFILES[profileId],
       declared_weights: { ...DEMO_PROFILES[profileId].declared_weights },

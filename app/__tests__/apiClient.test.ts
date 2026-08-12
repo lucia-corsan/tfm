@@ -1,4 +1,4 @@
-import { compareRoutes, RouteApiError } from '@/api/client';
+import { compareRoutes, RouteApiError, searchPlaces } from '@/api/client';
 import type { RouteCompareRequest } from '@/api/types';
 
 const request: RouteCompareRequest = {
@@ -146,6 +146,43 @@ describe('route comparison API client', () => {
 
     await expect(
       compareRoutes(request, { fetchImplementation: fetchMock as typeof fetch }),
+    ).rejects.toMatchObject({ code: 'network_error', status: null });
+  });
+});
+
+describe('place-search API client', () => {
+  test('encodes the query and validates the returned places', async () => {
+    const payload = {
+      places: [
+        {
+          place_id: 'principe_pio',
+          name: 'Príncipe Pío',
+          description: 'Intercambiador y entorno de la estación de Príncipe Pío.',
+          location: { latitude: 40.4211, longitude: -3.7206 },
+          source: 'pilot_catalog',
+        },
+      ],
+    };
+    const fetchMock = jest.fn().mockResolvedValue(mockedResponse(payload));
+
+    const result = await searchPlaces('Príncipe Pío', {
+      baseUrl: 'http://10.0.2.2:8000/api/v1/',
+      fetchImplementation: fetchMock as typeof fetch,
+      limit: 3,
+    });
+
+    expect(result).toEqual(payload);
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://10.0.2.2:8000/api/v1/places/search?q=Pr%C3%ADncipe+P%C3%ADo&limit=3',
+      expect.objectContaining({ method: 'GET' }),
+    );
+  });
+
+  test('turns a network failure into the shared controlled error', async () => {
+    const fetchMock = jest.fn().mockRejectedValue(new Error('connection refused'));
+
+    await expect(
+      searchPlaces('Moncloa', { fetchImplementation: fetchMock as typeof fetch }),
     ).rejects.toMatchObject({ code: 'network_error', status: null });
   });
 });

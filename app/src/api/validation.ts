@@ -6,6 +6,8 @@ import type {
   ConstraintCode,
   ConstraintViolation,
   GeoPoint,
+  PlaceResult,
+  PlaceSearchResponse,
   PreferenceWeights,
   ReasonKind,
   RejectedRoute,
@@ -127,6 +129,29 @@ function parseGeoPoint(value: unknown): GeoPoint {
     latitude: asBoundedNumber(point.latitude, -90, 90),
     longitude: asBoundedNumber(point.longitude, -180, 180),
   };
+}
+
+function parsePlaceResult(value: unknown): PlaceResult {
+  const place = asRecord(value);
+  return {
+    place_id: asString(place.place_id),
+    name: asString(place.name),
+    description: asString(place.description),
+    location: parseGeoPoint(place.location),
+    source: asEnumValue(place.source, ['pilot_catalog'] as const),
+  };
+}
+
+export function parsePlaceSearchResponse(value: unknown): PlaceSearchResponse {
+  const response = asRecord(value);
+  if (!Array.isArray(response.places) || response.places.length > 10) {
+    return invalidResponse();
+  }
+  const places = response.places.map(parsePlaceResult);
+  if (new Set(places.map((place) => place.place_id)).size !== places.length) {
+    return invalidResponse();
+  }
+  return { places };
 }
 
 function parseWeights(value: unknown): PreferenceWeights {

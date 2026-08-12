@@ -18,6 +18,7 @@ export function PrimaryButton({
   return (
     <Pressable
       accessibilityHint={accessibilityHint}
+      accessibilityLanguage="es-ES"
       accessibilityLabel={label}
       accessibilityRole="button"
       accessibilityState={{ disabled, expanded }}

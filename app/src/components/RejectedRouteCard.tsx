@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { RejectedRoute } from '@/api/types';
+import { AccessibleText } from '@/components/AccessibleText';
 import { describeViolation } from '@/features/route-comparison/presenters';
 
 interface RejectedRouteCardProps {
@@ -10,13 +11,13 @@ interface RejectedRouteCardProps {
 export function RejectedRouteCard({ route }: RejectedRouteCardProps) {
   return (
     <View style={styles.card}>
-      <Text accessibilityRole="header" style={styles.title}>
+      <AccessibleText accessibilityRole="header" style={styles.title}>
         {route.name}
-      </Text>
+      </AccessibleText>
       {route.violations.map((violation) => (
-        <Text key={violation.code} style={styles.reason}>
+        <AccessibleText key={violation.code} style={styles.reason}>
           {describeViolation(violation)}
-        </Text>
+        </AccessibleText>
       ))}
     </View>
   );

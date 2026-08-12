@@ -1,4 +1,4 @@
-import { act, render, userEvent } from '@testing-library/react-native';
+import { act, fireEvent, render, userEvent } from '@testing-library/react-native';
 
 import { RouteApiError } from '@/api/client';
 import type {
@@ -165,6 +165,34 @@ describe('<RouteComparisonScreen />', () => {
     screen.getByText(ES.routeComparison.constraints.incompatible_crossings);
   });
 
+  test('exposes result paragraphs as independent Spanish reading stops', async () => {
+    const compare = jest.fn().mockResolvedValue(response());
+    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+
+    const introduction = await screen.findByRole('text', {
+      name: ES.routeComparison.resultIntroduction,
+    });
+    const reasonsHeader = screen.getAllByRole('header', {
+      name: ES.routeComparison.reasonsTitle,
+    })[0];
+    const firstReason = screen.getByRole('text', {
+      name: /Ventaja respecto a las demás alternativas: distancia/,
+    });
+    const warningsHeader = screen.getAllByRole('header', {
+      name: ES.routeComparison.warningsTitle,
+    })[0];
+
+    expect(introduction.props.accessibilityLanguage).toBe('es-ES');
+    expect(reasonsHeader.props.accessibilityLanguage).toBe('es-ES');
+    expect(firstReason.props.accessibilityLanguage).toBe('es-ES');
+    expect(warningsHeader.props.accessibilityLanguage).toBe('es-ES');
+  });
+
   test('sends the crossings profile and presents its changed order', async () => {
     const compare = jest.fn((request: RouteCompareRequest) =>
       Promise.resolve(
@@ -242,5 +270,86 @@ describe('<RouteComparisonScreen />', () => {
       name: `${ES.routeComparison.errorTitle}. ${ES.routeComparison.errors.network_error}`,
     });
     screen.getByRole('button', { name: ES.routeComparison.retryButton });
+  });
+
+  test('searches a place and sends its selected coordinates', async () => {
+    const arguelles = {
+      place_id: 'arguelles',
+      name: 'Argüelles',
+      description: 'Entorno de la estación de Argüelles.',
+      location: { latitude: 40.4304497, longitude: -3.7155854 },
+      source: 'pilot_catalog' as const,
+    };
+    const search = jest.fn().mockResolvedValue({ places: [arguelles] });
+    const compare = jest.fn().mockResolvedValue(response());
+    const screen = await render(
+      <RouteComparisonScreen compare={compare} search={search} />,
+    );
+    const user = userEvent.setup();
+
+    fireEvent.changeText(
+      screen.getByLabelText(
+        ES.routeComparison.placeSearch.origin.inputLabel,
+      ),
+      'Arguelles',
+    );
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.routeComparison.placeSearch.origin.searchButton,
+      }),
+    );
+    await user.press(
+      await screen.findByRole('button', {
+        name: `${arguelles.name}. ${arguelles.description}`,
+      }),
+    );
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+
+    expect(search).toHaveBeenCalledWith('Arguelles');
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({ origin: arguelles.location }),
+    );
+  });
+
+  test('blocks a comparison when both selected places are the same', async () => {
+    const moncloa = {
+      place_id: 'moncloa',
+      name: 'Moncloa',
+      description: 'Intercambiador y entorno de la plaza de Moncloa.',
+      location: { latitude: 40.4353, longitude: -3.7191 },
+      source: 'pilot_catalog' as const,
+    };
+    const search = jest.fn().mockResolvedValue({ places: [moncloa] });
+    const compare = jest.fn();
+    const screen = await render(
+      <RouteComparisonScreen compare={compare} search={search} />,
+    );
+    const user = userEvent.setup();
+
+    fireEvent.changeText(
+      screen.getByLabelText(
+        ES.routeComparison.placeSearch.destination.inputLabel,
+      ),
+      'Moncloa',
+    );
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.routeComparison.placeSearch.destination.searchButton,
+      }),
+    );
+    await user.press(
+      await screen.findByRole('button', {
+        name: `${moncloa.name}. ${moncloa.description}`,
+      }),
+    );
+
+    screen.getByRole('alert', { name: ES.routeComparison.samePlaceError });
+    screen.getByRole('button', {
+      disabled: true,
+      name: ES.routeComparison.compareButton,
+    });
+    expect(compare).not.toHaveBeenCalled();
   });
 });

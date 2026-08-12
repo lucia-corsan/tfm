@@ -4,7 +4,36 @@ export const ES = {
     eyebrow: 'MVP · Madrid',
     title: 'Compara rutas para caminar según tus preferencias',
     description:
-      'Prueba cómo cambia la recomendación entre Moncloa y Príncipe Pío al modificar el perfil.',
+      'Elige dos lugares del área piloto y prueba cómo cambia la recomendación al modificar el perfil.',
+    locationSectionTitle: 'Elige el origen y el destino',
+    locationSectionDescription:
+      'La búsqueda inicial se limita al entorno de Moncloa, Argüelles, Príncipe Pío y Plaza de España.',
+    samePlaceError: 'El origen y el destino deben ser lugares distintos.',
+    placeSearch: {
+      selectedLabel: 'Lugar seleccionado',
+      loading: 'Buscando lugares del área piloto.',
+      minimumCharacters: 'Escribe al menos dos caracteres para buscar.',
+      noResults: 'No se han encontrado lugares en el catálogo del área piloto.',
+      error: 'No se ha podido consultar el catálogo de lugares.',
+      origin: {
+        label: 'Origen',
+        inputLabel: 'Buscar lugar de origen',
+        inputHint: 'Escribe al menos dos caracteres y activa Buscar origen.',
+        searchButton: 'Buscar origen',
+        searchHint: 'Consulta lugares coincidentes dentro del área piloto.',
+        resultsTitle: 'Resultados para el origen',
+        resultHint: 'Selecciona este lugar como origen.',
+      },
+      destination: {
+        label: 'Destino',
+        inputLabel: 'Buscar lugar de destino',
+        inputHint: 'Escribe al menos dos caracteres y activa Buscar destino.',
+        searchButton: 'Buscar destino',
+        searchHint: 'Consulta lugares coincidentes dentro del área piloto.',
+        resultsTitle: 'Resultados para el destino',
+        resultHint: 'Selecciona este lugar como destino.',
+      },
+    },
     profileSectionTitle: 'Elige un perfil para esta comparación',
     profileGroupLabel: 'Perfiles de preferencias',
     profiles: {

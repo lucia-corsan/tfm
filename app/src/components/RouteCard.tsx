@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { ComparedRoute } from '@/api/types';
+import { AccessibleText } from '@/components/AccessibleText';
 import { MetricItem } from '@/components/MetricItem';
 import {
   describeReason,
@@ -19,19 +20,23 @@ export function RouteCard({ route }: RouteCardProps) {
   return (
     <View style={[styles.card, route.rank === 1 && styles.recommendedCard]}>
       <View style={styles.topLine}>
-        <Text style={styles.rank}>{ES.routeComparison.rankLabel(route.rank)}</Text>
+        <AccessibleText style={styles.rank}>
+          {ES.routeComparison.rankLabel(route.rank)}
+        </AccessibleText>
         {route.is_synthetic && (
-          <Text style={styles.synthetic}>{ES.routeComparison.syntheticData}</Text>
+          <AccessibleText style={styles.synthetic}>
+            {ES.routeComparison.syntheticData}
+          </AccessibleText>
         )}
       </View>
 
-      <Text accessibilityRole="header" style={styles.title}>
+      <AccessibleText accessibilityRole="header" style={styles.title}>
         {route.name}
-      </Text>
-      <Text style={styles.journey}>
+      </AccessibleText>
+      <AccessibleText style={styles.journey}>
         {ES.routeComparison.distance}: {formatDistance(route.distance_m)} ·{' '}
         {ES.routeComparison.duration}: {formatDuration(route.duration_s)}
-      </Text>
+      </AccessibleText>
 
       <View style={styles.metrics}>
         <MetricItem
@@ -48,24 +53,30 @@ export function RouteCard({ route }: RouteCardProps) {
         />
       </View>
 
-      <Text accessibilityRole="header" style={styles.sectionTitle}>
+      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
         {ES.routeComparison.reasonsTitle}
-      </Text>
+      </AccessibleText>
       {route.reasons.map((reason) => (
-        <Text key={`${reason.kind}-${reason.dimension}`} style={styles.detail}>
+        <AccessibleText
+          key={`${reason.kind}-${reason.dimension}`}
+          style={styles.detail}
+        >
           • {describeReason(reason)}
-        </Text>
+        </AccessibleText>
       ))}
 
-      <Text accessibilityRole="header" style={styles.sectionTitle}>
+      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
         {ES.routeComparison.warningsTitle}
-      </Text>
+      </AccessibleText>
       {route.warnings.length === 0 ? (
-        <Text style={styles.detail}>{ES.routeComparison.noWarnings}</Text>
+        <AccessibleText style={styles.detail}>
+          {ES.routeComparison.noWarnings}
+        </AccessibleText>
       ) : (
         route.warnings.map((warning) => (
           <View
             accessible
+            accessibilityLanguage="es-ES"
             accessibilityLabel={describeWarning(warning)}
             accessibilityRole="alert"
             key={warning.attribute}

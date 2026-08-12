@@ -1,6 +1,8 @@
 import {
   buildPilotComparisonRequest,
   DEMO_PROFILES,
+  PILOT_DESTINATION_PLACE,
+  PILOT_ORIGIN_PLACE,
 } from '@/features/route-comparison/profiles';
 
 describe('route comparison demonstration profiles', () => {
@@ -27,5 +29,22 @@ describe('route comparison demonstration profiles', () => {
     expect(first.profile.profile_id).toBe('balanced_demo');
     expect(first).not.toBe(second);
     expect(first.profile.declared_weights).not.toBe(second.profile.declared_weights);
+  });
+
+  test('uses selected coordinates without mutating the catalog places', () => {
+    const origin = { latitude: 40.4304497, longitude: -3.7155854 };
+    const destination = { latitude: 40.4246983, longitude: -3.7118298 };
+
+    const request = buildPilotComparisonRequest(
+      'balanced_demo',
+      origin,
+      destination,
+    );
+
+    expect(request.origin).toEqual(origin);
+    expect(request.destination).toEqual(destination);
+    expect(request.origin).not.toBe(origin);
+    expect(PILOT_ORIGIN_PLACE.name).toBe('Moncloa');
+    expect(PILOT_DESTINATION_PLACE.name).toBe('Príncipe Pío');
   });
 });

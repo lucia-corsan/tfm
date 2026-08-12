@@ -3,6 +3,20 @@ export interface GeoPoint {
   longitude: number;
 }
 
+export type PlaceSource = 'pilot_catalog';
+
+export interface PlaceResult {
+  place_id: string;
+  name: string;
+  description: string;
+  location: GeoPoint;
+  source: PlaceSource;
+}
+
+export interface PlaceSearchResponse {
+  places: PlaceResult[];
+}
+
 export interface PreferenceWeights {
   distance: number;
   complex_crossings: number;

@@ -9,7 +9,9 @@ export function MetricItem({ label, value }: MetricItemProps) {
   return (
     <View
       accessible
+      accessibilityLanguage="es-ES"
       accessibilityLabel={`${label}: ${value}`}
+      accessibilityRole="text"
       style={styles.metric}
     >
       <Text style={styles.value}>{value}</Text>

@@ -2,6 +2,11 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { AccessibleText } from '@/components/AccessibleText';
+import {
+  PlaceSearchField,
+  type SearchPlacesFunction,
+} from '@/components/PlaceSearchField';
 import { ProfileOption } from '@/components/ProfileOption';
 import { RejectedRouteCard } from '@/components/RejectedRouteCard';
 import { RouteCard } from '@/components/RouteCard';
@@ -14,6 +19,7 @@ import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
+  search?: SearchPlacesFunction;
 }
 
 const PROFILE_IDS: DemoProfileId[] = [
@@ -21,7 +27,7 @@ const PROFILE_IDS: DemoProfileId[] = [
   'simpler_crossings_demo',
 ];
 
-export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
+export function RouteComparisonScreen({ compare, search }: RouteComparisonScreenProps) {
   const controller = useRouteComparison(compare);
   const { state } = controller;
 
@@ -29,16 +35,49 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
-          <Text style={styles.eyebrow}>{ES.routeComparison.eyebrow}</Text>
-          <Text accessibilityRole="header" style={styles.title}>
+          <AccessibleText style={styles.eyebrow}>
+            {ES.routeComparison.eyebrow}
+          </AccessibleText>
+          <AccessibleText accessibilityRole="header" style={styles.title}>
             {ES.routeComparison.title}
-          </Text>
-          <Text style={styles.description}>{ES.routeComparison.description}</Text>
+          </AccessibleText>
+          <AccessibleText style={styles.description}>
+            {ES.routeComparison.description}
+          </AccessibleText>
         </View>
 
-        <Text accessibilityRole="header" style={styles.sectionTitle}>
+        <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
+          {ES.routeComparison.locationSectionTitle}
+        </AccessibleText>
+        <AccessibleText style={styles.infoText}>
+          {ES.routeComparison.locationSectionDescription}
+        </AccessibleText>
+        <PlaceSearchField
+          field="origin"
+          onSelect={controller.selectOrigin}
+          search={search}
+          selectedPlace={controller.origin}
+        />
+        <PlaceSearchField
+          field="destination"
+          onSelect={controller.selectDestination}
+          search={search}
+          selectedPlace={controller.destination}
+        />
+
+        {!controller.canCompare && (
+          <AccessibleText
+            accessibilityLiveRegion="assertive"
+            accessibilityRole="alert"
+            style={styles.validationError}
+          >
+            {ES.routeComparison.samePlaceError}
+          </AccessibleText>
+        )}
+
+        <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
           {ES.routeComparison.profileSectionTitle}
-        </Text>
+        </AccessibleText>
         <View
           accessibilityLabel={ES.routeComparison.profileGroupLabel}
           accessibilityRole="radiogroup"
@@ -61,7 +100,7 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
 
         <PrimaryButton
           accessibilityHint={ES.routeComparison.compareHint}
-          disabled={state.status === 'loading'}
+          disabled={state.status === 'loading' || !controller.canCompare}
           label={
             state.status === 'loading'
               ? ES.routeComparison.loadingButton
@@ -71,15 +110,20 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
         />
 
         {state.status === 'idle' && (
-          <View accessible style={styles.infoCard}>
-            <Text style={styles.infoTitle}>{ES.routeComparison.idleTitle}</Text>
-            <Text style={styles.infoText}>{ES.routeComparison.idleDescription}</Text>
+          <View style={styles.infoCard}>
+            <AccessibleText accessibilityRole="header" style={styles.infoTitle}>
+              {ES.routeComparison.idleTitle}
+            </AccessibleText>
+            <AccessibleText style={styles.infoText}>
+              {ES.routeComparison.idleDescription}
+            </AccessibleText>
           </View>
         )}
 
         {state.status === 'loading' && (
           <View
             accessible
+            accessibilityLanguage="es-ES"
             accessibilityLabel={ES.routeComparison.loading}
             accessibilityLiveRegion="polite"
             accessibilityRole="progressbar"
@@ -95,6 +139,7 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
           <View style={styles.errorCard}>
             <View
               accessible
+              accessibilityLanguage="es-ES"
               accessibilityLabel={`${ES.routeComparison.errorTitle}. ${ES.routeComparison.errors[state.code]}`}
               accessibilityLiveRegion="assertive"
               accessibilityRole="alert"
@@ -115,7 +160,7 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
 
         {state.status === 'success' && (
           <View style={styles.results}>
-            <Text
+            <AccessibleText
               accessibilityLiveRegion="polite"
               style={styles.resultSummary}
             >
@@ -123,25 +168,25 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
                 state.response.routes.length,
                 state.response.rejected_routes.length,
               )}
-            </Text>
-            <Text accessibilityRole="header" style={styles.sectionTitle}>
+            </AccessibleText>
+            <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
               {ES.routeComparison.resultTitle}
-            </Text>
-            <Text style={styles.infoText}>
+            </AccessibleText>
+            <AccessibleText style={styles.infoText}>
               {ES.routeComparison.resultIntroduction}
-            </Text>
+            </AccessibleText>
             {state.response.routes.map((route) => (
               <RouteCard key={route.route_id} route={route} />
             ))}
 
             {state.response.rejected_routes.length > 0 && (
               <View style={styles.rejectedSection}>
-                <Text accessibilityRole="header" style={styles.sectionTitle}>
+                <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
                   {ES.routeComparison.rejectedTitle}
-                </Text>
-                <Text style={styles.infoText}>
+                </AccessibleText>
+                <AccessibleText style={styles.infoText}>
                   {ES.routeComparison.rejectedDescription}
-                </Text>
+                </AccessibleText>
                 {state.response.rejected_routes.map((route) => (
                   <RejectedRouteCard key={route.route_id} route={route} />
                 ))}
@@ -150,7 +195,9 @@ export function RouteComparisonScreen({ compare }: RouteComparisonScreenProps) {
           </View>
         )}
 
-        <Text style={styles.disclaimer}>{ES.routeComparison.disclaimer}</Text>
+        <AccessibleText style={styles.disclaimer}>
+          {ES.routeComparison.disclaimer}
+        </AccessibleText>
       </ScrollView>
     </SafeAreaView>
   );
@@ -271,5 +318,15 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: -0.5,
     lineHeight: 41,
+  },
+  validationError: {
+    backgroundColor: '#FFF1F1',
+    borderColor: '#D99090',
+    borderRadius: 12,
+    borderWidth: 1,
+    color: '#5C2626',
+    fontSize: 15,
+    lineHeight: 22,
+    padding: 14,
   },
 });
