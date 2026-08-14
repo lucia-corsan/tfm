@@ -143,11 +143,35 @@ export const ES = {
     },
   },
   navigation: {
-    eyebrow: 'Navegación manual',
+    eyebrow: 'Navegación en primer plano',
     title: 'Sigue las instrucciones de la ruta',
     routeLabel: (routeName: string) => `Ruta elegida: ${routeName}.`,
     manualMode:
-      'El GPS todavía no está activo. Puedes recorrer las instrucciones con los controles manuales.',
+      'Los controles manuales permanecen disponibles aunque el GPS esté activo o no pueda utilizarse.',
+    gpsTitle: 'Seguimiento de la ruta mediante GPS',
+    activateGpsButton: 'Activar GPS durante la navegación',
+    activateGpsHint:
+      'Solicita permiso para usar tu ubicación solo mientras esta pantalla permanezca abierta.',
+    gpsStatus: {
+      gps_inactive:
+        'El GPS está desactivado. Puedes navegar manualmente o activarlo para seguir tu posición durante esta navegación.',
+      requesting_permission:
+        'Solicitando permiso para utilizar la ubicación mientras esta pantalla está abierta.',
+      waiting_for_location:
+        'GPS activado. Esperando una primera medición de ubicación.',
+      permission_denied:
+        'No se ha concedido el permiso de ubicación. Puedes continuar con los controles manuales.',
+      location_unavailable:
+        'No se ha podido activar el GPS. Puedes continuar con los controles manuales.',
+      poor_accuracy:
+        'La medición GPS es demasiado imprecisa y no se utilizará para avanzar ni detectar una desviación.',
+      on_route:
+        'GPS activo. La posición estimada se encuentra próxima al recorrido.',
+      possible_deviation:
+        'La posición parece alejarse del recorrido. La aplicación seguirá comprobándolo antes de mostrar una alerta.',
+      confirmation_required:
+        'Varias mediciones indican una posible desviación. Continúa con los controles disponibles hasta confirmar un nuevo recorrido.',
+    },
     progress: (current: number, total: number) =>
       `Instrucción ${current} de ${total}`,
     currentInstructionTitle: 'Instrucción actual',

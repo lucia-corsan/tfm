@@ -4,6 +4,14 @@ import type { ComparedRoute } from '@/api/types';
 import { NavigationScreen } from '@/screens/NavigationScreen';
 import { ES } from '../i18n/es';
 
+jest.mock('@/features/location/useForegroundRouteTracking', () => ({
+  useForegroundRouteTracking: () => ({
+    accuracyM: 5,
+    distanceToRouteM: 0,
+    status: 'on_route',
+  }),
+}));
+
 const weights = {
   distance: 1 / 9,
   complex_crossings: 1 / 9,
@@ -149,6 +157,9 @@ describe('<NavigationScreen />', () => {
     });
     screen.getByRole('text', { name: ES.navigation.unknownSummary(1) });
     screen.getByRole('text', { name: ES.navigation.unfavorableSummary(1) });
+    screen.getByRole('header', { name: ES.navigation.gpsTitle });
+    screen.getByRole('button', { name: ES.navigation.activateGpsButton });
+    screen.getByRole('text', { name: ES.navigation.gpsStatus.on_route });
   });
 
   test('moves forward and backward without exceeding the sequence', async () => {

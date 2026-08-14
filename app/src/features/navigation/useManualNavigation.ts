@@ -1,6 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import type { ComparedRoute, NavigationInstruction } from '@/api/types';
+import type { LocationSample } from '@/features/location/deviationDetector';
+import { distanceBetweenPointsMetres } from '@/features/location/geo';
+
+export const AUTO_ADVANCE_DISTANCE_M = 15;
+export const AUTO_ADVANCE_MAXIMUM_ACCURACY_M = 15;
 
 interface ManualNavigationController {
   canGoNext: boolean;
@@ -9,6 +14,7 @@ interface ManualNavigationController {
   currentInstruction: NavigationInstruction;
   goNext: () => void;
   goPrevious: () => void;
+  handleReliableLocation: (sample: LocationSample) => void;
   totalInstructions: number;
 }
 
@@ -28,6 +34,26 @@ export function useManualNavigation(
     setCurrentIndex((index) => Math.min(index + 1, totalInstructions - 1));
   }, [totalInstructions]);
 
+  const handleReliableLocation = useCallback(
+    (sample: LocationSample) => {
+      if (sample.accuracyM > AUTO_ADVANCE_MAXIMUM_ACCURACY_M) {
+        return;
+      }
+      setCurrentIndex((index) => {
+        const nextInstruction = route.instructions[index + 1];
+        if (
+          nextInstruction &&
+          distanceBetweenPointsMetres(sample, nextInstruction.location) <=
+            AUTO_ADVANCE_DISTANCE_M
+        ) {
+          return index + 1;
+        }
+        return index;
+      });
+    },
+    [route.instructions],
+  );
+
   return useMemo(
     () => ({
       canGoNext,
@@ -36,6 +62,7 @@ export function useManualNavigation(
       currentInstruction: route.instructions[currentIndex],
       goNext,
       goPrevious,
+      handleReliableLocation,
       totalInstructions,
     }),
     [
@@ -44,6 +71,7 @@ export function useManualNavigation(
       currentIndex,
       goNext,
       goPrevious,
+      handleReliableLocation,
       route.instructions,
       totalInstructions,
     ],

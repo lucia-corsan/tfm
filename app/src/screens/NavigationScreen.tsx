@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -6,6 +7,7 @@ import { AccessibleText } from '@/components/AccessibleText';
 import { InstructionAccessibilityEvent } from '@/components/InstructionAccessibilityEvent';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { useManualNavigation } from '@/features/navigation/useManualNavigation';
+import { useForegroundRouteTracking } from '@/features/location/useForegroundRouteTracking';
 import {
   formatDistance,
   formatDuration,
@@ -18,7 +20,13 @@ interface NavigationScreenProps {
 }
 
 export function NavigationScreen({ onFinish, route }: NavigationScreenProps) {
+  const [gpsEnabled, setGpsEnabled] = useState(false);
   const controller = useManualNavigation(route);
+  const tracking = useForegroundRouteTracking(
+    route.geometry,
+    controller.handleReliableLocation,
+    gpsEnabled,
+  );
   const instruction = controller.currentInstruction;
   const unknownCount = route.warnings.filter(
     (warning) => warning.state === 'unknown',
@@ -42,6 +50,22 @@ export function NavigationScreen({ onFinish, route }: NavigationScreenProps) {
         <AccessibleText style={styles.manualNotice}>
           {ES.navigation.manualMode}
         </AccessibleText>
+
+        <View style={styles.gpsCard}>
+          <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
+            {ES.navigation.gpsTitle}
+          </AccessibleText>
+          <AccessibleText accessibilityLiveRegion="polite" style={styles.detail}>
+            {ES.navigation.gpsStatus[tracking.status]}
+          </AccessibleText>
+          {!gpsEnabled && (
+            <PrimaryButton
+              accessibilityHint={ES.navigation.activateGpsHint}
+              label={ES.navigation.activateGpsButton}
+              onPress={() => setGpsEnabled(true)}
+            />
+          )}
+        </View>
 
         <AccessibleText
           accessibilityLiveRegion="polite"
@@ -199,6 +223,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     gap: 12,
     padding: 22,
+  },
+  gpsCard: {
+    backgroundColor: '#E7F4EE',
+    borderColor: '#69B693',
+    borderRadius: 16,
+    borderWidth: 1,
+    gap: 8,
+    padding: 18,
   },
   instructionText: {
     color: '#17213A',
