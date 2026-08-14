@@ -57,6 +57,14 @@ La narración será determinista y compartirá una única fuente estructurada co
 la interfaz y TTS. Con TalkBack activo se evitarán locuciones automáticas que
 puedan solaparse con el lector de pantalla.
 
+El estado del GPS se presenta como texto y como región dinámica moderada. La
+solicitud del permiso solo aparece después de pulsar un botón que explica su
+alcance durante la navegación. El
+permiso denegado, la precisión insuficiente y la posible desviación mantienen
+disponibles los controles manuales. El avance automático no puede saltar más de
+una instrucción por muestra y nunca elimina la posibilidad de avanzar o
+retroceder mediante botones accesibles.
+
 La instrucción de orientación y el contexto de accesibilidad serán paradas de
 lectura separadas. Para un cruce próximo, TalkBack permitirá recorrer de forma
 independiente el resumen del cruce y los detalles sobre semáforo, señal acústica

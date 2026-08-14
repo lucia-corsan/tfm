@@ -8,6 +8,12 @@
 - Un fallo externo conserva el último estado válido.
 - El rerouting requiere confirmación explícita.
 - No se registran tokens, audio ni coordenadas de navegación.
+- Las posiciones GPS se mantienen únicamente en memoria durante la pantalla de
+  navegación y se descartan al eliminar el observador.
+- El permiso de ubicación no se solicita hasta que la persona activa el GPS
+  explícitamente desde la pantalla de navegación.
+- Una muestra con precisión peor de 25 m no interviene en el seguimiento; el
+  avance automático exige como máximo 15 m de precisión.
 - Las consultas de direcciones no se escriben en los logs. El nivel informativo
   de `httpx` se desactiva porque una petición GET puede incluir el texto buscado
   en la URL. También se desactiva el registro informativo de acceso de Uvicorn,

@@ -63,7 +63,19 @@ Pendiente.
 
 ## GPS y rerouting
 
-Pendiente.
+El primer incremento de GPS incorpora cálculo local de distancia a la ruta,
+activación voluntaria, permiso exclusivamente en primer plano y limpieza de la suscripción al abandonar
+la pantalla y un detector espacial y temporal. Se rechazan muestras con más de
+25 m de imprecisión y se exigen tres lecturas fiables fuera de 30 m durante al
+menos 10 s. El avance automático aplica 15 m tanto a la precisión máxima como a
+la proximidad a la siguiente maniobra y solo avanza un paso por muestra.
+
+La aplicación alcanza 70 pruebas: 17 nuevas cubren geometría, estados de
+desviación, activación explícita, permiso denegado, alta y baja del observador y
+avance automático.
+TypeScript y ESLint finalizan sin errores. Falta la simulación manual de
+ubicaciones en Android Emulator y el experimento de sensibilidad con 20, 30 y
+40 m. El endpoint de rerouting no forma parte todavía de este resultado.
 
 ## Narración y navegación manual
 
@@ -83,8 +95,9 @@ vibratoria, pavimento podotáctil, bordillo y rampa. Las pruebas verifican adem�
 que una etiqueta ausente se conserva como desconocida y nunca se transforma en
 una ausencia afirmada.
 
-Sobre la caché real, las tres alternativas generaron 32, 49 y 27 eventos, con
-192, 294 y 162 detalles accesibles. No quedó ninguna instrucción con `-` como
+Sobre la caché real, las tres alternativas conservan 27, 38 y 23 cruces
+navegacionales tras agrupar las dobles representaciones nodo-vía, con 162, 228
+y 138 detalles accesibles. No quedó ninguna instrucción con `-` como
 referencia. El volumen confirma que la cadena completa usa la instantánea OSM;
 no convierte esos metadatos colaborativos en observaciones garantizadas del
 estado actual de la calle.
@@ -95,7 +108,7 @@ calle, que el momento de cada aviso sea adecuado o que la interacción con TTS y
 TalkBack no produzca solapamientos. Esas cuestiones requieren la revisión manual
 del emulador y, posteriormente, recorridos simulados o controlados con GPS.
 
-La validación automática alcanza 229 pruebas de backend y 53 de la aplicación,
+La validación automática alcanza 231 pruebas de backend y 70 de la aplicación,
 con Ruff, TypeScript y ESLint sin errores. Falta recorrer manualmente los nuevos
 eventos con TalkBack en el emulador; por ello este resultado valida la coherencia
 del software, pero todavía no la facilidad de uso del contenido en movimiento.

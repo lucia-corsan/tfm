@@ -171,6 +171,38 @@ automática. Su finalidad es comprobar la coherencia de los datos y de la
 interfaz accesible antes de añadir el ruido propio del GPS y la posible
 interferencia entre TTS y TalkBack.
 
+### Seguimiento GPS en primer plano
+
+El segundo incremento añadió el seguimiento sin modificar todavía la ruta. La
+aplicación explica primero para qué necesita la ubicación y solicita permiso
+solo si la persona pulsa el botón de activación. El permiso se limita al uso de
+la pantalla de navegación y se crea un único observador de posición. Al cerrar
+la pantalla se elimina la
+suscripción. Las coordenadas se procesan en memoria para calcular la distancia a
+la polilínea activa; no se guardan, no se imprimen en los registros y no se
+envían a ORS durante esta fase.
+
+La detección separa precisión, distancia y persistencia temporal. Las muestras
+con una precisión peor de 25 m se descartan. Una lectura situada a más de 30 m
+solo inicia un estado de posible desviación; se requieren al menos tres muestras
+fiables y diez segundos antes de solicitar confirmación. Una lectura fiable
+dentro del corredor reinicia la secuencia. Esta política evita interpretar un
+salto aislado del GPS como abandono de la ruta.
+
+El avance automático utiliza límites más estrictos porque decidir que se ha
+alcanzado una maniobra es distinto de detectar un alejamiento. Solo avanza si la
+precisión es de 15 m o mejor y la posición queda a 15 m o menos del siguiente
+punto. Cada muestra puede avanzar como máximo un paso. Los botones de avance y
+retroceso permanecen disponibles cuando se deniega el permiso, falla el sensor
+o la posición es imprecisa.
+
+El detector se implementó como lógica TypeScript independiente de la interfaz,
+lo que permite reproducir secuencias GPS sintéticas. La app comunica mediante
+TalkBack los estados de espera, permiso denegado, baja precisión, seguimiento,
+posible desviación y confirmación necesaria. El recálculo se mantiene fuera de
+este incremento: primero se valida la estabilidad de la señal y después se
+conectará al endpoint de rerouting.
+
 En el incremento actual, el perfil seleccionado se conserva únicamente durante
 la sesión mediante el estado del componente y se incluye en cada petición. El
 backend calcula el ranking sin almacenar usuarios ni preferencias. La fase de
@@ -200,7 +232,7 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 229 pruebas superadas y la aplicación alcanza 53 pruebas en siete
+mantiene 231 pruebas superadas y la aplicación alcanza 70 pruebas en once
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
@@ -221,6 +253,7 @@ implementación final y enlazar evidencias.
 - [Especificación de la API](../product/especificacion-api.md).
 - [Comparación en la app](../product/comparacion-rutas-app.md).
 - [Narración y navegación manual](../product/narracion-talkback-tts.md).
+- [GPS en primer plano y rerouting confirmado](../product/gps-rerouting.md).
 - [Integración de ORS](../research/integracion-openrouteservice.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).

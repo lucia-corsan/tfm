@@ -1,5 +1,16 @@
 # Journal de desarrollo
 
+## 14 de agosto de 2026 — Semana 3, día 2: GPS en primer plano
+
+Se incorporaron una activación voluntaria, el permiso de ubicación durante el uso, un observador limitado
+a la pantalla de navegación, el cálculo local de distancia a la ruta y un
+detector conservador. Las muestras con precisión peor de 25 m no intervienen y
+una posible desviación requiere tres lecturas fiables fuera de 30 m durante al
+menos 10 s. El avance automático usa límites de 15 m y conserva los controles
+manuales. La aplicación alcanza 70 pruebas; queda pendiente la validación con
+ubicaciones simuladas en Android Emulator. La decisión completa se documenta en
+[GPS y rerouting](product/gps-rerouting.md).
+
 ## 14 de agosto de 2026 — Contexto accesible por instrucción
 
 La prueba manual de una ruta real reveló una referencia `-` pronunciada como

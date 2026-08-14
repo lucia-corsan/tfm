@@ -47,8 +47,12 @@ códigos de maniobra y posiciones sobre la geometría; el backend los transforma
 en maniobras independientes del proveedor y genera una frase española mediante
 plantillas. La app valida de nuevo orden y posiciones antes de mostrar el
 contenido. En el primer incremento, la persona avanza manualmente. El GPS podrá
-decidir más adelante cuándo proponer el siguiente paso, pero no cambiará el
-texto ni las reglas de accesibilidad.
+decidir cuándo proponer el siguiente paso, pero no cambia el texto ni las reglas
+de accesibilidad. La app calcula localmente la distancia entre cada muestra y la
+polilínea, filtra la precisión y mantiene el detector separado del componente
+visual. La suscripción existe solo mientras la pantalla de navegación está
+montada. El rerouting permanece en una fase posterior y reutilizará el estado de
+confirmación producido por este detector.
 
 La aplicación también se divide por responsabilidades. Los componentes no
 realizan peticiones ni calculan puntuaciones; un hook controla los estados y un
