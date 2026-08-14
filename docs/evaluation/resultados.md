@@ -1,7 +1,7 @@
 # Resultados de evaluación
 
 Estado: `En implementación`
-Última actualización: 12 de agosto de 2026
+Última actualización: 14 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
@@ -64,6 +64,41 @@ Pendiente.
 ## GPS y rerouting
 
 Pendiente.
+
+## Narración y navegación manual
+
+La cadena de instrucciones se ha validado automáticamente desde la respuesta de
+ORS hasta la pantalla. Los catorce códigos documentados se traducen a maniobras
+propias y frases españolas deterministas. Backend y app rechazan secuencias
+desordenadas, referencias inexistentes o coordenadas que no coincidan con la
+geometría. La interfaz permite escoger una alternativa, avanzar y retroceder sin
+salirse de los límites y terminar mediante una acción explícita.
+
+La revisión manual descubrió una referencia de relleno procedente de ORS y la
+ausencia de contexto OSM en el paso concreto. Tras la corrección, los guiones y
+otros marcadores de ausencia ya no se pronuncian como nombres de calle. Los
+cruces y escalones se sitúan dentro de la secuencia y sus detalles se entregan
+como unidades independientes: tipo de cruce, semáforo, ayuda acústica o
+vibratoria, pavimento podotáctil, bordillo y rampa. Las pruebas verifican además
+que una etiqueta ausente se conserva como desconocida y nunca se transforma en
+una ausencia afirmada.
+
+Sobre la caché real, las tres alternativas generaron 32, 49 y 27 eventos, con
+192, 294 y 162 detalles accesibles. No quedó ninguna instrucción con `-` como
+referencia. El volumen confirma que la cadena completa usa la instantánea OSM;
+no convierte esos metadatos colaborativos en observaciones garantizadas del
+estado actual de la calle.
+
+Estos resultados demuestran coherencia del software con datos reproducibles. No
+permiten concluir todavía que las instrucciones sean fáciles de seguir en la
+calle, que el momento de cada aviso sea adecuado o que la interacción con TTS y
+TalkBack no produzca solapamientos. Esas cuestiones requieren la revisión manual
+del emulador y, posteriormente, recorridos simulados o controlados con GPS.
+
+La validación automática alcanza 229 pruebas de backend y 53 de la aplicación,
+con Ruff, TypeScript y ESLint sin errores. Falta recorrer manualmente los nuevos
+eventos con TalkBack en el emulador; por ello este resultado valida la coherencia
+del software, pero todavía no la facilidad de uso del contenido en movimiento.
 
 ## Accesibilidad y usabilidad
 

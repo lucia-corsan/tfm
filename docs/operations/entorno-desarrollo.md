@@ -2,7 +2,7 @@
 
 Estado: `Validado`
 
-Última actualización: 12 de agosto de 2026
+Última actualización: 13 de agosto de 2026
 
 Responsabilidad principal: `operations`
 
@@ -89,15 +89,17 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 175 pruebas superadas tras conectar el
-  enriquecimiento OSM con rutas reales y la geocodificación acotada.
-- App: 46 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+- Backend: Ruff correcto y 211 pruebas superadas tras incorporar instrucciones
+  de navegación validadas y narración determinista.
+- App: 51 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación
   tras detener y reiniciar FastAPI.
 - Búsqueda libre de una dirección del área piloto, selección y comparación
   posterior validadas en Android Emulator.
+- Navegación manual validada automáticamente; su recorrido completo con
+  TalkBack en Android Emulator sigue pendiente.
 
 ## Limitaciones
 

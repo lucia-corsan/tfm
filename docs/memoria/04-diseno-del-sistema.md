@@ -49,6 +49,28 @@ en el backend, coordenadas fuera de los registros y confirmación del rerouting.
 TalkBack, controles de 44 puntos, contraste WCAG 2.2 AA, navegación no
 dependiente del mapa y coordinación de TTS.
 
+### Diseño de las instrucciones de navegación
+
+La ruta y su narración se han diseñado como datos relacionados, pero no
+intercambiables. Una línea sobre el mapa indica por dónde discurre el recorrido;
+una instrucción identifica qué acción debe realizarse en un punto concreto de
+esa línea. Cada instrucción incluye orden, maniobra, frase, distancia, duración
+y posición. El sistema rechaza secuencias con saltos, retrocesos o puntos que no
+pertenecen a la geometría.
+
+Los códigos numéricos de OpenRouteService se traducen en el backend a catorce
+maniobras propias. Así, la app no queda ligada a los números de un proveedor y
+las rutas sintéticas y reales utilizan el mismo modelo. Las frases se generan
+mediante plantillas españolas, por lo que pueden revisarse y probarse sin
+depender de texto libre externo.
+
+La interfaz exige una elección explícita antes de navegar y muestra un paso cada
+vez. Los controles manuales constituyen una fase intermedia deliberada: permiten
+validar secuencia, comprensión y accesibilidad antes de añadir GPS, que introduce
+ruido e incertidumbre propios. Los avisos sobre accesibilidad permanecen visibles
+y separados de la maniobra para impedir que «gira a la derecha» se interprete
+como «este tramo es seguro».
+
 ## IA explicable
 
 Separación entre reglas, puntuación, aprendizaje por pares (*pairwise*) y

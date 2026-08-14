@@ -57,6 +57,13 @@ La narración será determinista y compartirá una única fuente estructurada co
 la interfaz y TTS. Con TalkBack activo se evitarán locuciones automáticas que
 puedan solaparse con el lector de pantalla.
 
+La instrucción de orientación y el contexto de accesibilidad serán paradas de
+lectura separadas. Para un cruce próximo, TalkBack permitirá recorrer de forma
+independiente el resumen del cruce y los detalles sobre semáforo, señal acústica
+o vibratoria, pavimento podotáctil, bordillo y rampa. Un detalle desconocido se
+leerá como falta de información, nunca como ausencia del elemento. Las frases
+indicarán su procedencia cuando una afirmación dependa de OSM.
+
 ## Comparación móvil implementada
 
 La primera pantalla funcional aplica los principios anteriores de esta manera:

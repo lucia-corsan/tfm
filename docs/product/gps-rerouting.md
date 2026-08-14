@@ -1,7 +1,7 @@
 # GPS en primer plano y rerouting confirmado
 
 Estado: `Vigente`  
-Última actualización: 8 de agosto de 2026  
+Última actualización: 13 de agosto de 2026
 Responsabilidad principal: `product`
 
 ## Problema que resuelve
@@ -46,7 +46,10 @@ Entrada: posición, precisión, instante y geometría activa. Salida: estado
 
 ## Implementación
 
-Pendiente para la semana 3. La especificación completa se conserva en
+La secuencia de instrucciones, la selección explícita de ruta y el avance
+manual ya están implementados y constituyen la base del seguimiento. Permanecen
+pendientes el detector puro, los permisos, el GPS, la confirmación y el endpoint
+de rerouting. La especificación completa se conserva en
 [el alcance del MVP](alcance-mvp.md#12-gps-y-rerouting).
 
 ## Pruebas

@@ -101,6 +101,76 @@ La aplicación no recalcula la recomendación. Traduce a español los factores y
 avisos estructurados del backend, garantizando que la interfaz visual y TalkBack
 describan las mismas variables empleadas por el sistema de decisión.
 
+### Primer incremento de navegación
+
+La navegación se implementó primero sin GPS para separar dos problemas: saber
+qué instrucción corresponde a cada tramo y decidir automáticamente cuándo debe
+avanzarse. OpenRouteService entrega códigos numéricos de maniobra. El backend
+traduce los catorce códigos documentados a nombres propios, comprueba su orden y
+su posición sobre la geometría y genera una frase breve en español mediante una
+plantilla. Cuando no existe nombre de calle, no se inventa ninguna referencia.
+
+La respuesta de comparación incorpora la secuencia completa. Antes de mostrarla,
+la aplicación comprueba de nuevo que las instrucciones sean consecutivas y que
+cada posición coincida con un punto de la ruta. Cada alternativa aceptada ofrece
+el botón «Elegir esta ruta»; las descartadas no pueden iniciar navegación. La
+ruta seleccionada se conserva solo en memoria y se abre en una pantalla que
+muestra un paso cada vez, con progreso, distancia, duración y controles para
+avanzar o retroceder.
+
+Los límites se protegen de forma explícita: no se puede retroceder desde el
+primer paso ni avanzar después de la llegada. Finalizar requiere una acción de
+la persona y devuelve a la comparación. Durante el recorrido manual se mantiene
+un resumen de información desconocida y evidencia desfavorable, junto con el
+aviso de que las instrucciones no garantizan accesibilidad completa.
+
+Una comprobación manual con una ruta real permitió detectar dos carencias. En
+primer lugar, una referencia de calle con el valor de relleno `-` producía la
+frase «Gira a la derecha hacia -». Se añadió una única regla de limpieza que
+descarta guiones y expresiones equivalentes a «sin nombre» antes de crear la
+frase y antes de enviar la referencia a la aplicación. Cuando no existe un nombre
+válido, se conserva la maniobra —por ejemplo, «Gira a la derecha»— sin inventar
+una calle.
+
+En segundo lugar, la caracterización OSM se utilizaba para puntuar la ruta y para
+el resumen global, pero no se presentaba junto al paso de navegación al que
+afectaba. Se incorporó un nivel intermedio de «evento de accesibilidad». Cada
+cruce o tramo con escalones se proyecta sobre la geometría y se asigna a la
+instrucción que contiene esa posición. Para los cruces se informa por separado
+del tipo de paso, semáforo, señal acústica o vibratoria, pavimento podotáctil,
+bordillo y rampa. Esta separación permite que TalkBack lea cada dato como un
+párrafo independiente y que la persona decida cuándo avanzar.
+
+Una segunda revisión mostró que separar correctamente los datos tampoco bastaba:
+«Gira a la derecha», la distancia y las características del cruce seguían siendo
+piezas aisladas. La instrucción principal pasó a integrar la acción inmediata,
+la distancia posterior a la maniobra y el primer punto de referencia no visual.
+Así, una frase real puede indicar: «Gira a la derecha. Después del giro, avanza
+34 metros. Al comenzar este tramo, los datos sitúan un cruce peatonal. Constan
+estas características: semáforo y señal acústica». Los detalles completos se
+mantienen debajo para su consulta secuencial.
+
+Se evitó la promesa «escucharás el semáforo»: OSM acredita que la característica
+está declarada, pero no que siga operativa en el momento del recorrido. Tampoco
+se introdujeron todavía rumbos cardinales. Sin brújula ni GPS, un rumbo derivado
+de pocos puntos puede ser inestable y exigir una orientación absoluta que la
+persona no comparte necesariamente. La formulación se evaluará con personas
+ciegas antes de considerarla definitiva.
+
+El tratamiento es deliberadamente conservador. Una etiqueta afirmativa en OSM
+permite comunicar la característica declarada; una etiqueta negativa produce un
+aviso; una etiqueta ausente se expresa como «no se puede confirmar». Por tanto,
+la falta de una etiqueta sobre señal acústica nunca se convierte en la afirmación
+de que el semáforo no emite sonido. Los objetos se limitan al corredor espacial
+de 5 m ya calibrado y se describen como «próximos», pues la cercanía no demuestra
+por sí sola el lado exacto de la calle. Los escalones, por su riesgo, solo se
+anuncian cuando cumplen la regla estricta de alineación con la ruta.
+
+Esta etapa no guarda coordenadas, no sigue la ubicación y no emite voz
+automática. Su finalidad es comprobar la coherencia de los datos y de la
+interfaz accesible antes de añadir el ruido propio del GPS y la posible
+interferencia entre TTS y TalkBack.
+
 En el incremento actual, el perfil seleccionado se conserva únicamente durante
 la sesión mediante el estado del componente y se incluye en cada petición. El
 backend calcula el ranking sin almacenar usuarios ni preferencias. La fase de
@@ -130,8 +200,13 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 175 pruebas superadas y la aplicación alcanza 46 pruebas en
-seis grupos, además de superar lint y comprobación estricta de tipos.
+mantiene 229 pruebas superadas y la aplicación alcanza 53 pruebas en siete
+grupos, además de superar lint y comprobación estricta de tipos. En navegación
+se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
+la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
+elegida, el avance, el retroceso, los límites y la finalización explícita. La
+revisión manual final con TalkBack de los nuevos eventos sigue pendiente y se
+documentará por separado de la validación automática.
 
 ## Decisiones e incidencias
 
@@ -145,6 +220,7 @@ implementación final y enlazar evidencias.
 - [Incidencias](../operations/incidencias.md).
 - [Especificación de la API](../product/especificacion-api.md).
 - [Comparación en la app](../product/comparacion-rutas-app.md).
+- [Narración y navegación manual](../product/narracion-talkback-tts.md).
 - [Integración de ORS](../research/integracion-openrouteservice.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).

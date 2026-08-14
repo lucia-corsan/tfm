@@ -2,7 +2,7 @@
 
 Estado: `En implementación`
 
-Última actualización: 11 de agosto de 2026
+Última actualización: 13 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -103,6 +103,10 @@ La respuesta incluirá:
 - Origen y destino resueltos por el proveedor.
 - Rutas aceptadas en orden, con nombre, categoría, procedencia, geometría,
   distancia, duración y marcado de datos sintéticos.
+- Instrucciones ordenadas de navegación con maniobra, frase española,
+  distancia, duración y posición sobre la geometría.
+- Eventos de accesibilidad ordenados dentro de cada instrucción, con distancia
+  aproximada, procedencia OSM y detalles trivaluados sobre cruces y apoyos.
 - Adecuación, confianza, incertidumbre, costes, pesos y contribuciones.
 - Hasta tres factores explicativos y todos los avisos derivados de la evidencia.
 - Rutas descartadas con sus motivos de incompatibilidad crítica.
@@ -144,6 +148,7 @@ mismo perfil y las mismas restricciones.
 - Endpoint de comparación: `backend/api/routes/compare.py`.
 - Proveedores intercambiables: `backend/routing/providers.py`.
 - Servicio de comparación: `backend/services/route_comparison.py`.
+- Narración determinista: `backend/narration/templates.py`.
 
 ## Pruebas
 
@@ -153,6 +158,9 @@ de coordenadas, personalización, reproducibilidad, errores 404/422/503
 sanitizados, esquema OpenAPI y transformación del proveedor ORS enriquecido.
 Para la búsqueda se comprueban coincidencias sin tildes, alias internos, orden
 determinista, límites, ausencia de resultados y respuestas públicas validadas.
+Las instrucciones deben estar ordenadas, referenciar puntos existentes y
+coincidir con la geometría expuesta; estas reglas se repiten en la validación
+móvil.
 
 ## Resultados
 
@@ -160,7 +168,7 @@ determinista, límites, ausencia de resultados y respuestas públicas validadas.
 `POST /api/v1/routes/compare` responden correctamente en las pruebas. El perfil
 predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza 157 pruebas. La validación manual en la documentación interactiva
+backend alcanza actualmente 211 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La
@@ -186,5 +194,6 @@ especificaciones de comparación y rerouting.
 
 - [x] Implementar la primera búsqueda local de lugares del área piloto.
 - [x] Implementar comparación de rutas con el proveedor de *fixtures*.
+- [x] Incorporar instrucciones de navegación validadas a las rutas aceptadas.
 - [ ] Implementar rerouting confirmado.
 - [x] Crear tipos TypeScript equivalentes y validación móvil en ejecución.

@@ -1,5 +1,75 @@
 # Journal de desarrollo
 
+## 14 de agosto de 2026 — Contexto accesible por instrucción
+
+La prueba manual de una ruta real reveló una referencia `-` pronunciada como
+calle y que la información OSM solo aparecía resumida para toda la ruta. Se
+normalizaron los nombres de vía y se añadieron eventos OSM ordenados dentro de
+cada instrucción, con detalles independientes para TalkBack y estados favorable,
+desfavorable o desconocido. La ausencia de una etiqueta nunca se interpreta
+como ausencia física. Una segunda revisión integró maniobra, distancia y primer
+evento en un resumen operativo, sin prometer el funcionamiento actual de las
+ayudas declaradas. La decisión completa se documenta en
+[Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
+
+La misma revisión detectó dobles representaciones nodo-vía del mismo cruce y
+maniobras de ORS separadas por menos de 10 m. Se agruparon los cruces
+coincidentes conservando sus etiquetas y las micromaniobras se integraron en
+frases secuenciales sin eliminar giros. El diagnóstico, los umbrales iniciales y
+los resultados reales se registran en la
+[incidencia INC-010](operations/incidencias.md#inc-010--cruces-repetidos-y-micromaniobras-aisladas).
+
+## 13 de agosto de 2026 — Semana 3, día 1: instrucciones y navegación manual
+
+### Objetivo
+
+Construir y comprobar la cadena de instrucciones antes de introducir GPS. La
+separación permite saber si un problema pertenece a la ruta o a la localización,
+en lugar de depurar ambos a la vez.
+
+### Decisiones
+
+- Traducir los catorce códigos de maniobra de ORS a un modelo propio.
+- Generar frases mediante plantillas españolas y no depender del texto libre
+  del proveedor.
+- Validar orden, posición y coordenada en el dominio, la API y la app.
+- Exigir una elección explícita de una ruta aceptada.
+- Empezar con avance manual y mantener GPS, TTS y rerouting fuera de este día.
+- Separar las maniobras de los avisos de accesibilidad para no convertir una
+  indicación de dirección en una promesa de seguridad.
+
+### Trabajo completado
+
+1. Se añadió el modelo de instrucción a rutas reales y sintéticas.
+2. Las rutas ORS conservan maniobra, calle, distancia, duración y punto de la
+   geometría; el backend genera la frase final.
+3. La API devuelve instrucciones solo para rutas aceptadas y comprueba su
+   coherencia antes de responder.
+4. La app valida de nuevo esos datos, permite elegir una alternativa y abre una
+   pantalla manual con progreso, avance, retroceso, contexto y finalización.
+5. Las muestras antiguas de pruebas se adaptaron al nuevo modelo. La suite
+   completa permitió localizar todas las construcciones que todavía carecían de
+   maniobra normalizada.
+
+### Verificación
+
+```text
+Backend: 211 pruebas; Ruff correcto.
+App: 51 pruebas en 7 grupos; TypeScript y ESLint correctos.
+Integridad del diff: sin errores de espacios.
+```
+
+### Alcance de la evidencia
+
+La validación confirma que la misma ruta mantiene una secuencia coherente desde
+el proveedor hasta la interfaz y que los controles manuales respetan sus
+límites. No demuestra aún que el aviso llegue en el momento adecuado durante un
+recorrido real ni que la interacción entre TalkBack y TTS sea cómoda. Queda
+pendiente recorrer la nueva pantalla con TalkBack en Android Emulator.
+
+La explicación extensa se conserva en
+[Narración determinista, TalkBack y TTS](product/narracion-talkback-tts.md).
+
 ## 8 de agosto de 2026 — Base del día 1
 
 ### Decisiones

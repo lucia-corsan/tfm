@@ -13,6 +13,8 @@ interfaz para que cada parte pueda probarse con datos reproducibles.
 Aplicación Android
     ├── presentación accesible
     ├── estado local de comparación
+    ├── selección explícita de ruta
+    ├── navegación manual por instrucciones
     ├── validación de respuestas
     └── cliente HTTP
             ↓ HTTP/JSON
@@ -39,6 +41,14 @@ Servicio de comparación
 
 La aplicación no contendrá la clave de ORS. Las peticiones externas se realizarán desde
 el backend y el proveedor de *fixtures* permitirá trabajar sin conexión.
+
+La navegación comparte una secuencia validada entre backend y app. ORS aporta
+códigos de maniobra y posiciones sobre la geometría; el backend los transforma
+en maniobras independientes del proveedor y genera una frase española mediante
+plantillas. La app valida de nuevo orden y posiciones antes de mostrar el
+contenido. En el primer incremento, la persona avanza manualmente. El GPS podrá
+decidir más adelante cuándo proponer el siguiente paso, pero no cambiará el
+texto ni las reglas de accesibilidad.
 
 La aplicación también se divide por responsabilidades. Los componentes no
 realizan peticiones ni calculan puntuaciones; un hook controla los estados y un
