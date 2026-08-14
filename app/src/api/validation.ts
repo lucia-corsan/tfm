@@ -6,6 +6,10 @@ import type {
   ConstraintCode,
   ConstraintViolation,
   GeoPoint,
+  NavigationAccessibilityDetail,
+  NavigationAccessibilityEvent,
+  NavigationInstruction,
+  NavigationManeuver,
   PlaceResult,
   PlaceSearchResponse,
   PreferenceWeights,
@@ -38,6 +42,22 @@ const ROUTE_CATEGORIES: RouteCategory[] = [
   'simple_or_short',
 ];
 const ROUTE_SOURCES: RouteSource[] = ['fixture', 'ors'];
+const NAVIGATION_MANEUVERS: NavigationManeuver[] = [
+  'depart',
+  'turn_left',
+  'turn_right',
+  'turn_sharp_left',
+  'turn_sharp_right',
+  'turn_slight_left',
+  'turn_slight_right',
+  'continue_straight',
+  'enter_roundabout',
+  'exit_roundabout',
+  'u_turn',
+  'arrive',
+  'keep_left',
+  'keep_right',
+];
 const REASON_KINDS: ReasonKind[] = [
   'relative_advantage',
   'low_absolute_cost',
@@ -56,6 +76,7 @@ const ACCESSIBILITY_ATTRIBUTES: AccessibilityAttribute[] = [
   'surface',
   'slope',
 ];
+const EVIDENCE_STATES = ['favorable', 'unfavorable', 'unknown'] as const;
 const CONSTRAINT_CODES: ConstraintCode[] = [
   'steps',
   'pedestrian_access',
@@ -225,6 +246,80 @@ function parseWarning(value: unknown): RouteWarning {
   };
 }
 
+function parseNavigationAccessibilityDetail(
+  value: unknown,
+): NavigationAccessibilityDetail {
+  const detail = asRecord(value);
+  return {
+    attribute: asEnumValue(detail.attribute, ACCESSIBILITY_ATTRIBUTES),
+    state: asEnumValue(detail.state, EVIDENCE_STATES),
+    text: asString(detail.text),
+  };
+}
+
+function parseNavigationAccessibilityEvent(
+  value: unknown,
+): NavigationAccessibilityEvent {
+  const event = asRecord(value);
+  if (!Array.isArray(event.details) || event.details.length === 0) {
+    return invalidResponse();
+  }
+  const details = event.details.map(parseNavigationAccessibilityDetail);
+  if (
+    new Set(details.map((detail) => detail.attribute)).size !== details.length
+  ) {
+    return invalidResponse();
+  }
+  return {
+    sequence: asBoundedNumber(event.sequence, 1, Number.MAX_SAFE_INTEGER),
+    distance_from_instruction_start_m: asBoundedNumber(
+      event.distance_from_instruction_start_m,
+      0,
+      Number.MAX_VALUE,
+    ),
+    text: asString(event.text),
+    source: asEnumValue(event.source, ['osm'] as const),
+    details,
+  };
+}
+
+function parseNavigationInstruction(value: unknown): NavigationInstruction {
+  const instruction = asRecord(value);
+  if (!Array.isArray(instruction.accessibility_events)) {
+    return invalidResponse();
+  }
+  const accessibilityEvents = instruction.accessibility_events.map(
+    parseNavigationAccessibilityEvent,
+  );
+  if (
+    accessibilityEvents.some(
+      (event, index) =>
+        event.sequence !== index + 1 ||
+        (index > 0 &&
+          event.distance_from_instruction_start_m <
+            accessibilityEvents[index - 1].distance_from_instruction_start_m),
+    )
+  ) {
+    return invalidResponse();
+  }
+  return {
+    sequence: asBoundedNumber(instruction.sequence, 1, Number.MAX_SAFE_INTEGER),
+    maneuver: asEnumValue(instruction.maneuver, NAVIGATION_MANEUVERS),
+    text: asString(instruction.text),
+    street_name:
+      instruction.street_name === null ? null : asString(instruction.street_name),
+    distance_m: asBoundedNumber(instruction.distance_m, 0, Number.MAX_VALUE),
+    duration_s: asBoundedNumber(instruction.duration_s, 0, Number.MAX_VALUE),
+    geometry_index: asBoundedNumber(
+      instruction.geometry_index,
+      0,
+      Number.MAX_SAFE_INTEGER,
+    ),
+    location: parseGeoPoint(instruction.location),
+    accessibility_events: accessibilityEvents,
+  };
+}
+
 function parseComparedRoute(value: unknown): ComparedRoute {
   const route = asRecord(value);
   if (!Array.isArray(route.geometry) || route.geometry.length < 2) {
@@ -236,10 +331,31 @@ function parseComparedRoute(value: unknown): ComparedRoute {
   if (!Array.isArray(route.warnings)) {
     return invalidResponse();
   }
+  if (!Array.isArray(route.instructions) || route.instructions.length < 1) {
+    return invalidResponse();
+  }
 
   const routeId = asString(route.route_id);
   const score = parseScore(route.score);
   if (score.route_id !== routeId) {
+    return invalidResponse();
+  }
+
+  const geometry = route.geometry.map(parseGeoPoint);
+  const instructions = route.instructions.map(parseNavigationInstruction);
+  if (
+    instructions.some(
+      (instruction, index) =>
+        instruction.sequence !== index + 1 ||
+        instruction.geometry_index >= geometry.length ||
+        (index > 0 &&
+          instruction.geometry_index < instructions[index - 1].geometry_index) ||
+        instruction.location.latitude !==
+          geometry[instruction.geometry_index].latitude ||
+        instruction.location.longitude !==
+          geometry[instruction.geometry_index].longitude,
+    )
+  ) {
     return invalidResponse();
   }
 
@@ -250,9 +366,10 @@ function parseComparedRoute(value: unknown): ComparedRoute {
     category: asEnumValue(route.category, ROUTE_CATEGORIES),
     source: asEnumValue(route.source, ROUTE_SOURCES),
     is_synthetic: asBoolean(route.is_synthetic),
-    geometry: route.geometry.map(parseGeoPoint),
+    geometry,
     distance_m: asBoundedNumber(route.distance_m, Number.EPSILON, Number.MAX_VALUE),
     duration_s: asBoundedNumber(route.duration_s, Number.EPSILON, Number.MAX_VALUE),
+    instructions,
     score,
     reasons: route.reasons.map(parseReason),
     warnings: route.warnings.map(parseWarning),

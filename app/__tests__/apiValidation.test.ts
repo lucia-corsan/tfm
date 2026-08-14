@@ -50,6 +50,33 @@ function validResponse() {
         ],
         distance_m: 1810,
         duration_s: 1470,
+        instructions: [
+          {
+            sequence: 1,
+            maneuver: 'depart',
+            text: 'Empieza el recorrido.',
+            street_name: null,
+            distance_m: 1810,
+            duration_s: 1470,
+            geometry_index: 0,
+            location: { latitude: 40.4353, longitude: -3.7191 },
+            accessibility_events: [
+              {
+                sequence: 1,
+                distance_from_instruction_start_m: 15,
+                text: 'Paso de peatones marcado próximo.',
+                source: 'osm',
+                details: [
+                  {
+                    attribute: 'audible_signals',
+                    state: 'unknown',
+                    text: 'OSM no permite confirmar la señal acústica.',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
         score: {
           route_id: 'balanced_route',
           normalized_weights: weights,
@@ -104,6 +131,10 @@ describe('route comparison API validation', () => {
 
     expect(response.routes[0].route_id).toBe('balanced_route');
     expect(response.routes[0].warnings[0].attribute).toBe('slope');
+    expect(
+      response.routes[0].instructions[0].accessibility_events[0].details[0]
+        .state,
+    ).toBe('unknown');
     expect(response.rejected_routes[0].violations[0].code).toBe(
       'incompatible_crossings',
     );
@@ -139,6 +170,46 @@ describe('route comparison API validation', () => {
   test('rejects non-consecutive ranks', () => {
     const response = validResponse();
     response.routes[0].rank = 2;
+
+    expect(() => parseRouteCompareResponse(response)).toThrow(
+      InvalidApiResponseError,
+    );
+  });
+
+  test('rejects a navigation instruction outside the route geometry', () => {
+    const response = validResponse();
+    response.routes[0].instructions[0].geometry_index = 4;
+
+    expect(() => parseRouteCompareResponse(response)).toThrow(
+      InvalidApiResponseError,
+    );
+  });
+
+  test('rejects repeated accessibility attributes in one event', () => {
+    const response = validResponse();
+    const event = response.routes[0].instructions[0].accessibility_events[0];
+    event.details.push({ ...event.details[0] });
+
+    expect(() => parseRouteCompareResponse(response)).toThrow(
+      InvalidApiResponseError,
+    );
+  });
+
+  test('rejects accessibility events that are not distance ordered', () => {
+    const response = validResponse();
+    response.routes[0].instructions[0].accessibility_events.push({
+      sequence: 2,
+      distance_from_instruction_start_m: 5,
+      text: 'Otro cruce próximo.',
+      source: 'osm',
+      details: [
+        {
+          attribute: 'kerb',
+          state: 'favorable',
+          text: 'OSM declara un bordillo rebajado.',
+        },
+      ],
+    });
 
     expect(() => parseRouteCompareResponse(response)).toThrow(
       InvalidApiResponseError,

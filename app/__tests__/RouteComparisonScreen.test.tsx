@@ -52,6 +52,30 @@ function route(
     ],
     distance_m: rank === 1 ? 1810 : 1980,
     duration_s: rank === 1 ? 1470 : 1610,
+    instructions: [
+      {
+        sequence: 1,
+        maneuver: 'depart',
+        text: 'Empieza el recorrido hacia calle de la Princesa.',
+        street_name: 'calle de la Princesa',
+        distance_m: 120,
+        duration_s: 95,
+        geometry_index: 0,
+        location: { latitude: 40.4353, longitude: -3.7191 },
+        accessibility_events: [],
+      },
+      {
+        sequence: 2,
+        maneuver: 'arrive',
+        text: 'Has llegado al destino.',
+        street_name: null,
+        distance_m: 0,
+        duration_s: 0,
+        geometry_index: 1,
+        location: { latitude: 40.4211, longitude: -3.7206 },
+        accessibility_events: [],
+      },
+    ],
     score: {
       route_id: routeId,
       normalized_weights: weights,
@@ -163,6 +187,30 @@ describe('<RouteComparisonScreen />', () => {
     });
     screen.getByRole('header', { name: 'Alternativa más sencilla de seguir' });
     screen.getByText(ES.routeComparison.constraints.incompatible_crossings);
+  });
+
+  test('lets the user choose one exact ranked route for navigation', async () => {
+    const compare = jest.fn().mockResolvedValue(response());
+    const onChooseRoute = jest.fn();
+    const screen = await render(
+      <RouteComparisonScreen
+        compare={compare}
+        onChooseRoute={onChooseRoute}
+      />,
+    );
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+    const chooseButtons = await screen.findAllByRole('button', {
+      name: ES.routeComparison.chooseRouteButton,
+    });
+    await user.press(chooseButtons[1]);
+
+    expect(onChooseRoute).toHaveBeenCalledWith(
+      expect.objectContaining({ route_id: 'fewer_crossings_route', rank: 2 }),
+    );
   });
 
   test('exposes result paragraphs as independent Spanish reading stops', async () => {

@@ -19,6 +19,7 @@ import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
+  onChooseRoute?: (route: import('@/api/types').ComparedRoute) => void;
   search?: SearchPlacesFunction;
 }
 
@@ -27,7 +28,11 @@ const PROFILE_IDS: DemoProfileId[] = [
   'simpler_crossings_demo',
 ];
 
-export function RouteComparisonScreen({ compare, search }: RouteComparisonScreenProps) {
+export function RouteComparisonScreen({
+  compare,
+  onChooseRoute = () => undefined,
+  search,
+}: RouteComparisonScreenProps) {
   const controller = useRouteComparison(compare);
   const { state } = controller;
 
@@ -180,7 +185,11 @@ export function RouteComparisonScreen({ compare, search }: RouteComparisonScreen
                 : ES.routeComparison.noAcceptedRoutesDescription}
             </AccessibleText>
             {state.response.routes.map((route) => (
-              <RouteCard key={route.route_id} route={route} />
+              <RouteCard
+                key={route.route_id}
+                onChoose={onChooseRoute}
+                route={route}
+              />
             ))}
 
             {state.response.rejected_routes.length > 0 && (

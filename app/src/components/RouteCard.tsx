@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { ComparedRoute } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
 import { MetricItem } from '@/components/MetricItem';
+import { PrimaryButton } from '@/components/PrimaryButton';
 import {
   describeReason,
   describeWarning,
@@ -13,10 +14,11 @@ import {
 import { ES } from '../../i18n/es';
 
 interface RouteCardProps {
+  onChoose: (route: ComparedRoute) => void;
   route: ComparedRoute;
 }
 
-export function RouteCard({ route }: RouteCardProps) {
+export function RouteCard({ onChoose, route }: RouteCardProps) {
   const unknownWarnings = route.warnings.filter(
     (warning) => warning.state === 'unknown',
   );
@@ -131,6 +133,12 @@ export function RouteCard({ route }: RouteCardProps) {
           </View>
         ))
       )}
+
+      <PrimaryButton
+        accessibilityHint={ES.routeComparison.chooseRouteHint(route.name)}
+        label={ES.routeComparison.chooseRouteButton}
+        onPress={() => onChoose(route)}
+      />
     </View>
   );
 }

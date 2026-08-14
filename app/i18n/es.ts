@@ -82,6 +82,9 @@ export const ES = {
     unfavorableEvidenceTitle: 'Evidencia desfavorable encontrada',
     noUnfavorableEvidence:
       'No se ha encontrado evidencia desfavorable con los datos disponibles.',
+    chooseRouteButton: 'Elegir esta ruta',
+    chooseRouteHint: (routeName: string) =>
+      `Abre la navegación manual de ${routeName}.`,
     rejectedTitle: 'Alternativas descartadas',
     rejectedDescription:
       'Estas rutas incumplen una restricción crítica del perfil y no participan en el ranking.',
@@ -138,5 +141,44 @@ export const ES = {
       maximum_slope: 'La pendiente confirmada supera el máximo aceptado.',
       maximum_detour: 'El desvío supera el máximo aceptado.',
     },
+  },
+  navigation: {
+    eyebrow: 'Navegación manual',
+    title: 'Sigue las instrucciones de la ruta',
+    routeLabel: (routeName: string) => `Ruta elegida: ${routeName}.`,
+    manualMode:
+      'El GPS todavía no está activo. Puedes recorrer las instrucciones con los controles manuales.',
+    progress: (current: number, total: number) =>
+      `Instrucción ${current} de ${total}`,
+    currentInstructionTitle: 'Instrucción actual',
+    streetLabel: (streetName: string) => `Referencia: ${streetName}.`,
+    stepDistance: 'Distancia de este tramo',
+    stepDuration: 'Duración estimada del tramo',
+    instructionAccessibilityTitle: 'Información de accesibilidad en este tramo',
+    noInstructionAccessibilityEvents:
+      'No hay información puntual de OpenStreetMap asociada a esta instrucción.',
+    accessibilityEventDistance: (distance: string) =>
+      `Aproximadamente a ${distance} desde el inicio de este tramo.`,
+    accessibilitySource: 'Fuente: OpenStreetMap.',
+    evidenceStates: {
+      favorable: 'Información favorable declarada',
+      unfavorable: 'Aviso declarado',
+      unknown: 'Información no confirmada',
+    },
+    previousButton: 'Instrucción anterior',
+    previousHint: 'Vuelve a la instrucción anterior de esta ruta.',
+    nextButton: 'Siguiente instrucción',
+    nextHint: 'Avanza a la siguiente instrucción de esta ruta.',
+    finishButton: 'Terminar navegación',
+    finishHint: 'Cierra la navegación y vuelve a la comparación de rutas.',
+    routeContextTitle: 'Información que debes conservar durante el recorrido',
+    unknownSummary: (count: number) =>
+      `${count === 1 ? 'Hay un aspecto' : `Hay ${count} aspectos`} sin información concluyente en esta ruta.`,
+    unfavorableSummary: (count: number) =>
+      `${count === 1 ? 'Hay un aviso' : `Hay ${count} avisos`} de evidencia desfavorable en esta ruta.`,
+    noWarnings:
+      'No hay avisos desconocidos o desfavorables con los datos disponibles.',
+    disclaimer:
+      'Las instrucciones describen el recorrido, pero no garantizan que sea completamente accesible.',
   },
 } as const;

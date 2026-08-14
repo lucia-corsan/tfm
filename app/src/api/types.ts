@@ -3,6 +3,48 @@ export interface GeoPoint {
   longitude: number;
 }
 
+export interface NavigationAccessibilityDetail {
+  attribute: AccessibilityAttribute;
+  state: EvidenceState;
+  text: string;
+}
+
+export interface NavigationAccessibilityEvent {
+  sequence: number;
+  distance_from_instruction_start_m: number;
+  text: string;
+  source: 'osm';
+  details: NavigationAccessibilityDetail[];
+}
+
+export type NavigationManeuver =
+  | 'depart'
+  | 'turn_left'
+  | 'turn_right'
+  | 'turn_sharp_left'
+  | 'turn_sharp_right'
+  | 'turn_slight_left'
+  | 'turn_slight_right'
+  | 'continue_straight'
+  | 'enter_roundabout'
+  | 'exit_roundabout'
+  | 'u_turn'
+  | 'arrive'
+  | 'keep_left'
+  | 'keep_right';
+
+export interface NavigationInstruction {
+  sequence: number;
+  maneuver: NavigationManeuver;
+  text: string;
+  street_name: string | null;
+  distance_m: number;
+  duration_s: number;
+  geometry_index: number;
+  location: GeoPoint;
+  accessibility_events: NavigationAccessibilityEvent[];
+}
+
 export type PlaceSource = 'pilot_catalog' | 'ors_geocoder';
 
 export interface PlaceResult {
@@ -110,6 +152,7 @@ export interface ComparedRoute {
   geometry: GeoPoint[];
   distance_m: number;
   duration_s: number;
+  instructions: NavigationInstruction[];
   score: RouteScore;
   reasons: RouteReason[];
   warnings: RouteWarning[];

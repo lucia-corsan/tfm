@@ -67,6 +67,19 @@ function validResponse() {
         geometry: [request.origin, request.destination],
         distance_m: 1810,
         duration_s: 1470,
+        instructions: [
+          {
+            sequence: 1,
+            maneuver: 'depart',
+            text: 'Empieza el recorrido.',
+            street_name: null,
+            distance_m: 1810,
+            duration_s: 1470,
+            geometry_index: 0,
+            location: request.origin,
+            accessibility_events: [],
+          },
+        ],
         score: {
           route_id: 'balanced_route',
           normalized_weights: weights,
