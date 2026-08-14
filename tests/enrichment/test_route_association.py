@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from backend.domain import GeoPoint
+from backend.domain import GeoPoint, NavigationManeuver
 from backend.enrichment.osm_snapshot import (
     OsmBoundingBox,
     OsmRoutingElement,
@@ -30,6 +30,7 @@ def _route() -> OrsBaseRoute:
         instructions=[
             OrsBaseInstruction(
                 instruction_type=11,
+                maneuver=NavigationManeuver.DEPART,
                 text="Continúa recto",
                 distance_m=111.0,
                 duration_s=80.0,

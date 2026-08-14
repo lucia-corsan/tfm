@@ -92,6 +92,7 @@ async def test_provider_returns_base_routes_and_propagates_step_rule() -> None:
 
     assert fetcher.avoid_steps is True
     assert result.routes[0].route_id == "ors_route_1"
+    assert result.routes[0].instructions[0].maneuver.value == "arrive"
     assert "crossing_count" not in result.routes[0].model_dump()
 
 

@@ -16,6 +16,26 @@ def test_pilot_fixture_contains_three_distinct_alternatives() -> None:
     assert {route.category for route in scenario.routes} == set(RouteCategory)
     assert all(route.source is RouteSource.FIXTURE for route in scenario.routes)
     assert all(route.is_synthetic for route in scenario.routes)
+    assert all(
+        len(route.instructions) == route.features.instruction_count
+        for route in scenario.routes
+    )
+
+
+def test_pilot_navigation_instructions_follow_each_route_geometry() -> None:
+    """Synthetic navigation steps must form a complete ordered test sequence."""
+
+    scenario = load_pilot_route_scenario()
+
+    for route in scenario.routes:
+        assert [item.sequence for item in route.instructions] == list(
+            range(1, len(route.instructions) + 1)
+        )
+        assert route.instructions[-1].maneuver.value == "arrive"
+        assert all(
+            item.location == route.geometry[item.geometry_index]
+            for item in route.instructions
+        )
 
 
 def test_pilot_fixture_exposes_increasing_uncertainty() -> None:

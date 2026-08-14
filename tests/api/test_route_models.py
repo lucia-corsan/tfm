@@ -9,7 +9,7 @@ from backend.api.models import (
     RouteCompareRequest,
     RouteCompareResponse,
 )
-from backend.domain import MobilityProfile
+from backend.domain import MobilityProfile, RouteCandidate
 from backend.routing.fixtures import load_pilot_route_scenario
 from backend.scoring import rank_routes
 
@@ -60,6 +60,7 @@ def test_compare_response_keeps_route_details_and_scores_together() -> None:
             geometry=candidates[result.route_id].geometry,
             distance_m=candidates[result.route_id].features.distance_m,
             duration_s=candidates[result.route_id].features.duration_s,
+            instructions=candidates[result.route_id].instructions,
             score=result.score,
             reasons=result.reasons,
             warnings=result.warnings,
@@ -112,7 +113,56 @@ def test_route_response_rejects_score_from_another_candidate() -> None:
             geometry=candidate.geometry,
             distance_m=candidate.features.distance_m,
             duration_s=candidate.features.duration_s,
+            instructions=candidate.instructions,
             score=ranking.routes[0].score,
             reasons=ranking.routes[0].reasons,
             warnings=ranking.routes[0].warnings,
+        )
+
+
+def test_candidate_rejects_instruction_outside_route_geometry() -> None:
+    """Navigation cannot expose a maneuver whose route position does not exist."""
+
+    candidate = load_pilot_route_scenario().routes[0]
+    invalid_instruction = candidate.instructions[0].model_copy(
+        update={"geometry_index": len(candidate.geometry)}
+    )
+    payload = candidate.model_dump()
+    payload["uncertainty"].pop("unknown_ratio")
+    payload["instructions"] = [
+        invalid_instruction.model_dump(),
+        *[item.model_dump() for item in candidate.instructions[1:]],
+    ]
+
+    with pytest.raises(ValidationError, match="missing geometry"):
+        RouteCandidate.model_validate(payload)
+
+
+def test_public_route_rejects_instruction_location_outside_its_geometry() -> None:
+    """The API boundary repeats the navigation consistency check."""
+
+    scenario = load_pilot_route_scenario()
+    ranking = rank_routes(MobilityProfile(profile_id="public_geometry"), scenario.routes)
+    result = ranking.routes[0]
+    candidate = next(route for route in scenario.routes if route.route_id == result.route_id)
+    invalid_instructions = list(candidate.instructions)
+    invalid_instructions[0] = invalid_instructions[0].model_copy(
+        update={"location": scenario.destination}
+    )
+
+    with pytest.raises(ValidationError, match="location must match geometry"):
+        ComparedRouteResponse(
+            route_id=candidate.route_id,
+            name=candidate.name,
+            rank=result.rank,
+            category=candidate.category,
+            source=candidate.source,
+            is_synthetic=candidate.is_synthetic,
+            geometry=candidate.geometry,
+            distance_m=candidate.features.distance_m,
+            duration_s=candidate.features.duration_s,
+            instructions=invalid_instructions,
+            score=result.score,
+            reasons=result.reasons,
+            warnings=result.warnings,
         )

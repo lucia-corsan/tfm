@@ -3,7 +3,19 @@
 import pytest
 from pydantic import ValidationError
 
-from backend.domain import GeoPoint, PreferenceWeights, RouteCandidate, RouteFeatures
+from backend.domain import (
+    AccessibilityAttribute,
+    DataSource,
+    EvidenceState,
+    GeoPoint,
+    NavigationAccessibilityDetail,
+    NavigationAccessibilityEvent,
+    NavigationInstruction,
+    NavigationManeuver,
+    PreferenceWeights,
+    RouteCandidate,
+    RouteFeatures,
+)
 from backend.routing.fixtures import load_pilot_route_scenario
 
 
@@ -87,3 +99,52 @@ def test_fixture_route_must_be_marked_as_synthetic() -> None:
 
     with pytest.raises(ValidationError, match="must be marked as synthetic"):
         RouteCandidate.model_validate(payload)
+
+
+def _navigation_event(
+    *, sequence: int = 1, distance_m: float = 5.0
+) -> NavigationAccessibilityEvent:
+    """Build one valid OSM event for instruction validation tests."""
+
+    return NavigationAccessibilityEvent(
+        sequence=sequence,
+        distance_from_instruction_start_m=distance_m,
+        text="Paso de peatones marcado próximo.",
+        source=DataSource.OSM,
+        details=[
+            NavigationAccessibilityDetail(
+                attribute=AccessibilityAttribute.TACTILE_PAVING,
+                state=EvidenceState.UNKNOWN,
+                text="OSM no permite confirmar el pavimento podotáctil.",
+            )
+        ],
+    )
+
+
+def test_navigation_accessibility_event_rejects_non_osm_source() -> None:
+    """Instruction-level evidence currently comes only from the OSM snapshot."""
+
+    payload = _navigation_event().model_dump(mode="json")
+    payload["source"] = DataSource.ORS
+
+    with pytest.raises(ValidationError, match="must come from OSM"):
+        NavigationAccessibilityEvent.model_validate(payload)
+
+
+def test_navigation_instruction_requires_ordered_accessibility_events() -> None:
+    """TalkBack events must follow their physical order within the instruction."""
+
+    with pytest.raises(ValidationError, match="distance ordered"):
+        NavigationInstruction(
+            sequence=1,
+            maneuver=NavigationManeuver.DEPART,
+            text="Empieza el recorrido.",
+            distance_m=100.0,
+            duration_s=80.0,
+            geometry_index=0,
+            location=GeoPoint(latitude=40.43, longitude=-3.72),
+            accessibility_events=[
+                _navigation_event(sequence=1, distance_m=20.0),
+                _navigation_event(sequence=2, distance_m=10.0),
+            ],
+        )

@@ -4,7 +4,24 @@ from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from backend.domain import GeoPoint
+from backend.domain import GeoPoint, NavigationManeuver
+
+_ORS_MANEUVER_BY_TYPE = {
+    0: NavigationManeuver.TURN_LEFT,
+    1: NavigationManeuver.TURN_RIGHT,
+    2: NavigationManeuver.TURN_SHARP_LEFT,
+    3: NavigationManeuver.TURN_SHARP_RIGHT,
+    4: NavigationManeuver.TURN_SLIGHT_LEFT,
+    5: NavigationManeuver.TURN_SLIGHT_RIGHT,
+    6: NavigationManeuver.CONTINUE_STRAIGHT,
+    7: NavigationManeuver.ENTER_ROUNDABOUT,
+    8: NavigationManeuver.EXIT_ROUNDABOUT,
+    9: NavigationManeuver.U_TURN,
+    10: NavigationManeuver.ARRIVE,
+    11: NavigationManeuver.DEPART,
+    12: NavigationManeuver.KEEP_LEFT,
+    13: NavigationManeuver.KEEP_RIGHT,
+}
 
 
 class OrsTransportModel(BaseModel):
@@ -233,6 +250,7 @@ class OrsBaseInstruction(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     instruction_type: int = Field(ge=0, le=13)
+    maneuver: NavigationManeuver
     text: str = Field(min_length=1)
     street_name: str = ""
     distance_m: float = Field(ge=0.0)
@@ -344,6 +362,7 @@ def extract_ors_base_routes(collection: OrsRouteCollection) -> OrsBaseRouteSet:
         instructions = [
             OrsBaseInstruction(
                 instruction_type=step.type,
+                maneuver=_ORS_MANEUVER_BY_TYPE[step.type],
                 text=step.instruction,
                 street_name=step.name,
                 distance_m=step.distance,

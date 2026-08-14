@@ -62,6 +62,8 @@ def test_compare_endpoint_returns_ranked_and_rejected_routes() -> None:
     assert body["routes"][0]["score"]["adequacy"] == 0.8030555555555556
     assert body["routes"][0]["score"]["confidence"] == 0.754090909090909
     assert body["routes"][0]["score"]["uncertainty"] == 0.0
+    assert len(body["routes"][0]["instructions"]) == 12
+    assert body["routes"][0]["instructions"][-1]["maneuver"] == "arrive"
 
 
 def test_compare_endpoint_applies_custom_profile_weights() -> None:

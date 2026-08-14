@@ -45,6 +45,7 @@ async def compare_routes(
             geometry=candidates[result.route_id].geometry,
             distance_m=candidates[result.route_id].features.distance_m,
             duration_s=candidates[result.route_id].features.duration_s,
+            instructions=candidates[result.route_id].instructions,
             score=result.score,
             reasons=result.reasons,
             warnings=result.warnings,

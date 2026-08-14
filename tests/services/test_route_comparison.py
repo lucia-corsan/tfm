@@ -37,6 +37,8 @@ async def test_service_returns_complete_default_comparison() -> None:
     assert [route.route_id for route in response.rejected_routes] == ["simple_route"]
     assert all(route.is_synthetic for route in response.routes)
     assert all(route.geometry for route in response.routes)
+    assert all(route.instructions for route in response.routes)
+    assert response.routes[0].instructions[-1].maneuver.value == "arrive"
 
 
 @pytest.mark.asyncio

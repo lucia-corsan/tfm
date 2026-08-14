@@ -10,11 +10,18 @@ from backend.domain import (
     AccessibilityEvidence,
     DataSource,
     EvidenceState,
+    NavigationAccessibilityEvent,
+    NavigationInstruction,
+    NavigationManeuver,
     RouteCandidate,
     RouteCategory,
     RouteFeatures,
     RouteSource,
     UncertaintySummary,
+)
+from backend.enrichment.instruction_context import (
+    build_instruction_accessibility_events,
+    group_crossing_matches,
 )
 from backend.enrichment.osm_mapping import (
     OsmFeatureFamily,
@@ -28,13 +35,114 @@ from backend.enrichment.route_association import (
     RouteCorridorAssociation,
 )
 from backend.enrichment.spatial_index import OsmSpatialIndex
-from backend.routing.ors_models import OrsBaseRoute
+from backend.narration import (
+    narrate_compound_instruction,
+    normalize_street_reference,
+)
+from backend.routing.ors_models import OrsBaseInstruction, OrsBaseRoute
 
 CRITICAL_ALIGNMENT_DISTANCE_M = 0.5
 CRITICAL_MIN_ROUTE_OVERLAP_M = 3.0
 CROSSING_CONTEXT_DISTANCE_M = 12.0
 FAVORABLE_SLOPE_LIMIT_PERCENT = 5.0
 UNFAVORABLE_SLOPE_LIMIT_PERCENT = 8.0
+MICRO_INSTRUCTION_THRESHOLD_M = 10.0
+
+
+def _group_navigation_instructions(
+    instructions: Sequence[OrsBaseInstruction],
+) -> list[list[tuple[int, OrsBaseInstruction]]]:
+    """Attach every very short segment to its following maneuver.
+
+    ORS can return a maneuver followed only a few metres later by another one.
+    Keeping both actions is important, but exposing the first as an isolated
+    instruction is hard to follow. Groups stop after the first segment of at
+    least ten metres or on arrival.
+    """
+
+    groups: list[list[tuple[int, OrsBaseInstruction]]] = []
+    index = 0
+    while index < len(instructions):
+        group = [(index, instructions[index])]
+        while (
+            group[-1][1].distance_m < MICRO_INSTRUCTION_THRESHOLD_M
+            and group[-1][1].maneuver is not NavigationManeuver.ARRIVE
+            and index + 1 < len(instructions)
+        ):
+            index += 1
+            group.append((index, instructions[index]))
+        groups.append(group)
+        index += 1
+    return groups
+
+
+def _relocate_group_events(
+    group: Sequence[tuple[int, OrsBaseInstruction]],
+    events_by_instruction: dict[int, list[NavigationAccessibilityEvent]],
+) -> list[NavigationAccessibilityEvent]:
+    """Move original events into the cumulative distance of one group."""
+
+    offset_m = 0.0
+    relocated: list[NavigationAccessibilityEvent] = []
+    for original_index, instruction in group:
+        for event in events_by_instruction[original_index + 1]:
+            relocated.append(
+                event.model_copy(
+                    update={
+                        "distance_from_instruction_start_m": round(
+                            offset_m + event.distance_from_instruction_start_m,
+                            1,
+                        )
+                    }
+                )
+            )
+        offset_m += instruction.distance_m
+    relocated.sort(key=lambda event: event.distance_from_instruction_start_m)
+    return [
+        event.model_copy(update={"sequence": sequence})
+        for sequence, event in enumerate(relocated, start=1)
+    ]
+
+
+def _build_navigation_instructions(
+    route: OrsBaseRoute,
+    events_by_instruction: dict[int, list[NavigationAccessibilityEvent]],
+) -> list[NavigationInstruction]:
+    """Build user-facing instructions with nearby maneuvers grouped."""
+
+    result: list[NavigationInstruction] = []
+    for sequence, group in enumerate(
+        _group_navigation_instructions(route.instructions),
+        start=1,
+    ):
+        first = group[0][1]
+        events = _relocate_group_events(group, events_by_instruction)
+        actions = [
+            (
+                instruction.maneuver,
+                normalize_street_reference(instruction.street_name),
+                instruction.distance_m,
+            )
+            for _index, instruction in group
+        ]
+        result.append(
+            NavigationInstruction(
+                sequence=sequence,
+                maneuver=first.maneuver,
+                text=narrate_compound_instruction(actions, events),
+                street_name=(
+                    normalize_street_reference(first.street_name)
+                    if len(group) == 1
+                    else None
+                ),
+                distance_m=sum(instruction.distance_m for _index, instruction in group),
+                duration_s=sum(instruction.duration_s for _index, instruction in group),
+                geometry_index=first.geometry_start_index,
+                location=route.geometry[first.geometry_start_index],
+                accessibility_events=events,
+            )
+        )
+    return result
 
 
 def _evidence(
@@ -276,7 +384,16 @@ def enrich_ors_route(
         Validated candidate with explicit favorable, unfavorable and unknown data.
     """
 
-    crossing_matches = _family_matches(association, OsmFeatureFamily.CROSSINGS)
+    raw_crossing_matches = _family_matches(
+        association,
+        OsmFeatureFamily.CROSSINGS,
+    )
+    crossing_clusters = group_crossing_matches(
+        route,
+        raw_crossing_matches,
+        spatial_index,
+    )
+    crossing_matches = [cluster.representative for cluster in crossing_clusters]
     signal_matches = _family_matches(association, OsmFeatureFamily.TRAFFIC_SIGNALS)
     assistance_matches = _family_matches(association, OsmFeatureFamily.SIGNAL_ASSISTANCE)
     tactile_matches = _family_matches(association, OsmFeatureFamily.TACTILE_PAVING)
@@ -537,6 +654,12 @@ def enrich_ors_route(
             "La proximidad espacial no demuestra por sí sola que un elemento "
             "pertenezca al lado recorrido."
         )
+    events_by_instruction = build_instruction_accessibility_events(
+        route,
+        association,
+        spatial_index,
+        confirmed_step_matches=step_matches,
+    )
     return RouteCandidate(
         route_id=route.route_id,
         name=name,
@@ -544,6 +667,7 @@ def enrich_ors_route(
         category=category,
         is_synthetic=False,
         geometry=route.geometry,
+        instructions=_build_navigation_instructions(route, events_by_instruction),
         features=features,
         uncertainty=UncertaintySummary(
             unknown_attributes=unknown_attributes,
@@ -583,9 +707,13 @@ def enrich_ors_route_set(
             remaining,
             key=lambda route: (
                 len(
-                    _family_matches(
-                        association_by_id[route.route_id],
-                        OsmFeatureFamily.CROSSINGS,
+                    group_crossing_matches(
+                        route,
+                        _family_matches(
+                            association_by_id[route.route_id],
+                            OsmFeatureFamily.CROSSINGS,
+                        ),
+                        spatial_index,
                     )
                 ),
                 route.distance_m,

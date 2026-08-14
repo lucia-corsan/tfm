@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from backend.domain import (
     GeoPoint,
     MobilityProfile,
+    NavigationInstruction,
     RouteCategory,
     RouteSource,
 )
@@ -52,16 +53,36 @@ class ComparedRouteResponse(ApiModel):
     geometry: list[GeoPoint] = Field(min_length=2)
     distance_m: float = Field(gt=0.0)
     duration_s: float = Field(gt=0.0)
+    instructions: list[NavigationInstruction] = Field(min_length=1)
     score: RouteScore
     reasons: list[RouteReason] = Field(min_length=1, max_length=3)
     warnings: list[RouteWarning] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def require_matching_score_route(self) -> "ComparedRouteResponse":
-        """Keep route details and their computed score tied to one identifier."""
+    def validate_route_details(self) -> "ComparedRouteResponse":
+        """Keep score, geometry, and navigation tied to the same route.
+
+        Returns:
+            The validated public route.
+
+        Raises:
+            ValueError: If identifiers differ or navigation is inconsistent.
+        """
 
         if self.route_id != self.score.route_id:
             raise ValueError("route response and score identifiers must match")
+        expected_sequences = list(range(1, len(self.instructions) + 1))
+        if [item.sequence for item in self.instructions] != expected_sequences:
+            raise ValueError("route instructions must be consecutive and ordered")
+        previous_index = -1
+        for instruction in self.instructions:
+            if instruction.geometry_index >= len(self.geometry):
+                raise ValueError("route instruction references missing geometry")
+            if instruction.geometry_index < previous_index:
+                raise ValueError("route instruction geometry must be ordered")
+            if instruction.location != self.geometry[instruction.geometry_index]:
+                raise ValueError("route instruction location must match geometry")
+            previous_index = instruction.geometry_index
         return self
 
 

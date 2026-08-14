@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from backend.domain import GeoPoint, MobilityProfile
+from backend.domain import GeoPoint, MobilityProfile, NavigationManeuver
 from backend.enrichment.evaluate_corridor_widths import (
     ROUTE_RESULTS_NAME,
     SUMMARY_RESULTS_NAME,
@@ -35,6 +35,7 @@ def _inputs() -> tuple[list[OrsBaseRoute], OsmRoutingSnapshot]:
         instructions=[
             OrsBaseInstruction(
                 instruction_type=11,
+                maneuver=NavigationManeuver.DEPART,
                 text="Continúa recto",
                 distance_m=120.0,
                 duration_s=90.0,

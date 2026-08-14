@@ -5,7 +5,7 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from backend.domain import GeoPoint
+from backend.domain import GeoPoint, NavigationManeuver
 from backend.routing.ors_models import (
     build_ors_route_request,
     extract_ors_base_routes,
@@ -204,6 +204,41 @@ def test_extraction_builds_neutral_base_route_without_accessibility_claims() -> 
     assert result.engine_version == "9.7.1"
     assert "crossing_count" not in route.model_dump()
     assert "accessibility" not in route.model_dump_json()
+
+
+@pytest.mark.parametrize(
+    ("instruction_type", "expected"),
+    [
+        (0, NavigationManeuver.TURN_LEFT),
+        (1, NavigationManeuver.TURN_RIGHT),
+        (2, NavigationManeuver.TURN_SHARP_LEFT),
+        (3, NavigationManeuver.TURN_SHARP_RIGHT),
+        (4, NavigationManeuver.TURN_SLIGHT_LEFT),
+        (5, NavigationManeuver.TURN_SLIGHT_RIGHT),
+        (6, NavigationManeuver.CONTINUE_STRAIGHT),
+        (7, NavigationManeuver.ENTER_ROUNDABOUT),
+        (8, NavigationManeuver.EXIT_ROUNDABOUT),
+        (9, NavigationManeuver.U_TURN),
+        (10, NavigationManeuver.ARRIVE),
+        (11, NavigationManeuver.DEPART),
+        (12, NavigationManeuver.KEEP_LEFT),
+        (13, NavigationManeuver.KEEP_RIGHT),
+    ],
+)
+def test_every_documented_ors_type_has_a_provider_neutral_maneuver(
+    instruction_type: int,
+    expected: NavigationManeuver,
+) -> None:
+    """All ORS instruction codes are translated at the provider boundary."""
+
+    payload = _valid_response()
+    payload["features"][0]["properties"]["segments"][0]["steps"][0][  # type: ignore[index]
+        "type"
+    ] = instruction_type
+
+    routes = extract_ors_base_routes(validate_ors_route_collection(payload))
+
+    assert routes.routes[0].instructions[0].maneuver is expected
 
 
 def test_extraction_calculates_detour_ratio_against_shortest_returned_route() -> None:

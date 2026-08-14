@@ -61,11 +61,104 @@ class RouteCategory(str, Enum):
     SIMPLE_OR_SHORT = "simple_or_short"
 
 
+class NavigationManeuver(str, Enum):
+    """Provider-neutral movement described by one navigation instruction."""
+
+    DEPART = "depart"
+    TURN_LEFT = "turn_left"
+    TURN_RIGHT = "turn_right"
+    TURN_SHARP_LEFT = "turn_sharp_left"
+    TURN_SHARP_RIGHT = "turn_sharp_right"
+    TURN_SLIGHT_LEFT = "turn_slight_left"
+    TURN_SLIGHT_RIGHT = "turn_slight_right"
+    CONTINUE_STRAIGHT = "continue_straight"
+    ENTER_ROUNDABOUT = "enter_roundabout"
+    EXIT_ROUNDABOUT = "exit_roundabout"
+    U_TURN = "u_turn"
+    ARRIVE = "arrive"
+    KEEP_LEFT = "keep_left"
+    KEEP_RIGHT = "keep_right"
+
+
 class GeoPoint(DomainModel):
     """Geographic coordinate in WGS84 latitude/longitude order."""
 
     latitude: float = Field(ge=-90.0, le=90.0)
     longitude: float = Field(ge=-180.0, le=180.0)
+
+
+class NavigationAccessibilityDetail(DomainModel):
+    """One tri-state OSM fact communicated within a navigation event."""
+
+    attribute: AccessibilityAttribute
+    state: EvidenceState
+    text: str = Field(min_length=1, max_length=240)
+
+
+class NavigationAccessibilityEvent(DomainModel):
+    """Ordered accessibility context located within one route instruction."""
+
+    sequence: int = Field(ge=1)
+    distance_from_instruction_start_m: float = Field(ge=0.0)
+    text: str = Field(min_length=1, max_length=240)
+    source: DataSource
+    details: list[NavigationAccessibilityDetail] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def require_unique_detail_attributes(self) -> "NavigationAccessibilityEvent":
+        """Prevent one event from repeating the same accessibility dimension.
+
+        Returns:
+            The validated navigation event.
+
+        Raises:
+            ValueError: If an attribute appears more than once.
+        """
+
+        if self.source != DataSource.OSM:
+            raise ValueError("navigation accessibility events must come from OSM")
+        attributes = [detail.attribute for detail in self.details]
+        if len(attributes) != len(set(attributes)):
+            raise ValueError("navigation event detail attributes must be unique")
+        return self
+
+
+class NavigationInstruction(DomainModel):
+    """Validated instruction shared by screen readers and future TTS."""
+
+    sequence: int = Field(ge=1)
+    maneuver: NavigationManeuver
+    text: str = Field(min_length=1, max_length=600)
+    street_name: Optional[str] = Field(default=None, min_length=1, max_length=160)
+    distance_m: float = Field(ge=0.0)
+    duration_s: float = Field(ge=0.0)
+    geometry_index: int = Field(ge=0)
+    location: GeoPoint
+    accessibility_events: list[NavigationAccessibilityEvent] = Field(
+        default_factory=list
+    )
+
+    @model_validator(mode="after")
+    def validate_accessibility_events(self) -> "NavigationInstruction":
+        """Keep local accessibility events consecutive and distance ordered.
+
+        Returns:
+            The validated instruction.
+
+        Raises:
+            ValueError: If event order contradicts its sequence or distance.
+        """
+
+        expected = list(range(1, len(self.accessibility_events) + 1))
+        if [event.sequence for event in self.accessibility_events] != expected:
+            raise ValueError("navigation accessibility events must be consecutive")
+        distances = [
+            event.distance_from_instruction_start_m
+            for event in self.accessibility_events
+        ]
+        if distances != sorted(distances):
+            raise ValueError("navigation accessibility events must be distance ordered")
+        return self
 
 
 class AccessibilityEvidence(DomainModel):
@@ -244,6 +337,7 @@ class RouteCandidate(DomainModel):
     category: RouteCategory
     is_synthetic: bool = False
     geometry: list[GeoPoint] = Field(min_length=2)
+    instructions: list[NavigationInstruction] = Field(min_length=1)
     features: RouteFeatures
     uncertainty: UncertaintySummary
 
@@ -260,6 +354,20 @@ class RouteCandidate(DomainModel):
 
         if self.source is RouteSource.FIXTURE and not self.is_synthetic:
             raise ValueError("fixture routes must be marked as synthetic")
+
+        if [item.sequence for item in self.instructions] != list(
+            range(1, len(self.instructions) + 1)
+        ):
+            raise ValueError("navigation instruction sequences must be consecutive")
+        previous_geometry_index = -1
+        for instruction in self.instructions:
+            if instruction.geometry_index >= len(self.geometry):
+                raise ValueError("navigation instruction references missing geometry")
+            if instruction.geometry_index < previous_geometry_index:
+                raise ValueError("navigation instructions must follow route geometry")
+            if instruction.location != self.geometry[instruction.geometry_index]:
+                raise ValueError("navigation instruction location must match route geometry")
+            previous_geometry_index = instruction.geometry_index
 
         expected_unknown: set[AccessibilityAttribute] = {
             attribute

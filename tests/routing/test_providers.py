@@ -5,7 +5,7 @@ from typing import Optional
 
 import pytest
 
-from backend.domain import GeoPoint, MobilityProfile, RouteSource
+from backend.domain import GeoPoint, MobilityProfile, NavigationManeuver, RouteSource
 from backend.enrichment.osm_snapshot import (
     OsmBoundingBox,
     OsmRoutingElement,
@@ -105,6 +105,7 @@ class _FakeBaseRouteProvider:
                     instructions=[
                         OrsBaseInstruction(
                             instruction_type=10,
+                            maneuver=NavigationManeuver.ARRIVE,
                             text="Has llegado a tu destino",
                             distance_m=1800.0,
                             duration_s=1500.0,

@@ -17,6 +17,20 @@
         {"latitude": 40.4271, "longitude": -3.7190},
         {"latitude": 40.4211, "longitude": -3.7206}
       ],
+      "instructions": [
+        {"sequence": 1, "maneuver": "depart", "text": "Empieza el recorrido hacia la calle de la Princesa.", "street_name": "calle de la Princesa", "distance_m": 120.0, "duration_s": 95.0, "geometry_index": 0, "location": {"latitude": 40.4353, "longitude": -3.7191}},
+        {"sequence": 2, "maneuver": "continue_straight", "text": "Continúa recto por la calle de la Princesa.", "street_name": "calle de la Princesa", "distance_m": 180.0, "duration_s": 145.0, "geometry_index": 0, "location": {"latitude": 40.4353, "longitude": -3.7191}},
+        {"sequence": 3, "maneuver": "turn_right", "text": "Gira a la derecha hacia la calle de Alberto Aguilera.", "street_name": "calle de Alberto Aguilera", "distance_m": 140.0, "duration_s": 115.0, "geometry_index": 1, "location": {"latitude": 40.4317, "longitude": -3.7178}},
+        {"sequence": 4, "maneuver": "continue_straight", "text": "Continúa recto por la calle de Alberto Aguilera.", "street_name": "calle de Alberto Aguilera", "distance_m": 190.0, "duration_s": 155.0, "geometry_index": 1, "location": {"latitude": 40.4317, "longitude": -3.7178}},
+        {"sequence": 5, "maneuver": "turn_left", "text": "Gira a la izquierda hacia la calle de Ferraz.", "street_name": "calle de Ferraz", "distance_m": 160.0, "duration_s": 130.0, "geometry_index": 1, "location": {"latitude": 40.4317, "longitude": -3.7178}},
+        {"sequence": 6, "maneuver": "continue_straight", "text": "Continúa recto por la calle de Ferraz.", "street_name": "calle de Ferraz", "distance_m": 210.0, "duration_s": 170.0, "geometry_index": 2, "location": {"latitude": 40.4271, "longitude": -3.7190}},
+        {"sequence": 7, "maneuver": "keep_right", "text": "Mantente a la derecha para seguir por la calle de Ferraz.", "street_name": "calle de Ferraz", "distance_m": 130.0, "duration_s": 105.0, "geometry_index": 2, "location": {"latitude": 40.4271, "longitude": -3.7190}},
+        {"sequence": 8, "maneuver": "turn_slight_left", "text": "Gira ligeramente a la izquierda hacia el paseo del Rey.", "street_name": "paseo del Rey", "distance_m": 155.0, "duration_s": 125.0, "geometry_index": 2, "location": {"latitude": 40.4271, "longitude": -3.7190}},
+        {"sequence": 9, "maneuver": "continue_straight", "text": "Continúa recto por el paseo del Rey.", "street_name": "paseo del Rey", "distance_m": 175.0, "duration_s": 140.0, "geometry_index": 2, "location": {"latitude": 40.4271, "longitude": -3.7190}},
+        {"sequence": 10, "maneuver": "turn_right", "text": "Gira a la derecha hacia la cuesta de San Vicente.", "street_name": "cuesta de San Vicente", "distance_m": 150.0, "duration_s": 120.0, "geometry_index": 2, "location": {"latitude": 40.4271, "longitude": -3.7190}},
+        {"sequence": 11, "maneuver": "keep_left", "text": "Mantente a la izquierda para continuar hacia Príncipe Pío.", "street_name": "Príncipe Pío", "distance_m": 180.0, "duration_s": 145.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}},
+        {"sequence": 12, "maneuver": "arrive", "text": "Has llegado al destino.", "street_name": null, "distance_m": 20.0, "duration_s": 25.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}}
+      ],
       "features": {
         "distance_m": 1810.0,
         "duration_s": 1470.0,
@@ -60,6 +74,21 @@
         {"latitude": 40.4320, "longitude": -3.7217},
         {"latitude": 40.4264, "longitude": -3.7228},
         {"latitude": 40.4211, "longitude": -3.7206}
+      ],
+      "instructions": [
+        {"sequence": 1, "maneuver": "depart", "text": "Empieza el recorrido hacia la avenida de la Memoria.", "street_name": "avenida de la Memoria", "distance_m": 130.0, "duration_s": 105.0, "geometry_index": 0, "location": {"latitude": 40.4353, "longitude": -3.7191}},
+        {"sequence": 2, "maneuver": "turn_left", "text": "Gira a la izquierda hacia la avenida de la Memoria.", "street_name": "avenida de la Memoria", "distance_m": 150.0, "duration_s": 120.0, "geometry_index": 0, "location": {"latitude": 40.4353, "longitude": -3.7191}},
+        {"sequence": 3, "maneuver": "continue_straight", "text": "Continúa recto por la avenida de la Memoria.", "street_name": "avenida de la Memoria", "distance_m": 190.0, "duration_s": 155.0, "geometry_index": 1, "location": {"latitude": 40.4320, "longitude": -3.7217}},
+        {"sequence": 4, "maneuver": "keep_right", "text": "Mantente a la derecha para continuar por el paseo de Ruperto Chapí.", "street_name": "paseo de Ruperto Chapí", "distance_m": 165.0, "duration_s": 135.0, "geometry_index": 1, "location": {"latitude": 40.4320, "longitude": -3.7217}},
+        {"sequence": 5, "maneuver": "continue_straight", "text": "Continúa recto por el paseo de Ruperto Chapí.", "street_name": "paseo de Ruperto Chapí", "distance_m": 210.0, "duration_s": 170.0, "geometry_index": 1, "location": {"latitude": 40.4320, "longitude": -3.7217}},
+        {"sequence": 6, "maneuver": "turn_slight_left", "text": "Gira ligeramente a la izquierda hacia el paseo de Camoens.", "street_name": "paseo de Camoens", "distance_m": 140.0, "duration_s": 115.0, "geometry_index": 1, "location": {"latitude": 40.4320, "longitude": -3.7217}},
+        {"sequence": 7, "maneuver": "continue_straight", "text": "Continúa recto por el paseo de Camoens.", "street_name": "paseo de Camoens", "distance_m": 185.0, "duration_s": 150.0, "geometry_index": 2, "location": {"latitude": 40.4264, "longitude": -3.7228}},
+        {"sequence": 8, "maneuver": "keep_left", "text": "Mantente a la izquierda para seguir hacia el paseo del Rey.", "street_name": "paseo del Rey", "distance_m": 145.0, "duration_s": 120.0, "geometry_index": 2, "location": {"latitude": 40.4264, "longitude": -3.7228}},
+        {"sequence": 9, "maneuver": "continue_straight", "text": "Continúa recto por el paseo del Rey.", "street_name": "paseo del Rey", "distance_m": 190.0, "duration_s": 155.0, "geometry_index": 2, "location": {"latitude": 40.4264, "longitude": -3.7228}},
+        {"sequence": 10, "maneuver": "turn_right", "text": "Gira a la derecha hacia la glorieta de San Vicente.", "street_name": "glorieta de San Vicente", "distance_m": 160.0, "duration_s": 130.0, "geometry_index": 2, "location": {"latitude": 40.4264, "longitude": -3.7228}},
+        {"sequence": 11, "maneuver": "exit_roundabout", "text": "Sal de la glorieta hacia Príncipe Pío.", "street_name": "Príncipe Pío", "distance_m": 140.0, "duration_s": 115.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}},
+        {"sequence": 12, "maneuver": "continue_straight", "text": "Continúa recto hacia la entrada de Príncipe Pío.", "street_name": "Príncipe Pío", "distance_m": 155.0, "duration_s": 125.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}},
+        {"sequence": 13, "maneuver": "arrive", "text": "Has llegado al destino.", "street_name": null, "distance_m": 20.0, "duration_s": 15.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}}
       ],
       "features": {
         "distance_m": 1980.0,
@@ -107,6 +136,16 @@
         {"latitude": 40.4290, "longitude": -3.7159},
         {"latitude": 40.4243, "longitude": -3.7170},
         {"latitude": 40.4211, "longitude": -3.7206}
+      ],
+      "instructions": [
+        {"sequence": 1, "maneuver": "depart", "text": "Empieza el recorrido hacia la calle de la Princesa.", "street_name": "calle de la Princesa", "distance_m": 210.0, "duration_s": 175.0, "geometry_index": 0, "location": {"latitude": 40.4353, "longitude": -3.7191}},
+        {"sequence": 2, "maneuver": "continue_straight", "text": "Continúa recto por la calle de la Princesa.", "street_name": "calle de la Princesa", "distance_m": 240.0, "duration_s": 200.0, "geometry_index": 1, "location": {"latitude": 40.4290, "longitude": -3.7159}},
+        {"sequence": 3, "maneuver": "turn_right", "text": "Gira a la derecha hacia la calle de Ventura Rodríguez.", "street_name": "calle de Ventura Rodríguez", "distance_m": 190.0, "duration_s": 155.0, "geometry_index": 1, "location": {"latitude": 40.4290, "longitude": -3.7159}},
+        {"sequence": 4, "maneuver": "continue_straight", "text": "Continúa recto por la calle de Ventura Rodríguez.", "street_name": "calle de Ventura Rodríguez", "distance_m": 230.0, "duration_s": 190.0, "geometry_index": 2, "location": {"latitude": 40.4243, "longitude": -3.7170}},
+        {"sequence": 5, "maneuver": "turn_left", "text": "Gira a la izquierda hacia la cuesta de San Vicente.", "street_name": "cuesta de San Vicente", "distance_m": 220.0, "duration_s": 180.0, "geometry_index": 2, "location": {"latitude": 40.4243, "longitude": -3.7170}},
+        {"sequence": 6, "maneuver": "continue_straight", "text": "Continúa recto por la cuesta de San Vicente.", "street_name": "cuesta de San Vicente", "distance_m": 245.0, "duration_s": 200.0, "geometry_index": 2, "location": {"latitude": 40.4243, "longitude": -3.7170}},
+        {"sequence": 7, "maneuver": "keep_right", "text": "Mantente a la derecha para continuar hacia Príncipe Pío.", "street_name": "Príncipe Pío", "distance_m": 220.0, "duration_s": 180.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}},
+        {"sequence": 8, "maneuver": "arrive", "text": "Has llegado al destino.", "street_name": null, "distance_m": 120.0, "duration_s": 100.0, "geometry_index": 3, "location": {"latitude": 40.4211, "longitude": -3.7206}}
       ],
       "features": {
         "distance_m": 1675.0,
