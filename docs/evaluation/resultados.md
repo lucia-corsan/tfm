@@ -8,9 +8,9 @@ Responsabilidad principal: `evaluation`
 
 La integración técnica con ORS, la caché y el enriquecimiento OSM ya se han
 validado. El rerouting también se ha validado funcionalmente de extremo a
-extremo con GPS simulado, ORS y TalkBack. Permanecen pendientes su análisis de
-sensibilidad, la prueba física controlada, el aprendizaje y la evaluación de
-usabilidad completa.
+extremo con GPS simulado, ORS y TalkBack, y su umbral espacial se ha calibrado
+con secuencias sintéticas. Permanecen pendientes la prueba física controlada,
+el aprendizaje y la evaluación de usabilidad completa.
 
 ## Integración de rutas reales
 
@@ -112,9 +112,21 @@ el detector cambia de referencia tras el recálculo y evita evaluar una nueva
 desviación contra una geometría obsoleta.
 
 Esta es una validación funcional de un caso reproducible, no una calibración de
-los umbrales. `EXP-003` continúa pendiente porque requiere comparar 20, 30 y
-40 m, registrar tiempos, falsos avisos y desviaciones omitidas, y repetir las
-secuencias en condiciones equivalentes.
+los umbrales. La calibración posterior `EXP-003` comparó 20, 30 y 40 m sobre
+trece secuencias sintéticas preetiquetadas, manteniendo constantes la precisión,
+el número de muestras y la duración mínima.
+
+El umbral de 20 m alcanzó una sensibilidad del 100 %, pero produjo dos falsas
+alertas y un F1 de 85,7 %. El de 40 m no produjo falsas alertas, aunque omitió
+dos de las seis desviaciones y redujo el F1 al 80,0 %. El valor de 30 m obtuvo
+92,3 % de exactitud, 100 % de precisión, 83,3 % de sensibilidad y un F1 de
+90,9 %, con una desviación omitida y ninguna falsa alerta. Por ello se mantiene
+como configuración inicial del MVP. La latencia media fue de 11 s y la mediana,
+de 10 s.
+
+Este resultado valida una decisión reproducible sobre un banco de diseño; no
+estima el rendimiento físico del GPS. Los demás parámetros y su idoneidad en
+exteriores continúan pendientes de recorridos controlados.
 
 ## Narración y navegación manual
 
@@ -147,7 +159,7 @@ calle, que el momento de cada aviso sea adecuado o que la interacción con TTS y
 TalkBack no produzca solapamientos. Esas cuestiones requieren la revisión manual
 del emulador y, posteriormente, recorridos simulados o controlados con GPS.
 
-La validación automática alcanza 239 pruebas de backend y 83 de la aplicación,
+La validación automática alcanza 239 pruebas de backend y 91 de la aplicación,
 con Ruff, TypeScript y ESLint sin errores. Falta recorrer manualmente los nuevos
 eventos con TalkBack en el emulador; por ello este resultado valida la coherencia
 del software, pero todavía no la facilidad de uso del contenido en movimiento.
@@ -165,6 +177,7 @@ sustituye una evaluación de usabilidad con participantes.
 
 | Experimento | Métrica principal | Sistema de referencia | Sistema evaluado | Interpretación |
 | --- | ---: | ---: | ---: | --- |
+| EXP-003 | F1 90,9 %; 0 falsas alertas; 1 omitida | 30 m iniciales | 20, 30 y 40 m | Se mantienen 30 m; validación física pendiente |
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |
 | EXP-006 | 418 elementos; confianza media 0,391 | Corredor de 10 m | Corredor de 5 m | Menos contaminación potencial con cobertura útil; revisión manual pendiente |

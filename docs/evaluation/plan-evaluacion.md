@@ -1,7 +1,7 @@
 # Plan de evaluación académica
 
 Estado: `Vigente`  
-Última actualización: 11 de agosto de 2026
+Última actualización: 16 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Preguntas de evaluación
@@ -97,6 +97,7 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
 - [ ] Definir umbrales cuantitativos de éxito.
 - [ ] Preparar scripts reproducibles.
 - [ ] Aprobar el protocolo de prueba física.
+- [x] Ejecutar `EXP-003` sobre 20, 30 y 40 m y conservar todas las predicciones.
 - [ ] Ejecutar `EXP-005` para comparar tres rutas con la colección ampliada.
 - [x] Ejecutar `EXP-005A` y conservar todas sus configuraciones y predicciones.
 - [x] Ejecutar `EXP-006` sobre corredores de 5, 10, 15 y 20 m.

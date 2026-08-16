@@ -1,0 +1,40 @@
+thresholdM,caseId,description,expectedAlert,predictedAlert,correct,alertTimestampMs,detectionLatencyMs
+20,P1,Desviación estable de 25 m,true,true,true,10000,10000
+20,P2,Desviación estable de 35 m,true,true,true,10000,10000
+20,P3,Desviación estable de 50 m,true,true,true,10000,10000
+20,P4,Separación gradual de la ruta,true,true,true,15000,10000
+20,P5,Desviación estable después de una lectura imprecisa,true,true,true,15000,10000
+20,P6,Retorno puntual seguido de una desviación estable,true,true,true,25000,10000
+20,N1,Posiciones centradas sobre la ruta,false,false,true,,
+20,N2,Ruido GPS ordinario de hasta 12 m,false,false,true,,
+20,N3,Una única lectura alejada,false,false,true,,
+20,N4,Dos lecturas alejadas sin duración suficiente,false,false,true,,
+20,N5,Lecturas alejadas con precisión insuficiente,false,false,true,,
+20,N6,Sesgo lateral GPS conocido de 24 m sin salida real,false,true,false,10000,
+20,N7,Desplazamiento cartográfico de 28 m sin salida real,false,true,false,10000,
+30,P1,Desviación estable de 25 m,true,false,false,,
+30,P2,Desviación estable de 35 m,true,true,true,10000,10000
+30,P3,Desviación estable de 50 m,true,true,true,10000,10000
+30,P4,Separación gradual de la ruta,true,true,true,20000,15000
+30,P5,Desviación estable después de una lectura imprecisa,true,true,true,15000,10000
+30,P6,Retorno puntual seguido de una desviación estable,true,true,true,25000,10000
+30,N1,Posiciones centradas sobre la ruta,false,false,true,,
+30,N2,Ruido GPS ordinario de hasta 12 m,false,false,true,,
+30,N3,Una única lectura alejada,false,false,true,,
+30,N4,Dos lecturas alejadas sin duración suficiente,false,false,true,,
+30,N5,Lecturas alejadas con precisión insuficiente,false,false,true,,
+30,N6,Sesgo lateral GPS conocido de 24 m sin salida real,false,false,true,,
+30,N7,Desplazamiento cartográfico de 28 m sin salida real,false,false,true,,
+40,P1,Desviación estable de 25 m,true,false,false,,
+40,P2,Desviación estable de 35 m,true,false,false,,
+40,P3,Desviación estable de 50 m,true,true,true,10000,10000
+40,P4,Separación gradual de la ruta,true,true,true,25000,20000
+40,P5,Desviación estable después de una lectura imprecisa,true,true,true,15000,10000
+40,P6,Retorno puntual seguido de una desviación estable,true,true,true,25000,10000
+40,N1,Posiciones centradas sobre la ruta,false,false,true,,
+40,N2,Ruido GPS ordinario de hasta 12 m,false,false,true,,
+40,N3,Una única lectura alejada,false,false,true,,
+40,N4,Dos lecturas alejadas sin duración suficiente,false,false,true,,
+40,N5,Lecturas alejadas con precisión insuficiente,false,false,true,,
+40,N6,Sesgo lateral GPS conocido de 24 m sin salida real,false,false,true,,
+40,N7,Desplazamiento cartográfico de 28 m sin salida real,false,false,true,,

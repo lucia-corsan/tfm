@@ -15,12 +15,35 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | --- | --- | --- | --- | --- | --- | --- |
 | EXP-001 | 8 de agosto de 2026 | `unknown` no mejora una ruta | *Fixtures* | Misma ruta con evidencia favorable | Validación técnica superada | `tests/scoring/test_scorer.py` |
 | EXP-002 | Pendiente | Recuperación de preferencias | Perfiles sintéticos | Pesos fijos | Pendiente | — |
-| EXP-003 | Pendiente | Sensibilidad del rerouting | GPS simulado | Umbral único | Pendiente | — |
+| EXP-003 | 16 de agosto de 2026 | ¿Qué umbral espacial equilibra detección y falsas alertas? | 13 secuencias GPS sintéticas | 30 m iniciales sin calibración | Validación sintética superada | `docs/evaluation/calibracion-detector-desviacion.md` |
 | VAL-001 | 16 de agosto de 2026 | ¿El rerouting conserva una navegación útil ante aceptación, rechazo y fallo? | Android Emulator, ORS y GPS simulado | Ruta previa sin recálculo | Validación funcional superada | `docs/evaluation/resultados.md` |
 | EXP-004 | 10 de agosto de 2026 | ORS devuelve rutas base válidas y reutiliza la caché | Corredor piloto | Primera ejecución con red | Validación técnica superada | `backend/routing/check_ors.py` |
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
+
+### EXP-003 — Calibración del detector de desviación
+
+- Fecha y versión del código: 16 de agosto de 2026, semana 3, día 4.
+- Pregunta: ¿qué umbral entre 20, 30 y 40 m ofrece el mejor equilibrio entre
+  detección y ausencia de avisos indebidos?
+- Datos: trece secuencias fijadas antes de seleccionar el resultado, seis
+  positivas y siete negativas, con 39 predicciones.
+- Parámetros constantes: precisión máxima de 25 m, tres muestras y diez
+  segundos de duración mínima.
+- Sistema de referencia: configuración inicial de 30 m no calibrada.
+- Métricas: exactitud, precisión, sensibilidad, especificidad, F1, errores
+  absolutos y latencia.
+- Regla de selección: mayor F1; después, menos falsas alertas, mayor
+  sensibilidad y menor distancia.
+- Resultado: se mantienen 30 m, con 92,3 % de exactitud, F1 de 90,9 %, ninguna
+  falsa alerta y una desviación moderada omitida.
+- Interpretación: 20 m fue demasiado sensible ante dos desplazamientos
+  benignos; 40 m omitió dos desviaciones.
+- Limitaciones: banco sintético, etiquetas de diseño, ruta recta y frecuencia
+  fija. No sustituye una prueba física.
+- Evidencia: [calibración completa](calibracion-detector-desviacion.md), CSV y
+  pruebas automáticas de la aplicación.
 
 ### VAL-001 — Validación funcional del rerouting
 
@@ -48,9 +71,9 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 - Interpretación: se valida la coherencia funcional y el tratamiento seguro de
   errores del caso piloto. El cambio de geometría confirma que la detección usa
   la ruta vigente, no una referencia obsoleta.
-- Limitaciones: una ejecución manual no estima falsos positivos, falsos
-  negativos ni el mejor umbral. `EXP-003` sigue pendiente y deberá comparar 20,
-  30 y 40 m en secuencias equivalentes; tampoco sustituye una prueba física.
+- Limitaciones: una ejecución manual no estima por sí sola falsos positivos,
+  falsos negativos ni el mejor umbral. `EXP-003` se ejecutó después con
+  secuencias equivalentes, aunque tampoco sustituye una prueba física.
 - Evidencias: [Resultados](resultados.md),
   [GPS y rerouting](../product/gps-rerouting.md) y las pruebas automáticas de
   backend y aplicación.

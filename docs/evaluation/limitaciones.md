@@ -1,7 +1,7 @@
 # Limitaciones y amenazas a la validez
 
 Estado: `En implementación`  
-Última actualización: 14 de agosto de 2026
+Última actualización: 16 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Datos
@@ -48,6 +48,9 @@ Responsabilidad principal: `evaluation`
 - La calibración del corredor OSM utiliza tres rutas de una única pareja
   origen-destino. La selección de 5 m necesita revisión manual y repetición en
   otros trayectos antes de generalizarse.
+- La calibración del detector utiliza trece secuencias sintéticas y una ruta
+  recta. Sus etiquetas son supuestos de diseño, no observaciones
+  representativas de teléfonos, personas o calles reales.
 - El aumento cuantitativo de elementos al ampliar el corredor es compatible con
   la incorporación de calles vecinas, pero no demuestra la pertenencia de cada
   objeto. Esa interpretación exige revisar topología, etiquetas y contexto.
@@ -57,10 +60,10 @@ Responsabilidad principal: `evaluation`
 - ORS, GPS y red pueden fallar o cambiar su comportamiento.
 - El emulador no reproduce toda la variabilidad de sensores de un dispositivo
   real.
-- Los umbrales de 25 m de precisión, 30 m de separación, tres muestras, diez
-  segundos y 60 segundos de espera son valores iniciales de diseño. Las pruebas
-  unitarias demuestran su comportamiento lógico, pero no su idoneidad para todos
-  los entornos urbanos ni para todos los dispositivos.
+- El umbral de 30 m fue el mejor entre 20, 30 y 40 m en `EXP-003`, pero los
+  25 m de precisión, las tres muestras, los diez segundos y los 60 segundos de
+  espera siguen siendo valores iniciales. El banco sintético no demuestra su
+  idoneidad para todos los entornos y dispositivos.
 - El recálculo automático selecciona la primera ruta aceptada después de una
   confirmación explícita. Reduce la carga de interacción, pero limita la
   posibilidad de comparar de nuevo todas las alternativas durante la marcha.
