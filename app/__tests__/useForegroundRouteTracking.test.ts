@@ -90,6 +90,10 @@ describe('foreground route tracking', () => {
 
     expect(result.current.status).toBe('on_route');
     expect(onReliableSample).toHaveBeenCalledTimes(1);
+    expect(result.current.latestReliablePosition).toEqual({
+      latitude: 40.4305,
+      longitude: -3.72,
+    });
   });
 
   test('does not forward a sample with accuracy worse than 25 metres', async () => {
@@ -123,5 +127,73 @@ describe('foreground route tracking', () => {
 
     expect(result.current.status).toBe('poor_accuracy');
     expect(onReliableSample).not.toHaveBeenCalled();
+  });
+
+  test('pauses deviation decisions during rerouting and resets after rejection', async () => {
+    requestPermission.mockResolvedValue({ status: 'granted' } as never);
+    watchPosition.mockResolvedValue({ remove: jest.fn() } as never);
+    const { result } = await renderHook(() =>
+      useForegroundRouteTracking(route, jest.fn(), true),
+    );
+    await waitFor(() => expect(watchPosition).toHaveBeenCalled());
+
+    await act(async () => result.current.pauseForReroute());
+    expect(result.current.status).toBe('reroute_in_progress');
+
+    await act(async () => result.current.resetDeviationEvidence());
+    expect(result.current.status).toBe('waiting_for_location');
+  });
+
+  test('suppresses deviation alerts during the minute after a valid reroute', async () => {
+    let listener!: Location.LocationCallback;
+    const now = jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    requestPermission.mockResolvedValue({ status: 'granted' } as never);
+    watchPosition.mockImplementation(async (_options, callback) => {
+      listener = callback;
+      return { remove: jest.fn() } as never;
+    });
+    const { result } = await renderHook(() =>
+      useForegroundRouteTracking(route, jest.fn(), true),
+    );
+    await waitFor(() => expect(watchPosition).toHaveBeenCalled());
+
+    await act(async () => result.current.startRerouteCooldown());
+    await act(async () => {
+      listener({
+        coords: {
+          accuracy: 5,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          latitude: 40.44,
+          longitude: -3.71,
+          speed: null,
+        },
+        mocked: true,
+        timestamp: 2_000,
+      });
+    });
+
+    expect(result.current.status).toBe('reroute_cooldown');
+
+    now.mockReturnValue(61_001);
+    await act(async () => {
+      listener({
+        coords: {
+          accuracy: 5,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          latitude: 40.4305,
+          longitude: -3.72,
+          speed: null,
+        },
+        mocked: true,
+        timestamp: 62_000,
+      });
+    });
+
+    expect(result.current.status).toBe('on_route');
+    now.mockRestore();
   });
 });

@@ -171,7 +171,43 @@ export const ES = {
         'La posición parece alejarse del recorrido. La aplicación seguirá comprobándolo antes de mostrar una alerta.',
       confirmation_required:
         'Varias mediciones indican una posible desviación. Continúa con los controles disponibles hasta confirmar un nuevo recorrido.',
+      reroute_in_progress:
+        'Se están calculando nuevas alternativas. La ruta anterior continúa disponible.',
+      reroute_cooldown:
+        'La ruta se ha actualizado. Durante un minuto no se mostrarán nuevas alertas de desviación.',
     },
+    rerouteDialogTitle: 'Posible desviación de la ruta',
+    rerouteDialogDescription:
+      'Varias mediciones fiables indican que te has separado del recorrido. ¿Quieres calcular nuevas alternativas desde tu posición actual? La ubicación solo se enviará si lo confirmas.',
+    keepRouteButton: 'Mantener la ruta actual',
+    keepRouteHint:
+      'Cierra este aviso y conserva las instrucciones actuales sin enviar tu posición.',
+    confirmRerouteButton: 'Calcular una nueva ruta',
+    confirmRerouteHint:
+      'Confirma el envío de la posición actual al backend para volver a calcular las alternativas.',
+    reroutingLoading: 'Calculando nuevas alternativas accesibles.',
+    reroutingSuccess:
+      'Ruta actualizada. Se han aplicado de nuevo tu perfil, las restricciones y la información disponible.',
+    reroutingErrorTitle: 'No se ha podido actualizar la ruta',
+    reroutingErrors: {
+      invalid_request:
+        'La posición o el perfil no tienen un formato válido. Puedes mantener la ruta actual.',
+      route_scenario_not_found:
+        'No se han encontrado rutas para esta posición dentro del área disponible.',
+      routing_provider_unavailable:
+        'El servicio de rutas no está disponible ahora. La ruta anterior se mantiene.',
+      place_search_unavailable:
+        'El servicio no está disponible ahora. La ruta anterior se mantiene.',
+      invalid_response:
+        'El servidor ha devuelto una respuesta que no se puede utilizar con seguridad.',
+      network_error:
+        'No se ha podido conectar con el servidor. La ruta anterior se mantiene.',
+      no_valid_routes:
+        'Las nuevas alternativas no cumplen las restricciones del perfil. La ruta anterior se mantiene.',
+    },
+    retryRerouteButton: 'Reintentar el recálculo',
+    retryRerouteHint:
+      'Vuelve a solicitar alternativas desde la última posición fiable.',
     progress: (current: number, total: number) =>
       `Instrucción ${current} de ${total}`,
     currentInstructionTitle: 'Instrucción actual',

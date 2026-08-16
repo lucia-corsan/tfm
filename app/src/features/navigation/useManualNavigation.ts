@@ -15,6 +15,7 @@ interface ManualNavigationController {
   goNext: () => void;
   goPrevious: () => void;
   handleReliableLocation: (sample: LocationSample) => void;
+  resetToFirstInstruction: () => void;
   totalInstructions: number;
 }
 
@@ -33,6 +34,10 @@ export function useManualNavigation(
   const goNext = useCallback(() => {
     setCurrentIndex((index) => Math.min(index + 1, totalInstructions - 1));
   }, [totalInstructions]);
+
+  const resetToFirstInstruction = useCallback(() => {
+    setCurrentIndex(0);
+  }, []);
 
   const handleReliableLocation = useCallback(
     (sample: LocationSample) => {
@@ -63,6 +68,7 @@ export function useManualNavigation(
       goNext,
       goPrevious,
       handleReliableLocation,
+      resetToFirstInstruction,
       totalInstructions,
     }),
     [
@@ -73,6 +79,7 @@ export function useManualNavigation(
       goPrevious,
       handleReliableLocation,
       route.instructions,
+      resetToFirstInstruction,
       totalInstructions,
     ],
   );

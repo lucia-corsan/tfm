@@ -1,12 +1,17 @@
-import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { ComparedRoute } from '@/api/types';
+import type { NavigationSession } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
 import { InstructionAccessibilityEvent } from '@/components/InstructionAccessibilityEvent';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { RerouteConfirmationDialog } from '@/components/RerouteConfirmationDialog';
 import { useManualNavigation } from '@/features/navigation/useManualNavigation';
+import {
+  type RerouteRoutesFunction,
+  useRouteRerouting,
+} from '@/features/navigation/useRouteRerouting';
 import { useForegroundRouteTracking } from '@/features/location/useForegroundRouteTracking';
 import {
   formatDistance,
@@ -16,12 +21,20 @@ import { ES } from '../../i18n/es';
 
 interface NavigationScreenProps {
   onFinish: () => void;
-  route: ComparedRoute;
+  reroute?: RerouteRoutesFunction;
+  session: NavigationSession;
 }
 
-export function NavigationScreen({ onFinish, route }: NavigationScreenProps) {
+export function NavigationScreen({
+  onFinish,
+  reroute,
+  session,
+}: NavigationScreenProps) {
+  const [route, setRoute] = useState(session.route);
   const [gpsEnabled, setGpsEnabled] = useState(false);
+  const screenMounted = useRef(true);
   const controller = useManualNavigation(route);
+  const rerouting = useRouteRerouting(reroute);
   const tracking = useForegroundRouteTracking(
     route.geometry,
     controller.handleReliableLocation,
@@ -35,8 +48,52 @@ export function NavigationScreen({ onFinish, route }: NavigationScreenProps) {
     (warning) => warning.state === 'unfavorable',
   ).length;
 
+  useEffect(
+    () => () => {
+      screenMounted.current = false;
+    },
+    [],
+  );
+  const confirmationVisible =
+    tracking.status === 'confirmation_required' &&
+    rerouting.state.status !== 'loading';
+
+  const keepCurrentRoute = () => {
+    rerouting.reset();
+    tracking.resetDeviationEvidence();
+  };
+
+  const recalculateRoute = async () => {
+    const currentPosition = tracking.latestReliablePosition;
+    if (currentPosition === null) {
+      tracking.resetDeviationEvidence();
+      return;
+    }
+    tracking.pauseForReroute();
+    const replacement = await rerouting.recalculate({
+      current_position: currentPosition,
+      destination: session.destination,
+      profile: session.profile,
+    });
+    if (!screenMounted.current) {
+      return;
+    }
+    if (replacement === null) {
+      tracking.resetDeviationEvidence();
+      return;
+    }
+    setRoute(replacement);
+    controller.resetToFirstInstruction();
+    tracking.startRerouteCooldown();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
+      <RerouteConfirmationDialog
+        onConfirm={() => void recalculateRoute()}
+        onKeepCurrentRoute={keepCurrentRoute}
+        visible={confirmationVisible}
+      />
       <ScrollView contentContainerStyle={styles.content}>
         <AccessibleText style={styles.eyebrow}>
           {ES.navigation.eyebrow}
@@ -66,6 +123,57 @@ export function NavigationScreen({ onFinish, route }: NavigationScreenProps) {
             />
           )}
         </View>
+
+        {rerouting.state.status === 'loading' && (
+          <View
+            accessible
+            accessibilityLanguage="es-ES"
+            accessibilityLabel={ES.navigation.reroutingLoading}
+            accessibilityLiveRegion="assertive"
+            accessibilityRole="progressbar"
+            accessibilityState={{ busy: true }}
+            style={styles.reroutingCard}
+          >
+            <ActivityIndicator color="#5B3FC4" size="large" />
+            <AccessibleText style={styles.detail}>
+              {ES.navigation.reroutingLoading}
+            </AccessibleText>
+          </View>
+        )}
+
+        {rerouting.state.status === 'success' && (
+          <AccessibleText
+            accessibilityLiveRegion="assertive"
+            accessibilityRole="alert"
+            style={styles.successCard}
+          >
+            {ES.navigation.reroutingSuccess}
+          </AccessibleText>
+        )}
+
+        {rerouting.state.status === 'error' && (
+          <View style={styles.errorCard}>
+            <View
+              accessible
+              accessibilityLanguage="es-ES"
+              accessibilityLabel={`${ES.navigation.reroutingErrorTitle}. ${ES.navigation.reroutingErrors[rerouting.state.code]}`}
+              accessibilityLiveRegion="assertive"
+              accessibilityRole="alert"
+            >
+              <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
+                {ES.navigation.reroutingErrorTitle}
+              </AccessibleText>
+              <AccessibleText style={styles.detail}>
+                {ES.navigation.reroutingErrors[rerouting.state.code]}
+              </AccessibleText>
+            </View>
+            <PrimaryButton
+              accessibilityHint={ES.navigation.retryRerouteHint}
+              label={ES.navigation.retryRerouteButton}
+              onPress={() => void recalculateRoute()}
+            />
+          </View>
+        )}
 
         <AccessibleText
           accessibilityLiveRegion="polite"
@@ -204,6 +312,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
+  errorCard: {
+    backgroundColor: '#FFF1F1',
+    borderColor: '#D99090',
+    borderRadius: 16,
+    borderWidth: 1,
+    gap: 14,
+    padding: 18,
+  },
   disclaimer: {
     color: '#533B0C',
     fontSize: 15,
@@ -252,10 +368,28 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
   },
+  reroutingCard: {
+    alignItems: 'center',
+    backgroundColor: '#F3F0FC',
+    borderRadius: 16,
+    gap: 12,
+    padding: 18,
+  },
   routeName: {
     color: '#3F465A',
     fontSize: 17,
     lineHeight: 25,
+  },
+  successCard: {
+    backgroundColor: '#E5F4EC',
+    borderColor: '#69B693',
+    borderRadius: 16,
+    borderWidth: 1,
+    color: '#1E5035',
+    fontSize: 16,
+    fontWeight: '700',
+    lineHeight: 24,
+    padding: 18,
   },
   safeArea: {
     backgroundColor: '#F7F5FB',

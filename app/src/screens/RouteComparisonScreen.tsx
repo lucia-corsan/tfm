@@ -11,6 +11,7 @@ import { ProfileOption } from '@/components/ProfileOption';
 import { RejectedRouteCard } from '@/components/RejectedRouteCard';
 import { RouteCard } from '@/components/RouteCard';
 import type { DemoProfileId } from '@/features/route-comparison/profiles';
+import type { NavigationSession } from '@/api/types';
 import {
   type CompareRoutesFunction,
   useRouteComparison,
@@ -19,7 +20,7 @@ import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
-  onChooseRoute?: (route: import('@/api/types').ComparedRoute) => void;
+  onChooseRoute?: (session: NavigationSession) => void;
   search?: SearchPlacesFunction;
 }
 
@@ -187,7 +188,18 @@ export function RouteComparisonScreen({
             {state.response.routes.map((route) => (
               <RouteCard
                 key={route.route_id}
-                onChoose={onChooseRoute}
+                onChoose={(selectedRoute) =>
+                  onChooseRoute({
+                    destination: { ...state.request.destination },
+                    profile: {
+                      ...state.request.profile,
+                      declared_weights: {
+                        ...state.request.profile.declared_weights,
+                      },
+                    },
+                    route: selectedRoute,
+                  })
+                }
                 route={route}
               />
             ))}

@@ -1,14 +1,24 @@
 import { render, userEvent } from '@testing-library/react-native';
 
-import type { ComparedRoute } from '@/api/types';
+import type { ComparedRoute, NavigationSession } from '@/api/types';
+import { RouteApiError } from '@/api/client';
 import { NavigationScreen } from '@/screens/NavigationScreen';
 import { ES } from '../i18n/es';
+
+const mockPauseForReroute = jest.fn();
+const mockResetDeviationEvidence = jest.fn();
+const mockStartRerouteCooldown = jest.fn();
+let mockTrackingStatus = 'on_route';
 
 jest.mock('@/features/location/useForegroundRouteTracking', () => ({
   useForegroundRouteTracking: () => ({
     accuracyM: 5,
     distanceToRouteM: 0,
-    status: 'on_route',
+    latestReliablePosition: { latitude: 40.43, longitude: -3.71 },
+    pauseForReroute: mockPauseForReroute,
+    resetDeviationEvidence: mockResetDeviationEvidence,
+    startRerouteCooldown: mockStartRerouteCooldown,
+    status: mockTrackingStatus,
   }),
 }));
 
@@ -139,10 +149,29 @@ const route: ComparedRoute = {
   ],
 };
 
+const session: NavigationSession = {
+  destination: { latitude: 40.4211, longitude: -3.7206 },
+  profile: {
+    profile_id: 'balanced_demo',
+    avoid_steps: true,
+    require_pedestrian_access: true,
+    avoid_incompatible_crossings: true,
+    maximum_slope_percent: null,
+    maximum_detour_ratio: 1.5,
+    declared_weights: weights,
+  },
+  route,
+};
+
 describe('<NavigationScreen />', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockTrackingStatus = 'on_route';
+  });
+
   test('starts at the first instruction with accessible manual controls', async () => {
     const screen = await render(
-      <NavigationScreen onFinish={jest.fn()} route={route} />,
+      <NavigationScreen onFinish={jest.fn()} session={session} />,
     );
 
     screen.getByRole('header', { name: ES.navigation.title });
@@ -164,7 +193,7 @@ describe('<NavigationScreen />', () => {
 
   test('moves forward and backward without exceeding the sequence', async () => {
     const screen = await render(
-      <NavigationScreen onFinish={jest.fn()} route={route} />,
+      <NavigationScreen onFinish={jest.fn()} session={session} />,
     );
     const user = userEvent.setup();
 
@@ -206,7 +235,7 @@ describe('<NavigationScreen />', () => {
   test('finishes navigation only after an explicit action', async () => {
     const onFinish = jest.fn();
     const screen = await render(
-      <NavigationScreen onFinish={onFinish} route={route} />,
+      <NavigationScreen onFinish={onFinish} session={session} />,
     );
     const user = userEvent.setup();
 
@@ -215,5 +244,102 @@ describe('<NavigationScreen />', () => {
       screen.getByRole('button', { name: ES.navigation.finishButton }),
     );
     expect(onFinish).toHaveBeenCalledTimes(1);
+  });
+
+  test('asks for an explicit accessible decision before rerouting', async () => {
+    mockTrackingStatus = 'confirmation_required';
+    const reroute = jest.fn();
+    const screen = await render(
+      <NavigationScreen
+        onFinish={jest.fn()}
+        reroute={reroute}
+        session={session}
+      />,
+    );
+    const user = userEvent.setup();
+
+    screen.getByRole('header', { name: ES.navigation.rerouteDialogTitle });
+    screen.getByText(ES.navigation.rerouteDialogDescription);
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.keepRouteButton }),
+    );
+
+    expect(reroute).not.toHaveBeenCalled();
+    expect(mockResetDeviationEvidence).toHaveBeenCalledTimes(1);
+  });
+
+  test('replaces the route only after a successful confirmed recalculation', async () => {
+    mockTrackingStatus = 'confirmation_required';
+    const replacementRoute: ComparedRoute = {
+      ...route,
+      name: 'Nueva alternativa recomendada',
+      route_id: 'rerouted_route',
+      instructions: route.instructions.map((instruction, index) => ({
+        ...instruction,
+        text:
+          index === 0
+            ? 'Comienza la nueva ruta desde tu posición actual.'
+            : instruction.text,
+      })),
+      score: { ...route.score, route_id: 'rerouted_route' },
+    };
+    const reroute = jest.fn().mockResolvedValue({
+      scenario_id: 'pilot',
+      scenario_name: 'Recálculo piloto',
+      origin: { latitude: 40.43, longitude: -3.71 },
+      destination: session.destination,
+      profile_id: session.profile.profile_id,
+      routes: [replacementRoute],
+      rejected_routes: [],
+    });
+    const screen = await render(
+      <NavigationScreen
+        onFinish={jest.fn()}
+        reroute={reroute}
+        session={session}
+      />,
+    );
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.confirmRerouteButton }),
+    );
+
+    await screen.findByText(ES.navigation.reroutingSuccess);
+    expect(reroute).toHaveBeenCalledWith({
+      current_position: { latitude: 40.43, longitude: -3.71 },
+      destination: session.destination,
+      profile: session.profile,
+    });
+    screen.getByText('Comienza la nueva ruta desde tu posición actual.');
+    expect(mockPauseForReroute).toHaveBeenCalledTimes(1);
+    expect(mockStartRerouteCooldown).toHaveBeenCalledTimes(1);
+  });
+
+  test('keeps the current route and offers retry after a provider failure', async () => {
+    mockTrackingStatus = 'confirmation_required';
+    const reroute = jest
+      .fn()
+      .mockRejectedValue(new RouteApiError('routing_provider_unavailable', 503));
+    const screen = await render(
+      <NavigationScreen
+        onFinish={jest.fn()}
+        reroute={reroute}
+        session={session}
+      />,
+    );
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.confirmRerouteButton }),
+    );
+
+    await screen.findByRole('alert', {
+      name: `${ES.navigation.reroutingErrorTitle}. ${ES.navigation.reroutingErrors.routing_provider_unavailable}`,
+    });
+    screen.getByText(route.instructions[0].text);
+    screen.getByRole('button', { name: ES.navigation.retryRerouteButton });
+    expect(mockStartRerouteCooldown).not.toHaveBeenCalled();
+    expect(mockResetDeviationEvidence).toHaveBeenCalledTimes(1);
   });
 });

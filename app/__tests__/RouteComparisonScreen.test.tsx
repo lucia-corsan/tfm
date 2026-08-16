@@ -209,7 +209,14 @@ describe('<RouteComparisonScreen />', () => {
     await user.press(chooseButtons[1]);
 
     expect(onChooseRoute).toHaveBeenCalledWith(
-      expect.objectContaining({ route_id: 'fewer_crossings_route', rank: 2 }),
+      expect.objectContaining({
+        destination: { latitude: 40.4211, longitude: -3.7206 },
+        profile: expect.objectContaining({ profile_id: 'balanced_demo' }),
+        route: expect.objectContaining({
+          route_id: 'fewer_crossings_route',
+          rank: 2,
+        }),
+      }),
     );
   });
 

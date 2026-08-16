@@ -1,20 +1,21 @@
 import { useState } from 'react';
 
-import type { ComparedRoute } from '@/api/types';
+import type { NavigationSession } from '@/api/types';
 import { NavigationScreen } from '@/screens/NavigationScreen';
 import { RouteComparisonScreen } from '@/screens/RouteComparisonScreen';
 
 export default function HomeScreen() {
-  const [selectedRoute, setSelectedRoute] = useState<ComparedRoute | null>(null);
+  const [navigationSession, setNavigationSession] =
+    useState<NavigationSession | null>(null);
 
-  if (selectedRoute) {
+  if (navigationSession) {
     return (
       <NavigationScreen
-        onFinish={() => setSelectedRoute(null)}
-        route={selectedRoute}
+        onFinish={() => setNavigationSession(null)}
+        session={navigationSession}
       />
     );
   }
 
-  return <RouteComparisonScreen onChooseRoute={setSelectedRoute} />;
+  return <RouteComparisonScreen onChooseRoute={setNavigationSession} />;
 }

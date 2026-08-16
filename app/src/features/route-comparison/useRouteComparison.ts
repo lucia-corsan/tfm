@@ -21,7 +21,11 @@ export type CompareRoutesFunction = (
 export type ComparisonState =
   | { status: 'idle' }
   | { status: 'loading' }
-  | { status: 'success'; response: RouteCompareResponse }
+  | {
+      status: 'success';
+      request: RouteCompareRequest;
+      response: RouteCompareResponse;
+    }
   | { status: 'error'; code: RouteApiErrorCode };
 
 interface RouteComparisonController {
@@ -77,15 +81,14 @@ export function useRouteComparison(
     setState({ status: 'loading' });
 
     try {
-      const response = await compare(
-        buildPilotComparisonRequest(
-          selectedProfileId,
-          origin.location,
-          destination.location,
-        ),
+      const request = buildPilotComparisonRequest(
+        selectedProfileId,
+        origin.location,
+        destination.location,
       );
+      const response = await compare(request);
       if (requestVersion.current === currentVersion) {
-        setState({ response, status: 'success' });
+        setState({ request, response, status: 'success' });
       }
     } catch (error) {
       if (requestVersion.current !== currentVersion) {

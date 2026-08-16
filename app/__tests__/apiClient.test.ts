@@ -1,5 +1,10 @@
-import { compareRoutes, RouteApiError, searchPlaces } from '@/api/client';
-import type { RouteCompareRequest } from '@/api/types';
+import {
+  compareRoutes,
+  rerouteRoutes,
+  RouteApiError,
+  searchPlaces,
+} from '@/api/client';
+import type { RouteCompareRequest, RouteRerouteRequest } from '@/api/types';
 
 const request: RouteCompareRequest = {
   origin: { latitude: 40.4353, longitude: -3.7191 },
@@ -159,6 +164,42 @@ describe('route comparison API client', () => {
 
     await expect(
       compareRoutes(request, { fetchImplementation: fetchMock as typeof fetch }),
+    ).rejects.toMatchObject({ code: 'network_error', status: null });
+  });
+});
+
+describe('route rerouting API client', () => {
+  const rerouteRequest: RouteRerouteRequest = {
+    current_position: request.origin,
+    destination: request.destination,
+    profile: request.profile,
+  };
+
+  test('posts the confirmed position and validates the complete response', async () => {
+    const fetchMock = jest.fn().mockResolvedValue(mockedResponse(validResponse()));
+
+    const result = await rerouteRoutes(rerouteRequest, {
+      baseUrl: 'http://10.0.2.2:8000/api/v1/',
+      fetchImplementation: fetchMock as typeof fetch,
+    });
+
+    expect(result.routes[0].route_id).toBe('balanced_route');
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://10.0.2.2:8000/api/v1/routes/reroute',
+      expect.objectContaining({
+        body: JSON.stringify(rerouteRequest),
+        method: 'POST',
+      }),
+    );
+  });
+
+  test('turns a rerouting network failure into a controlled error', async () => {
+    const fetchMock = jest.fn().mockRejectedValue(new Error('private URL'));
+
+    await expect(
+      rerouteRoutes(rerouteRequest, {
+        fetchImplementation: fetchMock as typeof fetch,
+      }),
     ).rejects.toMatchObject({ code: 'network_error', status: null });
   });
 });

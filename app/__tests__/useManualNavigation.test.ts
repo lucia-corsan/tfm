@@ -77,4 +77,15 @@ describe('automatic navigation progress', () => {
 
     expect(result.current.currentIndex).toBe(1);
   });
+
+  test('returns to the first instruction when a valid route replaces the old one', async () => {
+    const { result } = await renderHook(() => useManualNavigation(route));
+
+    await act(async () => {
+      result.current.goNext();
+      result.current.resetToFirstInstruction();
+    });
+
+    expect(result.current.currentIndex).toBe(0);
+  });
 });

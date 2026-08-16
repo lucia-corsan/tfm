@@ -3,6 +3,7 @@ import type {
   PlaceSearchResponse,
   RouteCompareRequest,
   RouteCompareResponse,
+  RouteRerouteRequest,
 } from '@/api/types';
 import {
   InvalidApiResponseError,
@@ -24,7 +25,7 @@ export class RouteApiError extends Error {
   }
 }
 
-interface CompareRoutesOptions {
+interface RouteRequestOptions {
   baseUrl?: string;
   fetchImplementation?: typeof fetch;
   signal?: AbortSignal;
@@ -93,14 +94,29 @@ export async function searchPlaces(
 
 export async function compareRoutes(
   request: RouteCompareRequest,
-  options: CompareRoutesOptions = {},
+  options: RouteRequestOptions = {},
+): Promise<RouteCompareResponse> {
+  return postRouteRequest('compare', request, options);
+}
+
+export async function rerouteRoutes(
+  request: RouteRerouteRequest,
+  options: RouteRequestOptions = {},
+): Promise<RouteCompareResponse> {
+  return postRouteRequest('reroute', request, options);
+}
+
+async function postRouteRequest(
+  operation: 'compare' | 'reroute',
+  request: RouteCompareRequest | RouteRerouteRequest,
+  options: RouteRequestOptions,
 ): Promise<RouteCompareResponse> {
   const baseUrl = (options.baseUrl ?? API_BASE_URL).replace(/\/+$/, '');
   const fetchImplementation = options.fetchImplementation ?? fetch;
   let response: Response;
 
   try {
-    response = await fetchImplementation(`${baseUrl}/routes/compare`, {
+    response = await fetchImplementation(`${baseUrl}/routes/${operation}`, {
       body: JSON.stringify(request),
       headers: {
         Accept: 'application/json',

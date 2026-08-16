@@ -87,6 +87,12 @@ export interface RouteCompareRequest {
   profile: MobilityProfile;
 }
 
+export interface RouteRerouteRequest {
+  current_position: GeoPoint;
+  destination: GeoPoint;
+  profile: MobilityProfile;
+}
+
 export type RouteCategory =
   | 'balanced'
   | 'fewer_complex_crossings'
@@ -188,6 +194,12 @@ export interface RouteCompareResponse {
   profile_id: string;
   routes: ComparedRoute[];
   rejected_routes: RejectedRoute[];
+}
+
+export interface NavigationSession {
+  destination: GeoPoint;
+  profile: MobilityProfile;
+  route: ComparedRoute;
 }
 
 export type ApiErrorCode =
