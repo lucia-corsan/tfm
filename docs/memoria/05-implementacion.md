@@ -204,6 +204,19 @@ posible desviación y confirmación necesaria. El recálculo se mantiene fuera d
 este incremento inicial, que permitió validar primero la estabilidad de la
 señal. El incremento siguiente lo conecta con el backend.
 
+La calibración reutilizó esa misma función pura para evitar evaluar una
+imitación del comportamiento real. Se fijaron trece secuencias sintéticas y se
+compararon 20, 30 y 40 m, sin cambiar la precisión máxima, el número de muestras
+ni el tiempo mínimo. Un script ejecuta las 39 predicciones y conserva dos tablas
+CSV. La regla de selección se codificó y probó para impedir escoger manualmente
+la configuración después de ver los datos.
+
+Los 30 m obtuvieron el mayor F1 y ninguna falsa alerta en el banco. Mantener el
+valor inicial después de calibrarlo no significa aceptar la hipótesis de
+antemano: 20 m detectó más desviaciones, pero reaccionó ante dos desplazamientos
+benignos, mientras que 40 m omitió dos separaciones. El resultado deberá
+revisarse con trazas físicas.
+
 ### Recálculo confirmado y conservación de la ruta
 
 El tercer incremento conectó la confirmación de desviación con el recálculo de
@@ -301,7 +314,7 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 239 pruebas superadas y la aplicación alcanza 83 pruebas en doce
+mantiene 239 pruebas superadas y la aplicación alcanza 91 pruebas en trece
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta

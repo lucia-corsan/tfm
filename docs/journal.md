@@ -1,5 +1,14 @@
 # Journal de desarrollo
 
+## 16 de agosto de 2026 — Calibración sintética del detector de desviación
+
+Se completó `EXP-003` con trece secuencias preetiquetadas y 39 predicciones del
+mismo detector utilizado por la aplicación. Se compararon 20, 30 y 40 m sin
+modificar los demás filtros. Los 30 m obtuvieron el mayor F1, ninguna falsa
+alerta y una desviación omitida, por lo que se conservan para el MVP. El banco,
+los CSV, las pruebas y las amenazas a la validez se describen en la
+[calibración del detector](evaluation/calibracion-detector-desviacion.md).
+
 ## 16 de agosto de 2026 — Validación funcional del recálculo
 
 Se validó el flujo completo en Android Emulator con un Pixel 9, Android 16,

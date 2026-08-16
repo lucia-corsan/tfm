@@ -1,7 +1,7 @@
 # 6. Evaluación y resultados
 
 Estado: `En implementación`
-Última actualización: 11 de agosto de 2026.
+Última actualización: 16 de agosto de 2026.
 
 ## Preguntas e hipótesis
 
@@ -53,11 +53,21 @@ puesto. Se seleccionó 5 m de forma conservadora. El resultado es una
 calibración técnica local y todavía requiere inspección manual; no demuestra
 accesibilidad ni exactitud general.
 
+La detección de desviaciones se evaluó con trece secuencias GPS sintéticas
+preetiquetadas y umbrales de 20, 30 y 40 m. Se empleó el mismo código que usa la
+aplicación y se mantuvieron constantes la precisión máxima de 25 m, las tres
+muestras y los diez segundos. Los 30 m obtuvieron 92,3 % de exactitud y un F1
+de 90,9 %, sin falsas alertas y con una de seis desviaciones omitida. Con 20 m
+se detectaron todas, pero aparecieron dos falsas alertas; con 40 m se omitieron
+dos. Se mantuvo 30 m como compromiso inicial.
+
 ## Amenazas a la validez
 
 Cobertura geográfica limitada, datos incompletos, perfiles sintéticos y pruebas
 físicas acotadas. Las etiquetas de la calibración espacial son decisiones de
-diseño y deberán complementarse con pares reales revisados.
+diseño y deberán complementarse con pares reales revisados. Del mismo modo, la
+calibración GPS sintética no reproduce cañones urbanos, variación entre
+dispositivos ni la frecuencia irregular de muestras físicas.
 
 ## Fuentes internas
 
@@ -68,3 +78,4 @@ diseño y deberán complementarse con pares reales revisados.
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
+- [Calibración del detector de desviación](../evaluation/calibracion-detector-desviacion.md).

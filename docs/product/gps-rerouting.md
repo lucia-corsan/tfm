@@ -241,8 +241,10 @@ nuevas alertas, y un error conserva la ruta y permite reintentar.
 
 El día 3 añade pruebas del rechazo, el fallo del proveedor, la ausencia de rutas
 aceptadas, las peticiones duplicadas, el cierre de la pantalla, el reemplazo y
-el periodo de espera. Permanece para la evaluación posterior la comparación
-experimental de los umbrales de 20, 30 y 40 m.
+el periodo de espera. La evaluación posterior comparó 20, 30 y 40 m mediante el
+mismo detector. Los 30 m consiguieron el mayor F1, sin falsas alertas y con una
+desviación moderada omitida en trece casos sintéticos. La prueba física continúa
+pendiente.
 
 ## Resultados
 
@@ -259,7 +261,8 @@ con una validación funcional mediante ubicaciones simuladas y continúa
 pendiente un recorrido físico controlado.
 
 El rerouting añade 8 pruebas de backend y 13 de aplicación. El total alcanza
-239 pruebas de backend y 83 de la app. La validación automática confirma que la
+239 pruebas de backend. La calibración añade ocho casos de prueba ejecutables y
+eleva la aplicación a 91 pruebas. La validación automática confirma que la
 posición no se envía al rechazar, que solo se admite una petición simultánea,
 que el perfil se conserva, que la ruta anterior sobrevive a cualquier fallo y
 que una respuesta válida reinicia las instrucciones y activa 60 segundos sin
@@ -318,7 +321,7 @@ antes de solicitar una ruta externa.
 - [x] Implementar el endpoint y la confirmación de rerouting.
 - [x] Ejecutar el recorrido simulado de extremo a extremo con ORS y TalkBack.
 - [ ] Ejecutar un recorrido físico controlado.
-- [ ] Comparar experimentalmente los umbrales de 20, 30 y 40 m.
+- [x] Comparar experimentalmente los umbrales de 20, 30 y 40 m.
 
 ## Referencias y evidencias
 
@@ -329,7 +332,9 @@ antes de solicitar una ruta externa.
 - [Android Developers, solicitud de permisos en tiempo de ejecución](https://developer.android.com/training/permissions/requesting):
   recomienda explicar para qué se necesita un permiso y mantener un flujo útil
   cuando no se concede.
+- [Calibración del detector de desviación](../evaluation/calibracion-detector-desviacion.md).
 - Pruebas: `app/__tests__/geo.test.ts`,
   `app/__tests__/deviationDetector.test.ts`,
+  `app/__tests__/deviationCalibration.test.ts`,
   `app/__tests__/useForegroundRouteTracking.test.ts` y
   `app/__tests__/useManualNavigation.test.ts`.
