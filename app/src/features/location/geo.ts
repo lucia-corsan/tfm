@@ -1,4 +1,4 @@
-import type { GeoPoint } from '@/api/types';
+import type { GeoPoint } from '../../api/types';
 
 const EARTH_RADIUS_M = 6_371_000;
 

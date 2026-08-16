@@ -1,5 +1,5 @@
-import type { GeoPoint } from '@/api/types';
-import { distanceToRouteMetres } from '@/features/location/geo';
+import type { GeoPoint } from '../../api/types';
+import { distanceToRouteMetres } from './geo';
 
 export interface LocationSample extends GeoPoint {
   accuracyM: number;

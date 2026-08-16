@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "noEmit": false,
+    "outDir": ".evaluation-build",
+    "rootDir": "src",
+    "target": "ES2020"
+  },
+  "include": [
+    "src/api/types.ts",
+    "src/features/location/geo.ts",
+    "src/features/location/deviationDetector.ts",
+    "src/features/location/deviationCalibration.ts"
+  ]
+}

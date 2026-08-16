@@ -45,7 +45,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "evaluate:deviation": "tsc -p tsconfig.evaluation.json && node scripts/evaluate-deviation-thresholds.cjs"
   },
   "jest": {
     "preset": "jest-expo",

@@ -10,6 +10,7 @@ htmlcov/
 # React Native / Expo
 app/node_modules/
 app/.expo/
+app/.evaluation-build/
 app/dist/
 app/android/
 app/ios/
