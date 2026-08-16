@@ -2,7 +2,7 @@
 
 Estado: `En implementación`
 
-Última actualización: 13 de agosto de 2026
+Última actualización: 16 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -35,7 +35,8 @@ La API tendrá inicialmente:
   del área piloto.
 - `POST /api/v1/routes/compare`, ya implementado con *fixtures* y ORS
   enriquecido.
-- `POST /api/v1/routes/reroute`, pendiente.
+- `POST /api/v1/routes/reroute`, implementado y validado funcionalmente con
+  ORS desde Android Emulator.
 
 Los esquemas detallados previstos se conservan en
 [el alcance del MVP](alcance-mvp.md#9-api-prevista). Al implementar cada
@@ -133,8 +134,25 @@ final en la persona usuaria.
 Los errores utilizarán códigos estables para que la aplicación traduzca el
 mensaje. No incluirán tokens, URLs externas completas ni coordenadas en texto.
 
-`routes/reroute` recibirá posteriormente una posición confirmada y aplicará el
-mismo perfil y las mismas restricciones.
+### `POST /api/v1/routes/reroute`
+
+La petición recibe exclusivamente después de una confirmación explícita:
+
+- `current_position`: última posición fiable mantenida en memoria;
+- `destination`: destino original de la navegación;
+- `profile`: perfil completo, incluidas restricciones críticas y preferencias.
+
+La ruta anterior no necesita enviarse para volver a puntuar. El servicio trata
+la posición confirmada como nuevo origen y reutiliza la misma generación,
+enriquecimiento OSM, aplicación de restricciones, puntuación y explicación de
+`routes/compare`. La respuesta mantiene el mismo formato de comparación con
+entre cero y tres rutas aceptadas y las candidatas descartadas. Durante la
+navegación, la app adopta la primera ruta aceptada solo después de validar toda
+la respuesta; si la lista está vacía o el proveedor falla, conserva la ruta
+anterior.
+
+Las coordenadas no se incorporan a mensajes de error ni registros de acceso.
+El backend no crea una sesión de usuario ni persiste la posición recibida.
 
 ## Implementación
 
@@ -146,6 +164,7 @@ mismo perfil y las mismas restricciones.
 - Modelos y catálogo de lugares: `backend/places/`.
 - Endpoint de búsqueda: `backend/api/routes/places.py`.
 - Endpoint de comparación: `backend/api/routes/compare.py`.
+- Endpoint de recálculo: `backend/api/routes/reroute.py`.
 - Proveedores intercambiables: `backend/routing/providers.py`.
 - Servicio de comparación: `backend/services/route_comparison.py`.
 - Narración determinista: `backend/narration/templates.py`.
@@ -164,17 +183,21 @@ móvil.
 
 ## Resultados
 
-`GET /api/v1/health`, `GET /api/v1/places/search` y
-`POST /api/v1/routes/compare` responden correctamente en las pruebas. El perfil
+`GET /api/v1/health`, `GET /api/v1/places/search`,
+`POST /api/v1/routes/compare` y `POST /api/v1/routes/reroute` responden
+correctamente en las pruebas. El perfil
 predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza actualmente 211 pruebas. La validación manual en la documentación interactiva
+backend alcanza actualmente 239 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La
-entrega del día 4 queda cerrada. Las pruebas posteriores añaden la preparación y
-el enriquecimiento OSM sin modificar este comportamiento del proveedor
-sintético.
+validación funcional posterior del recálculo confirmó que, tras una desviación
+GPS simulada y aceptada explícitamente, el endpoint devuelve alternativas ORS
+enriquecidas y puntuadas. También confirmó que, si el backend no está disponible,
+la aplicación conserva la ruta previa y puede reintentar cuando el servicio se
+recupera. Las pruebas posteriores añaden la preparación y el enriquecimiento OSM
+sin modificar este comportamiento del proveedor sintético.
 
 ## Riesgos y limitaciones
 
@@ -195,5 +218,6 @@ especificaciones de comparación y rerouting.
 - [x] Implementar la primera búsqueda local de lugares del área piloto.
 - [x] Implementar comparación de rutas con el proveedor de *fixtures*.
 - [x] Incorporar instrucciones de navegación validadas a las rutas aceptadas.
-- [ ] Implementar rerouting confirmado.
+- [x] Implementar rerouting confirmado.
+- [x] Validar el recálculo con ORS, GPS simulado y recuperación tras un fallo.
 - [x] Crear tipos TypeScript equivalentes y validación móvil en ejecución.

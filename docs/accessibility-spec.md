@@ -65,6 +65,14 @@ disponibles los controles manuales. El avance automático no puede saltar más d
 una instrucción por muestra y nunca elimina la posibilidad de avanzar o
 retroceder mediante botones accesibles.
 
+La confirmación de una desviación se presenta en una ventana modal que oculta
+el contenido subyacente al foco accesible y sitúa el foco inicial en su título.
+La explicación aclara que la ubicación solo se enviará si se confirma. Las
+acciones «Mantener la ruta actual» y «Calcular una nueva ruta» tienen nombres y
+ayudas independientes. Durante el recálculo se anuncia un estado ocupado; el
+éxito y los fallos se anuncian de forma prioritaria. Un error mantiene las
+instrucciones anteriores y ofrece un botón explícito de reintento.
+
 La instrucción de orientación y el contexto de accesibilidad serán paradas de
 lectura separadas. Para un cruce próximo, TalkBack permitirá recorrer de forma
 independiente el resumen del cruce y los detalles sobre semáforo, señal acústica

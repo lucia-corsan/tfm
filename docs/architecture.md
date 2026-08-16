@@ -14,7 +14,9 @@ Aplicación Android
     ├── presentación accesible
     ├── estado local de comparación
     ├── selección explícita de ruta
-    ├── navegación manual por instrucciones
+    ├── navegación por instrucciones y GPS en primer plano
+    ├── sesión local con ruta, destino y perfil
+    ├── confirmación y estado de rerouting
     ├── validación de respuestas
     └── cliente HTTP
             ↓ HTTP/JSON
@@ -51,8 +53,13 @@ decidir cuándo proponer el siguiente paso, pero no cambia el texto ni las regla
 de accesibilidad. La app calcula localmente la distancia entre cada muestra y la
 polilínea, filtra la precisión y mantiene el detector separado del componente
 visual. La suscripción existe solo mientras la pantalla de navegación está
-montada. El rerouting permanece en una fase posterior y reutilizará el estado de
-confirmación producido por este detector.
+montada. El rerouting reutiliza el estado de confirmación producido por este
+detector. La app conserva durante la sesión la ruta, el destino y el perfil
+completo, pero no crea una cuenta ni una sesión remota. Tras una confirmación,
+`POST /api/v1/routes/reroute` trata la última posición fiable como nuevo origen
+y reutiliza el mismo proveedor, enriquecimiento, restricciones y ranking de la
+comparación. La primera ruta aceptada reemplaza a la anterior solo después de
+validar la respuesta; cualquier error conserva el estado previo.
 
 La aplicación también se divide por responsabilidades. Los componentes no
 realizan peticiones ni calculan puntuaciones; un hook controla los estados y un

@@ -1,7 +1,7 @@
 # 5. Implementación
 
 Estado: `En implementación`  
-Última actualización: 12 de agosto de 2026.
+Última actualización: 16 de agosto de 2026.
 
 ## Backend
 
@@ -16,8 +16,9 @@ La base de ORS ya está implementada mediante modelos de transporte, cliente
 extracción de rutas base. Las respuestas GeoJSON conservan geometría, distancia,
 duración, instrucciones y datos auxiliares. El proveedor real las asocia con la
 instantánea OSM y las convierte en candidatos puntuables antes de aplicar
-restricciones. La búsqueda de calles ya está integrada dentro del área piloto;
-el rerouting permanece pendiente.
+restricciones. La búsqueda de calles ya está integrada dentro del área piloto.
+El recálculo confirmado también está conectado al mismo proceso para que una
+desviación no rebaje las garantías aplicadas durante la comparación inicial.
 
 Una prueba contra el servicio real devolvió tres alternativas de 2.715, 2.734 y
 2.868 metros. Sus instrucciones fueron 32, 40 y 29, respectivamente. La
@@ -200,8 +201,76 @@ El detector se implementó como lógica TypeScript independiente de la interfaz,
 lo que permite reproducir secuencias GPS sintéticas. La app comunica mediante
 TalkBack los estados de espera, permiso denegado, baja precisión, seguimiento,
 posible desviación y confirmación necesaria. El recálculo se mantiene fuera de
-este incremento: primero se valida la estabilidad de la señal y después se
-conectará al endpoint de rerouting.
+este incremento inicial, que permitió validar primero la estabilidad de la
+señal. El incremento siguiente lo conecta con el backend.
+
+### Recálculo confirmado y conservación de la ruta
+
+El tercer incremento conectó la confirmación de desviación con el recálculo de
+rutas. Durante la navegación se conserva únicamente en memoria una sesión con
+la ruta activa, el destino y el perfil completo que produjo la comparación. De
+este modo, la aplicación puede volver a solicitar alternativas desde la última
+posición fiable sin reconstruir ni simplificar las preferencias de la persona.
+No se guardan coordenadas en disco ni se incluyen en los registros.
+
+Cuando tres muestras fiables confirman una posible desviación durante al menos
+diez segundos, se abre un diálogo accesible. TalkBack recibe primero el título
+y después dos acciones inequívocas: «Mantener la ruta actual» y «Calcular una
+nueva ruta». Rechazar el recálculo no genera ninguna petición y reinicia la
+evidencia acumulada. Confirmarlo autoriza el envío puntual de la posición actual
+al backend; esta diferencia materializa el principio de consentimiento en el
+propio flujo y evita transmitir ubicación ante una mera lectura ruidosa.
+
+El endpoint `POST /api/v1/routes/reroute` no aplica un criterio abreviado. Toma
+la posición confirmada como nuevo origen y reutiliza la cadena ya validada:
+generación de rutas con el proveedor configurado, enriquecimiento OSM,
+restricciones críticas, cálculo de adecuación, confianza e incertidumbre y
+clasificación según el mismo perfil. La aplicación toma la primera alternativa
+aceptada de esa respuesta. Esta automatización se considera proporcionada
+porque la persona ya ha confirmado expresamente que desea recalcular y porque
+pedir una segunda comparación completa durante una desviación aumentaría la
+carga de interacción. No obstante, la selección sigue limitada por las mismas
+restricciones críticas y nunca convierte un dato desconocido en evidencia
+favorable.
+
+La ruta anterior constituye el estado seguro mientras llega la respuesta. Ni
+la carga, ni un fallo de red o del proveedor, ni una respuesta inválida, ni la
+ausencia de alternativas aceptables la sustituyen. En esos casos se mantiene la
+instrucción que estaba activa, se presenta un error comprensible y se ofrece un
+botón para reintentar. Solo una respuesta válida reemplaza la geometría, lleva
+la navegación al primer paso de la nueva ruta y activa un periodo de 60 segundos
+sin nuevas alertas de desviación. El periodo evita ciclos de recálculo causados
+por la inestabilidad del GPS inmediatamente posterior al cambio.
+
+La petición se cancela lógicamente al abandonar la pantalla: aunque una
+respuesta de red llegue tarde, no puede modificar una navegación que ya se ha
+cerrado. Esta protección, la conservación de la ruta anterior y la ausencia de
+persistencia de coordenadas separan el fallo técnico de una pérdida de contexto
+para la persona usuaria.
+
+La validación funcional en Android Emulator confirmó las dos decisiones del
+diálogo con TalkBack. Rechazar no envió la posición ni alteró la navegación; al
+aceptar, ORS devolvió nuevas candidatas que se enriquecieron y puntuaron de
+nuevo antes de adoptar la primera alternativa válida. Una segunda prueba, con
+el backend detenido de forma deliberada, confirmó que el error no borra la ruta
+ni la instrucción actual y que el reintento funciona después de recuperar el
+servicio. Por tanto, se ha comprobado la tolerancia funcional a un fallo de red
+en el caso piloto, aunque no la fiabilidad estadística de los umbrales GPS.
+
+En conjunto, el flujo establece una cadena de decisiones comprobables. Primero,
+el GPS debe aportar evidencia estable de separación; después, la aplicación
+informa y solicita permiso para recalcular. Un rechazo conserva la navegación
+sin comunicación externa. Una aceptación envía la posición actual, el destino
+y el perfil, pero todavía no sustituye la ruta. El backend genera nuevas
+candidatas, las enriquece otra vez con OSM, aplica restricciones críticas y
+recalcula adecuación, confianza e incertidumbre. Finalmente, la aplicación
+valida la respuesta y solo entonces reemplaza la ruta. Así se evita equiparar
+una desviación detectada, una petición aceptada o una geometría generada por ORS
+con una alternativa ya evaluada y apta para mostrarse.
+
+La especificación completa de cada transición, incluidos el rechazo, los fallos
+y el periodo de estabilización, se conserva en
+[GPS en primer plano y rerouting confirmado](../product/gps-rerouting.md).
 
 En el incremento actual, el perfil seleccionado se conserva únicamente durante
 la sesión mediante el estado del componente y se incluye en cada petición. El
@@ -232,13 +301,14 @@ modifica el ranking.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 231 pruebas superadas y la aplicación alcanza 70 pruebas en once
+mantiene 239 pruebas superadas y la aplicación alcanza 83 pruebas en doce
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
 elegida, el avance, el retroceso, los límites y la finalización explícita. La
-revisión manual final con TalkBack de los nuevos eventos sigue pendiente y se
-documentará por separado de la validación automática.
+prueba manual de rerouting con TalkBack, ORS y GPS simulado también está
+superada. La revisión de todos los eventos de accesibilidad durante un recorrido
+físico completo se mantendrá separada de esta validación funcional.
 
 ## Decisiones e incidencias
 

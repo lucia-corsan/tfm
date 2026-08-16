@@ -1,7 +1,7 @@
 # 4. Diseño del sistema
 
 Estado: `En implementación`  
-Última actualización: 11 de agosto de 2026.
+Última actualización: 14 de agosto de 2026.
 
 ## Arquitectura
 
@@ -43,6 +43,15 @@ Describir perfil, evidencia, características, incertidumbre, rutas y escenarios
 
 Datos desconocidos sin beneficio, restricciones fuera del aprendizaje, tokens
 en el backend, coordenadas fuera de los registros y confirmación del rerouting.
+
+El recálculo reutiliza la misma cadena de generación, enriquecimiento,
+restricciones y clasificación que la comparación inicial. El dispositivo
+mantiene en memoria el destino, el perfil y la ruta activa; solo envía la
+posición fiable cuando la persona confirma expresamente el recálculo. La ruta
+anterior permanece disponible hasta recibir una alternativa válida, por lo que
+un fallo de red, una respuesta incorrecta o la ausencia de rutas compatibles no
+dejan la navegación sin contexto. Tras un reemplazo se aplica un minuto sin
+nuevas alertas para evitar bucles causados por ruido del GPS.
 
 ## Accesibilidad
 

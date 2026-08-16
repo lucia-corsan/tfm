@@ -7,6 +7,11 @@
 - El aprendizaje solo modifica preferencias graduables.
 - Un fallo externo conserva el último estado válido.
 - El rerouting requiere confirmación explícita.
+- La posición que provoca la alerta no sale del dispositivo si se elige
+  «Mantener la ruta actual».
+- Una respuesta vacía, inválida o fallida no sustituye la ruta activa.
+- El aprendizaje y el rerouting aplican las mismas restricciones críticas; el
+  recálculo no crea una excepción de seguridad.
 - No se registran tokens, audio ni coordenadas de navegación.
 - Las posiciones GPS se mantienen únicamente en memoria durante la pantalla de
   navegación y se descartan al eliminar el observador.
@@ -22,7 +27,8 @@
 ## Servicios externos
 
 ORS recibirá coordenadas únicamente cuando sea necesario para calcular una
-ruta. Su servicio de geocodificación recibirá el texto solo tras una búsqueda
+ruta y, durante una desviación, solo después de confirmarlo. Su servicio de
+geocodificación recibirá el texto solo tras una búsqueda
 explícita y restringida al área piloto. La caché local utiliza nombres opacos y
 permisos privados. Overpass no se consultará en el camino crítico de una
 navegación. Los datos OSM del piloto se descargarán y cachearán previamente.
