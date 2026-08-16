@@ -41,6 +41,22 @@ class RouteCompareRequest(ApiModel):
         return self
 
 
+class RouteRerouteRequest(ApiModel):
+    """Confirmed current position, destination, and unchanged local profile."""
+
+    current_position: GeoPoint
+    destination: GeoPoint
+    profile: MobilityProfile
+
+    @model_validator(mode="after")
+    def require_distinct_endpoints(self) -> "RouteRerouteRequest":
+        """Reject rerouting when the confirmed position is already the destination."""
+
+        if self.current_position == self.destination:
+            raise ValueError("current position and destination must be different")
+        return self
+
+
 class ComparedRouteResponse(ApiModel):
     """Accepted route details and explainable ranking output."""
 

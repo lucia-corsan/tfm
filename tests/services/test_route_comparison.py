@@ -2,11 +2,11 @@
 
 import pytest
 
-from backend.api.models import RouteCompareRequest
+from backend.api.models import RouteCompareRequest, RouteRerouteRequest
 from backend.domain import MobilityProfile, PreferenceWeights
 from backend.routing.fixtures import load_pilot_route_scenario
 from backend.routing.providers import FixtureRouteScenarioProvider
-from backend.services import compare_routes
+from backend.services import compare_routes, reroute_routes
 
 
 def _request(profile: MobilityProfile) -> RouteCompareRequest:
@@ -69,3 +69,28 @@ async def test_service_response_is_reproducible() -> None:
     second = (await compare_routes(request, provider)).model_dump_json()
 
     assert first == second
+
+
+@pytest.mark.asyncio
+async def test_reroute_service_reuses_the_complete_comparison_pipeline() -> None:
+    """Confirmed rerouting keeps the profile and produces ranked alternatives."""
+
+    scenario = load_pilot_route_scenario()
+    weights = {name: 0.0 for name in PreferenceWeights.model_fields}
+    weights["complex_crossings"] = 1.0
+    profile = MobilityProfile(
+        profile_id="reroute_crossings",
+        declared_weights=PreferenceWeights(**weights),
+    )
+    request = RouteRerouteRequest(
+        current_position=scenario.origin,
+        destination=scenario.destination,
+        profile=profile,
+    )
+
+    response = await reroute_routes(request, FixtureRouteScenarioProvider())
+
+    assert response.origin == request.current_position
+    assert response.destination == request.destination
+    assert response.profile_id == profile.profile_id
+    assert response.routes[0].route_id == "fewer_crossings_route"

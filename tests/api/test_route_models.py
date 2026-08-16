@@ -8,6 +8,7 @@ from backend.api.models import (
     RejectedRouteResponse,
     RouteCompareRequest,
     RouteCompareResponse,
+    RouteRerouteRequest,
 )
 from backend.domain import MobilityProfile, RouteCandidate
 from backend.routing.fixtures import load_pilot_route_scenario
@@ -40,6 +41,39 @@ def test_compare_request_rejects_undocumented_fields() -> None:
 
     with pytest.raises(ValidationError, match="Extra inputs are not permitted"):
         RouteCompareRequest.model_validate(payload)
+
+
+def test_reroute_request_keeps_the_complete_profile() -> None:
+    """Rerouting must preserve restrictions and declared preferences."""
+
+    scenario = load_pilot_route_scenario()
+    profile = MobilityProfile(
+        profile_id="reroute_profile",
+        avoid_steps=True,
+        maximum_slope_percent=6,
+    )
+
+    request = RouteRerouteRequest(
+        current_position=scenario.origin,
+        destination=scenario.destination,
+        profile=profile,
+    )
+
+    assert request.profile == profile
+    assert request.current_position == scenario.origin
+
+
+def test_reroute_request_rejects_a_position_at_the_destination() -> None:
+    """A recalculation with no remaining journey is invalid."""
+
+    scenario = load_pilot_route_scenario()
+
+    with pytest.raises(ValidationError, match="must be different"):
+        RouteRerouteRequest(
+            current_position=scenario.destination,
+            destination=scenario.destination,
+            profile=MobilityProfile(profile_id="already_there"),
+        )
 
 
 def test_compare_response_keeps_route_details_and_scores_together() -> None:

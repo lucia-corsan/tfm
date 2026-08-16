@@ -5,6 +5,7 @@ from backend.api.models import (
     RejectedRouteResponse,
     RouteCompareRequest,
     RouteCompareResponse,
+    RouteRerouteRequest,
 )
 from backend.routing.providers import RouteScenarioProvider
 from backend.scoring import rank_routes
@@ -72,4 +73,28 @@ async def compare_routes(
         profile_id=request.profile.profile_id,
         routes=accepted_routes,
         rejected_routes=rejected_routes,
+    )
+
+
+async def reroute_routes(
+    request: RouteRerouteRequest,
+    provider: RouteScenarioProvider,
+) -> RouteCompareResponse:
+    """Recalculate ranked routes from a user-confirmed current position.
+
+    Args:
+        request: Confirmed position, original destination, and unchanged profile.
+        provider: Configured source of candidate route scenarios.
+
+    Returns:
+        A complete comparison whose origin is the confirmed current position.
+    """
+
+    return await compare_routes(
+        RouteCompareRequest(
+            origin=request.current_position,
+            destination=request.destination,
+            profile=request.profile,
+        ),
+        provider,
     )

@@ -8,6 +8,7 @@ from backend.api.models.routes import (
     RejectedRouteResponse,
     RouteCompareRequest,
     RouteCompareResponse,
+    RouteRerouteRequest,
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "RejectedRouteResponse",
     "RouteCompareRequest",
     "RouteCompareResponse",
+    "RouteRerouteRequest",
 ]
