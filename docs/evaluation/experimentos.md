@@ -1,7 +1,7 @@
 # Registro de experimentos
 
 Estado: `En implementación`
-Última actualización: 11 de agosto de 2026
+Última actualización: 16 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Convención
@@ -16,10 +16,44 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-001 | 8 de agosto de 2026 | `unknown` no mejora una ruta | *Fixtures* | Misma ruta con evidencia favorable | Validación técnica superada | `tests/scoring/test_scorer.py` |
 | EXP-002 | Pendiente | Recuperación de preferencias | Perfiles sintéticos | Pesos fijos | Pendiente | — |
 | EXP-003 | Pendiente | Sensibilidad del rerouting | GPS simulado | Umbral único | Pendiente | — |
+| VAL-001 | 16 de agosto de 2026 | ¿El rerouting conserva una navegación útil ante aceptación, rechazo y fallo? | Android Emulator, ORS y GPS simulado | Ruta previa sin recálculo | Validación funcional superada | `docs/evaluation/resultados.md` |
 | EXP-004 | 10 de agosto de 2026 | ORS devuelve rutas base válidas y reutiliza la caché | Corredor piloto | Primera ejecución con red | Validación técnica superada | `backend/routing/check_ors.py` |
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
+
+### VAL-001 — Validación funcional del rerouting
+
+- Fecha y versión del código: 16 de agosto de 2026, semana 3, día 3.
+- Pregunta: ¿la aplicación detecta una desviación estable, solicita
+  confirmación, conserva el estado seguro ante rechazo o fallo y recupera el
+  recálculo cuando el servicio vuelve a estar disponible?
+- Datos y entorno: Pixel 9 de Android Emulator con Android 16, TalkBack,
+  ubicaciones GPS simuladas, backend local, ORS e instantánea OSM del área
+  piloto.
+- Parámetros: precisión máxima de 25 m, separación superior a 30 m, tres
+  muestras fiables durante al menos 10 s y periodo de espera de 60 s.
+- Procedimiento: se simuló una posición cercana a la ruta, una secuencia de
+  posiciones alejadas y las decisiones de mantener y recalcular. Para probar la
+  recuperación se detuvo el backend antes de confirmar el recálculo, se reinició
+  y se pulsó el botón de reintento.
+- Criterios de éxito: el rechazo no envía la posición; la aceptación genera una
+  nueva respuesta válida y reinicia la navegación; un fallo conserva ruta e
+  instrucción; TalkBack puede recorrer el diálogo y el reintento; el servicio
+  recuperado completa el flujo.
+- Resultado: todos los criterios se cumplieron. Tras el primer recálculo, unas
+  coordenadas de la ruta inicial se clasificaron correctamente como próximas a
+  la nueva geometría; se eligieron puntos respecto a la ruta activa y la alerta
+  volvió a aparecer.
+- Interpretación: se valida la coherencia funcional y el tratamiento seguro de
+  errores del caso piloto. El cambio de geometría confirma que la detección usa
+  la ruta vigente, no una referencia obsoleta.
+- Limitaciones: una ejecución manual no estima falsos positivos, falsos
+  negativos ni el mejor umbral. `EXP-003` sigue pendiente y deberá comparar 20,
+  30 y 40 m en secuencias equivalentes; tampoco sustituye una prueba física.
+- Evidencias: [Resultados](resultados.md),
+  [GPS y rerouting](../product/gps-rerouting.md) y las pruebas automáticas de
+  backend y aplicación.
 
 ### EXP-004 — Descarga y reutilización de rutas base ORS
 

@@ -1,5 +1,36 @@
 # Journal de desarrollo
 
+## 16 de agosto de 2026 — Validación funcional del recálculo
+
+Se validó el flujo completo en Android Emulator con un Pixel 9, Android 16,
+TalkBack, ubicaciones GPS simuladas, backend local y ORS. Tras una desviación
+estable, TalkBack recorrió el título, la explicación y las dos decisiones del
+diálogo. El rechazo no generó petición y mantuvo la instrucción activa; la
+aceptación solicitó rutas, aplicó de nuevo enriquecimiento OSM y puntuación,
+reinició la navegación y activó el periodo de espera. Al detener el backend, la
+aplicación conservó la ruta, presentó un error recuperable y terminó el
+recálculo después de reiniciar el servicio y pulsar «Reintentar».
+
+En una repetición, unas coordenadas empleadas con la ruta inicial quedaron cerca
+de la nueva geometría y no activaron la alerta. Se verificó que el detector toma
+como referencia la ruta activa tras el recálculo; las posiciones simuladas deben
+seleccionarse de nuevo respecto a esa geometría. Esto valida un caso funcional,
+no la calibración experimental de los umbrales. La evidencia se integra en
+[GPS y rerouting](product/gps-rerouting.md) y
+[Resultados](evaluation/resultados.md).
+
+## 14 de agosto de 2026 — Semana 3, día 3: recálculo confirmado
+
+Se añadió `POST /api/v1/routes/reroute` y se conectó la confirmación accesible de
+desviación con la misma cadena de ORS, enriquecimiento OSM, restricciones y
+clasificación empleada en la comparación inicial. La sesión conserva en memoria
+destino, perfil y ruta; rechazar no envía la posición y un fallo mantiene la
+ruta anterior. Una respuesta válida reinicia la navegación y activa 60 segundos
+sin nuevas alertas. El backend alcanza 239 pruebas y la aplicación 83; quedan
+pendientes la comprobación manual con ORS, ubicaciones simuladas y TalkBack, y
+el análisis de sensibilidad de los umbrales. La decisión completa se documenta
+en [GPS y rerouting](product/gps-rerouting.md).
+
 ## 14 de agosto de 2026 — Semana 3, día 2: GPS en primer plano
 
 Se incorporaron una activación voluntaria, el permiso de ubicación durante el uso, un observador limitado

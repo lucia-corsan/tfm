@@ -1,14 +1,16 @@
 # Resultados de evaluación
 
 Estado: `En implementación`
-Última actualización: 14 de agosto de 2026
+Última actualización: 16 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
 
 La integración técnica con ORS, la caché y el enriquecimiento OSM ya se han
-validado. La evaluación del aprendizaje, el rerouting y la usabilidad completa
-permanecen pendientes.
+validado. El rerouting también se ha validado funcionalmente de extremo a
+extremo con GPS simulado, ORS y TalkBack. Permanecen pendientes su análisis de
+sensibilidad, la prueba física controlada, el aprendizaje y la evaluación de
+usabilidad completa.
 
 ## Integración de rutas reales
 
@@ -70,12 +72,49 @@ la pantalla y un detector espacial y temporal. Se rechazan muestras con más de
 menos 10 s. El avance automático aplica 15 m tanto a la precisión máxima como a
 la proximidad a la siguiente maniobra y solo avanza un paso por muestra.
 
-La aplicación alcanza 70 pruebas: 17 nuevas cubren geometría, estados de
+El primer incremento elevó la aplicación a 70 pruebas: 17 cubren geometría, estados de
 desviación, activación explícita, permiso denegado, alta y baja del observador y
 avance automático.
-TypeScript y ESLint finalizan sin errores. Falta la simulación manual de
-ubicaciones en Android Emulator y el experimento de sensibilidad con 20, 30 y
-40 m. El endpoint de rerouting no forma parte todavía de este resultado.
+TypeScript y ESLint finalizan sin errores.
+
+El segundo incremento implementa `POST /api/v1/routes/reroute`, conserva en
+memoria el destino y el perfil completo, exige confirmación antes de enviar la
+posición y vuelve a ejecutar generación, enriquecimiento, restricciones y
+ranking. La app adopta la primera ruta aceptada solo cuando toda la respuesta es
+válida. Rechazar no genera ninguna petición; un fallo o cero alternativas
+aceptadas conserva la ruta previa. Durante la petición se impiden duplicados y
+tras un éxito se suspenden nuevas alertas durante 60 segundos.
+
+Este incremento añade 8 pruebas de backend y 13 de aplicación. Cubren modelos,
+HTTP, OpenAPI, conservación del perfil, rechazo, éxito, errores, respuestas sin
+rutas válidas, cierre durante la petición, sustitución de instrucciones y
+periodo de espera.
+
+La validación manual del 16 de agosto de 2026 utilizó Android Emulator con un
+Pixel 9, Android 16, TalkBack, ubicaciones simuladas y el proveedor ORS. Se
+comprobaron dos ramas del diálogo. Al mantener la ruta no se produjo ninguna
+petición de recálculo y se conservaron la ruta y la instrucción activas. Al
+aceptar, el backend respondió con nuevas alternativas enriquecidas y puntuadas,
+la app adoptó una respuesta válida, reinició la navegación en la primera
+instrucción y anunció el periodo de 60 segundos sin alertas.
+
+También se detuvo deliberadamente el backend antes de confirmar un recálculo.
+La aplicación mostró un error recuperable sin eliminar la ruta ni la
+instrucción anterior. Después de reiniciar el servicio, el botón de reintento
+completó el recálculo. TalkBack permitió recorrer en orden el título, la
+explicación, las dos decisiones, el estado de error y la acción de reintento.
+
+Durante la prueba, unas coordenadas que habían servido como desviación respecto
+a la ruta inicial quedaron próximas a la geometría recalculada y fueron
+clasificadas correctamente como parte del recorrido. La alerta apareció al
+usar puntos medidos respecto a la ruta activa. Esta observación evidencia que
+el detector cambia de referencia tras el recálculo y evita evaluar una nueva
+desviación contra una geometría obsoleta.
+
+Esta es una validación funcional de un caso reproducible, no una calibración de
+los umbrales. `EXP-003` continúa pendiente porque requiere comparar 20, 30 y
+40 m, registrar tiempos, falsos avisos y desviaciones omitidas, y repetir las
+secuencias en condiciones equivalentes.
 
 ## Narración y navegación manual
 
@@ -108,7 +147,7 @@ calle, que el momento de cada aviso sea adecuado o que la interacción con TTS y
 TalkBack no produzca solapamientos. Esas cuestiones requieren la revisión manual
 del emulador y, posteriormente, recorridos simulados o controlados con GPS.
 
-La validación automática alcanza 231 pruebas de backend y 70 de la aplicación,
+La validación automática alcanza 239 pruebas de backend y 83 de la aplicación,
 con Ruff, TypeScript y ESLint sin errores. Falta recorrer manualmente los nuevos
 eventos con TalkBack en el emulador; por ello este resultado valida la coherencia
 del software, pero todavía no la facilidad de uso del contenido en movimiento.

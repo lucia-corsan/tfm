@@ -1,7 +1,7 @@
 # Limitaciones y amenazas a la validez
 
 Estado: `En implementación`  
-Última actualización: 11 de agosto de 2026
+Última actualización: 14 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Datos
@@ -57,6 +57,13 @@ Responsabilidad principal: `evaluation`
 - ORS, GPS y red pueden fallar o cambiar su comportamiento.
 - El emulador no reproduce toda la variabilidad de sensores de un dispositivo
   real.
+- Los umbrales de 25 m de precisión, 30 m de separación, tres muestras, diez
+  segundos y 60 segundos de espera son valores iniciales de diseño. Las pruebas
+  unitarias demuestran su comportamiento lógico, pero no su idoneidad para todos
+  los entornos urbanos ni para todos los dispositivos.
+- El recálculo automático selecciona la primera ruta aceptada después de una
+  confirmación explícita. Reduce la carga de interacción, pero limita la
+  posibilidad de comparar de nuevo todas las alternativas durante la marcha.
 - El MVP se limita a Android y GPS en primer plano.
 
 ## Mitigaciones
