@@ -7,7 +7,14 @@ import { AccessibleText } from '@/components/AccessibleText';
 import { InstructionAccessibilityEvent } from '@/components/InstructionAccessibilityEvent';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { RerouteConfirmationDialog } from '@/components/RerouteConfirmationDialog';
+import { SpeechControls } from '@/components/SpeechControls';
 import { useManualNavigation } from '@/features/navigation/useManualNavigation';
+import {
+  DEFAULT_SPEECH_PREFERENCES,
+  getSpeechRate,
+} from '@/features/speech/speechPreferences';
+import { useInstructionSpeech } from '@/features/speech/useInstructionSpeech';
+import { useScreenReaderStatus } from '@/features/speech/useScreenReaderStatus';
 import {
   type RerouteRoutesFunction,
   useRouteRerouting,
@@ -32,6 +39,9 @@ export function NavigationScreen({
 }: NavigationScreenProps) {
   const [route, setRoute] = useState(session.route);
   const [gpsEnabled, setGpsEnabled] = useState(false);
+  const [speechPreferences, setSpeechPreferences] = useState(
+    DEFAULT_SPEECH_PREFERENCES,
+  );
   const screenMounted = useRef(true);
   const controller = useManualNavigation(route);
   const rerouting = useRouteRerouting(reroute);
@@ -41,6 +51,14 @@ export function NavigationScreen({
     gpsEnabled,
   );
   const instruction = controller.currentInstruction;
+  const screenReaderStatus = useScreenReaderStatus();
+  const instructionSpeech = useInstructionSpeech({
+    automaticPlayback: speechPreferences.automaticPlayback,
+    instructionKey: `${route.route_id}:${instruction.sequence}`,
+    rate: getSpeechRate(speechPreferences.rateId),
+    screenReaderEnabled: screenReaderStatus !== 'disabled',
+    text: instruction.text,
+  });
   const unknownCount = route.warnings.filter(
     (warning) => warning.state === 'unknown',
   ).length;
@@ -175,10 +193,7 @@ export function NavigationScreen({
           </View>
         )}
 
-        <AccessibleText
-          accessibilityLiveRegion="polite"
-          style={styles.progress}
-        >
+        <AccessibleText style={styles.progress}>
           {ES.navigation.progress(
             controller.currentIndex + 1,
             controller.totalInstructions,
@@ -190,7 +205,9 @@ export function NavigationScreen({
             {ES.navigation.currentInstructionTitle}
           </AccessibleText>
           <AccessibleText
-            accessibilityLiveRegion="polite"
+            accessibilityLiveRegion={
+              screenReaderStatus === 'enabled' ? 'polite' : 'none'
+            }
             style={styles.instructionText}
           >
             {instruction.text}
@@ -239,6 +256,19 @@ export function NavigationScreen({
             onPress={controller.goNext}
           />
         </View>
+
+        <SpeechControls
+          error={instructionSpeech.error}
+          isSpeaking={instructionSpeech.isSpeaking}
+          onChange={(preferences) => {
+            void instructionSpeech.stop();
+            setSpeechPreferences(preferences);
+          }}
+          onSpeak={() => void instructionSpeech.speak()}
+          onStop={() => void instructionSpeech.stop()}
+          preferences={speechPreferences}
+          screenReaderStatus={screenReaderStatus}
+        />
 
         <View style={styles.contextCard}>
           <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>

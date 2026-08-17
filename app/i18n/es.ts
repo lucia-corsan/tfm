@@ -217,6 +217,51 @@ export const ES = {
     instructionAccessibilityTitle: 'Información de accesibilidad en este tramo',
     noInstructionAccessibilityEvents:
       'No hay información puntual de OpenStreetMap asociada a esta instrucción.',
+    speech: {
+      title: 'Voz de las instrucciones',
+      talkBackTitle: 'Indicaciones mediante TalkBack',
+      status: {
+        checking:
+          'Comprobando si hay un lector de pantalla activo antes de habilitar la voz de la aplicación.',
+        disabled:
+          'Puedes escuchar la instrucción actual o activar su reproducción al cambiar de paso.',
+        enabled:
+          'Las instrucciones se leerán mediante TalkBack. La voz adicional de la aplicación permanece desactivada para evitar dos locuciones simultáneas. Su velocidad se configura en los ajustes de Android.',
+      },
+      rateTitle: 'Velocidad de la voz de la aplicación',
+      rateDescription:
+        'Elige la velocidad que te resulte más comprensible. Este ajuste no modifica la velocidad de TalkBack.',
+      rateGroupLabel: 'Opciones de velocidad de la voz',
+      rateLabels: {
+        slow: 'Lenta, 0,8',
+        normal: 'Normal, 1,0',
+        fast: 'Rápida, 1,25',
+        very_fast: 'Muy rápida, 1,5',
+      },
+      rateHint: (rateId: 'slow' | 'normal' | 'fast' | 'very_fast') =>
+        `Selecciona la velocidad ${
+          {
+            slow: 'lenta',
+            normal: 'normal',
+            fast: 'rápida',
+            very_fast: 'muy rápida',
+          }[rateId]
+        } para la voz de las instrucciones.`,
+      automaticTitle: 'Indicaciones de navegación por voz',
+      automaticDescription:
+        'Está desactivado al inicio. Si lo activas, la app leerá automáticamente cada nuevo paso mientras TalkBack no esté activo.',
+      automaticHint:
+        'Activa o desactiva las indicaciones automáticas de navegación por voz.',
+      listenButton: 'Escuchar instrucción',
+      listenHint:
+        'Reproduce la instrucción actual con la voz y la velocidad seleccionadas.',
+      stopButton: 'Detener voz',
+      stopHint: 'Interrumpe inmediatamente la locución de la aplicación.',
+      error:
+        'No se ha podido reproducir la instrucción. Puedes seguir leyéndola en pantalla o con TalkBack.',
+      persistenceNotice:
+        'Durante este MVP, la velocidad se conserva en esta navegación. Se guardará entre sesiones junto con el perfil local, sin enviarla al servidor.',
+    },
     accessibilityEventDistance: (distance: string) =>
       `Aproximadamente a ${distance} desde el inicio de este tramo.`,
     accessibilitySource: 'Fuente: OpenStreetMap.',

@@ -8,7 +8,11 @@ import { ES } from '../i18n/es';
 const mockPauseForReroute = jest.fn();
 const mockResetDeviationEvidence = jest.fn();
 const mockStartRerouteCooldown = jest.fn();
+const mockSpeechSpeak = jest.fn();
+const mockSpeechStop = jest.fn();
 let mockTrackingStatus = 'on_route';
+let mockScreenReaderStatus = 'disabled';
+let latestSpeechRate = 0;
 
 jest.mock('@/features/location/useForegroundRouteTracking', () => ({
   useForegroundRouteTracking: () => ({
@@ -20,6 +24,22 @@ jest.mock('@/features/location/useForegroundRouteTracking', () => ({
     startRerouteCooldown: mockStartRerouteCooldown,
     status: mockTrackingStatus,
   }),
+}));
+
+jest.mock('@/features/speech/useScreenReaderStatus', () => ({
+  useScreenReaderStatus: () => mockScreenReaderStatus,
+}));
+
+jest.mock('@/features/speech/useInstructionSpeech', () => ({
+  useInstructionSpeech: ({ rate }: { rate: number }) => {
+    latestSpeechRate = rate;
+    return {
+      error: false,
+      isSpeaking: false,
+      speak: mockSpeechSpeak,
+      stop: mockSpeechStop,
+    };
+  },
 }));
 
 const weights = {
@@ -167,6 +187,8 @@ describe('<NavigationScreen />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockTrackingStatus = 'on_route';
+    mockScreenReaderStatus = 'disabled';
+    latestSpeechRate = 0;
   });
 
   test('starts at the first instruction with accessible manual controls', async () => {
@@ -189,6 +211,57 @@ describe('<NavigationScreen />', () => {
     screen.getByRole('header', { name: ES.navigation.gpsTitle });
     screen.getByRole('button', { name: ES.navigation.activateGpsButton });
     screen.getByRole('text', { name: ES.navigation.gpsStatus.on_route });
+    screen.getByRole('header', { name: ES.navigation.speech.title });
+    expect(
+      screen.getByRole('text', { name: route.instructions[0].text }).props
+        .accessibilityLiveRegion,
+    ).toBe('none');
+    screen.getByRole('radio', {
+      name: ES.navigation.speech.rateLabels.normal,
+      selected: true,
+    });
+    screen.getByRole('button', { name: ES.navigation.speech.listenButton });
+  });
+
+  test('changes the app speech rate without changing TalkBack settings', async () => {
+    const screen = await render(
+      <NavigationScreen onFinish={jest.fn()} session={session} />,
+    );
+    const user = userEvent.setup();
+
+    expect(latestSpeechRate).toBe(1);
+    await user.press(
+      screen.getByRole('radio', {
+        name: ES.navigation.speech.rateLabels.fast,
+      }),
+    );
+    expect(latestSpeechRate).toBe(1.25);
+    expect(mockSpeechStop).toHaveBeenCalledTimes(1);
+  });
+
+  test('uses one live TalkBack instruction and hides second-voice controls', async () => {
+    mockScreenReaderStatus = 'enabled';
+    const screen = await render(
+      <NavigationScreen onFinish={jest.fn()} session={session} />,
+    );
+
+    screen.getByRole('header', { name: ES.navigation.speech.talkBackTitle });
+    screen.getByText(ES.navigation.speech.status.enabled);
+    expect(
+      screen.getByRole('text', { name: route.instructions[0].text }).props
+        .accessibilityLiveRegion,
+    ).toBe('polite');
+    expect(
+      screen.queryByRole('button', {
+        name: ES.navigation.speech.listenButton,
+      }),
+    ).toBeNull();
+    expect(
+      screen.queryByRole('switch', {
+        name: ES.navigation.speech.automaticTitle,
+      }),
+    ).toBeNull();
+    expect(screen.queryAllByRole('radio')).toHaveLength(0);
   });
 
   test('moves forward and backward without exceeding the sequence', async () => {
