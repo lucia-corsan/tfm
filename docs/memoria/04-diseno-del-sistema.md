@@ -56,7 +56,12 @@ nuevas alertas para evitar bucles causados por ruido del GPS.
 ## Accesibilidad
 
 TalkBack, controles de 44 puntos, contraste WCAG 2.2 AA, navegación no
-dependiente del mapa y coordinación de TTS.
+dependiente del mapa y coordinación de TTS. La voz de la app parte de velocidad
+normal y reproducción manual y ofrece cuatro niveles. Cuando el sistema detecta
+TalkBack, oculta los controles de esa segunda voz y comunica cada instrucción
+nueva mediante una única región dinámica moderada. Los avisos críticos conservan
+prioridad alta. La velocidad de TalkBack permanece como preferencia global de
+Android.
 
 ### Diseño de las instrucciones de navegación
 

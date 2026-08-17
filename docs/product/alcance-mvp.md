@@ -462,8 +462,14 @@ Se evitará que TalkBack y el TTS hablen simultáneamente:
 
 - La app comprobará mediante `AccessibilityInfo` si hay un lector de pantalla activo.
 - Con TalkBack activo, los cambios se comunicarán prioritariamente mediante anuncios y regiones vivas de accesibilidad.
-- No se iniciará automáticamente una locución de `expo-speech` que pueda solaparse con TalkBack.
-- Siempre existirá un botón accesible para repetir deliberadamente la instrucción.
+- No se iniciará una locución de `expo-speech` que pueda solaparse con TalkBack;
+  los controles exclusivos de la voz propia se ocultarán y se explicará que
+  TalkBack asume la lectura.
+- Una única región dinámica moderada comunicará la nueva instrucción. El
+  contador no generará un segundo anuncio; los avisos críticos utilizarán
+  prioridad alta de forma puntual.
+- Sin lector de pantalla activo existirá un botón accesible para escuchar o
+  detener deliberadamente la instrucción.
 - Sin lector de pantalla activo, el usuario podrá habilitar la reproducción automática mediante TTS.
 
 La narración será determinista y fácil de probar:

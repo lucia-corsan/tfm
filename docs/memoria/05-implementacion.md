@@ -311,10 +311,56 @@ almacenada localmente. Su agregación por corredor y la respuesta real de la API
 están implementadas; Mapillary permanece como contexto de cobertura y no
 modifica el ranking.
 
+## Voz de navegación y control de velocidad
+
+La síntesis de voz se incorporó después de validar la secuencia de instrucciones,
+el GPS y el recálculo. Esta ordenación evita atribuir al motor de voz un error
+que en realidad proceda de la geometría o de la asociación con OSM. El motor no
+redacta ni modifica indicaciones: recibe exactamente el resumen determinista que
+ya aparece en pantalla. Por tanto, la salida oral conserva las mismas
+limitaciones y avisos y no constituye un componente de inteligencia artificial.
+
+No se definió una velocidad específica para «usuarios ciegos». La bibliografía
+muestra una gran variación ligada a la experiencia y al tipo de tarea, y un
+estudio cualitativo de Choi et al. (2020) documenta tanto el uso de velocidades
+superiores al habla convencional como la necesidad de cambiarlas directamente.
+La aplicación ofrece cuatro niveles relativos —0,8; 1,0; 1,25 y 1,5—, con 1,0
+como valor inicial. Son multiplicadores del motor de Android y no equivalen a
+un número fijo de palabras por minuto. Esta precisión evita presentar como
+resultado medido lo que todavía es una hipótesis de interfaz.
+
+La reproducción automática está desactivada inicialmente. La persona puede
+escuchar y detener la instrucción actual o activar voluntariamente la lectura
+de cada nuevo paso. Antes de emitir una frase se interrumpe la anterior, y la
+voz también se cancela al abandonar la pantalla. El idioma solicitado es
+`es-ES`, aunque la voz concreta depende del paquete instalado en Android.
+
+La convivencia con TalkBack utiliza `AccessibilityInfo` para consultar y
+observar el estado del lector de pantalla. Mientras ese estado sea desconocido
+no se permite iniciar `expo-speech`. Cuando TalkBack está activo, los controles
+exclusivos de la segunda voz se ocultan, aparece una explicación breve y
+cualquier locución en curso se detiene. La instrucción sigue siendo un nodo de
+texto accesible y actúa como única región dinámica moderada cuando cambia; el
+contador no genera un segundo anuncio. Las desviaciones, los recálculos y los
+errores conservan prioridad alta. Se adopta esta política para impedir que dos
+locuciones compitan por el mismo canal y para reducir anuncios redundantes.
+
+La validación auditiva en Android Emulator distinguió las cuatro velocidades y
+confirmó la detención, la reproducción automática voluntaria, la sustitución de
+una frase obsoleta, el cierre sin audio residual y la ausencia de solapamiento
+con TalkBack. El recorrido secuencial alcanzó los párrafos comprobados sin
+incidencias. Este resultado verifica un caso funcional, pero no sustituye la
+evaluación con personas ciegas o con baja visión.
+
+La velocidad y el modo automático se conservan únicamente durante la navegación
+actual. No se envían al backend ni afectan a la clasificación. Su persistencia
+se incorporará al repositorio local común del perfil y de los pesos aprendidos,
+en vez de introducir un almacenamiento temporal que después deba migrarse.
+
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 239 pruebas superadas y la aplicación alcanza 91 pruebas en trece
+mantiene 239 pruebas superadas y la aplicación alcanza 105 pruebas en dieciséis
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta

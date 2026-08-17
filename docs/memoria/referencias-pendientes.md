@@ -1,7 +1,7 @@
 # Referencias académicas y técnicas pendientes
 
 Estado: `En implementación`
-Última actualización: 14 de agosto de 2026.
+Última actualización: 16 de agosto de 2026.
 
 ## Regla
 
@@ -25,7 +25,7 @@ documentación oficial.
 | OpenRouteService | Directions API y privacidad | Estado del arte / implementación | Pendiente |
 | OpenStreetMap Wiki | Semántica de tags utilizados | Metodología | Pendiente |
 | Mapillary | Graph API y metadatos | Metodología | Pendiente |
-| Expo | Location, Speech y development builds | Implementación | Pendiente |
+| Expo | Location, Speech y development builds | Implementación | Consolidada para TTS |
 | Android Developers | TalkBack y accesibilidad | Diseño / evaluación | Consolidada para la narración |
 | W3C WAI | Claridad, concisión y orden de lectura | Diseño / implementación | Consolidada para la narración |
 | OpenRouteService | Tipos de instrucciones de ruta | Implementación | Consolidada para la narración |
@@ -110,6 +110,85 @@ máster.
 - **Aplicación en el proyecto:** cada código se convierte en una maniobra propia
   y después en una plantilla española reproducible.
 - **Capítulo y sección:** implementación del proveedor de rutas y narración.
+
+## Referencias consolidadas para TTS y velocidad
+
+### Choi et al. — Velocidad de voz y discapacidad visual
+
+- **Referencia completa:** Dasom Choi, Daehyun Kwak, Minji Cho y Sangsu Lee.
+  «Nobody Speaks that Fast! An Empirical Study of Speech Rate in
+  Conversational Agents for People with Vision Impairments». *Proceedings of
+  the 2020 CHI Conference on Human Factors in Computing Systems*, 2020.
+- **DOI:** <https://doi.org/10.1145/3313831.3376569>.
+- **Fecha de consulta:** 16 de agosto de 2026.
+- **Afirmación respaldada:** la velocidad habitual varía entre usuarios y estos
+  desean controlarla directamente según la tarea y el contenido.
+- **Aplicación en el proyecto:** se descarta una velocidad única y se ofrecen
+  cuatro niveles. El estudio no se utiliza para afirmar que uno sea óptimo en
+  español o durante la movilidad.
+- **Capítulo y sección:** diseño de la interacción por voz e implementación.
+
+### Expo — Síntesis de voz
+
+- **Referencia completa:** Expo. *Speech (`expo-speech`)*.
+- **URL:** <https://docs.expo.dev/versions/latest/sdk/speech/>.
+- **Fecha de consulta:** 16 de agosto de 2026.
+- **Afirmación respaldada:** la biblioteca permite indicar idioma, tono y
+  velocidad relativa, escuchar eventos e interrumpir la cola con `stop()`.
+- **Aplicación en el proyecto:** locución en `es-ES`, cuatro multiplicadores y
+  cancelación antes de una nueva instrucción.
+- **Capítulo y sección:** implementación de la aplicación móvil.
+
+### React Native — Estado del lector de pantalla
+
+- **Referencia completa:** React Native. *AccessibilityInfo*.
+- **URL:** <https://reactnative.dev/docs/accessibilityinfo>.
+- **Fecha de consulta:** 16 de agosto de 2026.
+- **Afirmación respaldada:** la API permite consultar si un lector de pantalla
+  está activo y observar sus cambios.
+- **Aplicación en el proyecto:** se bloquea dinámicamente la voz propia de la
+  app cuando TalkBack está activo.
+- **Capítulo y sección:** accesibilidad y coordinación de canales de voz.
+
+### Android Developers — Velocidad relativa del motor
+
+- **Referencia completa:** Android Developers. *TextToSpeech.setSpeechRate*.
+- **URL:**
+  <https://developer.android.com/reference/android/speech/tts/TextToSpeech#setSpeechRate(float)>.
+- **Fecha de consulta:** 16 de agosto de 2026.
+- **Afirmación respaldada:** 1,0 representa el ritmo normal del motor y los
+  valores inferiores o superiores actúan como multiplicadores.
+- **Aplicación en el proyecto:** los niveles se presentan como relativos, no
+  como palabras por minuto equivalentes entre dispositivos.
+- **Capítulo y sección:** decisiones de implementación y limitaciones.
+
+### Android Developers — Regiones dinámicas en Android 16
+
+- **Referencia completa:** Android Developers. *Behavior changes: all apps —
+  Deprecating disruptive accessibility announcements*.
+- **URL:**
+  <https://developer.android.com/about/versions/16/behavior-changes-all#accessibility>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** los anuncios forzados se desaconsejan y las
+  regiones dinámicas son la alternativa indicada para cambios críticos de la
+  interfaz, utilizándolas con moderación.
+- **Aplicación en el proyecto:** una región moderada comunica la instrucción
+  nueva, mientras que desviaciones, recálculos y errores conservan prioridad
+  alta; el contador no genera un anuncio duplicado.
+- **Capítulo y sección:** accesibilidad de la navegación y coordinación con
+  TalkBack.
+
+### W3C WAI — Control y no interferencia del audio
+
+- **Referencia completa:** World Wide Web Consortium, Web Accessibility
+  Initiative. *Understanding Success Criterion 1.4.2: Audio Control*.
+- **URL:** <https://www.w3.org/WAI/WCAG22/Understanding/audio-control>.
+- **Fecha de consulta:** 16 de agosto de 2026.
+- **Afirmación respaldada:** el audio automático puede interferir con el lector
+  de pantalla y debe poder detenerse.
+- **Aplicación en el proyecto:** reproducción automática desactivada por
+  defecto, control de detención y bloqueo de la segunda voz con TalkBack.
+- **Capítulo y sección:** requisitos de accesibilidad y diseño de TTS.
 
 ## Formato de registro
 

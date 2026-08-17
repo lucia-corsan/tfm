@@ -57,6 +57,23 @@ La narración será determinista y compartirá una única fuente estructurada co
 la interfaz y TTS. Con TalkBack activo se evitarán locuciones automáticas que
 puedan solaparse con el lector de pantalla.
 
+La voz propia de la aplicación utiliza velocidad normal por defecto y no se
+reproduce automáticamente hasta que la persona lo solicite. Puede elegirse
+entre cuatro multiplicadores relativos —0,8; 1,0; 1,25 y 1,5— y detener la
+locución desde un control accesible. Estos valores no se presentan como palabras
+por minuto, porque el resultado depende de la voz y del dispositivo. Si el
+estado del lector de pantalla es activo o todavía no se conoce, la app bloquea
+su segunda voz; la velocidad de TalkBack continúa bajo el control de Android.
+La preferencia de TTS es local, no participa en la recomendación y no se envía
+al backend.
+
+Cuando TalkBack está activo, los controles exclusivos de la voz propia se
+ocultan en lugar de mostrarse deshabilitados. En su lugar se presenta un mensaje
+breve que confirma qué canal leerá las indicaciones. Cada nueva instrucción es
+la única región dinámica moderada de ese bloque; el contador de progreso no se
+anuncia por separado para evitar duplicados. Los estados críticos de desviación,
+recálculo o error conservan una región prioritaria y se usan de forma puntual.
+
 El estado del GPS se presenta como texto y como región dinámica moderada. La
 solicitud del permiso solo aparece después de pulsar un botón que explica su
 alcance durante la navegación. El
@@ -117,6 +134,7 @@ La primera pantalla funcional aplica los principios anteriores de esta manera:
   Android; el dispositivo debe disponer de una voz española.
 
 Estas propiedades están cubiertas por pruebas de componentes, incluida una
-regresión que exige paradas independientes y el idioma `es-ES`. Su utilidad
-real debe confirmarse manualmente con TalkBack en el emulador y, posteriormente,
-con una evaluación de usabilidad acotada.
+regresión que exige paradas independientes y el idioma `es-ES`. Su utilidad se
+ha confirmado manualmente con TalkBack en el emulador para el flujo disponible.
+La generalización de estos resultados todavía requiere una evaluación de
+usabilidad acotada con personas usuarias.

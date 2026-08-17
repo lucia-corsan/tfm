@@ -1,7 +1,7 @@
 # Narración determinista, TalkBack y TTS
 
 Estado: `En implementación`
-Última actualización: 14 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Responsabilidad principal: `product`
 
 ## Problema que resuelve
@@ -23,13 +23,18 @@ mensajes incompatibles entre pantalla, lector de pantalla y voz automática.
 | --- | --- | --- | --- |
 | Texto libre con LLM | Variación lingüística | Riesgo de omisión o invención | Descartada para el MVP |
 | Plantillas deterministas | Reproducibles y fáciles de probar | Menor variedad | Adoptada |
+| Una velocidad fija para todas las personas | Configuración mínima | No representa diferencias de experiencia, contexto ni capacidad auditiva | Descartada |
+| Velocidad configurable por niveles | Elección comprensible y fácil de probar | El multiplicador depende de la voz instalada | Adoptada |
+| Voz automática siempre activa | No exige pulsar un control | Puede interferir con TalkBack y comenzar sin consentimiento | Descartada |
+| Voz automática voluntaria y condicionada | Mantiene el control y evita dos voces simultáneas | Requiere una preferencia adicional | Adoptada |
 
 ## Decisión adoptada
 
-El backend generará objetos de instrucción validados. La aplicación mostrará el
-mismo contenido y decidirá, en una fase posterior, cuándo enviarlo a TTS.
-TalkBack leerá las etiquetas y estados accesibles de la interfaz; si está
-activo, se reducirán anuncios automáticos que puedan interferir.
+El backend genera objetos de instrucción validados. La aplicación muestra el
+mismo contenido y, según la preferencia local y el estado del lector de
+pantalla, decide cuándo enviarlo a TTS. TalkBack lee las etiquetas, los estados
+y los cambios relevantes de la interfaz; si está activo, se bloquea la segunda
+voz y se reduce el número de anuncios automáticos.
 
 La construcción de una instrucción se separa en tres pasos comprensibles:
 
@@ -38,8 +43,8 @@ La construcción de una instrucción se separa en tres pasos comprensibles:
 2. El backend valida esos datos y los convierte en un modelo común que también
    pueden utilizar los recorridos sintéticos de prueba.
 3. Una plantilla propia genera una frase breve en español. La misma frase se
-   muestra en pantalla y se ofrece a TalkBack; más adelante podrá enviarse a
-   TTS sin producir una segunda versión del mensaje.
+   muestra en pantalla, se ofrece a TalkBack y puede enviarse a TTS sin producir
+   una segunda versión del mensaje.
 
 No se reutiliza directamente el texto libre del proveedor como única fuente de
 la interfaz. Los códigos de maniobra documentados por ORS permiten generar un
@@ -61,8 +66,10 @@ las reglas de seguridad ni la clasificación.
 
 ## Datos de entrada y salida
 
-Entrada: maniobra, distancia, referencia de vía y avisos validados. Salida:
-texto visible, etiqueta accesible y frase apta para TTS.
+Entrada: maniobra, distancia, referencia de vía, avisos validados, velocidad
+seleccionada, preferencia de reproducción automática y estado del lector de
+pantalla. Salida: texto visible, etiqueta accesible y frase apta para TTS, o
+silencio deliberado cuando TalkBack está activo.
 
 Cada instrucción pública contiene:
 
@@ -86,9 +93,10 @@ El día 1 de la tercera semana se divide en cuatro incrementos:
 3. permitir elegir una alternativa ya clasificada;
 4. recorrer manualmente sus instrucciones en una pantalla accesible.
 
-El GPS, el avance automático, TTS y el rerouting no forman parte de este primer
-día. Esta separación permite comprobar primero que la secuencia y los textos son
-correctos sin mezclar posibles errores de localización.
+El GPS, el avance automático, TTS y el rerouting no formaron parte de este
+primer incremento. Esta separación permitió comprobar primero que la secuencia
+y los textos eran correctos sin mezclar posibles errores de localización. Los
+incrementos posteriores incorporaron esas funciones sobre el mismo modelo.
 
 ### 1. Modelo común de instrucciones
 
@@ -325,6 +333,86 @@ TalkBack a elegir la pronunciación adecuada, pero la voz disponible y su
 variante regional pertenecen a la configuración de síntesis de Android. La app
 no cambia esa preferencia global sin consentimiento.
 
+### 7. Síntesis de voz y velocidad configurable
+
+No se establece una única «velocidad para personas ciegas». La experiencia con
+lectores de pantalla, la audición, la familiaridad con la voz sintética y la
+complejidad del mensaje producen necesidades distintas. Choi et al. observaron
+en un estudio de veinte días con diez personas ciegas o con baja visión que los
+participantes utilizaban lectores de pantalla a velocidades diferentes y
+querían controlar la velocidad de forma directa según la tarea y la longitud
+del contenido. El resultado no permite trasladar un valor universal al español
+ni a una indicación de movilidad, pero sí respalda que el control pertenezca a
+la persona usuaria.
+
+La aplicación ofrece cuatro niveles para su propia voz:
+
+| Nombre mostrado | Multiplicador enviado al motor | Finalidad inicial |
+| --- | ---: | --- |
+| Lenta | 0,8 | Facilitar una primera escucha pausada |
+| Normal | 1,0 | Valor inicial y referencia del motor |
+| Rápida | 1,25 | Reducir la espera sin un salto extremo |
+| Muy rápida | 1,5 | Atender a usuarios habituados a voz acelerada |
+
+Los valores son multiplicadores, no palabras por minuto. Android define 1,0
+como la velocidad normal del motor, 0,5 como aproximadamente la mitad y 2,0
+como aproximadamente el doble. Sin embargo, el ritmo real depende de la voz,
+el idioma, el fabricante y la pronunciación; por eso la interfaz usa nombres
+cualitativos y la memoria no atribuye una cifra exacta de palabras por minuto.
+Los cuatro niveles son hipótesis de diseño conservadoras dentro del rango
+técnico, no una calibración clínica ni una preferencia demostrada para todo el
+colectivo.
+
+La velocidad normal y la reproducción manual son los valores iniciales. La
+persona puede pulsar «Escuchar instrucción», detener la voz de inmediato o
+activar voluntariamente «Reproducir cada instrucción automáticamente». Al
+cambiar de paso, recalcular la ruta o cerrar la navegación, la aplicación
+interrumpe la frase anterior y vacía la cola antes de reproducir otra. La salida
+solicita `es-ES` y un tono normal, pero no sustituye la voz instalada en Android.
+
+Durante este MVP, la preferencia vive en el estado de la navegación y no sale
+del dispositivo. No se envía al backend ni interviene en la puntuación. Es
+razonable ofrecerla en la configuración inicial de la aplicación, pero se
+pospone su persistencia hasta incorporar el repositorio local común del perfil
+y del aprendizaje. Guardarla ahora con un mecanismo aislado duplicaría la
+lógica y dificultaría reiniciarla junto con el resto de preferencias. La
+evolución prevista es almacenar localmente el identificador del nivel y el
+interruptor automático; nunca audio ni historial de frases.
+
+### 8. Convivencia con TalkBack
+
+TalkBack y el TTS de la aplicación son dos canales distintos que pueden utilizar
+el mismo altavoz. React Native permite consultar si existe un lector de pantalla
+activo y recibir cambios mientras la app está abierta. El MVP aplica la
+siguiente política:
+
+1. mientras se comprueba el estado, no se permite emitir voz propia;
+2. con TalkBack activo, se ocultan la escucha manual, la velocidad y la
+   reproducción automática de la app, porque ninguna de ellas modifica el
+   lector de pantalla;
+3. la nueva instrucción sigue disponible como texto y se marca como única
+   región dinámica moderada del bloque, de modo que TalkBack puede comunicar el
+   cambio con sus propios ajustes sin repetir también el contador;
+4. sin lector de pantalla, la persona puede escuchar manualmente o activar el
+   modo automático;
+5. si TalkBack se activa durante una locución, se detiene la voz de la app.
+
+Los estados críticos de desviación, recálculo y error mantienen anuncios
+prioritarios. Esta prioridad no se aplica a cada cambio ordinario de paso, para
+no interrumpir constantemente la exploración de la interfaz. La decisión sigue
+la recomendación de Android 16 de utilizar regiones dinámicas para cambios
+críticos o relevantes y reservarlas para los casos necesarios, en lugar de
+forzar anuncios generales.
+
+Esta decisión es deliberadamente más estricta que limitar únicamente la
+reproducción automática. Evita que al pulsar un botón TalkBack anuncie el
+control al mismo tiempo que `expo-speech` comienza una segunda frase. W3C
+desaconseja el audio automático que interfiere con lectores de pantalla y
+recomienda ofrecer mecanismos próximos para detenerlo. Aunque WCAG se dirige a
+contenido web, el principio de no interferencia resulta aplicable a este flujo
+móvil. La velocidad configurada aquí no modifica TalkBack: quien use el lector
+de pantalla debe ajustar su ritmo en Android.
+
 ## Pruebas
 
 - Traducción de los catorce códigos documentados por ORS.
@@ -340,6 +428,13 @@ no cambia esa preferencia global sin consentimiento.
 - Avance, retroceso y límites de la navegación manual.
 - Estado accesible de controles y lectura independiente del contexto.
 - Cierre únicamente después de pulsar «Terminar navegación».
+- Valor normal y reproducción automática desactivada al iniciar.
+- Correspondencia entre los cuatro niveles y los multiplicadores enviados.
+- Idioma `es-ES` y tono normal en cada locución.
+- Interrupción de la frase previa antes de escuchar una instrucción nueva.
+- Ausencia de voz propia mientras TalkBack está activo o su estado es incierto.
+- Activación automática solo después de una preferencia explícita.
+- Detención al cambiar de instrucción, producirse un error o cerrar la pantalla.
 
 ## Resultados
 
@@ -383,14 +478,31 @@ estáticos y separó cada texto relevante como parada de lectura. La declaració
 `es-ES` ayuda a escoger el idioma, aunque la voz concreta sigue dependiendo de
 la configuración de Android.
 
-Queda pendiente una comprobación manual en el emulador de la nueva pantalla:
-elegir cada alternativa, recorrer todos sus pasos con TalkBack, comprobar los
-botones desactivados y regresar a la comparación. También permanecen pendientes
-el GPS, el avance automático y la emisión automática mediante TTS.
+La integración actual mantiene 239 pruebas de backend y 105 pruebas de la
+aplicación distribuidas en dieciséis grupos. Los casos nuevos cubren la
+configuración inicial, los cuatro multiplicadores, el idioma, la interrupción,
+los eventos del motor, el cambio de instrucción, el cierre de la pantalla y la
+activación o desactivación dinámica del lector. Ruff, TypeScript y ESLint
+también finalizan sin errores.
+
+La navegación con GPS, el avance automático y el recálculo confirmado ya están
+integrados y se han validado funcionalmente con ubicaciones simuladas y
+TalkBack. El 17 de agosto se completó además la comprobación auditiva del TTS:
+los cuatro niveles se distinguieron, la detención manual y automática funcionó,
+una instrucción nueva sustituyó a la anterior, la voz se canceló al terminar la
+navegación y no se produjo solapamiento con TalkBack. El recorrido secuencial
+permitió alcanzar los párrafos y controles previstos. No se encontraron
+incidencias en este caso de prueba. Después de esa validación, los controles sin
+efecto para TalkBack se ocultaron y se eliminó el posible anuncio duplicado del
+contador. La comprobación posterior confirmó que solo se muestra la explicación
+de TalkBack y que una nueva instrucción se anuncia una vez, sin repetir el
+contador.
 
 ## Riesgos y limitaciones
 
-- Dos canales de voz simultáneos pueden solaparse.
+- Dos canales de voz simultáneos pueden solaparse si el sistema operativo no
+  comunica correctamente el estado del lector; el valor seguro es mantener la
+  voz propia bloqueada mientras el estado sea desconocido.
 - Una plantilla necesita referencias espaciales comprensibles, no solo nombres
   de calles procedentes de ORS.
 - Las instrucciones sintéticas sirven para probar la interfaz, pero no describen
@@ -407,6 +519,12 @@ el GPS, el avance automático y la emisión automática mediante TTS.
   pero todavía necesita contrastarse con pasos divididos por refugios centrales.
 - La agrupación de maniobras inferiores a 10 m mejora la continuidad oral, pero
   deberá calibrarse con velocidad real, precisión GPS y evaluación de usuarios.
+- Los multiplicadores de velocidad no equivalen a las mismas palabras por
+  minuto en todas las voces o dispositivos.
+- Los cuatro niveles y el valor normal por defecto requieren validación con
+  personas ciegas y con baja visión, incluidas usuarias noveles y expertas.
+- La preferencia se conserva durante la navegación actual, pero todavía no
+  persiste al reiniciar la aplicación.
 
 ## Texto base para la memoria
 
@@ -418,25 +536,33 @@ plantillas reproducibles. La aplicación valida de nuevo la secuencia, permite
 elegir una alternativa y muestra un paso cada vez con controles de avance y
 retroceso accesibles. Los avisos sobre evidencia desconocida o desfavorable se
 mantienen separados de la maniobra, por lo que una indicación correcta nunca se
-presenta como garantía de accesibilidad. TalkBack y el futuro TTS son canales de
-acceso a información validada, no componentes de decisión ni aportaciones
-propias de inteligencia artificial.
+presenta como garantía de accesibilidad. TalkBack y TTS son canales de acceso a
+información validada, no componentes de decisión ni aportaciones propias de
+inteligencia artificial. La voz de la app se ofrece con cuatro velocidades y
+reproducción automática voluntaria; cuando el sistema detecta TalkBack, la voz
+propia se bloquea para impedir locuciones simultáneas. La selección se mantiene
+local y no altera la clasificación.
 
 ## Trabajo pendiente
 
 - [x] Definir e implementar el modelo de instrucciones.
 - [x] Implementar plantillas españolas.
 - [x] Implementar la navegación manual accesible.
-- [ ] Validar manualmente la nueva pantalla con TalkBack.
+- [x] Validar manualmente los controles de voz con y sin TalkBack.
 - [x] Sanear referencias de vía inválidas procedentes de ORS.
 - [x] Asociar y mostrar eventos OSM por instrucción.
 - [x] Evitar cruces duplicados por representaciones nodo-vía coincidentes.
 - [x] Integrar maniobras inferiores a 10 m en indicaciones secuenciales.
-- [ ] Integrar TTS y política de solapamiento con TalkBack.
+- [x] Integrar TTS y política de solapamiento con TalkBack.
+- [x] Confirmar manualmente el anuncio único después de ocultar los controles
+  de voz propios con TalkBack.
+- [ ] Persistir la velocidad y el modo automático junto con el perfil local.
+- [ ] Evaluar comprensión y preferencia de velocidad con personas usuarias.
 
 ## Referencias técnicas
 
-Fuentes oficiales consultadas el 14 de agosto de 2026:
+Fuentes técnicas y académicas consultadas el 14, el 16 y el 17 de agosto de
+2026:
 
 | Fuente | Aportación aplicada al diseño |
 | --- | --- |
@@ -445,8 +571,14 @@ Fuentes oficiales consultadas el 14 de agosto de 2026:
 | [W3C WAI, WCAG 2.2, criterio 2.4.3 sobre orden del foco](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html) | Establece que la navegación secuencial debe preservar significado y operabilidad. Se aplicó al orden TalkBack: maniobra, contexto próximo, detalles y controles. |
 | [W3C WAI, WCAG 2.2, criterio 1.3.3 sobre características sensoriales](https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html) | Indica que una instrucción no debe depender exclusivamente de dirección, posición o sonido. Por ello la señal acústica se combina con distancia, tipo de elemento y texto estructurado. |
 | [Android Developers, *Test your app's accessibility*](https://developer.android.com/guide/topics/ui/accessibility/testing) | Propone recorrer todos los elementos con TalkBack, verificar que sean alcanzables y que los anuncios sean comprensibles y no innecesariamente extensos. Define el procedimiento de validación manual. |
+| [Android Developers, *Behavior changes: all apps — Android 16*](https://developer.android.com/about/versions/16/behavior-changes-all#accessibility) | Desaconseja los anuncios de accesibilidad disruptivos y propone regiones dinámicas para cambios críticos. Sustenta un anuncio moderado único por instrucción y prioridad alta solo para estados críticos. |
 | [openrouteservice, *Instruction Types*](https://giscience.github.io/openrouteservice/api-reference/endpoints/directions/instruction-types) | Documenta los catorce códigos de maniobra recibidos de ORS. Se utilizaron para crear las plantillas españolas deterministas. |
 | [Expo Router 57](https://docs.expo.dev/versions/v57.0.0/sdk/router/) | Documenta la navegación entre pantallas de la aplicación; no determina el contenido lingüístico de las instrucciones. |
+| [Expo, `expo-speech`](https://docs.expo.dev/versions/latest/sdk/speech/) | Documenta la síntesis, el idioma, el multiplicador `rate`, los eventos y `stop()`. Se utiliza para emitir y cancelar la voz de la app. |
+| [React Native, `AccessibilityInfo`](https://reactnative.dev/docs/accessibilityinfo) | Permite consultar y observar el estado del lector de pantalla. Sustenta el bloqueo dinámico de la segunda voz. |
+| [Android Developers, `TextToSpeech`](https://developer.android.com/reference/android/speech/tts/TextToSpeech#setSpeechRate(float)) | Define 1,0 como ritmo normal y los valores inferiores o superiores como multiplicadores relativos. |
+| [W3C WAI, WCAG 2.2, criterio 1.4.2 sobre control de audio](https://www.w3.org/WAI/WCAG22/Understanding/audio-control) | Explica que el audio automático puede interferir con lectores de pantalla y que debe poder detenerse. Se adopta como principio de no interferencia. |
+| [Choi et al. (2020), «Nobody Speaks that Fast!»](https://doi.org/10.1145/3313831.3376569) | Estudio cualitativo con diez personas con discapacidad visual; respalda la variabilidad individual y el control directo de la velocidad. No fija el valor óptimo del proyecto. |
 
 Estas fuentes establecen principios generales y mecanismos técnicos, pero no
 demuestran que una frase concreta sea óptima para todas las personas ciegas. La
