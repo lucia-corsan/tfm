@@ -1,7 +1,7 @@
 # Registro de experimentos
 
 Estado: `En implementación`
-Última actualización: 16 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Convención
@@ -17,6 +17,7 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-002 | Pendiente | Recuperación de preferencias | Perfiles sintéticos | Pesos fijos | Pendiente | — |
 | EXP-003 | 16 de agosto de 2026 | ¿Qué umbral espacial equilibra detección y falsas alertas? | 13 secuencias GPS sintéticas | 30 m iniciales sin calibración | Validación sintética superada | `docs/evaluation/calibracion-detector-desviacion.md` |
 | VAL-001 | 16 de agosto de 2026 | ¿El rerouting conserva una navegación útil ante aceptación, rechazo y fallo? | Android Emulator, ORS y GPS simulado | Ruta previa sin recálculo | Validación funcional superada | `docs/evaluation/resultados.md` |
+| VAL-002 | 17 de agosto de 2026 | ¿La voz de la app respeta la velocidad elegida sin interferir con TalkBack? | Pruebas automáticas y Android Emulator | Voz normal y manual | Validación automática y auditiva superada | `app/__tests__/useInstructionSpeech.test.tsx` |
 | EXP-004 | 10 de agosto de 2026 | ORS devuelve rutas base válidas y reutiliza la caché | Corredor piloto | Primera ejecución con red | Validación técnica superada | `backend/routing/check_ors.py` |
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
@@ -77,6 +78,36 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 - Evidencias: [Resultados](resultados.md),
   [GPS y rerouting](../product/gps-rerouting.md) y las pruebas automáticas de
   backend y aplicación.
+
+### VAL-002 — Coordinación de TTS, velocidad y TalkBack
+
+- Fecha y versión del código: 17 de agosto de 2026, semana 3, día 5.
+- Pregunta: ¿la voz de la app utiliza la velocidad seleccionada, sustituye una
+  locución obsoleta y permanece en silencio cuando TalkBack está activo?
+- Datos: instrucciones deterministas de prueba y cuatro multiplicadores de
+  velocidad: 0,8; 1,0; 1,25 y 1,5.
+- Sistema de referencia: velocidad 1,0, escucha manual y TalkBack desactivado.
+- Criterios de éxito: idioma `es-ES`; velocidad transmitida sin alteración;
+  interrupción antes de una frase nueva; ausencia de voz propia con lector de
+  pantalla; modo automático solo después de una acción explícita; cancelación
+  al cerrar la pantalla.
+- Resultado: las pruebas automáticas cubrieron el controlador, la detección del
+  lector, las preferencias y la pantalla. En Android Emulator se distinguieron
+  los cuatro niveles, funcionaron la detención y la reproducción automática, la
+  frase nueva sustituyó a la anterior, la voz se canceló al cerrar y TalkBack no
+  se solapó con `expo-speech`. El recorrido secuencial no omitió los párrafos
+  comprobados y no se notificaron incidencias.
+- Interpretación: se valida la coordinación funcional en un dispositivo virtual
+  y con una persona evaluadora. No se demuestra todavía qué velocidad prefiere
+  el colectivo ni su rendimiento durante un recorrido físico.
+- Limitaciones: multiplicadores dependientes del motor, un único dispositivo
+  virtual, una sola evaluadora y ausencia de participantes del colectivo. La
+  comprobación posterior de la interfaz simplificada confirmó un único anuncio
+  de instrucción y la ausencia de controles propios sin efecto para TalkBack.
+- Evidencias: [Narración, TalkBack y TTS](../product/narracion-talkback-tts.md),
+  `app/__tests__/useInstructionSpeech.test.tsx`,
+  `app/__tests__/useScreenReaderStatus.test.tsx` y
+  `app/__tests__/NavigationScreen.test.tsx`.
 
 ### EXP-004 — Descarga y reutilización de rutas base ORS
 

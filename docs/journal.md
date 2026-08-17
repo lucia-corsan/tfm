@@ -1,5 +1,24 @@
 # Journal de desarrollo
 
+## 16 de agosto de 2026 — Semana 3, día 5: TTS configurable
+
+Se integró `expo-speech` sobre el mismo texto determinista mostrado en la
+instrucción. La voz de la app ofrece velocidades relativas de 0,8, 1,0, 1,25 y
+1,5, parte de 1,0 y no se reproduce automáticamente sin una decisión explícita.
+El estado de TalkBack se consulta y observa mediante `AccessibilityInfo`; si el
+lector está activo o todavía no se conoce, la segunda voz queda bloqueada. Una
+frase nueva interrumpe la anterior y la salida se cancela al cerrar la pantalla.
+
+La investigación no encontró una velocidad universal: la experiencia y el
+contexto modifican el ritmo preferido. Por ello los niveles se documentan como
+hipótesis de diseño dependientes del motor y se mantiene pendiente su validación
+con personas ciegas y con baja visión. La configuración vive durante la
+navegación actual y se persistirá más adelante junto con el perfil local. La
+decisión completa y sus fuentes se recogen en
+[Narración, TalkBack y TTS](product/narracion-talkback-tts.md), y la validación
+automática se registra como `VAL-002` en
+[Experimentos](evaluation/experimentos.md).
+
 ## 16 de agosto de 2026 — Calibración sintética del detector de desviación
 
 Se completó `EXP-003` con trece secuencias preetiquetadas y 39 predicciones del
@@ -814,3 +833,19 @@ app; FastAPI no almacena preferencias. En la fase de aprendizaje, SQLite
 guardará localmente en el dispositivo los pesos declarados y aprendidos y la
 señal mínima de las elecciones. No se añadirá una base remota, ni se guardarán
 direcciones, coordenadas exactas o audio.
+
+## 17 de agosto de 2026 — Coordinación final entre TalkBack y la voz propia
+
+La comprobación auditiva de las cuatro velocidades, la detención, el modo
+automático, el cierre y el recorrido con TalkBack terminó sin incidencias. A
+partir de ese resultado se simplificó la presentación: con TalkBack activo se
+ocultan los controles exclusivos de `expo-speech`, una única región dinámica
+moderada comunica el cambio de instrucción y el contador deja de generar un
+segundo anuncio. Los estados críticos mantienen prioridad alta. La explicación
+completa y las limitaciones se registran en
+[Narración determinista, TalkBack y TTS](product/narracion-talkback-tts.md) y
+[Resultados de evaluación](evaluation/resultados.md).
+
+La revisión final en el emulador confirmó el comportamiento previsto: con
+TalkBack activo solo aparece la explicación del canal accesible y el cambio de
+paso comunica una única instrucción, sin repetir el contador.

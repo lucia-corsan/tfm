@@ -1,7 +1,7 @@
 # Resultados de evaluación
 
 Estado: `En implementación`
-Última actualización: 16 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
@@ -153,16 +153,33 @@ referencia. El volumen confirma que la cadena completa usa la instantánea OSM;
 no convierte esos metadatos colaborativos en observaciones garantizadas del
 estado actual de la calle.
 
-Estos resultados demuestran coherencia del software con datos reproducibles. No
-permiten concluir todavía que las instrucciones sean fáciles de seguir en la
-calle, que el momento de cada aviso sea adecuado o que la interacción con TTS y
-TalkBack no produzca solapamientos. Esas cuestiones requieren la revisión manual
-del emulador y, posteriormente, recorridos simulados o controlados con GPS.
+Estos resultados demuestran coherencia del software con datos reproducibles. La
+revisión posterior del emulador confirmó la coordinación funcional sin
+solapamientos entre TTS y TalkBack. Aun así, no permiten concluir que las
+instrucciones sean fáciles de seguir en la calle ni que el momento de cada aviso
+sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
+personas usuarias.
 
-La validación automática alcanza 239 pruebas de backend y 91 de la aplicación,
-con Ruff, TypeScript y ESLint sin errores. Falta recorrer manualmente los nuevos
-eventos con TalkBack en el emulador; por ello este resultado valida la coherencia
-del software, pero todavía no la facilidad de uso del contenido en movimiento.
+La validación automática alcanza 239 pruebas de backend y 105 de la aplicación,
+distribuidas estas últimas en dieciséis grupos. Se ha ampliado con casos
+específicos de voz, velocidad y detección del lector de pantalla, además de
+Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
+el multiplicador elegido, detiene la cola anterior y no llama al motor de voz
+cuando TalkBack está activo. La validación auditiva del 17 de agosto distinguió
+los cuatro niveles, confirmó la detención, el modo automático, la sustitución
+de frases, el cierre sin audio residual y la ausencia de dos voces simultáneas.
+También se recorrieron los párrafos previstos con TalkBack sin encontrar
+incidencias. Esto valida el caso funcional del emulador, pero todavía no la
+inteligibilidad ni la preferencia de una muestra de personas usuarias.
+
+Tras la prueba se simplificó la coordinación: con TalkBack activo se ocultan los
+controles exclusivos de `expo-speech` y se muestra una explicación breve. Solo
+el texto de la nueva instrucción actúa como región dinámica moderada; el
+contador deja de anunciarse por separado. Desviaciones, recálculos y errores
+mantienen prioridad alta. La medida reduce ruido y conserva la separación entre
+lector de pantalla e indicaciones propias. La comprobación manual posterior
+confirmó que aparece únicamente la explicación de TalkBack y que el cambio de
+paso produce un solo anuncio de instrucción.
 
 ## Accesibilidad y usabilidad
 
@@ -181,3 +198,4 @@ sustituye una evaluación de usabilidad con participantes.
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |
 | EXP-006 | 418 elementos; confianza media 0,391 | Corredor de 10 m | Corredor de 5 m | Menos contaminación potencial con cobertura útil; revisión manual pendiente |
+| VAL-002 | 4 niveles; 0 llamadas TTS con TalkBack; validación auditiva sin incidencias | Voz normal y manual | TTS configurable y condicionado | Coordinación funcional superada; evaluación con usuarios pendiente |
