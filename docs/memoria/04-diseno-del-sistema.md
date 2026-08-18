@@ -1,7 +1,7 @@
 # 4. Diseño del sistema
 
-Estado: `En implementación`  
-Última actualización: 14 de agosto de 2026.
+Estado: `En implementación`
+Última actualización: 17 de agosto de 2026.
 
 ## Arquitectura
 
@@ -37,7 +37,13 @@ métricas que justifican la decisión.
 
 ## Modelos de dominio
 
-Describir perfil, evidencia, características, incertidumbre, rutas y escenarios.
+El perfil separa restricciones críticas y preferencias graduables. Cada ruta
+contiene geometría, instrucciones y un vector de características con evidencia
+favorable, desfavorable o desconocida. La cobertura de esa evidencia alimenta
+la confianza, mientras que la proporción temática desconocida se conserva como
+incertidumbre explícita y como coste no negativo. Los escenarios agrupan hasta
+tres alternativas comparables sin mezclar estos datos con identidad, historial
+GPS o decisiones de seguridad.
 
 ## Seguridad y privacidad
 
@@ -87,8 +93,34 @@ como «este tramo es seguro».
 
 ## IA explicable
 
-Separación entre reglas, puntuación, aprendizaje por pares (*pairwise*) y
-generación de razones.
+El componente de IA se sitúa después de las restricciones críticas y antes de
+la presentación. Esta posición es deliberada: una ruta con escalones prohibidos,
+acceso peatonal incompatible, cruces incompatibles, pendiente excesiva o desvío
+superior al máximo se descarta sin consultar el modelo estadístico. El
+aprendizaje solo puede reordenar las alternativas restantes.
+
+El estado mantiene tres vectores distintos. Los pesos declarados conservan la
+respuesta del cuestionario; los aprendidos resumen las elecciones explícitas; y
+los efectivos mezclan ambos. Durante tres decisiones se observa sin modificar
+la clasificación. Después, la influencia aprendida aumenta gradualmente y nunca
+supera el 50 %. Esta separación evita sobrescribir silenciosamente la intención
+de la persona y permite explicar qué parte procede de su declaración y qué
+parte de su comportamiento.
+
+Cada elección se transforma en comparaciones entre la ruta elegida y las demás
+rutas aceptadas que se mostraron. La pérdida logística se actualiza en línea,
+se regulariza hacia el perfil inicial, se proyecta a pesos no negativos que
+suman uno y se limita por interacción. Si solo queda una ruta aceptada no se
+genera una observación, porque no existe una preferencia relativa interpretable.
+
+La confianza no interviene en la probabilidad de elección: describe la cobertura
+de la evidencia y se presenta como una salida independiente. La incertidumbre
+también sigue visible por separado, pero además forma parte de los nueve costes
+no negativos; de este modo, una ruta con más información desconocida puede
+recibir una penalización cuya importancia se adapta, sin que lo desconocido se
+convierta nunca en una ventaja. La probabilidad logística solo indica cuánto
+encaja una elección con los pesos actuales, no confianza, accesibilidad ni
+seguridad.
 
 ## Fuentes internas
 
@@ -99,5 +131,7 @@ generación de razones.
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 - [Puntuación explicable](../research/scoring-explicable.md).
+- [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
+- [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Seguridad](../safety.md).
 - [Accesibilidad](../accessibility-spec.md).

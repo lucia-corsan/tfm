@@ -1,7 +1,7 @@
 # Referencias académicas y técnicas pendientes
 
 Estado: `En implementación`
-Última actualización: 16 de agosto de 2026.
+Última actualización: 17 de agosto de 2026.
 
 ## Regla
 
@@ -13,8 +13,8 @@ documentación oficial.
 
 - Cálculo de rutas accesibles para personas ciegas o con baja visión.
 - Modelos multicriterio de accesibilidad peatonal.
-- Aprendizaje de preferencias por pares (*pairwise*) y bandidos contextuales
-  (*contextual bandits*).
+- Bandidos contextuales como posible evolución del aprendizaje de preferencias;
+  la base logística por comparaciones pareadas ya está consolidada.
 - Explicabilidad y calibración de incertidumbre.
 - Evaluación de interfaces de navegación con lectores de pantalla.
 
@@ -110,6 +110,72 @@ máster.
 - **Aplicación en el proyecto:** cada código se convierte en una maniobra propia
   y después en una plantilla española reproducible.
 - **Capítulo y sección:** implementación del proveedor de rutas y narración.
+
+## Referencias consolidadas para el aprendizaje adaptativo
+
+### Bradley y Terry — Comparaciones pareadas
+
+- **Referencia completa:** R. A. Bradley y M. E. Terry. «Rank Analysis of
+  Incomplete Block Designs: I. The Method of Paired Comparisons».
+  *Biometrika*, 39(3/4), 324–345, 1952.
+- **DOI:** <https://doi.org/10.1093/biomet/39.3-4.324>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** las preferencias entre dos alternativas pueden
+  representarse mediante una probabilidad logística asociada a su diferencia.
+- **Aplicación en el proyecto:** probabilidad de la ruta elegida frente a cada
+  alternativa aceptada no seleccionada.
+- **Capítulo y sección:** estado del arte y diseño del aprendizaje.
+
+### Burges et al. — Aprendizaje de orden mediante gradiente
+
+- **Referencia completa:** C. Burges et al. «Learning to Rank Using Gradient
+  Descent». *Proceedings of the 22nd International Conference on Machine
+  Learning*, 89–96, 2005.
+- **DOI:** <https://doi.org/10.1145/1102351.1102363>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** una pérdida logística por pares permite aprender
+  un orden mediante descenso de gradiente.
+- **Aplicación en el proyecto:** actualización de los pesos de características,
+  no de puntuaciones fijas por ruta.
+- **Capítulo y sección:** estado del arte, formulación e implementación.
+
+### Robbins y Monro — Aproximación estocástica
+
+- **Referencia completa:** H. Robbins y S. Monro. «A Stochastic Approximation
+  Method». *The Annals of Mathematical Statistics*, 22(3), 400–407, 1951.
+- **DOI:** <https://doi.org/10.1214/aoms/1177729586>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** los parámetros pueden aproximarse mediante
+  actualizaciones sucesivas basadas en observaciones ruidosas.
+- **Aplicación en el proyecto:** aprendizaje en línea después de cada elección
+  explícita, con límites adicionales de producto.
+- **Capítulo y sección:** estado del arte y formulación.
+
+### Zinkevich — Optimización convexa en línea
+
+- **Referencia completa:** M. Zinkevich. «Online Convex Programming and
+  Generalized Infinitesimal Gradient Ascent». Carnegie Mellon University,
+  CMU-CS-03-110, 2003.
+- **URL:** <https://www.cs.cmu.edu/~maz/publications/techconvex.pdf>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** un paso de gradiente puede proyectarse de nuevo al
+  conjunto convexo de soluciones permitidas después de cada observación.
+- **Aplicación en el proyecto:** proyección de los pesos al simplejo no negativo
+  de suma uno.
+- **Capítulo y sección:** formulación e implementación.
+
+### Duchi et al. — Proyección eficiente
+
+- **Referencia completa:** J. Duchi, S. Shalev-Shwartz, Y. Singer y T. Chandra.
+  «Efficient Projections onto the l1-Ball for Learning in High Dimensions».
+  *Proceedings of ICML 2008*, 272–279.
+- **DOI:** <https://doi.org/10.1145/1390156.1390191>.
+- **Fecha de consulta:** 17 de agosto de 2026.
+- **Afirmación respaldada:** existen algoritmos ordenados y eficientes para
+  proyectar vectores a conjuntos con restricciones L1; la variante empleada se
+  adapta al simplejo de probabilidades.
+- **Aplicación en el proyecto:** pesos siempre no negativos y normalizados.
+- **Capítulo y sección:** implementación y garantías del modelo.
 
 ## Referencias consolidadas para TTS y velocidad
 

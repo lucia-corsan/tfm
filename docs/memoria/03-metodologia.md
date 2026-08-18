@@ -1,7 +1,7 @@
 # 3. Metodología
 
-Estado: `En implementación`  
-Última actualización: 11 de agosto de 2026.
+Estado: `En implementación`
+Última actualización: 17 de agosto de 2026.
 
 ## Diseño general
 
@@ -23,9 +23,27 @@ desfavorable o desconocida y rutas con incertidumbre explícita.
 
 ## Diseño experimental
 
-Comparación de la ruta más corta, la clasificación estática y la clasificación
-adaptativa mediante *fixtures*, perfiles sintéticos y rutas reales almacenadas
-en caché.
+La validación funcional de la clasificación utiliza *fixtures* y rutas reales
+almacenadas en caché. El experimento específico del aprendizaje adaptativo
+compara la ruta más corta, la clasificación estática y la adaptativa mediante
+perfiles y costes sintéticos controlados. La repetición de ese experimento con
+costes procedentes de rutas ORS enriquecidas con OSM permanece pendiente.
+
+### Evaluación específica del aprendizaje
+
+La evaluación del núcleo adaptativo separa la selección de parámetros de la
+medición final. La calibración combina 216 configuraciones sobre tres perfiles y
+tres semillas. Después se bloquea la configuración y se evalúa con veinte
+semillas nuevas, tres niveles de elecciones inconsistentes y un cuarto perfil
+que no intervino en la calibración. Cada ejecución mantiene aparte 60
+situaciones de aprendizaje y 160 conjuntos nuevos de prueba.
+
+Los tres sistemas reciben exactamente las mismas rutas. La exactitud mide si
+coinciden con una preferencia latente conocida y el arrepentimiento cuantifica
+cuánto peor es el coste de una elección incorrecta. Se publican tanto resúmenes
+como resultados por ejecución, incluidos los casos donde el modelo adaptativo
+empeora. Este diseño permite atribuir la diferencia al aprendizaje en el
+simulador, aunque no extrapolarla todavía a personas reales.
 
 ## Reproducibilidad
 
@@ -100,4 +118,6 @@ el doble conteo y se puede comprobar explícitamente la monotonía.
 - [Preparación de OSM para rutas](../research/preparacion-osm-para-rutas.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 - [Plan de evaluación](../evaluation/plan-evaluacion.md).
+- [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
+- [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Entorno](../operations/entorno-desarrollo.md).

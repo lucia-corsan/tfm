@@ -1,7 +1,7 @@
 # 5. Implementación
 
-Estado: `En implementación`  
-Última actualización: 16 de agosto de 2026.
+Estado: `En implementación`
+Última actualización: 17 de agosto de 2026.
 
 ## Backend
 
@@ -287,11 +287,12 @@ y el periodo de estabilización, se conserva en
 
 En el incremento actual, el perfil seleccionado se conserva únicamente durante
 la sesión mediante el estado del componente y se incluye en cada petición. El
-backend calcula el ranking sin almacenar usuarios ni preferencias. La fase de
-aprendizaje incorporará SQLite como base local en el dispositivo para conservar
-los pesos declarados y aprendidos. Se descartó una base remota porque exigiría
-cuentas, sincronización y una superficie de privacidad innecesarias para el
-experimento del TFM.
+backend calcula el ranking sin almacenar usuarios ni preferencias. El núcleo de
+aprendizaje ya se ha implementado y validado en Python, pero su persistencia en
+SQLite y su conexión con la acción móvil «Elegir esta ruta» pertenecen al
+siguiente incremento. Se descartó una base remota porque exigiría cuentas,
+sincronización y una superficie de privacidad innecesarias para el experimento
+del TFM.
 
 ### Estados y accesibilidad
 
@@ -301,6 +302,50 @@ identificador incremental para impedir que un resultado antiguo se atribuya al
 perfil nuevo. La carga y el resultado se anuncian de forma moderada; los errores
 se anuncian como avisos prioritarios. Cada control expone rol, etiqueta y estado,
 y las métricas se expresan textualmente para no depender del color.
+
+## Núcleo de aprendizaje adaptativo
+
+`backend/feedback` implementa una actualización en línea a partir de una ruta
+elegida y una o dos alternativas aceptadas no seleccionadas. Sus modelos
+rechazan campos inesperados y solo conservan identificadores opacos y los nueve
+costes normalizados. No son necesarias coordenadas, direcciones ni trazas de
+navegación para ajustar las preferencias.
+
+La actualización se ha mantenido como lógica pura: recibe un estado validado y
+devuelve otro nuevo junto con un informe auditable. La función calcula la
+probabilidad logística de cada comparación, promedia sus gradientes, añade una
+regularización hacia el perfil declarado, ejecuta un paso de descenso y
+proyecta el resultado al conjunto de pesos no negativos que suman uno. Si el
+cambio propuesto supera 0,12 en distancia L1, se reduce proporcionalmente.
+
+Se conservan tres capas de pesos:
+
+1. Los declarados, que nunca se sobrescriben.
+2. Los aprendidos, que se actualizan desde la primera elección una vez activado
+   el aprendizaje.
+3. Los efectivos, que permanecen iguales a los declarados durante tres
+   elecciones y después incorporan hasta un 50 % de los aprendidos.
+
+El estado nuevo se crea desactivado. Esta decisión obliga a solicitar una
+activación explícita en la futura interfaz móvil; el simulador sí lo activa de
+forma expresa para poder medir el algoritmo. Desactivar conserva lo aprendido
+sin aplicarlo y reiniciar elimina las observaciones.
+
+La clasificación existente acepta de forma opcional los pesos efectivos, pero
+mantiene las restricciones críticas ligadas al perfil original. Esta frontera
+se prueba intentando volver a ordenar una ruta rechazada con pesos extremos: la
+ruta continúa fuera de las alternativas aceptadas. También se prueban 500
+actualizaciones consecutivas, el signo de aprendizaje, las comparaciones sin
+información, la equivalencia entre una y dos alternativas, la desactivación, el
+reinicio y la serialización reproducible.
+
+El experimento se implementa en `ml/adaptive_preferences/evaluation.py`. El
+script separa calibración y evaluación, conserva resultados por ejecución en
+CSV y genera dos figuras mediante semillas fijas. De este modo, los números de
+la memoria pueden reconstruirse sin depender de una sesión interactiva ni de un
+servicio externo. La formulación completa se encuentra en
+[Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md) y el protocolo,
+en [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
 
 ## Datos y servicios
 
@@ -360,7 +405,7 @@ en vez de introducir un almacenamiento temporal que después deba migrarse.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 239 pruebas superadas y la aplicación alcanza 105 pruebas en dieciséis
+mantiene 261 pruebas superadas y la aplicación alcanza 105 pruebas en dieciséis
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
@@ -388,3 +433,5 @@ implementación final y enlazar evidencias.
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Preparación de OSM para rutas](../research/preparacion-osm-para-rutas.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
+- [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
+- [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).

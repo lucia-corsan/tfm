@@ -1,7 +1,7 @@
 # Guion de la memoria y mapa de fuentes
 
 Estado: `En implementación`  
-Última actualización: 8 de agosto de 2026.
+Última actualización: 17 de agosto de 2026.
 
 ## Regla de trabajo
 
@@ -27,11 +27,11 @@ El índice definitivo debe adaptarse a la plantilla oficial de la universidad.
 | Capítulo | Fuentes principales |
 | --- | --- |
 | Introducción | `product/alcance-mvp.md`, `accessibility-spec.md` |
-| Estado del arte | `research/fuentes-ors-osm-mapillary.md`, `ai-strategy.md` |
+| Estado del arte | `research/fuentes-ors-osm-mapillary.md`, `research/aprendizaje-adaptativo.md`, `ai-strategy.md` |
 | Metodología | `research/seleccion-area-piloto.md`, `research/modelo-dominio-accesibilidad.md`, `evaluation/plan-evaluacion.md` |
 | Diseño | `architecture.md`, `safety.md`, documentos de `product/` |
 | Implementación | `journal.md`, `operations/`, código y pruebas |
-| Evaluación | documentos de `evaluation/` |
+| Evaluación | `evaluation/calibracion-aprendizaje-adaptativo.md` y demás documentos de `evaluation/` |
 | Conclusiones | resultados, limitaciones y journal de decisiones |
 
 ## Contribución académica que debe mantenerse visible
@@ -50,9 +50,11 @@ pero no se presentarán como aportaciones propias de IA.
 
 - Resultados cuantitativos de la puntuación.
 - Comparación de sistemas de referencia.
-- Evaluación del aprendizaje adaptativo.
+- Integración móvil y evaluación con usuarios del aprendizaje adaptativo; la
+  evaluación sintética `EXP-002` ya está completada.
 - Sensibilidad de pesos y umbrales.
-- Pruebas completas con TalkBack.
-- Rerouting simulado y, si es viable, físico.
+- Pruebas de usabilidad con TalkBack y personas de la población objetivo; la
+  validación funcional en emulador ya está completada.
+- Rerouting físico; la prueba simulada ya está completada.
 - Capturas y figuras finales.
 - Referencias académicas revisadas.
