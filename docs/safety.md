@@ -5,6 +5,21 @@
 - Un dato desconocido nunca mejora una ruta.
 - Una violación crítica confirmada elimina la alternativa.
 - El aprendizaje solo modifica preferencias graduables.
+- El aprendizaje solo usa elecciones explícitas entre rutas que ya han
+  superado las restricciones críticas; si solo queda una alternativa aceptada,
+  no existe señal de aprendizaje.
+- Los pesos declarados no se sobrescriben: las tres primeras elecciones están
+  en observación y la influencia aprendida posterior nunca supera el 50 %.
+- El aprendizaje se inicializa desactivado y no influye en una recomendación
+  hasta que la persona lo active expresamente.
+- Cada actualización se proyecta a pesos no negativos que suman uno y se limita
+  el cambio del vector aprendido. El salto efectivo se registra por separado,
+  porque también depende del incremento gradual de influencia.
+- La comparación usada para aprender se construye desde la lista aceptada que
+  superó las restricciones; la integración móvil no debe aceptar costes o
+  identificadores reconstruidos fuera de la comparación mostrada.
+- La probabilidad logística de una elección no se presenta como confianza en
+  los datos, accesibilidad ni seguridad de la ruta.
 - Un fallo externo conserva el último estado válido.
 - El rerouting requiere confirmación explícita.
 - La posición que provoca la alerta no sale del dispositivo si se elige

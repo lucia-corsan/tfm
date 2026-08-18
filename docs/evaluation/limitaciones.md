@@ -1,7 +1,7 @@
 # Limitaciones y amenazas a la validez
 
 Estado: `En implementación`  
-Última actualización: 16 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Datos
@@ -28,6 +28,19 @@ Responsabilidad principal: `evaluation`
   igual.
 - Un modelo interpretable no elimina el sesgo de la fuente de datos.
 - El aprendizaje con pocas elecciones puede ser inestable.
+- En `EXP-002`, la mejora empieza después de 5–10 elecciones, pero el primer
+  punto que permanece próximo al resultado final presenta una mediana de 60,
+  que es también el último punto medido. No demuestra convergencia y el MVP no
+  debe prometer adaptación inmediata.
+- La influencia máxima del 50 % protege las preferencias declaradas, aunque
+  también limita la corrección de un cuestionario inicial muy impreciso.
+- La configuración de `EXP-002` se calibró con un 25 % de señal declarada. La
+  sensibilidad confirma que ayuda ante perfiles imprecisos, pero empeora el
+  orden cuando la declaración sintética ya contiene un 75 % o un 100 % de la
+  preferencia latente. El aprendizaje debe seguir siendo opcional y reversible.
+- Varios vectores de pesos pueden ordenar igual las rutas observadas. Una buena
+  exactitud no identifica necesariamente la preferencia verdadera de forma
+  única.
 - Un ranking solo puede elegir entre las rutas recuperadas; ampliar el conjunto
   no garantiza encontrar el óptimo físico.
 - El número de instrucciones y giros es una aproximación a la complejidad de
@@ -36,6 +49,19 @@ Responsabilidad principal: `evaluation`
 ## Evaluación
 
 - Los perfiles sintéticos no sustituyen participantes reales.
+- El simulador de `EXP-002` genera las elecciones con la misma familia lineal
+  que aprende el modelo. Esto permite comprobar la implementación, pero favorece
+  al sistema adaptativo y no demuestra rendimiento ante relaciones no lineales.
+- Los costes sintéticos de `EXP-002` se generan sin las correlaciones propias de
+  rutas ORS enriquecidas con OSM. Sus perfiles son instrumentos matemáticos, no
+  categorías clínicas ni representaciones de toda la población objetivo.
+- Los intervalos de `EXP-002` se calculan sobre veinte medias agrupadas por
+  semilla, porque los cuatro perfiles comparten las rutas de cada semilla.
+  Describen variabilidad sintética y no permiten inferir un efecto poblacional
+  en personas usuarias.
+- Una elección real puede depender del destino, la hora, la familiaridad o un
+  motivo temporal. El experimento supone preferencias estables durante 60
+  interacciones.
 - Una prueba física limitada no permite generalizar a todas las personas ciegas
   o con baja visión.
 - Las métricas obtenidas sin conexión no capturan completamente la confianza, la carga cognitiva ni la
@@ -81,5 +107,9 @@ Responsabilidad principal: `evaluation`
   0,5 m, con al menos 3 m de alineación para vías.
 - Análisis de sensibilidad.
 - Sistemas de referencia diferenciados.
+- Separación entre calibración y evaluación final, semillas nuevas y un cuarto
+  perfil no usado para seleccionar hiperparámetros.
+- Comparación emparejada sobre los mismos conjuntos de rutas y publicación de
+  resultados por ejecución, incluidos los casos donde el adaptativo empeora.
 - Registro completo de experimentos y fallos.
 - Lenguaje que evita afirmar accesibilidad absoluta.

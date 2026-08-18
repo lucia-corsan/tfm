@@ -149,6 +149,26 @@ declarados y aprendidos. No se prevé una base de datos remota ni una cuenta de
 usuario: cada petición seguirá incluyendo el perfil activo y el backend
 continuará sin estado respecto a la identidad de la persona.
 
+El núcleo de aprendizaje ya está implementado en `backend/feedback`, aunque su
+persistencia móvil continúa pendiente. Conserva tres vectores distintos: el
+declarado, que no se sobrescribe; el aprendido, que resume las elecciones; y el
+efectivo, que mezcla ambos con una influencia aprendida máxima del 50 %. La
+clasificación acepta este último como argumento explícito y opcional. El estado
+se inicializa desactivado y solo podrá influir tras una activación explícita. El
+perfil efímero empleado para puntuar no modifica las restricciones: `rank_routes`
+ejecuta siempre `evaluate_constraints` antes de aplicar cualquier peso. De este
+modo se evita que el componente estadístico readmita una ruta incompatible.
+El constructor `build_pairwise_choice` recibe la clasificación ya filtrada y
+solo genera comparaciones entre sus rutas aceptadas. La integración móvil deberá
+vincular la acción explícita con esa misma comparación mostrada, en lugar de
+aceptar identificadores o costes arbitrarios.
+
+La aplicación será la propietaria del estado local y enviará al backend los
+pesos efectivos necesarios en cada comparación. Python permanece como
+implementación de referencia de la fórmula; antes de replicar una actualización
+en TypeScript se crearán casos dorados compartidos para evitar divergencias
+numéricas entre plataformas.
+
 Los *fixtures* de `backend/routing/fixture_data/` son escenarios sintéticos para
 las pruebas y el desarrollo sin red. Sus geometrías sitúan el ejercicio en el
 corredor

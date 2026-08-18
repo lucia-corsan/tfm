@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 16 de agosto de 2026.
+Última actualización: 17 de agosto de 2026.
 
 ## Propósito
 
@@ -48,6 +48,7 @@ esperadas por `AGENTS.md`.
 - [Calibración de la deduplicación espacial](evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor entre rutas y OSM](evaluation/calibracion-corredor-osm.md).
 - [Calibración del detector de desviación](evaluation/calibracion-detector-desviacion.md).
+- [Calibración y evaluación del aprendizaje adaptativo](evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Registro de experimentos](evaluation/experimentos.md).
 - [Resultados](evaluation/resultados.md).
 - [Limitaciones](evaluation/limitaciones.md).

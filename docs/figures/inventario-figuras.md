@@ -1,7 +1,7 @@
 # Inventario de figuras y tablas
 
 Estado: `En implementación`  
-Última actualización: 11 de agosto de 2026.
+Última actualización: 17 de agosto de 2026.
 
 | ID | Contenido | Capítulo | Estado | Archivo final |
 | --- | --- | --- | --- | --- |
@@ -11,8 +11,8 @@ Estado: `En implementación`
 | FIG-04 | Flujo ORS → OSM → puntuación | Diseño | Pendiente | — |
 | FIG-05 | Separación restricciones/preferencias | Diseño | Pendiente | — |
 | FIG-06 | Comparación de tres rutas en la aplicación | Implementación | Pendiente | — |
-| FIG-07 | Evolución de pesos aprendidos | Evaluación | Pendiente | — |
-| FIG-08 | Arrepentimiento y precisión por sistema de referencia | Evaluación | Pendiente | — |
+| FIG-07 | Exactitud según elecciones observadas | Evaluación | Generada | `docs/figures/aprendizaje-exactitud.png` |
+| FIG-08 | Arrepentimiento acumulado según elecciones observadas | Evaluación | Generada | `docs/figures/aprendizaje-arrepentimiento.png` |
 | FIG-09 | Sensibilidad de umbrales GPS | Evaluación | Pendiente | — |
 
 ## Requisitos gráficos
@@ -22,6 +22,11 @@ Estado: `En implementación`
 - Tipografía legible y textos breves.
 - SVG o PDF cuando sea posible; PNG a 300 dpi cuando se exija.
 - Fuente y elaboración indicadas en el pie.
+
+Las figuras 7 y 8 comparten la misma escala horizontal, paleta y símbolos. Las
+líneas se distinguen mediante color y marcador, por lo que la lectura no depende
+solo del color. La zona sombreada de las tres primeras elecciones identifica el
+periodo de observación en el que el aprendizaje todavía no cambia el orden.
 
 ## Fuente del flujo metodológico
 

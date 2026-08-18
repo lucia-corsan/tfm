@@ -1,7 +1,7 @@
 # Plan de evaluación académica
 
 Estado: `Vigente`  
-Última actualización: 16 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Preguntas de evaluación
@@ -53,6 +53,10 @@ Responsabilidad principal: `evaluation`
 
 - *Fixtures* deterministas del área piloto.
 - Perfiles sintéticos con preferencias conocidas.
+- Para `EXP-002`: tres perfiles y las semillas 2026081701–2026081703 en
+  calibración; cuatro perfiles y las semillas 2026081801–2026081820 en
+  evaluación final. El perfil de continuidad peatonal no participa en la
+  selección de parámetros.
 - Respuestas reales de ORS almacenadas en caché.
 - Recorridos GPS simulados y, si es viable, controlados físicamente.
 - Doce pares origen-destino fijos del área piloto para comparar la generación
@@ -72,6 +76,9 @@ los fallos o ejecuciones descartadas.
 - `unknown` nunca mejora el índice.
 - Una violación crítica confirmada elimina la alternativa.
 - Pesos no negativos y normalizados.
+- Las primeras tres elecciones no cambian los pesos efectivos y la influencia
+  aprendida no supera el 50 %.
+- Ninguna interacción supera el límite configurado de cambio L1.
 - Cero violaciones críticas en todos los sistemas personalizados de referencia.
 - Explicaciones fieles a características efectivamente utilizadas.
 - Rerouting solo tras confirmación.
@@ -93,12 +100,19 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
 
 ## Trabajo pendiente
 
-- [ ] Fijar los conjuntos de datos y las semillas aleatorias.
-- [ ] Definir umbrales cuantitativos de éxito.
-- [ ] Preparar scripts reproducibles.
+- [x] Fijar perfiles, semillas, sistemas de referencia y métricas de `EXP-002`.
+- [x] Separar calibración y evaluación final de `EXP-002`.
+- [x] Preparar el script reproducible y conservar resultados por ejecución de
+  `EXP-002`.
+- [ ] Fijar conjuntos, semillas y umbrales de los experimentos aún pendientes.
 - [ ] Aprobar el protocolo de prueba física.
 - [x] Ejecutar `EXP-003` sobre 20, 30 y 40 m y conservar todas las predicciones.
 - [ ] Ejecutar `EXP-005` para comparar tres rutas con la colección ampliada.
 - [x] Ejecutar `EXP-005A` y conservar todas sus configuraciones y predicciones.
 - [x] Ejecutar `EXP-006` sobre corredores de 5, 10, 15 y 20 m.
 - [ ] Completar la revisión visual manual de casos limítrofes de `EXP-006`.
+- [x] Ejecutar `EXP-002` con 216 configuraciones, 20 semillas finales y tres
+  niveles de ruido.
+- [x] Evaluar `EXP-002` con 0 %, 25 %, 50 %, 75 % y 100 % de señal en el
+  cuestionario inicial.
+- [ ] Repetir `EXP-002` con costes de rutas ORS enriquecidas con OSM.

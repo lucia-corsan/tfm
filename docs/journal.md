@@ -1,5 +1,44 @@
 # Journal de desarrollo
 
+## 18 de agosto de 2026 — Cierre de auditoría del núcleo adaptativo
+
+La revisión final confirmó el signo del gradiente, la proyección al símplex y
+la separación entre restricciones y preferencias. Se precisó que el parámetro
+`maximum_learned_update_l1` limita el vector aprendido; el salto efectivo se
+registra aparte porque también incorpora el calendario de influencia. Se añadió
+un constructor que obtiene la elección exclusivamente de las rutas aceptadas en
+la clasificación mostrada y rechaza identificadores descartados. Los
+diagnósticos distinguen ahora la pérdida logística por pares del término de
+regularización. Estas precisiones no cambian la formulación ni los resultados
+de la configuración seleccionada, pero eliminan ambigüedades antes de integrar
+el aprendizaje en la aplicación.
+
+## 17 de agosto de 2026 — Semana 4, día 1: núcleo de IA adaptativa
+
+Se implementó el modelo logístico en línea por comparaciones pareadas con pesos
+declarados, aprendidos y efectivos separados. Incluye tres elecciones de
+observación, regularización hacia el perfil inicial, proyección a pesos no
+negativos normalizados, límite de cambio, influencia máxima del 50 %,
+desactivación y reinicio. La clasificación puede recibir pesos efectivos sin
+alterar el filtro previo de restricciones críticas. Tras el análisis de
+sensibilidad, el núcleo queda desactivado por defecto y requiere una activación
+explícita.
+
+`EXP-002` examinó 216 configuraciones y evaluó la seleccionada con cuatro
+perfiles, veinte semillas nuevas y tres niveles de elecciones inconsistentes.
+En la condición principal del 10 %, el sistema adaptativo obtuvo 89,05 % de
+exactitud frente al 78,64 % de los pesos fijos y redujo el arrepentimiento
+medio de 0,00902 a 0,00238. Se publican resultados por ejecución, curvas,
+figuras y limitaciones; los intervalos se agrupan por las veinte semillas
+independientes, no por las ochenta combinaciones perfil–semilla. Una
+sensibilidad adicional mostró que la adaptación
+ayuda ante declaraciones imprecisas, pero puede empeorar un perfil inicial ya
+muy fiel; por ello se conserva como función opcional y reversible. La
+persistencia y la interacción móvil siguen
+pendientes. La fuente principal es
+[Aprendizaje adaptativo](research/aprendizaje-adaptativo.md) y el protocolo
+completo, [EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md).
+
 ## 16 de agosto de 2026 — Semana 3, día 5: TTS configurable
 
 Se integró `expo-speech` sobre el mismo texto determinista mostrado en la

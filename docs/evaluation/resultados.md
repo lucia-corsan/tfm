@@ -1,7 +1,7 @@
 # Resultados de evaluación
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
@@ -9,8 +9,11 @@ Responsabilidad principal: `evaluation`
 La integración técnica con ORS, la caché y el enriquecimiento OSM ya se han
 validado. El rerouting también se ha validado funcionalmente de extremo a
 extremo con GPS simulado, ORS y TalkBack, y su umbral espacial se ha calibrado
-con secuencias sintéticas. Permanecen pendientes la prueba física controlada,
-el aprendizaje y la evaluación de usabilidad completa.
+con secuencias sintéticas. El núcleo de aprendizaje adaptativo se ha
+implementado y `EXP-002` muestra una mejora frente a los pesos declarados fijos
+con semillas y conjuntos sintéticos no usados para calibrar; además, un cuarto
+perfil quedó completamente reservado para la evaluación. Permanecen pendientes
+su integración móvil, la prueba física controlada y la evaluación con personas.
 
 ## Integración de rutas reales
 
@@ -53,15 +56,69 @@ temático.
 
 ## Puntuación estática
 
-Pendiente.
+La puntuación estática está implementada, cubierta por pruebas y se utiliza como
+sistema de referencia de pesos declarados en `EXP-002`, donde alcanza un 78,64 %
+de exactitud en la condición principal. Sigue pendiente una evaluación
+sistemática de su calibración sobre rutas ORS enriquecidas con OSM; por ello no
+se presenta aún ese porcentaje sintético como rendimiento en el área piloto.
 
 ## Aprendizaje adaptativo
 
-Pendiente.
+`EXP-002` separó la selección de hiperparámetros de la evaluación final. Se
+examinaron 216 configuraciones sobre tres perfiles y tres semillas de
+calibración. La opción seleccionada usa una tasa de 0,06, sensibilidad logística
+de 3, regularización de 0,05, tres elecciones de observación, incrementos de
+influencia de 0,10, un máximo aprendido del 50 % y un límite de cambio L1 de
+0,12 para el vector aprendido.
+
+La evaluación final utilizó cuatro perfiles, veinte semillas nuevas y 0 %, 10 %
+y 20 % de elecciones inconsistentes. Cada ejecución contuvo 60 elecciones de
+entrenamiento y 160 situaciones nuevas. En la condición principal del 10 %, los
+resultados globales fueron:
+
+| Sistema | Exactitud de la primera ruta | Exactitud por pares | Arrepentimiento medio | Arrepentimiento acumulado |
+| --- | ---: | ---: | ---: | ---: |
+| Ruta más corta | 49,34 % | 62,78 % | 0,05054 | 2,9580 |
+| Pesos declarados fijos | 78,64 % | 85,27 % | 0,00902 | 0,5513 |
+| Clasificación adaptativa | **89,05 %** | **92,35 %** | **0,00238** | **0,2719** |
+
+La mejora emparejada frente al sistema fijo fue de 10,41 puntos porcentuales,
+con un intervalo normal aproximado del 95 % entre 9,09 y 11,72 puntos. El
+adaptativo mejoró 76 de las 80 combinaciones perfil–semilla y empeoró 4. También redujo el
+arrepentimiento medio un 73,6 % y el acumulado un 50,7 %.
+
+La ventaja se conservó bajo el análisis de robustez: 11,24 puntos sin ruido y
+8,59 con un 20 % de elecciones inconsistentes. El cuarto perfil, excluido por
+completo de la calibración, mejoró de 83,84 % a 87,47 %. Los pesos permanecieron
+normalizados y el mayor salto efectivo observado fue de 0,0983. Ese valor es
+una medida experimental separada: el límite 0,12 acota el vector aprendido y
+no constituye una garantía universal sobre cualquier calendario de influencia.
+La exactitud empezó a
+mejorar entre las elecciones 5 y 10. El primer punto de control que permaneció
+próximo al valor final observado tuvo una mediana de 60 elecciones; como 60 es
+también el último punto medido, esto no demuestra convergencia.
+
+La sensibilidad al cuestionario matiza el resultado principal. La adaptación
+mejoró 16,41 puntos con una declaración uniforme, 10,41 con un 25 % de señal y
+2,98 con un 50 %. Sin embargo, empeoró 4,77 puntos cuando la declaración ya
+contenía un 75 % de la señal latente y 12,16 cuando era exacta. El aprendizaje
+es útil para corregir perfiles imprecisos, pero no domina al sistema fijo en
+todos los puntos de partida; debe permanecer opcional y reversible.
+
+Estas cifras validan la recuperación de una preferencia lineal conocida y la
+estabilidad del algoritmo. No permiten afirmar que el sistema haya aprendido
+preferencias de personas reales, que la adaptación sea clínicamente útil ni que
+una ruta sea segura. El protocolo, las fórmulas, las figuras y todas las
+amenazas a la validez se detallan en
+[la evaluación de aprendizaje](calibracion-aprendizaje-adaptativo.md).
 
 ## Incertidumbre y explicaciones
 
-Pendiente.
+La incertidumbre, la confianza, los avisos y las razones están implementados y
+cubiertos por pruebas estructurales. Sigue pendiente evaluar sistemáticamente
+la fidelidad y la comprensión de las explicaciones con rutas reales y con
+personas usuarias; esa ausencia impide presentarlas todavía como validadas en
+uso.
 
 ## GPS y rerouting
 
@@ -160,7 +217,7 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 239 pruebas de backend y 105 de la aplicación,
+La validación automática alcanza 261 pruebas de backend y 105 de la aplicación,
 distribuidas estas últimas en dieciséis grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
@@ -194,6 +251,7 @@ sustituye una evaluación de usabilidad con participantes.
 
 | Experimento | Métrica principal | Sistema de referencia | Sistema evaluado | Interpretación |
 | --- | ---: | ---: | ---: | --- |
+| EXP-002 | 89,05 % frente a 78,64 %; mejora de 10,41 puntos | Pesos declarados fijos | Clasificación adaptativa | Recupera una señal sintética conocida; integración móvil y usuarios pendientes |
 | EXP-003 | F1 90,9 %; 0 falsas alertas; 1 omitida | 30 m iniciales | 20, 30 y 40 m | Se mantienen 30 m; validación física pendiente |
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |

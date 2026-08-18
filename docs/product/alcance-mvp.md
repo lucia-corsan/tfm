@@ -1,7 +1,7 @@
 # Alcance y plan de desarrollo del MVP
 
 Fecha inicial: 7 de agosto de 2026
-Última actualización: 11 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 Estado: `En implementación`
 Ámbito piloto: Moncloa–Argüelles–Príncipe Pío, Madrid
 
@@ -499,9 +499,13 @@ No se añadirá un LLM únicamente para aumentar el número de componentes de IA
 
 ### 13.2. Aprendizaje en línea
 
-Los pesos iniciales procederán de las preferencias declaradas. Cuando el usuario pulse explícitamente «Elegir esta ruta», se comparará el vector de la ruta elegida con los de las alternativas descartadas.
+Los pesos iniciales proceden de las preferencias declaradas. Cuando el usuario
+pulsa explícitamente «Elegir esta ruta», se compara el vector de la ruta elegida
+con los de las demás alternativas aceptadas y no seleccionadas. Las rutas
+descartadas por una restricción crítica nunca intervienen en el aprendizaje.
 
-Se utilizará un modelo de regresión logística por pares (*pairwise*) o Bradley–Terry:
+El núcleo implementado utiliza un modelo logístico lineal mediante
+comparaciones pareadas, inspirado en Bradley–Terry y *RankNet*:
 
 - Actualización mediante descenso de gradiente en línea.
 - Pesos no negativos y normalizados.
@@ -514,7 +518,8 @@ Para reducir la inestabilidad inicial:
 - Las primeras tres elecciones funcionarán en observación.
 - La influencia aprendida aumentará gradualmente.
 - La combinación inicial no superará un 50 % de influencia aprendida.
-- El usuario podrá desactivar y reiniciar el aprendizaje.
+- El aprendizaje comenzará desactivado y requerirá activación explícita.
+- El usuario podrá volver a desactivarlo y reiniciarlo.
 - La interfaz explicará qué preferencias han ganado o perdido importancia.
 
 SQLite guardará únicamente:
@@ -526,6 +531,12 @@ SQLite guardará únicamente:
 
 No se almacenarán audio, direcciones textuales ni coordenadas exactas.
 
+La formulación, la configuración calibrada y la separación entre núcleo ya
+validado e integración móvil pendiente se documentan en
+[Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md). `EXP-002`
+compara el modelo con la ruta más corta y los pesos fijos mediante semillas no
+usadas para seleccionar sus parámetros.
+
 ## 14. Evaluación académica
 
 Se compararán tres sistemas:
@@ -534,13 +545,15 @@ Se compararán tres sistemas:
 2. Ranking fijo con preferencias declaradas.
 3. Ranking adaptativo con elecciones observadas.
 
-Métricas previstas:
+Métricas utilizadas o previstas según la fase:
 
 - Coincidencia con la ruta preferida.
 - Precisión de elecciones.
 - Evolución y error de los pesos.
 - Arrepentimiento acumulado (*regret*).
-- Interacciones necesarias para estabilizar el modelo.
+- Evolución con el número de interacciones y, en una evaluación suficientemente
+  larga, tiempo hasta una estabilización que no coincida por construcción con
+  el último punto observado.
 - Incremento de distancia respecto a la ruta más corta.
 - Cruces complejos evitados.
 - Número de giros e instrucciones.

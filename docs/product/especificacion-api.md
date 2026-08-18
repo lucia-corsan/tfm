@@ -2,7 +2,7 @@
 
 Estado: `En implementación`
 
-Última actualización: 16 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -188,7 +188,7 @@ móvil.
 correctamente en las pruebas. El perfil
 predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza actualmente 239 pruebas. La validación manual en la documentación interactiva
+backend alcanza actualmente 261 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La

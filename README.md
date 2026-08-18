@@ -7,9 +7,11 @@ absoluta.
 
 ## Estado
 
-El repositorio está en la primera fase del MVP. El primer incremento funcional utiliza rutas
-locales reproducibles antes de integrar OpenRouteService, GPS y aprendizaje
-adaptativo.
+El repositorio contiene un prototipo Android conectado a un backend FastAPI.
+Ya integra rutas reales de OpenRouteService, enriquecimiento local con OSM,
+navegación con GPS en primer plano, recálculo confirmado y un núcleo de
+aprendizaje adaptativo evaluado en simulación. La persistencia y la presentación
+móvil de las preferencias aprendidas siguen en desarrollo.
 
 ## Requisitos
 
@@ -33,6 +35,9 @@ Las dependencias geoespaciales del notebook se instalan por separado:
 ```bash
 python -m pip install -r requirements-notebooks.txt
 ```
+
+El entorno de desarrollo incluye Matplotlib para reproducir las figuras de la
+evaluación del aprendizaje adaptativo.
 
 Preparar la configuración local:
 

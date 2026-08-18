@@ -2,7 +2,7 @@
 
 Estado: `Validado`
 
-Última actualización: 13 de agosto de 2026
+Última actualización: 17 de agosto de 2026
 
 Responsabilidad principal: `operations`
 
@@ -12,6 +12,7 @@ Responsabilidad principal: `operations`
 - Python 3.9 en `.venv`.
 - FastAPI, Pydantic v2, httpx async y pytest.
 - pyproj y Shapely para proyección y comparación métrica de rutas.
+- Matplotlib para las figuras reproducibles de evaluación.
 - Ruff para lint y comprobaciones estáticas.
 
 Comprobaciones:
@@ -40,6 +41,12 @@ Evaluación reproducible del corredor:
 
 ```bash
 python -m backend.enrichment.evaluate_corridor_widths
+```
+
+Calibración y evaluación reproducible del aprendizaje adaptativo:
+
+```bash
+python -m ml.adaptive_preferences.evaluation
 ```
 
 Los CSV se guardan en `docs/evaluation/artifacts/` y no contienen claves ni
@@ -89,17 +96,18 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 211 pruebas superadas tras incorporar instrucciones
-  de navegación validadas y narración determinista.
-- App: 51 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+- Backend: Ruff correcto y 261 pruebas superadas, incluidas las restricciones,
+  la puntuación, el aprendizaje adaptativo y su evaluación reproducible.
+- App: 105 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación
   tras detener y reiniciar FastAPI.
 - Búsqueda libre de una dirección del área piloto, selección y comparación
   posterior validadas en Android Emulator.
-- Navegación manual validada automáticamente; su recorrido completo con
-  TalkBack en Android Emulator sigue pendiente.
+- Navegación manual, GPS en primer plano, confirmación del recálculo y lectura
+  con TalkBack validados en Android Emulator. La evaluación con participantes
+  sigue pendiente.
 
 ## Limitaciones
 

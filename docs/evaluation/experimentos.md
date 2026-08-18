@@ -14,7 +14,7 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | ID | Fecha | Pregunta | Datos | Sistema de referencia | Estado | Evidencia |
 | --- | --- | --- | --- | --- | --- | --- |
 | EXP-001 | 8 de agosto de 2026 | `unknown` no mejora una ruta | *Fixtures* | Misma ruta con evidencia favorable | Validación técnica superada | `tests/scoring/test_scorer.py` |
-| EXP-002 | Pendiente | Recuperación de preferencias | Perfiles sintéticos | Pesos fijos | Pendiente | — |
+| EXP-002 | 17 de agosto de 2026 | ¿El aprendizaje recupera preferencias mejor que los pesos fijos? | 4 perfiles sintéticos, 20 semillas finales y 3 niveles de ruido | Ruta más corta y pesos fijos | Validación sintética superada | `docs/evaluation/calibracion-aprendizaje-adaptativo.md` |
 | EXP-003 | 16 de agosto de 2026 | ¿Qué umbral espacial equilibra detección y falsas alertas? | 13 secuencias GPS sintéticas | 30 m iniciales sin calibración | Validación sintética superada | `docs/evaluation/calibracion-detector-desviacion.md` |
 | VAL-001 | 16 de agosto de 2026 | ¿El rerouting conserva una navegación útil ante aceptación, rechazo y fallo? | Android Emulator, ORS y GPS simulado | Ruta previa sin recálculo | Validación funcional superada | `docs/evaluation/resultados.md` |
 | VAL-002 | 17 de agosto de 2026 | ¿La voz de la app respeta la velocidad elegida sin interferir con TalkBack? | Pruebas automáticas y Android Emulator | Voz normal y manual | Validación automática y auditiva superada | `app/__tests__/useInstructionSpeech.test.tsx` |
@@ -22,6 +22,46 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
+
+### EXP-002 — Aprendizaje adaptativo de preferencias
+
+- Fecha y versión del código: 17 de agosto de 2026, semana 4, día 1.
+- Pregunta: ¿la clasificación adaptativa predice mejor las preferencias
+  sintéticas que la ruta más corta y los pesos declarados fijos?
+- Datos: cuatro perfiles latentes, situaciones de tres rutas no dominadas,
+  60 elecciones de entrenamiento y 160 conjuntos nuevos por ejecución.
+- Separación: calibración sobre tres perfiles y tres semillas; evaluación sobre
+  veinte semillas nuevas, con un cuarto perfil excluido de la calibración.
+- Parámetros: 216 configuraciones de tasa, sensibilidad logística,
+  regularización, límite de cambio e incremento de influencia.
+- Configuración seleccionada: tasa 0,06; sensibilidad 3; regularización 0,05;
+  tres elecciones de observación; incremento 0,10; influencia máxima 0,50; y
+  cambio aprendido máximo de 0,12 en distancia L1.
+- Sistemas de referencia: ruta más corta y pesos declarados fijos.
+- Métricas: exactitud de la primera ruta y por pares, arrepentimiento medio y
+  acumulado, error y saltos de pesos, y proximidad al último resultado
+  observado. Las restricciones críticas se verifican en una prueba de
+  integración separada, no dentro de las 240 simulaciones.
+- Resultado principal: con un 10 % de elecciones inconsistentes, 89,05 % de
+  exactitud adaptativa frente al 78,64 % fijo; mejora emparejada de 10,41 puntos
+  con intervalo aproximado del 95 % de 9,09 a 11,72 puntos; arrepentimiento
+  medio de 0,00238 frente a 0,00902.
+- Robustez: la mejora frente al sistema fijo fue de 11,24 puntos sin ruido y de
+  8,59 puntos con un 20 % de ruido.
+- Sensibilidad al cuestionario: mejora de 16,41, 10,41 y 2,98 puntos con 0 %,
+  25 % y 50 % de señal declarada; empeoramiento de 4,77 y 12,16 puntos con 75 %
+  y 100 %. El aprendizaje no domina universalmente al sistema fijo.
+- Seguridad: pesos no negativos y normalizados, salto efectivo máximo de
+  0,0983 en la condición principal y cero readmisiones de rutas rechazadas en
+  las pruebas de integración.
+- Interpretación: el núcleo recupera una señal lineal conocida y aporta valor
+  más allá de la declaración inicial. No demuestra aún eficacia con personas ni
+  con elecciones sobre rutas reales.
+- Limitaciones: simulador de la misma familia que el modelo, perfiles no
+  clínicos, costes independientes y último punto de control —60 elecciones—
+  como primer punto próximo al valor final, sin demostrar convergencia.
+- Evidencia: [protocolo y resultados completos](calibracion-aprendizaje-adaptativo.md),
+  siete CSV, dos figuras y pruebas en `tests/feedback/`.
 
 ### EXP-003 — Calibración del detector de desviación
 
