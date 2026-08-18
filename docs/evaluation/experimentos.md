@@ -23,6 +23,33 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
+| EXP-007 | 18 de agosto de 2026 | ¿La mejora adaptativa se transfiere a costes de rutas ORS enriquecidas con OSM? | 12 pares fijados; 4 de aprendizaje y 3 de evaluación resultaron aptos | Ruta más corta y pesos fijos | Validación real-sintética completada, transferencia no observada | `docs/evaluation/evaluacion-aprendizaje-rutas-reales.md` |
+
+### EXP-007 — Transferencia del aprendizaje a costes reales
+
+- Fecha: 18 de agosto de 2026, semana 4, día 3.
+- Pregunta: ¿la configuración congelada en `EXP-002` mejora el orden de rutas
+  ORS enriquecidas con OSM que no se usaron para actualizar los pesos?
+- Datos: doce pares fijados, 31 rutas generadas sobre el mismo grafo ORS, 24
+  aceptadas después de restricciones y costes derivados de una instantánea OSM
+  fija. Las rutas son reales; perfiles y elecciones siguen siendo sintéticos.
+- Separación: ocho pares previstos para aprendizaje y cuatro para evaluación;
+  cuatro y tres, respectivamente, conservaron al menos dos rutas aceptadas.
+- Sistemas de referencia: ruta más corta y pesos declarados fijos.
+- Resultado: después de 60 elecciones, el adaptativo obtuvo 75,00 % de
+  exactitud de primera ruta, frente a 100,00 % del sistema fijo y 75,00 % de la
+  ruta más corta. La exactitud por pares fue 84,31 %, 97,22 % y 80,56 %.
+- Diagnóstico: los cuatro perfiles prefirieron la misma ruta en cada par de
+  aprendizaje apto; orientación y pendiente fueron constantes. El sistema fijo
+  ya resolvió todas las primeras posiciones reservadas, por lo que existía un
+  efecto techo.
+- Decisión: no recalibrar después de observar el resultado y mantener el
+  aprendizaje opcional, local, reversible y desactivado inicialmente.
+- Interpretación: el algoritmo funciona bajo el control sintético, pero no se
+  observa transferencia en este banco real pequeño y poco identificativo. No es
+  una evaluación con participantes ni una estimación poblacional.
+- Evidencia: [protocolo y resultados completos](evaluacion-aprendizaje-rutas-reales.md),
+  siete CSV sanitizados, una figura y pruebas deterministas.
 
 ### EXP-002 — Aprendizaje adaptativo de preferencias
 

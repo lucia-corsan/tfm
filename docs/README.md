@@ -50,6 +50,7 @@ esperadas por `AGENTS.md`.
 - [Calibración del corredor entre rutas y OSM](evaluation/calibracion-corredor-osm.md).
 - [Calibración del detector de desviación](evaluation/calibracion-detector-desviacion.md).
 - [Calibración y evaluación del aprendizaje adaptativo](evaluation/calibracion-aprendizaje-adaptativo.md).
+- [Evaluación del aprendizaje con rutas ORS enriquecidas con OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
 - [Registro de experimentos](evaluation/experimentos.md).
 - [Resultados](evaluation/resultados.md).
 - [Limitaciones](evaluation/limitaciones.md).

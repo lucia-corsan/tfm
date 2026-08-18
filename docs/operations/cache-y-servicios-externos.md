@@ -1,7 +1,7 @@
 # Caché y tolerancia a servicios externos
 
 Estado: `Vigente`  
-Última actualización: 11 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `operations`
 
 ## Problema que resuelve
@@ -20,6 +20,9 @@ sobre servicios públicos.
 - No incluir tokens en claves, URLs persistidas ni mensajes de error.
 - Guardar la caché ORS en `data/raw/ors`, fuera del control de versiones, porque
   contiene los extremos y la geometría de las rutas solicitadas.
+- Usar `data/raw/ors-real-evaluation` para `EXP-007`, separado de la caché
+  histórica de la aplicación. Así se evita reutilizar sin advertencia rutas
+  generadas por versiones distintas del grafo.
 - Guardar la instantánea OSM del corredor en `data/raw/osm-routing`, también
   fuera de Git, con versión de esquema, fecha base y huella SHA-256 de la
   consulta.
@@ -46,6 +49,11 @@ La instantánea OSM se invalida de forma visible cuando cambia la consulta: el
 cargador compara la huella esperada y rechaza un archivo de otra versión. No se
 actualiza durante la navegación. Su escritura es atómica, emplea permisos
 `0600` y una segunda ejecución no repite la petición si la caché es válida.
+
+En `EXP-007`, las 31 rutas publicables se descargaron con el motor ORS 9.9.0 y
+el mismo grafo, fechado el 10 de agosto de 2026. Una respuesta con índices fuera
+de su geometría se registró como inválida y no entró en los costes derivados.
+No se eliminó la caché histórica: se aisló la nueva recopilación.
 
 ## Seguridad
 

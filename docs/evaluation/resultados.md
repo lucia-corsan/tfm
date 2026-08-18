@@ -13,7 +13,10 @@ con secuencias sintéticas. El núcleo de aprendizaje adaptativo se ha
 implementado y `EXP-002` muestra una mejora frente a los pesos declarados fijos
 con semillas y conjuntos sintéticos no usados para calibrar; además, un cuarto
 perfil quedó completamente reservado para la evaluación. Permanecen pendientes
-la prueba física controlada y la evaluación con personas. La integración móvil
+la prueba física controlada y la evaluación con personas. `EXP-007` trasladó la
+configuración congelada a costes de rutas ORS enriquecidas con OSM y obtuvo un
+resultado negativo de transferencia: 75 % adaptativo frente a 100 % fijo sobre
+tres pares reservados aptos. La integración móvil
 del aprendizaje está validada automática y funcionalmente en Android Emulator,
 incluida la persistencia después de cerrar y reabrir la app.
 
@@ -61,8 +64,10 @@ temático.
 La puntuación estática está implementada, cubierta por pruebas y se utiliza como
 sistema de referencia de pesos declarados en `EXP-002`, donde alcanza un 78,64 %
 de exactitud en la condición principal. Sigue pendiente una evaluación
-sistemática de su calibración sobre rutas ORS enriquecidas con OSM; por ello no
-se presenta aún ese porcentaje sintético como rendimiento en el área piloto.
+amplia de su calibración con participantes. En `EXP-007`, sobre tres pares
+reales reservados aptos y preferencias latentes sintéticas, alcanzó el 100 % de
+primeras posiciones. Ese porcentaje sufre un efecto techo y no se interpreta
+como rendimiento general en el área piloto.
 
 ## Aprendizaje adaptativo
 
@@ -125,11 +130,47 @@ dañado y excluye coordenadas y direcciones del registro. Los endpoints de
 comparación y recálculo conservan separados los pesos declarados y efectivos y
 siguen rechazando una alternativa crítica con cualquier mezcla aprendida.
 
-La suite completa alcanzó 265 pruebas del backend y 126 de la aplicación, sin
+La suite completa alcanza 272 pruebas del backend y 126 de la aplicación, sin
 incidencias en Ruff, ESLint ni TypeScript. Esto valida la coherencia técnica de
 la integración, no su utilidad ni comprensibilidad para personas ciegas o con
 baja visión. Esa diferencia impide sumar las pruebas de software a la evidencia
 de eficacia de `EXP-002`.
+
+### Transferencia a rutas ORS enriquecidas con OSM
+
+`EXP-007` congeló la configuración anterior y sustituyó los costes sintéticos
+independientes por costes calculados a partir de rutas ORS y evidencia OSM.
+Antes de descargar se fijaron doce pares: ocho para aprendizaje y cuatro
+reservados. ORS produjo 31 rutas válidas sobre el mismo grafo; 24 superaron las
+restricciones. Debido a descartes, baja disponibilidad y una respuesta externa
+incoherente, solo cuatro pares de aprendizaje y tres reservados conservaron al
+menos dos alternativas.
+
+| Sistema | Exactitud de la primera ruta | Exactitud por pares | Arrepentimiento medio |
+| --- | ---: | ---: | ---: |
+| Ruta más corta | 75,00 % | 80,56 % | 0,00525 |
+| Pesos declarados fijos | **100,00 %** | **97,22 %** | **0,00000** |
+| Clasificación adaptativa, 60 elecciones | 75,00 % | 84,31 % | 0,00525 |
+
+La adaptación no transfirió la mejora de `EXP-002`. Los cuatro perfiles
+sintéticos escogieron la misma ruta en cada uno de los cuatro pares de
+aprendizaje aptos. Además, orientación y pendiente fueron constantes en las 24
+rutas aceptadas. El sistema recibió elecciones, pero no ejemplos capaces de
+distinguir los perfiles. Los pesos fijos ya acertaban todas las primeras
+posiciones reservadas, de modo que tampoco existía margen para mejorarlos en
+esta muestra.
+
+La figura 10 muestra que el adaptativo coincide inicialmente con el sistema
+fijo, baja al 90,42 % tras cinco elecciones y termina en 75 %. No se han
+reajustado los hiperparámetros ni sustituido pares después de observarlo. Este
+resultado negativo demuestra que un aprendizaje correctamente implementado no
+garantiza una mejora cuando los contextos observados son pequeños,
+correlacionados y poco informativos. Refuerza la decisión de mantener la
+función desactivada al inicio, opcional y reversible.
+
+El protocolo, la incidencia de ORS, la disponibilidad por par, la figura y los
+CSV sanitizados se encuentran en
+[EXP-007](evaluacion-aprendizaje-rutas-reales.md).
 
 ## Incertidumbre y explicaciones
 
@@ -236,7 +277,7 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 265 pruebas de backend y 126 de la aplicación,
+La validación automática alcanza 272 pruebas de backend y 126 de la aplicación,
 distribuidas estas últimas en veintiún grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
@@ -275,4 +316,5 @@ sustituye una evaluación de usabilidad con participantes.
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |
 | EXP-006 | 418 elementos; confianza media 0,391 | Corredor de 10 m | Corredor de 5 m | Menos contaminación potencial con cobertura útil; revisión manual pendiente |
+| EXP-007 | 75,00 % frente a 100,00 % fijo | Pesos declarados fijos | Clasificación adaptativa sobre costes ORS+OSM | Transferencia no observada; conjunto pequeño, señal no discriminante y efecto techo |
 | VAL-002 | 4 niveles; 0 llamadas TTS con TalkBack; validación auditiva sin incidencias | Voz normal y manual | TTS configurable y condicionado | Coordinación funcional superada; evaluación con usuarios pendiente |

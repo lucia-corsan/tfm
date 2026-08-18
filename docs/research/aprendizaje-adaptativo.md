@@ -39,6 +39,14 @@ abordaron después, una vez validado el núcleo sin mezclar errores de interfaz 
 almacenamiento. El resultado se documenta en la
 [integración móvil](integracion-aprendizaje-adaptativo-app.md).
 
+La evaluación posterior con costes reales se documenta en
+[EXP-007](../evaluation/evaluacion-aprendizaje-rutas-reales.md). Su resultado
+negativo matiza la validación sintética: con cuatro pares de aprendizaje aptos,
+todos los perfiles proporcionaron las mismas elecciones y el adaptativo no
+superó a unos pesos fijos que ya acertaban el 100 % de las primeras posiciones
+reservadas. Esto confirma que el modelo necesita comparaciones informativas y
+refuerza su activación voluntaria, reversible y desactivada inicialmente.
+
 ## Requisitos
 
 - Aprender solo de una acción explícita: «Elegir esta ruta».
@@ -326,6 +334,8 @@ un registro GPS.
   después los pesos efectivos únicamente en el coste gradual.
 - `ml/adaptive_preferences/evaluation.py`: calibración y evaluación sintética
   reproducibles.
+- `ml/adaptive_preferences/real_routes_evaluation.py`: evaluación de
+  transferencia con costes ORS enriquecidos con OSM y salidas sanitizadas.
 
 Se crea un modelo validado nuevo después de cada actualización; no se muta el
 estado anterior. El orden de las dimensiones es único y estable. La función
@@ -389,6 +399,16 @@ y 12,16 con una declaración sintéticamente exacta. El aprendizaje no se presen
 por tanto, como universalmente superior: debe ser opcional, reversible y objeto
 de una futura regla de activación conservadora.
 
+`EXP-007` congeló esa configuración y la aplicó a rutas ORS enriquecidas con
+OSM. Sobre tres pares reservados aptos, los pesos fijos alcanzaron 100 % de
+exactitud de primera posición y el adaptativo descendió a 75 % después de 60
+elecciones. En los cuatro pares de aprendizaje aptos, los cuatro perfiles
+latentes habían preferido la misma ruta; además, orientación y pendiente eran
+constantes. El modelo no recibió señal que distinguiera perfiles y el sistema
+fijo ya tenía un efecto techo. El resultado negativo se conserva como evidencia
+de falta de transferencia en este conjunto, no como una generalización a todo
+uso futuro.
+
 ## Riesgos y limitaciones
 
 - El usuario sintético elige con la misma familia lineal que el modelo aprende;
@@ -396,8 +416,9 @@ de una futura regla de activación conservadora.
 - La configuración se seleccionó suponiendo que el cuestionario contenía un
   25 % de la señal latente. El análisis de sensibilidad demuestra que puede
   perjudicar un perfil inicial ya muy preciso.
-- Los costes sintéticos son independientes y no reproducen todas las
-  correlaciones de rutas ORS enriquecidas con OSM.
+- Los costes sintéticos son independientes. `EXP-007` incorpora correlaciones
+  reales, pero solo cuatro pares de aprendizaje y tres reservados fueron aptos,
+  y las elecciones de aprendizaje no distinguieron perfiles.
 - Los perfiles sintéticos son instrumentos matemáticos, no arquetipos clínicos
   de personas ciegas o con baja visión.
 - La mejora de clasificación no implica recuperar exactamente el vector de
@@ -409,7 +430,8 @@ de una futura regla de activación conservadora.
 - El límite del 50 % protege la declaración inicial, aunque también impide
   corregirla por completo si estuviera muy alejada de la preferencia real.
 - Una elección puede depender del contexto y no de una preferencia estable.
-- Falta evaluación con rutas reales, pruebas longitudinales y participantes.
+- Falta ampliar la evaluación real con pares informativos, realizar pruebas
+  longitudinales y trabajar con participantes.
 
 ## Texto base para la memoria
 
@@ -437,6 +459,13 @@ representa con gran fidelidad la preferencia latente. Por ello, el diseño
 conserva el sistema fijo, inicia el aprendizaje desactivado y mantiene la
 activación, la desactivación y el reinicio como controles explícitos.
 
+Al sustituir después los costes independientes por rutas ORS enriquecidas con
+OSM, la exactitud adaptativa fue 75 % frente al 100 % fijo en tres pares
+reservados aptos. Todos los perfiles habían aportado las mismas elecciones en
+los cuatro pares de aprendizaje y dos dimensiones eran constantes. La ausencia
+de transferencia refuerza la necesidad de comprobar la capacidad informativa
+del conjunto antes de usar sus elecciones para cambiar una recomendación.
+
 ## Trabajo pendiente
 
 - [x] Fijar la formulación y calibrar sus hiperparámetros.
@@ -447,7 +476,9 @@ activación, la desactivación y el reinicio como controles explícitos.
 - [x] Conectar «Elegir esta ruta» con una comparación local válida.
 - [x] Permitir activar el aprendizaje de forma explícita y mostrar y anunciar
   sus cambios de preferencia de forma comprensible.
-- [ ] Repetir la evaluación con costes de rutas ORS enriquecidas con OSM.
+- [x] Repetir la evaluación con costes de rutas ORS enriquecidas con OSM.
+- [ ] Ampliar esa evaluación con pares que distingan perfiles y más
+  alternativas aceptadas.
 - [ ] Calibrar una activación que proteja perfiles iniciales ya precisos.
 - [ ] Diseñar una evaluación con participantes y consentimiento informado.
 
@@ -475,6 +506,8 @@ activación, la desactivación y el reinicio como controles explícitos.
 - Pruebas: `tests/feedback/` y `tests/scoring/`.
 - Experimento y artefactos:
   [calibración y evaluación](../evaluation/calibracion-aprendizaje-adaptativo.md).
+- Transferencia a costes reales:
+  [EXP-007](../evaluation/evaluacion-aprendizaje-rutas-reales.md).
 
 ## Revisión previa a la publicación
 

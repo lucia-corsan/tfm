@@ -73,7 +73,9 @@ características por corredor. La explicación histórica extensa se conserva en
 ## Resultados
 
 El estudio de disponibilidad permitió elegir el corredor
-Moncloa–Argüelles–Príncipe Pío. La evaluación por rutas está pendiente.
+Moncloa–Argüelles–Príncipe Pío. La generación, el enriquecimiento y la
+evaluación `EXP-007` con rutas ORS ya están completados; permanecen pendientes
+la ampliación del banco y la evaluación con participantes.
 
 ## Riesgos y limitaciones
 

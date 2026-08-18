@@ -1,5 +1,17 @@
 # Journal de desarrollo
 
+## 18 de agosto de 2026 — Semana 4, día 3: transferencia a rutas reales
+
+Se ejecutó `EXP-007` con doce pares fijados, costes de rutas ORS enriquecidas
+con una instantánea OSM y la configuración adaptativa congelada. Solo cuatro
+pares de aprendizaje y tres reservados conservaron dos o más alternativas. El
+sistema adaptativo terminó con 75 % de exactitud de primera ruta frente al
+100 % fijo. El diagnóstico mostró elecciones idénticas entre perfiles en el
+aprendizaje, orientación y pendiente constantes y un efecto techo del sistema
+fijo. El resultado negativo se conserva y justifica mantener la función
+opcional. Detalles, figura y artefactos en la
+[evaluación con rutas reales](evaluation/evaluacion-aprendizaje-rutas-reales.md).
+
 ## 18 de agosto de 2026 — Semana 4, día 2: aprendizaje local en la app
 
 Se conectó la acción explícita «Elegir esta ruta» con el modelo adaptativo. La

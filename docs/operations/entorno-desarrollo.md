@@ -49,6 +49,19 @@ Calibración y evaluación reproducible del aprendizaje adaptativo:
 python -m ml.adaptive_preferences.evaluation
 ```
 
+Evaluación con costes ORS y OSM de `EXP-007`:
+
+```bash
+# Necesita ORS_API_KEY solo durante la recopilación y una instantánea OSM local.
+python -m ml.adaptive_preferences.real_routes_evaluation collect
+
+# Es completamente local después de generar el CSV de costes sanitizado.
+python -m ml.adaptive_preferences.real_routes_evaluation evaluate
+```
+
+La recopilación usa una caché experimental ignorada por Git; la evaluación
+publica únicamente costes derivados, métricas y la figura.
+
 Los CSV se guardan en `docs/evaluation/artifacts/` y no contienen claves ni
 tokens. Para activar las rutas reales en la API se usa `ROUTING_PROVIDER=ors`;
 el valor predeterminado continúa siendo `fixture`.
@@ -96,7 +109,7 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 265 pruebas superadas, incluidas las restricciones,
+- Backend: Ruff correcto y 272 pruebas superadas, incluidas las restricciones,
   la puntuación, el aprendizaje adaptativo y su evaluación reproducible.
 - App: 126 pruebas Jest en veintiún grupos, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.

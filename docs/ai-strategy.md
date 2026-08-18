@@ -70,7 +70,19 @@ perfil inicial ya muy fiel. Por ello no sustituye al modo fijo y debe poder
 activarse explícitamente, desactivarse y restablecerse. El núcleo se inicializa
 desactivado; el experimento lo activa de forma expresa para medirlo.
 
+`EXP-007` evaluó después la configuración congelada sobre costes derivados de
+rutas ORS enriquecidas con OSM. En tres pares reservados aptos, los pesos fijos
+obtuvieron 100 % de primeras posiciones y el adaptativo descendió a 75 % tras
+60 elecciones. Los cuatro perfiles habían producido exactamente la misma
+elección en todos los pares de aprendizaje aptos, mientras orientación y
+pendiente permanecían constantes. No se observó transferencia porque la señal
+real-sintética disponible no distinguía perfiles y el sistema fijo ya sufría un
+efecto techo. El resultado se conserva como evidencia de que la IA necesita
+datos informativos y no debe activarse automáticamente por el mero hecho de
+estar disponible.
+
 La metodología, las fórmulas, los resultados y las amenazas a la validez se
 encuentran en [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md), en
-[EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md) y en la
-[integración móvil](research/integracion-aprendizaje-adaptativo-app.md).
+[EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md), en la
+[integración móvil](research/integracion-aprendizaje-adaptativo-app.md) y en la
+[evaluación con costes ORS+OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).

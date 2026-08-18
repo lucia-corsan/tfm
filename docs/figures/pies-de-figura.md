@@ -1,7 +1,7 @@
 # Pies de figura y tabla
 
 Estado: `En implementación`  
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Convención
 
@@ -40,6 +40,18 @@ de la mejor alternativa disponible durante 60 elecciones sintéticas. Se
 comparan los mismos sistemas y ejecuciones que en la figura 7. Una pendiente
 menor indica decisiones progresivamente menos costosas; la curva no tiene por
 qué descender porque la métrica es acumulativa. Elaboración propia.
+
+## FIG-10 — Transferencia del aprendizaje a rutas ORS y OSM
+
+Exactitud media de la primera ruta en tres pares ORS reservados y enriquecidos
+con una instantánea OSM fija, según el número de elecciones simuladas sobre
+cuatro pares de aprendizaje. Se comparan ruta más corta, pesos declarados fijos
+y clasificación adaptativa con cuatro perfiles y veinte semillas que comparten
+las mismas rutas. La caída del sistema adaptativo refleja que todos los perfiles
+eligieron la misma ruta en los pares de aprendizaje y que el sistema fijo ya
+acertaba las primeras posiciones reservadas. No es una evaluación con usuarios
+ni demuestra que el aprendizaje empeore en otros conjuntos. Fuente:
+OpenRouteService y OpenStreetMap; elaboración propia.
 
 ## Plantilla
 

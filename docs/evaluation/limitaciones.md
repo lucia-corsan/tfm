@@ -1,7 +1,7 @@
 # Limitaciones y amenazas a la validez
 
 Estado: `En implementación`  
-Última actualización: 17 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Datos
@@ -80,6 +80,21 @@ Responsabilidad principal: `evaluation`
 - El aumento cuantitativo de elementos al ampliar el corredor es compatible con
   la incorporación de calles vecinas, pero no demuestra la pertenencia de cada
   objeto. Esa interpretación exige revisar topología, etiquetas y contexto.
+- `EXP-007` fijó doce pares, pero solo cuatro de aprendizaje y tres reservados
+  conservaron al menos dos alternativas aceptadas. Una sola ruta puede cambiar
+  la exactitud en 33,3 puntos dentro de una partición por perfil.
+- Las veinte semillas de `EXP-007` reutilizan las mismas rutas reales: solo
+  cambian el orden y las elecciones inconsistentes. No equivalen a veinte
+  muestras independientes del viario.
+- Todos los perfiles latentes prefirieron la misma ruta en cada par de
+  aprendizaje apto. El modelo no recibió ejemplos que identificaran sus
+  diferencias, aunque sí hubiera variación numérica en algunos costes.
+- Orientación y pendiente fueron constantes en las 24 rutas aceptadas de
+  `EXP-007`; sus pesos no son identificables con este conjunto.
+- El 100 % obtenido por los pesos fijos en tres pares reservados es un efecto
+  techo de una muestra pequeña, no una estimación de eficacia sobre el área.
+- Una respuesta ORS de `EXP-007` contenía referencias fuera de la geometría. Se
+  conservó como incidencia y se excluyó sin rebajar la validación.
 
 ## Tecnología
 

@@ -190,12 +190,62 @@ las rutas descartadas. También se recreó el almacenamiento para confirmar la
 recuperación del estado y se inyectaron datos dañados para verificar la vuelta
 segura al perfil declarado.
 
-La batería completa alcanzó 265 pruebas en el backend y 126 en la app, sin
+La batería completa alcanza 272 pruebas en el backend y 126 en la app, sin
 errores de Ruff, ESLint o TypeScript. Se comprobó además que los pesos efectivos
 llegan por separado a comparación y recálculo, y que una restricción crítica
 continúa descartando la ruta aunque esos pesos favorezcan sus demás
 características. Estas pruebas demuestran consistencia de implementación, no
 que la adaptación sea útil, comprensible o adecuada para participantes reales.
+
+## Transferencia a costes de rutas ORS y OSM
+
+La evaluación sintética aísla el algoritmo, pero no reproduce las correlaciones
+de un recorrido: una ruta más larga puede acumular más cruces y, a la vez,
+disponer de más evidencia. Para comprobar ese límite se diseñó `EXP-007` sin
+volver a calibrar el modelo. Se fijaron doce pares del área piloto antes de
+descargarlos, ocho para aprendizaje y cuatro reservados. ORS generó 31 rutas
+válidas sobre el mismo grafo y 24 superaron las restricciones después del
+enriquecimiento OSM. Finalmente, cuatro pares de aprendizaje y tres reservados
+conservaron al menos dos alternativas.
+
+Las rutas y sus nueve costes proceden del sistema real. Las preferencias
+latentes y las elecciones siguen siendo simuladas para conocer la respuesta de
+referencia; por tanto, no es un estudio con personas. Se mantuvieron los mismos
+cuatro perfiles, 60 elecciones, 10 % de elecciones inconsistentes, veinte
+semillas y la configuración congelada de `EXP-002`.
+
+| Sistema | Exactitud primera ruta | Exactitud por pares | Arrepentimiento medio |
+| --- | ---: | ---: | ---: |
+| Ruta más corta | 75,00 % | 80,56 % | 0,00525 |
+| Pesos declarados fijos | **100,00 %** | **97,22 %** | **0,00000** |
+| Clasificación adaptativa | 75,00 % | 84,31 % | 0,00525 |
+
+La hipótesis de transferencia no se cumple en este banco. El adaptativo pierde
+25 puntos frente al sistema fijo en la primera posición y termina igualando a
+la ruta más corta. La evolución aclara que no se trata de una ventaja tardía:
+parte de 100 %, se mantiene durante las tres elecciones de observación, baja a
+90,42 % tras cinco, a 76,25 % tras diez y termina en 75 %.
+
+El diagnóstico mostró una limitación estructural. En cada uno de los cuatro
+pares de aprendizaje aptos, los cuatro perfiles latentes prefirieron la misma
+ruta. En consecuencia, ninguna elección reveló qué diferenciaba a una persona
+que prioriza distancia de otra que prioriza ayudas en cruces u orientación.
+Además, complejidad de orientación fue 1 y pendiente 0,5 en las 24 rutas
+aceptadas: una dimensión constante no permite identificar su peso.
+
+Los tres pares reservados tampoco constituyen un banco amplio. En uno, el
+perfil de distancia prefiere una ruta distinta de los demás; en los otros dos,
+todos coinciden. Los pesos fijos resolvieron correctamente esas primeras
+posiciones, lo que genera un efecto techo. El 100 % no debe leerse como eficacia
+general, sino como ausencia de margen para mejorar una muestra pequeña.
+
+La figura 10 representa el hallazgo principal. La línea fija permanece en
+100 %, la ruta más corta en 75 % y la adaptativa desciende al comenzar las
+actualizaciones. Su mensaje no es que «aprender siempre empeora», sino que más
+interacciones no compensan ejemplos no discriminantes. La consecuencia de
+diseño es mantener la adaptación desactivada inicialmente, opcional y
+reversible, y ampliar en el futuro el banco con comparaciones que cubran
+compensaciones distintas antes de plantear una activación más amplia.
 
 ## Resultados de datos, rutas y GPS
 
@@ -226,12 +276,14 @@ La evaluación demuestra que:
 - degrada su rendimiento de forma gradual ante elecciones inconsistentes;
 - aporta valor sobre todo cuando la declaración inicial es imprecisa y puede
   perjudicar una declaración ya exacta.
+- no transfiere automáticamente esa mejora a un banco pequeño de costes reales
+  cuando las elecciones de aprendizaje no distinguen los perfiles.
 
 No demuestra que:
 
 - las preferencias sintéticas representen a personas ciegas o con baja visión;
 - sesenta elecciones sean una carga aceptable;
-- la mejora se conserve con las correlaciones de rutas ORS y datos OSM reales;
+- la mejora se conserve con cualquier conjunto de rutas ORS y datos OSM;
 - un acierto del modelo implique seguridad o accesibilidad física;
 - la probabilidad logística sea confianza en los datos;
 - la interacción adaptativa sea comprensible sin una prueba con participantes.
@@ -243,6 +295,13 @@ función lineal; esto favorece la recuperación. Los costes independientes tampo
 reproducen las relaciones entre distancia, pendiente, giros y cobertura OSM.
 Las veinte semillas y el perfil reservado reducen el sobreajuste a la
 calibración, pero no proporcionan validez poblacional.
+
+En `EXP-007`, las veinte semillas comparten los mismos siete pares aptos y solo
+cambian el orden y el ruido simulado. Cuatro pares de aprendizaje no ofrecen
+elecciones distintas por perfil, dos costes son constantes y tres pares
+reservados producen porcentajes muy discretos. Estas condiciones explican el
+resultado y limitan tanto una conclusión favorable como una desfavorable sobre
+el uso real del aprendizaje.
 
 La zona piloto, la cobertura colaborativa, la ausencia de una enumeración de
 todos los caminos y el uso de emulador limitan además la generalización del
@@ -257,6 +316,7 @@ reales enriquecidas y, después, un protocolo con personas y consentimiento.
 - [Limitaciones](../evaluation/limitaciones.md).
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
+- [EXP-007 con rutas ORS y OSM](../evaluation/evaluacion-aprendizaje-rutas-reales.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).

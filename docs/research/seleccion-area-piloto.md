@@ -290,7 +290,7 @@ cuantitativo.
 - [ ] Registrar fecha y versión exactas de cada fuente.
 - [ ] Ejecutar sensibilidad con pesos Mapillary de 0 %, 10 % y 20 %.
 - [ ] Delimitar el corredor mediante red peatonal o listado de calles.
-- [ ] Seleccionar pares origen–destino y rutas reales.
+- [x] Seleccionar doce pares origen–destino y evaluarlos en `EXP-007`.
 - [ ] Realizar una revisión manual limitada y documentada.
 
 ## Referencias y evidencias

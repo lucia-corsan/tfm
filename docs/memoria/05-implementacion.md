@@ -431,10 +431,25 @@ actual. No se envían al backend ni afectan a la clasificación. Su persistencia
 se incorporará al repositorio local común del perfil y de los pesos aprendidos,
 en vez de introducir un almacenamiento temporal que después deba migrarse.
 
+### Evaluación reproducible con costes reales
+
+El módulo `ml/adaptive_preferences/real_routes_evaluation.py` ejecuta el puente
+entre el sistema real y el experimento controlado. Recopila los pares fijados,
+reutiliza el proveedor ORS, enriquece con la instantánea OSM, calcula los nueve
+costes y aplica las restricciones antes de simular elecciones. Una caché
+exclusiva evita mezclar versiones históricas del grafo. La salida versionada
+omite geometrías y coordenadas y permite repetir la simulación sin red.
+
+El proceso registra por escenario si la respuesta fue completa, inválida o
+insuficiente. En la ejecución final, una respuesta ORS contenía índices de
+información adicional fuera de su geometría; se excluyó sin relajar el modelo
+de validación. Las 31 rutas válidas restantes procedían del motor 9.9.0 y del
+mismo grafo fechado el 10 de agosto de 2026.
+
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 265 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
+mantiene 272 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
@@ -465,3 +480,4 @@ implementación final y enlazar evidencias.
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Integración móvil del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).
+- [Evaluación del aprendizaje con rutas reales](../evaluation/evaluacion-aprendizaje-rutas-reales.md).

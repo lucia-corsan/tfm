@@ -12,6 +12,15 @@ exactitud aumentó del 78,64 % al 89,05 % y el arrepentimiento medio descendió 
 utilizado para calibrar. Estos resultados validan el núcleo algorítmico, no su
 eficacia con personas ni la accesibilidad física de las rutas.
 
+La evaluación posterior con costes de rutas ORS enriquecidas con OSM no
+reprodujo esa mejora. En tres pares reservados aptos, los pesos fijos obtuvieron
+100 % de primeras posiciones y el adaptativo, 75 % tras 60 elecciones. Los
+cuatro perfiles habían elegido la misma alternativa en todos los pares de
+aprendizaje aptos y dos dimensiones permanecían constantes. El resultado no
+invalida la implementación, pero demuestra que la adaptación necesita ejemplos
+con compensaciones informativas y que un resultado sintético positivo no basta
+para prometer transferencia.
+
 El análisis de sensibilidad evita una conclusión excesiva: el aprendizaje
 mejoró declaraciones sintéticas imprecisas, pero perjudicó las que ya contenían
 un 75 % o un 100 % de la preferencia latente. La aportación no es un sustituto
@@ -31,13 +40,16 @@ proyecto.
 
 ## Limitaciones
 
-El simulador comparte la forma lineal del modelo y los costes no reproducen aún
-las correlaciones de rutas reales. El primer punto próximo al resultado final
+El simulador comparte la forma lineal del modelo. `EXP-007` incorporó las
+correlaciones de rutas reales, pero solo cuatro pares de aprendizaje y tres
+reservados resultaron aptos, todos los perfiles compartieron las etiquetas de
+aprendizaje y orientación y pendiente fueron constantes. El primer punto próximo al resultado final
 fue el último medido, a las 60 elecciones, por lo que no demuestra convergencia.
 Además, la configuración actual puede degradar un perfil declarado que ya sea
-preciso. La integración móvil está validada mediante pruebas automáticas, pero
-la comprobación de persistencia en un dispositivo, la evaluación longitudinal
-con rutas reales y el estudio con participantes permanecen pendientes.
+preciso. La integración móvil y la persistencia están validadas mediante
+pruebas automáticas y una comprobación funcional en Android Emulator, pero la
+evaluación longitudinal con elecciones reales y el estudio con participantes
+permanecen pendientes.
 
 ## Trabajo futuro
 
@@ -52,4 +64,5 @@ con rutas reales y el estudio con participantes permanecen pendientes.
 
 - [Limitaciones](../evaluation/limitaciones.md).
 - [Resultados](../evaluation/resultados.md).
+- [Interpretación de la transferencia del aprendizaje](../evaluation/evaluacion-aprendizaje-rutas-reales.md#interpretación-detallada-para-la-memoria-y-la-defensa).
 - [Journal](../journal.md).

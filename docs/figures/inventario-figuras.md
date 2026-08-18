@@ -1,7 +1,7 @@
 # Inventario de figuras y tablas
 
 Estado: `En implementación`  
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 | ID | Contenido | Capítulo | Estado | Archivo final |
 | --- | --- | --- | --- | --- |
@@ -14,6 +14,7 @@ Estado: `En implementación`
 | FIG-07 | Exactitud según elecciones observadas | Evaluación | Generada | `docs/figures/aprendizaje-exactitud.png` |
 | FIG-08 | Arrepentimiento acumulado según elecciones observadas | Evaluación | Generada | `docs/figures/aprendizaje-arrepentimiento.png` |
 | FIG-09 | Sensibilidad de umbrales GPS | Evaluación | Pendiente | — |
+| FIG-10 | Transferencia del aprendizaje a rutas ORS enriquecidas con OSM | Evaluación | Generada | `docs/figures/aprendizaje-rutas-reales.png` |
 
 ## Requisitos gráficos
 
@@ -27,6 +28,10 @@ Las figuras 7 y 8 comparten la misma escala horizontal, paleta y símbolos. Las
 líneas se distinguen mediante color y marcador, por lo que la lectura no depende
 solo del color. La zona sombreada de las tres primeras elecciones identifica el
 periodo de observación en el que el aprendizaje todavía no cambia el orden.
+
+La figura 10 conserva los mismos colores y marcadores conceptuales, pero usa un
+título explícito para que el resultado negativo pueda entenderse sin asumir que
+toda adaptación mejora necesariamente el sistema fijo.
 
 ## Fuente del flujo metodológico
 

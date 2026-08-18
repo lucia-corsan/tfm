@@ -1,7 +1,7 @@
 # 3. Metodología
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Diseño general
 
@@ -27,7 +27,10 @@ La validación funcional de la clasificación utiliza *fixtures* y rutas reales
 almacenadas en caché. El experimento específico del aprendizaje adaptativo
 compara la ruta más corta, la clasificación estática y la adaptativa mediante
 perfiles y costes sintéticos controlados. La repetición de ese experimento con
-costes procedentes de rutas ORS enriquecidas con OSM permanece pendiente.
+costes procedentes de rutas ORS enriquecidas con OSM se ejecuta por separado
+como `EXP-007`. En ella las rutas y los atributos son reales, pero las
+preferencias y elecciones continúan siendo simuladas; no se presenta como un
+estudio con participantes.
 
 ### Evaluación específica del aprendizaje
 
@@ -44,6 +47,26 @@ cuánto peor es el coste de una elección incorrecta. Se publican tanto resúmen
 como resultados por ejecución, incluidos los casos donde el modelo adaptativo
 empeora. Este diseño permite atribuir la diferencia al aprendizaje en el
 simulador, aunque no extrapolarla todavía a personas reales.
+
+### Transferencia a costes de rutas reales
+
+Antes de observar resultados se fijaron doce pares origen–destino dentro del
+área piloto: ocho destinados al aprendizaje y cuatro reservados. Todos se
+solicitaron con el mismo cliente ORS y una caché exclusiva, se enriquecieron con
+la misma instantánea OSM y el corredor de cinco metros, y se sometieron a las
+mismas restricciones. Solo los pares con al menos dos alternativas aceptadas
+podían producir una elección o una métrica.
+
+Se mantuvieron la configuración, los cuatro perfiles latentes, las 60
+elecciones, el 10 % de elecciones inconsistentes y las veinte semillas de la
+evaluación sintética. Ningún hiperparámetro se volvió a elegir después de ver
+las rutas. La división se hizo por pares completos, no repartiendo alternativas
+del mismo trayecto entre aprendizaje y evaluación.
+
+La publicación conserva costes derivados, disponibilidad y resultados, pero no
+coordenadas, geometrías, calles ni credenciales. Las veinte semillas comparten
+las mismas rutas: miden variación de orden y ruido simulado, no veinte muestras
+independientes del entorno.
 
 ## Reproducibilidad
 
@@ -120,4 +143,5 @@ el doble conteo y se puede comprobar explícitamente la monotonía.
 - [Plan de evaluación](../evaluation/plan-evaluacion.md).
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
+- [EXP-007 con rutas ORS y OSM](../evaluation/evaluacion-aprendizaje-rutas-reales.md).
 - [Entorno](../operations/entorno-desarrollo.md).

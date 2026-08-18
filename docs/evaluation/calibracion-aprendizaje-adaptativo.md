@@ -444,8 +444,10 @@ reales de cualquier persona ni que mejora la seguridad de un recorrido físico.
 
 ## Trabajo pendiente
 
-- [ ] Repetir el protocolo con costes observados en rutas ORS enriquecidas con
-  OSM.
+- [x] Repetir el protocolo como `EXP-007` con costes observados en rutas ORS
+  enriquecidas con OSM; la transferencia no se observó en el pequeño conjunto
+  apto y se documenta en
+  [la evaluación real-sintética](evaluacion-aprendizaje-rutas-reales.md).
 - [ ] Evaluar si una ventana temporal o un contexto por trayecto mejora cambios
   reales de preferencia.
 - [ ] Medir comprensibilidad y control con personas usuarias.

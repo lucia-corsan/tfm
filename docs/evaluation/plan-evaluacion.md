@@ -1,7 +1,7 @@
 # Plan de evaluación académica
 
 Estado: `Vigente`  
-Última actualización: 17 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Preguntas de evaluación
@@ -58,6 +58,9 @@ Responsabilidad principal: `evaluation`
   evaluación final. El perfil de continuidad peatonal no participa en la
   selección de parámetros.
 - Respuestas reales de ORS almacenadas en caché.
+- Para `EXP-007`: doce pares ORS fijados antes de la descarga, ocho para
+  aprendizaje y cuatro reservados. Tras restricciones, cuatro y tres pares,
+  respectivamente, conservaron al menos dos alternativas.
 - Recorridos GPS simulados y, si es viable, controlados físicamente.
 - Doce pares origen-destino fijos del área piloto para comparar la generación
   básica y la ampliada.
@@ -115,4 +118,5 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
   niveles de ruido.
 - [x] Evaluar `EXP-002` con 0 %, 25 %, 50 %, 75 % y 100 % de señal en el
   cuestionario inicial.
-- [ ] Repetir `EXP-002` con costes de rutas ORS enriquecidas con OSM.
+- [x] Repetir `EXP-002` como `EXP-007` con costes de rutas ORS enriquecidas con
+  OSM y conservar el resultado negativo de transferencia.
