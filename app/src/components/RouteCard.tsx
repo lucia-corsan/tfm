@@ -14,11 +14,18 @@ import {
 import { ES } from '../../i18n/es';
 
 interface RouteCardProps {
+  choosing?: boolean;
+  disabled?: boolean;
   onChoose: (route: ComparedRoute) => void;
   route: ComparedRoute;
 }
 
-export function RouteCard({ onChoose, route }: RouteCardProps) {
+export function RouteCard({
+  choosing = false,
+  disabled = false,
+  onChoose,
+  route,
+}: RouteCardProps) {
   const unknownWarnings = route.warnings.filter(
     (warning) => warning.state === 'unknown',
   );
@@ -136,7 +143,12 @@ export function RouteCard({ onChoose, route }: RouteCardProps) {
 
       <PrimaryButton
         accessibilityHint={ES.routeComparison.chooseRouteHint(route.name)}
-        label={ES.routeComparison.chooseRouteButton}
+        disabled={disabled}
+        label={
+          choosing
+            ? ES.routeComparison.choosingRouteButton
+            : ES.routeComparison.chooseRouteButton
+        }
         onPress={() => onChoose(route)}
       />
     </View>

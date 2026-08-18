@@ -7,6 +7,7 @@ import type {
   RouteCompareResponse,
 } from '@/api/types';
 import { RouteComparisonScreen } from '@/screens/RouteComparisonScreen';
+import type { PreferenceStorage } from '@/features/adaptive-preferences/storage';
 import { ES } from '../i18n/es';
 
 const weights = {
@@ -32,6 +33,22 @@ const contributions = {
   slope: 0.04,
   uncertainty: 0,
 };
+
+class MemoryPreferenceStorage implements PreferenceStorage {
+  readonly values = new Map<string, string>();
+
+  async getItem(key: string): Promise<string | null> {
+    return this.values.get(key) ?? null;
+  }
+
+  async removeItem(key: string): Promise<void> {
+    this.values.delete(key);
+  }
+
+  async setItem(key: string, value: string): Promise<void> {
+    this.values.set(key, value);
+  }
+}
 
 function route(
   routeId: string,
@@ -217,6 +234,56 @@ describe('<RouteComparisonScreen />', () => {
           rank: 2,
         }),
       }),
+    );
+  });
+
+  test('requires opt-in, records the explicit choice, and passes effective weights', async () => {
+    const storage = new MemoryPreferenceStorage();
+    const compare = jest.fn().mockResolvedValue(response());
+    const onChooseRoute = jest.fn();
+    const screen = await render(
+      <RouteComparisonScreen
+        compare={compare}
+        onChooseRoute={onChooseRoute}
+        preferenceStorage={storage}
+      />,
+    );
+    const user = userEvent.setup();
+    const learningSwitch = screen.getByRole('switch', {
+      name: ES.adaptivePreferences.switchLabel,
+    });
+
+    expect(learningSwitch.props.accessibilityState.checked).toBe(false);
+    await act(async () => {
+      fireEvent(learningSwitch, 'valueChange', true);
+    });
+    screen.getByText(ES.adaptivePreferences.observationStatus(0, 3));
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+    );
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({
+        effective_weights: expect.objectContaining({ distance: 1 / 9 }),
+        profile: expect.objectContaining({
+          declared_weights: expect.objectContaining({ distance: 1 }),
+        }),
+      }),
+    );
+    const chooseButtons = await screen.findAllByRole('button', {
+      name: ES.routeComparison.chooseRouteButton,
+    });
+    await user.press(chooseButtons[0]);
+
+    expect(onChooseRoute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        effective_weights: expect.objectContaining({ distance: 1 / 9 }),
+        learning_feedback: ES.adaptivePreferences.observationRecorded(1, 3),
+      }),
+    );
+    const serialized = [...storage.values.values()].join('');
+    expect(serialized).not.toMatch(
+      /latitude|longitude|geometry|instruction|address|audio|gps/i,
     );
   });
 

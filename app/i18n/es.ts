@@ -1,5 +1,52 @@
 export const ES = {
   appName: 'Rutas a tu medida',
+  adaptivePreferences: {
+    title: 'Personalización adaptativa',
+    description:
+      'Si la activas, la app observará qué ruta eliges entre las alternativas válidas y ajustará poco a poco la importancia de tus preferencias.',
+    switchLabel: 'Aprender de mis elecciones',
+    switchDescription:
+      'Está desactivado al principio. Puedes pausarlo o borrar lo aprendido cuando quieras.',
+    switchHint:
+      'Activa o pausa el aprendizaje local a partir de elecciones explícitas de ruta.',
+    loading: 'Cargando las preferencias guardadas en este dispositivo.',
+    disabledStatus:
+      'Aprendizaje desactivado. Tus elecciones no se registran ni cambian la recomendación.',
+    observationStatus: (count: number, total: number) =>
+      `Periodo inicial de observación: ${count} de ${total} elecciones. El orden todavía utiliza solo tus preferencias declaradas.`,
+    activeStatus: (count: number, influence: number) =>
+      `Personalización activa: ${count} elecciones observadas. Los pesos aprendidos aportan ahora un ${influence} % del cálculo gradual.`,
+    privacy:
+      'Se guarda localmente: costes de las alternativas, elección, pesos y día aproximado. No se guardan coordenadas, direcciones, audio ni trazas GPS.',
+    recoveredState:
+      'Se encontró un estado local incompatible o dañado y se restauraron las preferencias declaradas.',
+    resetButton: 'Reiniciar lo aprendido',
+    resetHint:
+      'Solicita confirmación para borrar las elecciones y recuperar los pesos iniciales.',
+    resetDialogTitle: '¿Reiniciar el aprendizaje?',
+    resetDialogDescription:
+      'Se borrarán las elecciones guardadas y los pesos aprendidos de este perfil. Tus preferencias declaradas no cambiarán.',
+    cancelResetButton: 'Cancelar',
+    confirmResetButton: 'Borrar lo aprendido',
+    observationRecorded: (count: number, total: number) =>
+      `Esta elección se ha guardado como observación ${count} de ${total}. Todavía no modifica el orden de las rutas.`,
+    influentialChoice: (
+      changes: { direction: 'more' | 'less'; label: string }[],
+    ) =>
+      `Esta elección ha actualizado la personalización. Ahora se da ${changes
+        .map((change) =>
+          change.direction === 'more'
+            ? `más importancia a ${change.label}`
+            : `menos importancia a ${change.label}`,
+        )
+        .join(' y ')}. Las restricciones críticas y los avisos no cambian.`,
+    noEffectiveChange:
+      'Esta elección se ha guardado, pero no ha producido un cambio apreciable en las preferencias efectivas.',
+    singleRouteNotice:
+      'Solo había una ruta válida. Puedes navegar con ella, pero no se ha usado como señal de aprendizaje porque no existía una alternativa comparable.',
+    storageError:
+      'No se ha podido acceder al aprendizaje local. La navegación sigue disponible y se mantienen las preferencias declaradas.',
+  },
   routeComparison: {
     eyebrow: 'MVP · Madrid',
     title: 'Compara rutas para caminar según tus preferencias',
@@ -83,6 +130,7 @@ export const ES = {
     noUnfavorableEvidence:
       'No se ha encontrado evidencia desfavorable con los datos disponibles.',
     chooseRouteButton: 'Elegir esta ruta',
+    choosingRouteButton: 'Guardando la elección…',
     chooseRouteHint: (routeName: string) =>
       `Abre la navegación manual de ${routeName}.`,
     rejectedTitle: 'Alternativas descartadas',

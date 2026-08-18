@@ -33,6 +33,38 @@ describe('route comparison state', () => {
     expect(result.current.state.status).toBe('success');
   });
 
+  test('sends effective weights separately from the declared profile', async () => {
+    const compare = jest.fn().mockResolvedValue(successfulResponse());
+    const { result } = await renderHook(() => useRouteComparison(compare));
+    const effectiveWeights = {
+      distance: 1,
+      complex_crossings: 0,
+      crossing_support: 0,
+      sidewalk_evidence: 0,
+      steps: 0,
+      surface: 0,
+      orientation_complexity: 0,
+      slope: 0,
+      uncertainty: 0,
+    };
+
+    await act(async () => {
+      await result.current.compareSelectedProfile(effectiveWeights);
+    });
+
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({
+        effective_weights: effectiveWeights,
+        profile: expect.objectContaining({
+          declared_weights: expect.objectContaining({
+            distance: 1,
+            complex_crossings: 1,
+          }),
+        }),
+      }),
+    );
+  });
+
   test('clears an old result when the profile changes', async () => {
     const compare = jest.fn().mockResolvedValue(successfulResponse());
     const { result } = await renderHook(() => useRouteComparison(compare));

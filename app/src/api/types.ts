@@ -85,12 +85,14 @@ export interface RouteCompareRequest {
   origin: GeoPoint;
   destination: GeoPoint;
   profile: MobilityProfile;
+  effective_weights?: PreferenceWeights;
 }
 
 export interface RouteRerouteRequest {
   current_position: GeoPoint;
   destination: GeoPoint;
   profile: MobilityProfile;
+  effective_weights?: PreferenceWeights;
 }
 
 export type RouteCategory =
@@ -198,6 +200,8 @@ export interface RouteCompareResponse {
 
 export interface NavigationSession {
   destination: GeoPoint;
+  effective_weights?: PreferenceWeights;
+  learning_feedback?: string | null;
   profile: MobilityProfile;
   route: ComparedRoute;
 }

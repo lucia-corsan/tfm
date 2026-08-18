@@ -4,6 +4,7 @@ import { compareRoutes, RouteApiError } from '@/api/client';
 import type { RouteApiErrorCode } from '@/api/client';
 import type {
   PlaceResult,
+  PreferenceWeights,
   RouteCompareRequest,
   RouteCompareResponse,
 } from '@/api/types';
@@ -30,7 +31,7 @@ export type ComparisonState =
 
 interface RouteComparisonController {
   canCompare: boolean;
-  compareSelectedProfile: () => Promise<void>;
+  compareSelectedProfile: (effectiveWeights?: PreferenceWeights) => Promise<void>;
   destination: PlaceResult;
   origin: PlaceResult;
   selectDestination: (place: PlaceResult) => void;
@@ -72,7 +73,9 @@ export function useRouteComparison(
     resetComparison();
   }, [resetComparison]);
 
-  const compareSelectedProfile = useCallback(async () => {
+  const compareSelectedProfile = useCallback(async (
+    effectiveWeights?: PreferenceWeights,
+  ) => {
     if (!canCompare) {
       return;
     }
@@ -85,6 +88,7 @@ export function useRouteComparison(
         selectedProfileId,
         origin.location,
         destination.location,
+        effectiveWeights,
       );
       const response = await compare(request);
       if (requestVersion.current === currentVersion) {

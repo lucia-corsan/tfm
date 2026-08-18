@@ -1,7 +1,9 @@
+import { useRef, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { AdaptivePreferencesPanel } from '@/components/AdaptivePreferencesPanel';
 import { AccessibleText } from '@/components/AccessibleText';
 import {
   PlaceSearchField,
@@ -11,16 +13,22 @@ import { ProfileOption } from '@/components/ProfileOption';
 import { RejectedRouteCard } from '@/components/RejectedRouteCard';
 import { RouteCard } from '@/components/RouteCard';
 import type { DemoProfileId } from '@/features/route-comparison/profiles';
-import type { NavigationSession } from '@/api/types';
+import type { ComparedRoute, NavigationSession } from '@/api/types';
+import { useAdaptivePreferences } from '@/features/adaptive-preferences/useAdaptivePreferences';
+import { describeAdaptiveChoice } from '@/features/adaptive-preferences/presentation';
+import type { PreferenceStorage } from '@/features/adaptive-preferences/storage';
+import { sqlitePreferenceStorage } from '@/features/adaptive-preferences/sqliteStorage';
 import {
   type CompareRoutesFunction,
   useRouteComparison,
 } from '@/features/route-comparison/useRouteComparison';
+import { DEMO_PROFILES } from '@/features/route-comparison/profiles';
 import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
   onChooseRoute?: (session: NavigationSession) => void;
+  preferenceStorage?: PreferenceStorage;
   search?: SearchPlacesFunction;
 }
 
@@ -32,10 +40,47 @@ const PROFILE_IDS: DemoProfileId[] = [
 export function RouteComparisonScreen({
   compare,
   onChooseRoute = () => undefined,
+  preferenceStorage = sqlitePreferenceStorage,
   search,
 }: RouteComparisonScreenProps) {
   const controller = useRouteComparison(compare);
   const { state } = controller;
+  const [choosingRouteId, setChoosingRouteId] = useState<string | null>(null);
+  const choiceInProgress = useRef(false);
+  const selectedProfile = DEMO_PROFILES[controller.selectedProfileId];
+  const adaptive = useAdaptivePreferences(
+    controller.selectedProfileId,
+    selectedProfile.declared_weights,
+    preferenceStorage,
+  );
+
+  const chooseRoute = async (route: ComparedRoute) => {
+    if (state.status !== 'success' || choiceInProgress.current) {
+      return;
+    }
+    choiceInProgress.current = true;
+    setChoosingRouteId(route.route_id);
+    const result = await adaptive.recordChoice(state.response, route.route_id);
+    const effectiveWeights =
+      result.kind === 'updated'
+        ? result.update.updatedState.effectiveWeights
+        : adaptive.learningState.effectiveWeights;
+    const session: NavigationSession = {
+      destination: { ...state.request.destination },
+      effective_weights: { ...effectiveWeights },
+      learning_feedback: describeAdaptiveChoice(result),
+      profile: {
+        ...state.request.profile,
+        declared_weights: {
+          ...state.request.profile.declared_weights,
+        },
+      },
+      route,
+    };
+    choiceInProgress.current = false;
+    setChoosingRouteId(null);
+    onChooseRoute(session);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -104,15 +149,31 @@ export function RouteComparisonScreen({
           })}
         </View>
 
+        <AdaptivePreferencesPanel
+          learningState={adaptive.learningState}
+          onReset={adaptive.reset}
+          onSetEnabled={adaptive.setEnabled}
+          recoveredFromInvalidData={adaptive.recoveredFromInvalidData}
+          status={adaptive.status}
+        />
+
         <PrimaryButton
           accessibilityHint={ES.routeComparison.compareHint}
-          disabled={state.status === 'loading' || !controller.canCompare}
+          disabled={
+            state.status === 'loading' ||
+            adaptive.status === 'loading' ||
+            !controller.canCompare
+          }
           label={
             state.status === 'loading'
               ? ES.routeComparison.loadingButton
               : ES.routeComparison.compareButton
           }
-          onPress={() => void controller.compareSelectedProfile()}
+          onPress={() =>
+            void controller.compareSelectedProfile(
+              adaptive.learningState.effectiveWeights,
+            )
+          }
         />
 
         {state.status === 'idle' && (
@@ -159,7 +220,11 @@ export function RouteComparisonScreen({
             <PrimaryButton
               accessibilityHint={ES.routeComparison.retryHint}
               label={ES.routeComparison.retryButton}
-              onPress={() => void controller.compareSelectedProfile()}
+              onPress={() =>
+                void controller.compareSelectedProfile(
+                  adaptive.learningState.effectiveWeights,
+                )
+              }
             />
           </View>
         )}
@@ -187,19 +252,10 @@ export function RouteComparisonScreen({
             </AccessibleText>
             {state.response.routes.map((route) => (
               <RouteCard
+                choosing={choosingRouteId === route.route_id}
+                disabled={choosingRouteId !== null}
                 key={route.route_id}
-                onChoose={(selectedRoute) =>
-                  onChooseRoute({
-                    destination: { ...state.request.destination },
-                    profile: {
-                      ...state.request.profile,
-                      declared_weights: {
-                        ...state.request.profile.declared_weights,
-                      },
-                    },
-                    route: selectedRoute,
-                  })
-                }
+                onChoose={(selectedRoute) => void chooseRoute(selectedRoute)}
                 route={route}
               />
             ))}

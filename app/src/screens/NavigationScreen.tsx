@@ -91,6 +91,9 @@ export function NavigationScreen({
     const replacement = await rerouting.recalculate({
       current_position: currentPosition,
       destination: session.destination,
+      ...(session.effective_weights
+        ? { effective_weights: session.effective_weights }
+        : {}),
       profile: session.profile,
     });
     if (!screenMounted.current) {
@@ -125,6 +128,16 @@ export function NavigationScreen({
         <AccessibleText style={styles.manualNotice}>
           {ES.navigation.manualMode}
         </AccessibleText>
+
+        {session.learning_feedback && (
+          <AccessibleText
+            accessibilityLiveRegion="polite"
+            accessibilityRole="alert"
+            style={styles.learningFeedback}
+          >
+            {session.learning_feedback}
+          </AccessibleText>
+        )}
 
         <View style={styles.gpsCard}>
           <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
@@ -383,6 +396,17 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: '800',
     lineHeight: 31,
+  },
+  learningFeedback: {
+    backgroundColor: '#E7F4EE',
+    borderColor: '#69B693',
+    borderRadius: 14,
+    borderWidth: 1,
+    color: '#174B34',
+    fontSize: 15,
+    lineHeight: 22,
+    overflow: 'hidden',
+    padding: 14,
   },
   manualNotice: {
     backgroundColor: '#ECE8FA',

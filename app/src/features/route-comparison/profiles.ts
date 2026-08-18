@@ -68,6 +68,7 @@ export function buildPilotComparisonRequest(
   profileId: DemoProfileId,
   origin: GeoPoint = PILOT_ORIGIN_PLACE.location,
   destination: GeoPoint = PILOT_DESTINATION_PLACE.location,
+  effectiveWeights?: PreferenceWeights,
 ): RouteCompareRequest {
   return {
     origin: { ...origin },
@@ -76,5 +77,8 @@ export function buildPilotComparisonRequest(
       ...DEMO_PROFILES[profileId],
       declared_weights: { ...DEMO_PROFILES[profileId].declared_weights },
     },
+    ...(effectiveWeights
+      ? { effective_weights: { ...effectiveWeights } }
+      : {}),
   };
 }

@@ -171,6 +171,8 @@ const route: ComparedRoute = {
 
 const session: NavigationSession = {
   destination: { latitude: 40.4211, longitude: -3.7206 },
+  effective_weights: { ...weights, distance: 0.2, complex_crossings: 1 / 45 },
+  learning_feedback: 'Esta elección se ha guardado como observación.',
   profile: {
     profile_id: 'balanced_demo',
     avoid_steps: true,
@@ -382,6 +384,7 @@ describe('<NavigationScreen />', () => {
     expect(reroute).toHaveBeenCalledWith({
       current_position: { latitude: 40.43, longitude: -3.71 },
       destination: session.destination,
+      effective_weights: session.effective_weights,
       profile: session.profile,
     });
     screen.getByText('Comienza la nueva ruta desde tu posición actual.');
