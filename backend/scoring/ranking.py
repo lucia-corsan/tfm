@@ -1,8 +1,9 @@
 """Deterministic profile-aware ranking for route alternatives."""
 
 from collections.abc import Sequence
+from typing import Optional
 
-from backend.domain import MobilityProfile, RouteCandidate
+from backend.domain import MobilityProfile, PreferenceWeights, RouteCandidate
 from backend.scoring.constraints import evaluate_constraints
 from backend.scoring.explanations import build_route_reasons, build_route_warnings
 from backend.scoring.models import RankedRoute, RejectedRoute, RouteRanking, RouteScore
@@ -12,12 +13,15 @@ from backend.scoring.scorer import score_route
 def rank_routes(
     profile: MobilityProfile,
     routes: Sequence[RouteCandidate],
+    effective_weights: Optional[PreferenceWeights] = None,
 ) -> RouteRanking:
     """Apply critical constraints and rank accepted routes reproducibly.
 
     Args:
         profile: Critical restrictions and gradual preferences to apply.
         routes: One to three validated candidate alternatives.
+        effective_weights: Optional adapted weights for gradual ranking only.
+            Critical constraints always continue to use the profile itself.
 
     Returns:
         Accepted ranked routes and separately rejected candidates.
@@ -29,7 +33,7 @@ def rank_routes(
     for route in routes:
         constraint_result = evaluate_constraints(profile, route)
         if constraint_result.accepted:
-            accepted.append((route, score_route(profile, route)))
+            accepted.append((route, score_route(profile, route, effective_weights)))
         else:
             rejected.append(
                 RejectedRoute(route_id=route.route_id, violations=constraint_result.violations)

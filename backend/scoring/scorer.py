@@ -1,14 +1,19 @@
 """Explainable adequacy, confidence, and uncertainty calculations."""
 
 from statistics import fmean
+from typing import Optional
 
-from backend.domain import EvidenceState, MobilityProfile, RouteCandidate
+from backend.domain import EvidenceState, MobilityProfile, PreferenceWeights, RouteCandidate
 from backend.scoring.costs import compute_route_costs
 from backend.scoring.models import RouteCosts, RouteScore
 from backend.scoring.normalization import normalize_weights
 
 
-def score_route(profile: MobilityProfile, route: RouteCandidate) -> RouteScore:
+def score_route(
+    profile: MobilityProfile,
+    route: RouteCandidate,
+    effective_weights: Optional[PreferenceWeights] = None,
+) -> RouteScore:
     """Score gradual route adequacy and evidence quality for one profile.
 
     Critical constraints are intentionally evaluated outside this function. This
@@ -18,12 +23,14 @@ def score_route(profile: MobilityProfile, route: RouteCandidate) -> RouteScore:
     Args:
         profile: Declared gradual preferences and separate critical restrictions.
         route: Validated candidate route with explicit evidence.
+        effective_weights: Optional explicit weights after local adaptation. If
+            omitted, the profile's declared preferences are used.
 
     Returns:
         Adequacy inputs, confidence, and uncertainty for the candidate.
     """
 
-    normalized_weights = normalize_weights(profile.declared_weights)
+    normalized_weights = normalize_weights(effective_weights or profile.declared_weights)
     costs = compute_route_costs(route)
     weight_values = normalized_weights.model_dump()
     cost_values = costs.model_dump()
