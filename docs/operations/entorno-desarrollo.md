@@ -96,9 +96,9 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 261 pruebas superadas, incluidas las restricciones,
+- Backend: Ruff correcto y 265 pruebas superadas, incluidas las restricciones,
   la puntuación, el aprendizaje adaptativo y su evaluación reproducible.
-- App: 105 pruebas Jest, ESLint y TypeScript correctos. Expo Doctor quedó
+- App: 126 pruebas Jest en veintiún grupos, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Bundle Android generado.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación

@@ -478,8 +478,8 @@ estáticos y separó cada texto relevante como parada de lectura. La declaració
 `es-ES` ayuda a escoger el idioma, aunque la voz concreta sigue dependiendo de
 la configuración de Android.
 
-La integración actual mantiene 261 pruebas de backend y 105 pruebas de la
-aplicación distribuidas en dieciséis grupos. Los casos nuevos cubren la
+La integración actual mantiene 265 pruebas de backend y 126 pruebas de la
+aplicación distribuidas en veintiún grupos. Los casos específicos de voz cubren la
 configuración inicial, los cuatro multiplicadores, el idioma, la interrupción,
 los eventos del motor, el cambio de instrucción, el cierre de la pantalla y la
 activación o desactivación dinámica del lector. Ruff, TypeScript y ESLint

@@ -32,11 +32,12 @@ El día 1 de la semana 4 incorpora y valida:
 - una calibración sintética separada de la evaluación final;
 - una comparación con la ruta más corta y los pesos declarados fijos.
 
-Todavía no se presenta como completada la integración móvil. La persistencia en
-SQLite, el registro de «Elegir esta ruta», la pantalla para desactivar o
-restablecer el aprendizaje y la explicación visual de los cambios corresponden
-al siguiente incremento. Esta separación permite validar primero el núcleo de
-IA sin mezclar errores de interfaz o almacenamiento.
+En este primer incremento todavía no se presentó como completada la integración
+móvil. La persistencia en SQLite, el registro de «Elegir esta ruta», la pantalla
+para desactivar o restablecer el aprendizaje y la explicación de los cambios se
+abordaron después, una vez validado el núcleo sin mezclar errores de interfaz o
+almacenamiento. El resultado se documenta en la
+[integración móvil](integracion-aprendizaje-adaptativo-app.md).
 
 ## Requisitos
 
@@ -296,8 +297,8 @@ No se aprende de rutas que el sistema había descartado ni de una pantalla con
 una sola ruta aceptada, porque en ninguno de esos casos existe una comparación
 válida. `build_pairwise_choice` construye la entrada desde el resultado
 completo de una clasificación ya filtrada y rechaza un identificador elegido
-que no pertenezca a sus rutas aceptadas. La futura interfaz móvil deberá usar
-esta vía y conservar el identificador de la comparación realmente mostrada.
+que no pertenezca a sus rutas aceptadas. La interfaz móvil usa esta misma vía y
+conserva la respuesta realmente mostrada como única fuente de la observación.
 
 ### Salida
 
@@ -333,11 +334,11 @@ logística se calcula de forma numéricamente estable para evitar desbordamiento
 ### Estado real de implementación
 
 El núcleo de aprendizaje, su conexión opcional con la clasificación, sus
-pruebas y el experimento `EXP-002` están implementados. La clasificación usada
-por la API sigue recibiendo pesos declarados hasta que la app almacene y envíe
-los efectivos en el siguiente incremento. Esta cautela evita afirmar que una
-funcionalidad ya está disponible para la persona usuaria cuando todavía solo
-está validada en el núcleo de dominio.
+pruebas y el experimento `EXP-002` están implementados. La aplicación almacena
+localmente el estado y envía los pesos efectivos a la API en un campo separado
+de los declarados. El backend conserva el filtro crítico anterior a la
+clasificación. La comprobación automática de esta integración no sustituye la
+evaluación con participantes.
 
 ## Pruebas
 
@@ -442,9 +443,9 @@ activación, la desactivación y el reinicio como controles explícitos.
 - [x] Implementar actualización, límites, desactivación y reinicio.
 - [x] Crear perfiles sintéticos y sistemas de referencia.
 - [x] Medir exactitud, arrepentimiento, estabilidad y robustez al ruido.
-- [ ] Persistir el estado en SQLite dentro del dispositivo.
-- [ ] Conectar «Elegir esta ruta» con una comparación local válida.
-- [ ] Permitir activar el aprendizaje de forma explícita y mostrar y anunciar
+- [x] Persistir el estado en SQLite dentro del dispositivo.
+- [x] Conectar «Elegir esta ruta» con una comparación local válida.
+- [x] Permitir activar el aprendizaje de forma explícita y mostrar y anunciar
   sus cambios de preferencia de forma comprensible.
 - [ ] Repetir la evaluación con costes de rutas ORS enriquecidas con OSM.
 - [ ] Calibrar una activación que proteja perfiles iniciales ya precisos.

@@ -285,14 +285,12 @@ La especificación completa de cada transición, incluidos el rechazo, los fallo
 y el periodo de estabilización, se conserva en
 [GPS en primer plano y rerouting confirmado](../product/gps-rerouting.md).
 
-En el incremento actual, el perfil seleccionado se conserva únicamente durante
-la sesión mediante el estado del componente y se incluye en cada petición. El
-backend calcula el ranking sin almacenar usuarios ni preferencias. El núcleo de
-aprendizaje ya se ha implementado y validado en Python, pero su persistencia en
-SQLite y su conexión con la acción móvil «Elegir esta ruta» pertenecen al
-siguiente incremento. Se descartó una base remota porque exigiría cuentas,
-sincronización y una superficie de privacidad innecesarias para el experimento
-del TFM.
+El perfil seleccionado se conserva durante la sesión y se incluye en cada
+petición. El backend calcula el ranking sin almacenar usuarios ni preferencias.
+El estado adaptativo, en cambio, se conserva por perfil en SQLite dentro del
+dispositivo y se conecta con la acción «Elegir esta ruta». Se descartó una base
+remota porque exigiría cuentas, sincronización y una superficie de privacidad
+innecesarias para el experimento del TFM.
 
 ### Estados y accesibilidad
 
@@ -326,10 +324,11 @@ Se conservan tres capas de pesos:
 3. Los efectivos, que permanecen iguales a los declarados durante tres
    elecciones y después incorporan hasta un 50 % de los aprendidos.
 
-El estado nuevo se crea desactivado. Esta decisión obliga a solicitar una
-activación explícita en la futura interfaz móvil; el simulador sí lo activa de
+El estado nuevo se crea desactivado. La interfaz móvil solicita una activación
+explícita mediante un interruptor accesible; el simulador también lo activa de
 forma expresa para poder medir el algoritmo. Desactivar conserva lo aprendido
-sin aplicarlo y reiniciar elimina las observaciones.
+sin aplicarlo y reiniciar solicita confirmación antes de eliminar las
+observaciones.
 
 La clasificación existente acepta de forma opcional los pesos efectivos, pero
 mantiene las restricciones críticas ligadas al perfil original. Esta frontera
@@ -346,6 +345,36 @@ la memoria pueden reconstruirse sin depender de una sesión interactiva ni de un
 servicio externo. La formulación completa se encuentra en
 [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md) y el protocolo,
 en [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
+
+### Integración local del ciclo adaptativo
+
+La traducción TypeScript reproduce las mismas nueve dimensiones y operaciones
+que la referencia Python. No se dio por correcta solo por parecer equivalente:
+un caso dorado compartido fija la entrada, cuatro elecciones sucesivas y todas
+las salidas relevantes. Las dos plataformas coinciden hasta doce decimales.
+
+La persistencia utiliza el almacén clave-valor de Expo respaldado por SQLite. Un
+único valor versionado por perfil contiene el estado y, como máximo, las 200
+observaciones más recientes. La escritura conjunta evita desajustes entre el
+contador y el historial. Al cargar, se comprueban versión, perfil,
+configuración, no negatividad y suma de los pesos. Si el contenido es
+incompatible o está dañado, se elimina y se recuperan las preferencias
+declaradas; la comparación y la navegación siguen disponibles en modo fijo.
+
+La app solo construye una observación desde la respuesta aceptada que se mostró
+en pantalla. Una ruta descartada no puede ser seleccionada por identificador y,
+si solo queda una ruta válida, se permite navegar pero no se inventa una señal
+comparativa. Tras guardar la actualización, la sesión de navegación conserva
+los pesos efectivos para que un posible recálculo aplique el mismo estado. La
+explicación comunica si la elección sigue en observación o qué dos dimensiones
+han cambiado más, y recuerda que las restricciones y los avisos permanecen.
+
+Se almacenan costes, identificadores técnicos, pesos, día aproximado y estado
+anterior y posterior. No se almacenan origen, destino, posición GPS, nombres de
+calles, geometrías, instrucciones ni audio. SQLite no está cifrado en este MVP;
+la reducción de datos limita el impacto, mientras que SQLCipher se descartó por
+requerir compilación nativa y gestión de claves sin aportar valor al experimento
+actual.
 
 ## Datos y servicios
 
@@ -405,7 +434,7 @@ en vez de introducir un almacenamiento temporal que después deba migrarse.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 261 pruebas superadas y la aplicación alcanza 105 pruebas en dieciséis
+mantiene 265 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
@@ -435,3 +464,4 @@ implementación final y enlazar evidencias.
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
+- [Integración móvil del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).

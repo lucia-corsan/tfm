@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Propósito
 
@@ -37,6 +37,7 @@ esperadas por `AGENTS.md`.
 - [Modelo de dominio de accesibilidad](research/modelo-dominio-accesibilidad.md).
 - [Scoring explicable](research/scoring-explicable.md).
 - [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md).
+- [Integración del aprendizaje adaptativo en la aplicación](research/integracion-aprendizaje-adaptativo-app.md).
 - [Función de ORS, OSM y Mapillary](research/fuentes-ors-osm-mapillary.md).
 - [Integración de OpenRouteService](research/integracion-openrouteservice.md).
 - [Preparación de OSM para rutas](research/preparacion-osm-para-rutas.md).

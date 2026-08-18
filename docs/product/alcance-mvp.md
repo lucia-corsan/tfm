@@ -531,9 +531,10 @@ SQLite guardará únicamente:
 
 No se almacenarán audio, direcciones textuales ni coordenadas exactas.
 
-La formulación, la configuración calibrada y la separación entre núcleo ya
-validado e integración móvil pendiente se documentan en
-[Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md). `EXP-002`
+La formulación y la configuración calibrada se documentan en
+[Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md), y su conexión
+local con la app, en la
+[integración móvil](../research/integracion-aprendizaje-adaptativo-app.md). `EXP-002`
 compara el modelo con la ruta más corta y los pesos fijos mediante semillas no
 usadas para seleccionar sus parámetros.
 

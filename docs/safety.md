@@ -28,6 +28,12 @@
 - El aprendizaje y el rerouting aplican las mismas restricciones críticas; el
   recálculo no crea una excepción de seguridad.
 - No se registran tokens, audio ni coordenadas de navegación.
+- El estado adaptativo se guarda únicamente en el dispositivo. Contiene costes,
+  identificadores técnicos de las alternativas, pesos, día aproximado y
+  contador; excluye coordenadas, direcciones, geometrías e instrucciones.
+- Un estado adaptativo dañado, incompatible o perteneciente a otra versión se
+  descarta y restaura los pesos declarados. El fallo del almacenamiento no
+  impide comparar o navegar con el modo fijo.
 - Las posiciones GPS se mantienen únicamente en memoria durante la pantalla de
   navegación y se descartan al eliminar el observador.
 - El permiso de ubicación no se solicita hasta que la persona activa el GPS

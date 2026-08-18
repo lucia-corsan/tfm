@@ -2,7 +2,7 @@
 
 Estado: `En implementación`
 
-Última actualización: 17 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 
 Responsabilidad principal: `product`
 
@@ -83,6 +83,13 @@ La petición recibirá:
 - `origin`: latitud y longitud WGS84.
 - `destination`: latitud y longitud WGS84, distinta del origen.
 - `profile`: restricciones críticas y pesos declarados.
+- `effective_weights`, opcional: mezcla normalizada vigente entre pesos
+  declarados y aprendidos. Su ausencia mantiene el comportamiento estático.
+
+Los pesos efectivos no sustituyen ningún campo del perfil. El servicio evalúa
+primero sus restricciones críticas y solo utiliza la mezcla opcional al ordenar
+las rutas admitidas. Esta separación permite saber qué declaró la persona, qué
+infirió el modelo y qué valores intervinieron finalmente en la puntuación.
 
 El proveedor no se selecciona desde la aplicación. La configuración del
 backend decide entre `fixture` y ORS enriquecido. Así se evita que una
@@ -141,6 +148,8 @@ La petición recibe exclusivamente después de una confirmación explícita:
 - `current_position`: última posición fiable mantenida en memoria;
 - `destination`: destino original de la navegación;
 - `profile`: perfil completo, incluidas restricciones críticas y preferencias.
+- `effective_weights`, opcional: la misma mezcla utilizada durante la
+  comparación y conservada en la sesión local de navegación.
 
 La ruta anterior no necesita enviarse para volver a puntuar. El servicio trata
 la posición confirmada como nuevo origen y reutiliza la misma generación,
@@ -180,6 +189,9 @@ determinista, límites, ausencia de resultados y respuestas públicas validadas.
 Las instrucciones deben estar ordenadas, referenciar puntos existentes y
 coincidir con la geometría expuesta; estas reglas se repiten en la validación
 móvil.
+También verifican que los pesos declarados y efectivos permanezcan separados en
+comparación y recálculo, y que ni siquiera unos pesos efectivos extremos puedan
+readmitir una ruta eliminada por una restricción crítica.
 
 ## Resultados
 
@@ -188,7 +200,7 @@ móvil.
 correctamente en las pruebas. El perfil
 predeterminado devuelve dos rutas aceptadas y una
 descartada; un perfil centrado en cruces modifica el primer puesto. La suite del
-backend alcanza actualmente 261 pruebas. La validación manual en la documentación interactiva
+backend alcanza actualmente 265 pruebas. La validación manual en la documentación interactiva
 de FastAPI confirmó ambos comportamientos: el perfil equilibrado mantiene la
 alternativa equilibrada en primer lugar y, al asignar todo el peso a los cruces
 complejos, la alternativa con cruces más sencillos pasa al primer puesto. La

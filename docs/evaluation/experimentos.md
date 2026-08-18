@@ -1,7 +1,7 @@
 # Registro de experimentos
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026
+Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Convención
@@ -18,6 +18,7 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-003 | 16 de agosto de 2026 | ¿Qué umbral espacial equilibra detección y falsas alertas? | 13 secuencias GPS sintéticas | 30 m iniciales sin calibración | Validación sintética superada | `docs/evaluation/calibracion-detector-desviacion.md` |
 | VAL-001 | 16 de agosto de 2026 | ¿El rerouting conserva una navegación útil ante aceptación, rechazo y fallo? | Android Emulator, ORS y GPS simulado | Ruta previa sin recálculo | Validación funcional superada | `docs/evaluation/resultados.md` |
 | VAL-002 | 17 de agosto de 2026 | ¿La voz de la app respeta la velocidad elegida sin interferir con TalkBack? | Pruebas automáticas y Android Emulator | Voz normal y manual | Validación automática y auditiva superada | `app/__tests__/useInstructionSpeech.test.tsx` |
+| VAL-003 | 18 de agosto de 2026 | ¿La app aplica y conserva el aprendizaje sin alterar restricciones ni guardar ubicación? | Caso dorado, pruebas de integración y Android Emulator | Pesos declarados fijos | Validación automática y funcional superada | `docs/research/integracion-aprendizaje-adaptativo-app.md` |
 | EXP-004 | 10 de agosto de 2026 | ORS devuelve rutas base válidas y reutiliza la caché | Corredor piloto | Primera ejecución con red | Validación técnica superada | `backend/routing/check_ors.py` |
 | EXP-005A | 10 de agosto de 2026 | ¿Qué umbrales separan repeticiones de rutas distintas? | 10 pares sintéticos etiquetados | Hipótesis inicial: 10 m, 85 % y 5 % | Validación técnica superada | `docs/evaluation/calibracion-deduplicacion-espacial.md` |
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
@@ -148,6 +149,36 @@ cambia, se crea una nueva versión y se enlaza la anterior.
   `app/__tests__/useInstructionSpeech.test.tsx`,
   `app/__tests__/useScreenReaderStatus.test.tsx` y
   `app/__tests__/NavigationScreen.test.tsx`.
+
+### VAL-003 — Integración local del aprendizaje adaptativo
+
+- Fecha y versión del código: 18 de agosto de 2026, semana 4, día 2.
+- Pregunta: ¿la aplicación puede aplicar la fórmula evaluada, conservar el
+  estado local y enviar pesos efectivos sin permitir que cambien las
+  restricciones críticas?
+- Datos: caso dorado compartido Python–TypeScript, respuestas sintéticas de dos
+  rutas aceptadas y estados SQLite simulados válidos, dañados e incompatibles.
+- Sistema de referencia: comparación con pesos declarados fijos y referencia
+  matemática Python.
+- Criterios de éxito: paridad numérica; tres elecciones sin influencia; pesos
+  no negativos y normalizados; exclusión de rutas descartadas; recuperación de
+  estado; ausencia de ubicación en el registro; consentimiento y reinicio
+  accesibles.
+- Resultado: paridad hasta doce decimales; pesos válidos tras 500
+  actualizaciones; estado recuperado después de recrear el controlador; dato
+  dañado restaurado al perfil declarado; rutas críticas siempre descartadas.
+  La suite completa obtuvo 265 pruebas de backend y 126 de app, con análisis
+  estáticos correctos.
+- Comprobación funcional: en Android Emulator el estado sobrevivió al cierre y
+  reapertura; observación, cuarta elección influyente, pausa, reactivación,
+  cancelación y confirmación del reinicio funcionaron como estaba previsto. El
+  recorrido con TalkBack no presentó incidencias notificadas.
+- Interpretación: se valida la coherencia técnica y funcional del ciclo local
+  desde la elección hasta la siguiente comparación y el recálculo. No se valida
+  aún su utilidad o comprensibilidad con participantes de la población objetivo.
+- Evidencias: [Integración del aprendizaje adaptativo en la app](../research/integracion-aprendizaje-adaptativo-app.md),
+  `tests/feedback/test_mobile_parity.py` y pruebas `adaptivePreferences*` de la
+  aplicación.
 
 ### EXP-004 — Descarga y reutilización de rutas base ORS
 

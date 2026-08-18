@@ -14,6 +14,8 @@ Aplicación Android
     ├── presentación accesible
     ├── estado local de comparación
     ├── selección explícita de ruta
+    ├── aprendizaje adaptativo local y consentido
+    ├── persistencia SQLite por perfil
     ├── navegación por instrucciones y GPS en primer plano
     ├── sesión local con ruta, destino y perfil
     ├── confirmación y estado de rerouting
@@ -142,15 +144,16 @@ Los pesos representan importancia relativa, no seguridad. Las restricciones
 críticas (`avoid_steps`, acceso peatonal y compatibilidad de cruces) se modelan
 por separado y no podrán ser modificadas por el aprendizaje posterior.
 
-Actualmente, la selección del perfil solo permanece en memoria durante la
-sesión móvil y el backend no almacena preferencias. La fase de aprendizaje
-añadirá SQLite como base de datos local del dispositivo para los pesos
-declarados y aprendidos. No se prevé una base de datos remota ni una cuenta de
-usuario: cada petición seguirá incluyendo el perfil activo y el backend
-continuará sin estado respecto a la identidad de la persona.
+La selección del perfil se mantiene durante la sesión móvil y el backend no
+almacena preferencias. El aprendizaje utiliza SQLite como base de datos local
+del dispositivo para el estado de los pesos y un historial acotado de
+elecciones. No existe una base de datos remota ni una cuenta de usuario: cada
+petición incluye el perfil activo y los pesos efectivos, mientras el backend
+continúa sin estado respecto a la identidad de la persona.
 
-El núcleo de aprendizaje ya está implementado en `backend/feedback`, aunque su
-persistencia móvil continúa pendiente. Conserva tres vectores distintos: el
+El núcleo de aprendizaje de referencia está implementado en
+`backend/feedback` y su versión móvil equivalente, en
+`app/src/features/adaptive-preferences`. Conserva tres vectores distintos: el
 declarado, que no se sobrescribe; el aprendido, que resume las elecciones; y el
 efectivo, que mezcla ambos con una influencia aprendida máxima del 50 %. La
 clasificación acepta este último como argumento explícito y opcional. El estado
@@ -158,16 +161,19 @@ se inicializa desactivado y solo podrá influir tras una activación explícita.
 perfil efímero empleado para puntuar no modifica las restricciones: `rank_routes`
 ejecuta siempre `evaluate_constraints` antes de aplicar cualquier peso. De este
 modo se evita que el componente estadístico readmita una ruta incompatible.
-El constructor `build_pairwise_choice` recibe la clasificación ya filtrada y
-solo genera comparaciones entre sus rutas aceptadas. La integración móvil deberá
-vincular la acción explícita con esa misma comparación mostrada, en lugar de
-aceptar identificadores o costes arbitrarios.
+El constructor de cada plataforma recibe la clasificación ya filtrada y solo
+genera comparaciones entre sus rutas aceptadas. La acción «Elegir esta ruta» se
+vincula a esa misma respuesta mostrada, en lugar de aceptar identificadores o
+costes reconstruidos fuera del flujo.
 
-La aplicación será la propietaria del estado local y enviará al backend los
-pesos efectivos necesarios en cada comparación. Python permanece como
-implementación de referencia de la fórmula; antes de replicar una actualización
-en TypeScript se crearán casos dorados compartidos para evitar divergencias
-numéricas entre plataformas.
+La aplicación es la propietaria del estado local y envía al backend los pesos
+efectivos necesarios en cada comparación y recálculo. Python permanece como
+implementación de referencia de la fórmula y un caso dorado compartido comprueba
+que la traducción TypeScript reproduce la misma actualización hasta doce
+decimales. SQLite conserva un único sobre versionado por perfil con estado e
+historial; no guarda coordenadas, direcciones, geometrías, audio ni trazas GPS.
+El flujo completo se documenta en
+[Integración del aprendizaje adaptativo en la app](research/integracion-aprendizaje-adaptativo-app.md).
 
 Los *fixtures* de `backend/routing/fixture_data/` son escenarios sintéticos para
 las pruebas y el desarrollo sin red. Sus geometrías sitúan el ejercicio en el

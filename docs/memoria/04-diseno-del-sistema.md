@@ -1,7 +1,7 @@
 # 4. Diseño del sistema
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Arquitectura
 
@@ -122,6 +122,21 @@ convierta nunca en una ventaja. La probabilidad logística solo indica cuánto
 encaja una elección con los pesos actuales, no confianza, accesibilidad ni
 seguridad.
 
+La aplicación materializa este diseño sin crear una cuenta remota. El
+aprendizaje nace desactivado y un interruptor accesible solicita consentimiento.
+Al elegir una ruta, la app toma exclusivamente los costes de las alternativas
+aceptadas que acaba de mostrar, actualiza el estado y guarda localmente un sobre
+versionado por perfil en SQLite. Los pesos efectivos se envían al backend en un
+campo distinto de los declarados. El backend vuelve a aplicar primero las
+restricciones originales y solo después utiliza esa mezcla para ordenar lo que
+sigue siendo compatible.
+
+La fórmula se conserva en Python como referencia y se traduce a TypeScript para
+que la actualización no dependa de la red. Un caso dorado compartido verifica
+la igualdad de ambas implementaciones hasta doce decimales. El registro local
+se limita a costes, identificadores técnicos, pesos, contador y día aproximado;
+no contiene direcciones, coordenadas, geometrías, instrucciones ni audio.
+
 ## Fuentes internas
 
 - [Arquitectura](../architecture.md).
@@ -133,5 +148,6 @@ seguridad.
 - [Puntuación explicable](../research/scoring-explicable.md).
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
+- [Integración móvil del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).
 - [Seguridad](../safety.md).
 - [Accesibilidad](../accessibility-spec.md).

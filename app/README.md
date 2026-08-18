@@ -46,3 +46,20 @@ __tests__/      # pruebas de interacción
 
 Los controles interactivos deben tener rol y etiqueta accesibles, una superficie
 táctil mínima de 44 por 44 puntos y no depender únicamente del color.
+
+## Aprendizaje adaptativo local
+
+La personalización adaptativa está desactivada inicialmente. En la pantalla de
+comparación puede activarse, pausarse y reiniciarse por perfil. Su estado se
+guarda con `expo-sqlite/kv-store`; el backend no almacena elecciones ni perfiles.
+
+Para inspeccionar la base durante el desarrollo, mantener Metro abierto, pulsar
+`Shift+M` en su terminal y elegir el complemento de `expo-sqlite`. Esta
+herramienta es de diagnóstico: no debe usarse para introducir o corregir a mano
+el estado de una evaluación.
+
+La comprobación manual mínima consiste en activar el aprendizaje, elegir una
+ruta entre al menos dos alternativas válidas, cerrar la app, volver a abrirla y
+confirmar que el contador continúa. Después debe probarse «Reiniciar lo
+aprendido» y comprobar que el contador vuelve a cero sin cambiar el perfil
+declarado.

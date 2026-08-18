@@ -99,6 +99,8 @@ lectura para evitar depender de una API experimental de orden de foco.
 - Origen y destino WGS84 del escenario sintético.
 - Restricciones críticas del perfil.
 - Pesos graduables declarados.
+- Pesos efectivos opcionales, calculados localmente cuando la persona ha
+  activado el aprendizaje.
 - URL pública de la API, configurable por entorno.
 
 ### Salida
@@ -124,6 +126,10 @@ Módulos implementados:
 - `app/src/components/PlaceSearchField.tsx`: selección accesible de origen y
   destino mediante el catálogo local.
 - `app/src/features/route-comparison/`: perfiles, estado y presentación.
+- `app/src/features/adaptive-preferences/`: actualización local, persistencia
+  SQLite y explicación de los cambios.
+- `app/src/components/AdaptivePreferencesPanel.tsx`: consentimiento, estado,
+  pausa y reinicio accesibles.
 - `app/i18n/es.ts`: todos los textos visibles y accesibles.
 
 No se ha incorporado una biblioteca de gestión de estado global. El flujo solo
@@ -132,10 +138,12 @@ Cada petición recibe una versión incremental; si se cambia el perfil antes de
 recibir la respuesta, el resultado antiguo se ignora para que nunca aparezca
 asociado a la selección nueva.
 
-Este estado local es, por ahora, volátil: la selección vuelve al perfil
-equilibrado al reiniciar la app y el backend no la persiste. La persistencia se
-incorporará junto al aprendizaje adaptativo mediante SQLite en el dispositivo;
-no se utilizará una base de datos remota para perfiles de usuario.
+La comparación continúa siendo un estado de pantalla, pero el aprendizaje se
+conserva por perfil mediante SQLite en el dispositivo. El backend no persiste
+usuarios ni elecciones. La app envía los pesos efectivos en cada comparación y
+mantiene separados los declarados, aprendidos y efectivos. El diseño completo
+se documenta en la
+[integración del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).
 
 El perfil equilibrado asigna peso `1` a las nueve dimensiones. El perfil de
 cruces sencillos asigna peso `8` a `complex_crossings` y mantiene peso `1` en
@@ -179,14 +187,20 @@ independiente de la evidencia desfavorable.
 - Identificación visible y accesible de ORS y OSM en rutas no sintéticas.
 - Correspondencia entre el porcentaje de incertidumbre y la lista de atributos
   desconocidos recibida de la API.
+- Consentimiento desactivado inicialmente, pausa y reinicio con confirmación.
+- Persistencia del estado y recuperación segura ante datos locales dañados.
+- Elección explícita entre rutas aceptadas, sin aprender de descartes.
+- Paridad matemática entre Python y TypeScript y envío separado de pesos
+  efectivos.
 
 ## Resultados
 
-La validación automática de la app alcanza 46 pruebas distribuidas en seis
+La validación automática de la app alcanza 126 pruebas distribuidas en 21
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
-HTTP, perfiles, estado asíncrono e interfaz. ESLint y TypeScript estricto no
-detectan errores. Las 175 pruebas del backend siguen superándose, por lo que la
-integración móvil no ha modificado el sistema de decisión.
+HTTP, perfiles, estado asíncrono, interfaz, GPS, voz, recálculo, aprendizaje y
+persistencia. ESLint y TypeScript estricto no detectan errores. Las 265 pruebas
+del backend siguen superándose, por lo que la integración móvil mantiene el
+sistema de decisión y sus restricciones.
 
 Una comprobación directa contra FastAPI con los pesos exactos del perfil móvil
 obtuvo respuesta 200 y el orden `fewer_crossings_route`, `balanced_route`. Por
@@ -237,6 +251,9 @@ recomendación válida.
 - [x] Validar ambos rankings, el fallo de red, la recuperación y TalkBack en
   Android Emulator.
 - [x] Sustituir el escenario sintético por rutas reales durante la semana 2.
+- [x] Integrar el aprendizaje adaptativo opcional y su persistencia local.
+- [ ] Confirmar manualmente en Android que el estado adaptativo sobrevive al
+  cierre y reapertura de la aplicación.
 
 ## Referencias y evidencias
 

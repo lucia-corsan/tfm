@@ -1,7 +1,7 @@
 # 7. Conclusiones y trabajo futuro
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Respuesta a los objetivos
 
@@ -23,7 +23,7 @@ que requiere control de la persona y una activación conservadora.
 - Modelo de accesibilidad con incertidumbre explícita.
 - Clasificación multicriterio explicable.
 - Aprendizaje mediante comparaciones pareadas, seguro, acotado y evaluado sobre
-  perfiles sintéticos.
+  perfiles sintéticos, integrado de forma opcional y local en la app.
 - Prototipo Android diseñado y auditado con TalkBack.
 
 Estas contribuciones deben ajustarse al trabajo realmente validado al cerrar el
@@ -35,8 +35,9 @@ El simulador comparte la forma lineal del modelo y los costes no reproducen aún
 las correlaciones de rutas reales. El primer punto próximo al resultado final
 fue el último medido, a las 60 elecciones, por lo que no demuestra convergencia.
 Además, la configuración actual puede degradar un perfil declarado que ya sea
-preciso. La integración móvil, la evaluación con datos reales y el estudio con
-participantes permanecen pendientes.
+preciso. La integración móvil está validada mediante pruebas automáticas, pero
+la comprobación de persistencia en un dispositivo, la evaluación longitudinal
+con rutas reales y el estudio con participantes permanecen pendientes.
 
 ## Trabajo futuro
 

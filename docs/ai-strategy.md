@@ -1,7 +1,7 @@
 # Estrategia de inteligencia artificial
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Contribución principal
 
@@ -21,12 +21,13 @@ penalizaciones de seguridad.
 - Reglas simbólicas: implementadas y validadas sobre *fixtures*.
 - Clasificación multicriterio: implementada con costes normalizados,
   adecuación, confianza, incertidumbre y explicaciones trazables.
-- Aprendizaje en línea por pares: núcleo matemático, límites de seguridad y
-  evaluación sintética implementados; persistencia e interfaz móvil pendientes.
+- Aprendizaje en línea por pares: núcleo matemático, límites de seguridad,
+  evaluación sintética, persistencia SQLite e interfaz móvil implementados y
+  validados automáticamente.
 - Explicaciones de rutas y narración: estructura determinista, plantillas y
   presentación móvil implementadas. Para el aprendizaje ya existe un registro
-  auditable de los cambios, pero todavía falta traducirlo a explicaciones
-  comprensibles dentro de la app.
+  auditable de los cambios y explicaciones móviles comprensibles. La evaluación
+  de esas explicaciones con participantes permanece pendiente.
 
 El modelo adaptativo aprende pesos graduables a partir de elecciones explícitas
 entre rutas aceptadas. Mantiene separadas las preferencias declaradas, la
@@ -35,10 +36,12 @@ alteran la clasificación y la influencia aprendida nunca supera el 50 %. La
 clasificación estática continúa siendo un modo válido y el sistema de referencia
 que permite atribuir la mejora específicamente al aprendizaje.
 
-La integración en el flujo de usuario aún no está completada: la API continúa
-utilizando las preferencias declaradas mientras se añade la persistencia local
-y el envío explícito de los pesos efectivos. Esta distinción evita confundir un
-número de laboratorio con una funcionalidad disponible en la app.
+La integración conserva esa separación en el flujo de usuario. La app guarda
+localmente lo aprendido y envía `effective_weights` en un campo diferente de
+los pesos declarados. El backend usa el perfil original para las restricciones
+críticas y la mezcla efectiva solo para ordenar costes graduables. Así, el
+resultado del laboratorio se materializa en el prototipo sin permitir que el
+modelo cambie una prohibición de seguridad.
 
 ## Qué no se presenta como IA propia
 
@@ -68,5 +71,6 @@ activarse explícitamente, desactivarse y restablecerse. El núcleo se inicializ
 desactivado; el experimento lo activa de forma expresa para medirlo.
 
 La metodología, las fórmulas, los resultados y las amenazas a la validez se
-encuentran en [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md) y en
-[EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md).
+encuentran en [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md), en
+[EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md) y en la
+[integración móvil](research/integracion-aprendizaje-adaptativo-app.md).

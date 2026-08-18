@@ -10,8 +10,9 @@ absoluta.
 El repositorio contiene un prototipo Android conectado a un backend FastAPI.
 Ya integra rutas reales de OpenRouteService, enriquecimiento local con OSM,
 navegación con GPS en primer plano, recálculo confirmado y un núcleo de
-aprendizaje adaptativo evaluado en simulación. La persistencia y la presentación
-móvil de las preferencias aprendidas siguen en desarrollo.
+aprendizaje adaptativo evaluado en simulación e integrado en la aplicación con
+consentimiento y persistencia SQLite local. La evaluación con participantes y
+con elecciones longitudinales de rutas reales continúa pendiente.
 
 ## Requisitos
 

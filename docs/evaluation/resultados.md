@@ -13,7 +13,9 @@ con secuencias sintéticas. El núcleo de aprendizaje adaptativo se ha
 implementado y `EXP-002` muestra una mejora frente a los pesos declarados fijos
 con semillas y conjuntos sintéticos no usados para calibrar; además, un cuarto
 perfil quedó completamente reservado para la evaluación. Permanecen pendientes
-su integración móvil, la prueba física controlada y la evaluación con personas.
+la prueba física controlada y la evaluación con personas. La integración móvil
+del aprendizaje está validada automática y funcionalmente en Android Emulator,
+incluida la persistencia después de cerrar y reabrir la app.
 
 ## Integración de rutas reales
 
@@ -111,6 +113,23 @@ preferencias de personas reales, que la adaptación sea clínicamente útil ni q
 una ruta sea segura. El protocolo, las fórmulas, las figuras y todas las
 amenazas a la validez se detallan en
 [la evaluación de aprendizaje](calibracion-aprendizaje-adaptativo.md).
+
+### Validación técnica de la integración móvil
+
+La evaluación sintética anterior mide el algoritmo; una batería diferente
+comprueba que el prototipo ejecuta realmente el ciclo. Python y TypeScript
+producen la misma actualización de referencia hasta doce decimales. La app
+mantiene pesos no negativos y normalizados tras 500 elecciones, observa las
+tres primeras sin cambiar el orden, persiste el estado, se recupera de un dato
+dañado y excluye coordenadas y direcciones del registro. Los endpoints de
+comparación y recálculo conservan separados los pesos declarados y efectivos y
+siguen rechazando una alternativa crítica con cualquier mezcla aprendida.
+
+La suite completa alcanzó 265 pruebas del backend y 126 de la aplicación, sin
+incidencias en Ruff, ESLint ni TypeScript. Esto valida la coherencia técnica de
+la integración, no su utilidad ni comprensibilidad para personas ciegas o con
+baja visión. Esa diferencia impide sumar las pruebas de software a la evidencia
+de eficacia de `EXP-002`.
 
 ## Incertidumbre y explicaciones
 
@@ -217,8 +236,8 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 261 pruebas de backend y 105 de la aplicación,
-distribuidas estas últimas en dieciséis grupos. Se ha ampliado con casos
+La validación automática alcanza 265 pruebas de backend y 126 de la aplicación,
+distribuidas estas últimas en veintiún grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
 el multiplicador elegido, detiene la cola anterior y no llama al motor de voz
@@ -251,7 +270,7 @@ sustituye una evaluación de usabilidad con participantes.
 
 | Experimento | Métrica principal | Sistema de referencia | Sistema evaluado | Interpretación |
 | --- | ---: | ---: | ---: | --- |
-| EXP-002 | 89,05 % frente a 78,64 %; mejora de 10,41 puntos | Pesos declarados fijos | Clasificación adaptativa | Recupera una señal sintética conocida; integración móvil y usuarios pendientes |
+| EXP-002 | 89,05 % frente a 78,64 %; mejora de 10,41 puntos | Pesos declarados fijos | Clasificación adaptativa | Recupera una señal sintética conocida; integración móvil automática superada y usuarios pendientes |
 | EXP-003 | F1 90,9 %; 0 falsas alertas; 1 omitida | 30 m iniciales | 20, 30 y 40 m | Se mantienen 30 m; validación física pendiente |
 | EXP-004 | 3 rutas válidas; segunda petición evitada | Primera llamada ORS | Cliente y caché propios | Integración técnica superada; accesibilidad pendiente |
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |

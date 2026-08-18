@@ -1,5 +1,24 @@
 # Journal de desarrollo
 
+## 18 de agosto de 2026 — Semana 4, día 2: aprendizaje local en la app
+
+Se conectó la acción explícita «Elegir esta ruta» con el modelo adaptativo. La
+función nace desactivada, ofrece controles accesibles para activarla, pausarla o
+reiniciarla y distingue entre pesos declarados, aprendidos y efectivos. El
+backend recibe estos últimos en un campo separado y mantiene las restricciones
+críticas antes de la puntuación gradual.
+
+La actualización se ejecuta localmente en TypeScript y un caso dorado compartido
+confirma su paridad con la referencia Python hasta doce decimales. SQLite guarda
+por perfil un estado versionado y un historial acotado sin coordenadas,
+direcciones, geometrías, instrucciones, audio ni trazas GPS. La validación
+automática terminó con 265 pruebas de backend y 126 de app, además de los
+análisis estáticos. La comprobación posterior en Android confirmó la persistencia, el
+periodo de observación, la cuarta elección influyente, la pausa, la
+reactivación, las dos decisiones del reinicio y el recorrido con TalkBack sin
+incidencias notificadas. La fuente principal es la
+[integración móvil del aprendizaje](research/integracion-aprendizaje-adaptativo-app.md).
+
 ## 18 de agosto de 2026 — Cierre de auditoría del núcleo adaptativo
 
 La revisión final confirmó el signo del gradiente, la proyección al símplex y
@@ -34,8 +53,8 @@ independientes, no por las ochenta combinaciones perfil–semilla. Una
 sensibilidad adicional mostró que la adaptación
 ayuda ante declaraciones imprecisas, pero puede empeorar un perfil inicial ya
 muy fiel; por ello se conserva como función opcional y reversible. La
-persistencia y la interacción móvil siguen
-pendientes. La fuente principal es
+persistencia y la interacción móvil se completaron en el incremento siguiente.
+La fuente principal es
 [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md) y el protocolo
 completo, [EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md).
 

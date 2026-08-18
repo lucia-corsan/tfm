@@ -1,7 +1,7 @@
 # 6. Evaluación y resultados
 
 Estado: `En implementación`
-Última actualización: 17 de agosto de 2026.
+Última actualización: 18 de agosto de 2026.
 
 ## Estrategia general
 
@@ -178,6 +178,24 @@ la presentación del producto.
 Las figuras 7 y 8 muestran respectivamente la evolución de la exactitud y del
 arrepentimiento acumulado. Los datos completos por ejecución permanecen
 versionados para permitir otro análisis sin repetir la simulación.
+
+### Verificación de la integración en la aplicación
+
+La mejora de `EXP-002` no basta para demostrar que la app aplique el modelo de
+forma correcta. Por ello se añadió una validación técnica independiente. Un
+caso dorado compartido confirmó que Python y TypeScript producen la misma
+actualización hasta doce decimales. La app mantuvo pesos válidos durante 500
+actualizaciones, respetó las tres elecciones iniciales de observación y excluyó
+las rutas descartadas. También se recreó el almacenamiento para confirmar la
+recuperación del estado y se inyectaron datos dañados para verificar la vuelta
+segura al perfil declarado.
+
+La batería completa alcanzó 265 pruebas en el backend y 126 en la app, sin
+errores de Ruff, ESLint o TypeScript. Se comprobó además que los pesos efectivos
+llegan por separado a comparación y recálculo, y que una restricción crítica
+continúa descartando la ruta aunque esos pesos favorezcan sus demás
+características. Estas pruebas demuestran consistencia de implementación, no
+que la adaptación sea útil, comprensible o adecuada para participantes reales.
 
 ## Resultados de datos, rutas y GPS
 
