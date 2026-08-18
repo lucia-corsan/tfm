@@ -33,7 +33,11 @@ async def compare_routes(
         request.destination,
         request.profile,
     )
-    ranking = rank_routes(request.profile, scenario.routes)
+    ranking = rank_routes(
+        request.profile,
+        scenario.routes,
+        effective_weights=request.effective_weights,
+    )
     candidates = {route.route_id: route for route in scenario.routes}
     accepted_routes = [
         ComparedRouteResponse(
@@ -95,6 +99,7 @@ async def reroute_routes(
             origin=request.current_position,
             destination=request.destination,
             profile=request.profile,
+            effective_weights=request.effective_weights,
         ),
         provider,
     )

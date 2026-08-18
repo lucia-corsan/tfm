@@ -1,0 +1,91 @@
+{
+  "description": "Cuatro elecciones idénticas con dos alternativas aceptadas",
+  "repetitions": 4,
+  "declared_weights": {
+    "distance": 1.0,
+    "complex_crossings": 1.0,
+    "crossing_support": 1.0,
+    "sidewalk_evidence": 1.0,
+    "steps": 1.0,
+    "surface": 1.0,
+    "orientation_complexity": 1.0,
+    "slope": 1.0,
+    "uncertainty": 1.0
+  },
+  "choice": {
+    "chosen": {
+      "route_id": "chosen",
+      "costs": {
+        "distance": 0.1,
+        "complex_crossings": 0.7,
+        "crossing_support": 0.5,
+        "sidewalk_evidence": 0.5,
+        "steps": 0.5,
+        "surface": 0.5,
+        "orientation_complexity": 0.5,
+        "slope": 0.5,
+        "uncertainty": 0.2
+      }
+    },
+    "unchosen": [
+      {
+        "route_id": "b",
+        "costs": {
+          "distance": 0.8,
+          "complex_crossings": 0.2,
+          "crossing_support": 0.5,
+          "sidewalk_evidence": 0.5,
+          "steps": 0.5,
+          "surface": 0.5,
+          "orientation_complexity": 0.5,
+          "slope": 0.5,
+          "uncertainty": 0.6
+        }
+      },
+      {
+        "route_id": "c",
+        "costs": {
+          "distance": 0.6,
+          "complex_crossings": 0.4,
+          "crossing_support": 0.5,
+          "sidewalk_evidence": 0.5,
+          "steps": 0.5,
+          "surface": 0.5,
+          "orientation_complexity": 0.5,
+          "slope": 0.5,
+          "uncertainty": 0.3
+        }
+      }
+    ]
+  },
+  "expected": {
+    "choice_count": 4,
+    "status": "influential",
+    "learned_weights": {
+      "distance": 0.269558286615018,
+      "complex_crossings": 0.0,
+      "crossing_support": 0.09415995214916591,
+      "sidewalk_evidence": 0.09415995214916591,
+      "steps": 0.09415995214916591,
+      "surface": 0.09415995214916591,
+      "orientation_complexity": 0.09415995214916591,
+      "slope": 0.09415995214916591,
+      "uncertainty": 0.16548200048998646
+    },
+    "effective_weights": {
+      "distance": 0.1269558286615018,
+      "complex_crossings": 0.09999999999999999,
+      "crossing_support": 0.10941599521491659,
+      "sidewalk_evidence": 0.10941599521491659,
+      "steps": 0.10941599521491659,
+      "surface": 0.10941599521491659,
+      "orientation_complexity": 0.10941599521491659,
+      "slope": 0.10941599521491659,
+      "uncertainty": 0.11654820004899864
+    },
+    "mean_choice_probability_before": 0.6290363798769227,
+    "mean_choice_probability_after": 0.6469740998429945,
+    "learned_change_l1": 0.08675571289793507,
+    "effective_change_l1": 0.04256361297655645
+  }
+}

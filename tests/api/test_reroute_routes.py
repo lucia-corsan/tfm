@@ -75,6 +75,21 @@ def test_reroute_endpoint_preserves_custom_profile_weights() -> None:
     assert response.json()["routes"][0]["route_id"] == "fewer_crossings_route"
 
 
+def test_reroute_endpoint_reuses_separate_effective_weights() -> None:
+    """Rerouting keeps the same learned gradual preferences after confirmation."""
+
+    payload = _valid_payload()
+    weights = {name: 0.0 for name in PreferenceWeights.model_fields}
+    weights["complex_crossings"] = 1.0
+    payload["effective_weights"] = weights
+
+    response = client.post("/api/v1/routes/reroute", json=payload)
+
+    assert response.status_code == 200
+    assert response.json()["routes"][0]["route_id"] == "fewer_crossings_route"
+    assert response.json()["rejected_routes"][0]["route_id"] == "simple_route"
+
+
 def test_reroute_endpoint_rejects_invalid_input_without_echoing_coordinates() -> None:
     """Validation errors cannot expose the submitted position."""
 

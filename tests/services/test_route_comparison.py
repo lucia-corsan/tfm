@@ -59,6 +59,34 @@ async def test_service_applies_profile_weights_without_changing_provider() -> No
 
 
 @pytest.mark.asyncio
+async def test_service_keeps_declared_and_effective_weights_separate() -> None:
+    """Adaptation may reorder gradual costs without mutating critical rules."""
+
+    declared = PreferenceWeights()
+    effective_values = {name: 0.0 for name in PreferenceWeights.model_fields}
+    effective_values["complex_crossings"] = 1.0
+    profile = MobilityProfile(
+        profile_id="adapted",
+        declared_weights=declared,
+        avoid_incompatible_crossings=True,
+    )
+    scenario = load_pilot_route_scenario()
+    request = RouteCompareRequest(
+        origin=scenario.origin,
+        destination=scenario.destination,
+        profile=profile,
+        effective_weights=PreferenceWeights(**effective_values),
+    )
+
+    response = await compare_routes(request, FixtureRouteScenarioProvider())
+
+    assert profile.declared_weights == declared
+    assert response.routes[0].route_id == "fewer_crossings_route"
+    assert response.routes[0].score.normalized_weights.complex_crossings == 1.0
+    assert [route.route_id for route in response.rejected_routes] == ["simple_route"]
+
+
+@pytest.mark.asyncio
 async def test_service_response_is_reproducible() -> None:
     """Identical provider data and profile produce byte-equivalent model data."""
 
@@ -86,6 +114,7 @@ async def test_reroute_service_reuses_the_complete_comparison_pipeline() -> None
         current_position=scenario.origin,
         destination=scenario.destination,
         profile=profile,
+        effective_weights=PreferenceWeights(**weights),
     )
 
     response = await reroute_routes(request, FixtureRouteScenarioProvider())

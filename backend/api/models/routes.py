@@ -1,6 +1,7 @@
 """Public API models for profile-aware route comparison."""
 
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -8,6 +9,7 @@ from backend.domain import (
     GeoPoint,
     MobilityProfile,
     NavigationInstruction,
+    PreferenceWeights,
     RouteCategory,
     RouteSource,
 )
@@ -31,6 +33,7 @@ class RouteCompareRequest(ApiModel):
     origin: GeoPoint
     destination: GeoPoint
     profile: MobilityProfile
+    effective_weights: Optional[PreferenceWeights] = None
 
     @model_validator(mode="after")
     def require_distinct_endpoints(self) -> "RouteCompareRequest":
@@ -47,6 +50,7 @@ class RouteRerouteRequest(ApiModel):
     current_position: GeoPoint
     destination: GeoPoint
     profile: MobilityProfile
+    effective_weights: Optional[PreferenceWeights] = None
 
     @model_validator(mode="after")
     def require_distinct_endpoints(self) -> "RouteRerouteRequest":

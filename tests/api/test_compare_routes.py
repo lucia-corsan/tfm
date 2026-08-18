@@ -80,6 +80,23 @@ def test_compare_endpoint_applies_custom_profile_weights() -> None:
     assert response.json()["routes"][0]["route_id"] == "fewer_crossings_route"
 
 
+def test_compare_endpoint_applies_separate_effective_weights() -> None:
+    """Adapted weights are explicit and leave declared preferences traceable."""
+
+    payload = _valid_payload()
+    weights = {name: 0.0 for name in PreferenceWeights.model_fields}
+    weights["complex_crossings"] = 1.0
+    payload["effective_weights"] = weights
+
+    response = client.post("/api/v1/routes/compare", json=payload)
+
+    assert response.status_code == 200
+    route = response.json()["routes"][0]
+    assert route["route_id"] == "fewer_crossings_route"
+    assert route["score"]["normalized_weights"] == weights
+    assert response.json()["rejected_routes"][0]["route_id"] == "simple_route"
+
+
 def test_compare_endpoint_returns_422_for_invalid_request() -> None:
     """Invalid input is rejected without echoing submitted coordinate values."""
 
