@@ -95,6 +95,14 @@ Responsabilidad principal: `evaluation`
   techo de una muestra pequeña, no una estimación de eficacia sobre el área.
 - Una respuesta ORS de `EXP-007` contenía referencias fuera de la geometría. Se
   conservó como incidencia y se excluyó sin rebajar la validación.
+- `EXP-008` separa perfectamente dos bancos contrastados, pero ambos son los
+  que motivaron su diseño. No estima la exactitud del diagnóstico en otras
+  zonas, rutas o personas.
+- El umbral de seis dimensiones activas es conservador y podría bloquear un
+  historial legítimo especializado en pocas preferencias.
+- El ruido puede aumentar el número de firmas distintas al invertir una misma
+  comparación, aunque no añada un contexto nuevo. Por ello el contador no se
+  usa de forma aislada.
 
 ## Tecnología
 
@@ -127,4 +135,6 @@ Responsabilidad principal: `evaluation`
 - Comparación emparejada sobre los mismos conjuntos de rutas y publicación de
   resultados por ejecución, incluidos los casos donde el adaptativo empeora.
 - Registro completo de experimentos y fallos.
+- Diagnóstico de capacidad informativa desacoplado de la activación automática
+  hasta su replicación y validación temporal independiente.
 - Lenguaje que evita afirmar accesibilidad absoluta.

@@ -1,0 +1,801 @@
+dataset,dataset_label,expected_sufficient,profile_id,seed,choice_count,naive_sufficient,structural_sufficient,pair_count,informative_pair_count,unique_comparison_count,active_dimension_count,comparison_rank,reasons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082001,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082001,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082001,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082001,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082001,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082002,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082002,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082002,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082002,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082002,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082003,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082003,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082003,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082003,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082003,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082004,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082004,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082004,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082004,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082004,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082005,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082005,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082005,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082005,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082005,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082006,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082006,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082006,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082006,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082006,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082007,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082007,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082007,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082007,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082007,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082008,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082008,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082008,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082008,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082008,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082009,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082009,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082009,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082009,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082009,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082010,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082010,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082010,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082010,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082010,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082011,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082011,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082011,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082011,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082011,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082012,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082012,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082012,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082012,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082012,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082013,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082013,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082013,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082013,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082013,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082014,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082014,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082014,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082014,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082014,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082015,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082015,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082015,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082015,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082015,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082016,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082016,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082016,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082016,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082016,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082017,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082017,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082017,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082017,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082017,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082018,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082018,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082018,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082018,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082018,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082019,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082019,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082019,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082019,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082019,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082020,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082020,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082020,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082020,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,distance_priority,2026082020,60,True,True,120,120,120,9,9,
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081901,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081901,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081901,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081901,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081901,60,True,False,120,120,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081902,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081902,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081902,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081902,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081902,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081903,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081903,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081903,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081903,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081903,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081904,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081904,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081904,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081904,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081904,60,True,False,120,120,20,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081905,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081905,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081905,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081905,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081905,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081906,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081906,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081906,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081906,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081906,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081907,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081907,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081907,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081907,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081907,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081908,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081908,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081908,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081908,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081908,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081909,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081909,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081909,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081909,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081909,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081910,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081910,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081910,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081910,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081910,60,True,False,120,120,22,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081911,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081911,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081911,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081911,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081911,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081912,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081912,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081912,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081912,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081912,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081913,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081913,8,True,False,16,16,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081913,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081913,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081913,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081914,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081914,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081914,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081914,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081914,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081915,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081915,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081915,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081915,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081915,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081916,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081916,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081916,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081916,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081916,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081917,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081917,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081917,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081917,20,True,False,40,40,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081917,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081918,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081918,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081918,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081918,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081918,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081919,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081919,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081919,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081919,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081919,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081920,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081920,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081920,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081920,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,distance_priority,2026081920,60,True,False,120,120,16,5,6,too_few_active_dimensions
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082001,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082001,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082001,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082001,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082001,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082002,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082002,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082002,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082002,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082002,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082003,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082003,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082003,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082003,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082003,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082004,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082004,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082004,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082004,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082004,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082005,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082005,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082005,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082005,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082005,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082006,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082006,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082006,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082006,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082006,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082007,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082007,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082007,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082007,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082007,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082008,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082008,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082008,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082008,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082008,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082009,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082009,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082009,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082009,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082009,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082010,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082010,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082010,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082010,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082010,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082011,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082011,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082011,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082011,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082011,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082012,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082012,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082012,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082012,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082012,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082013,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082013,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082013,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082013,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082013,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082014,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082014,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082014,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082014,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082014,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082015,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082015,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082015,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082015,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082015,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082016,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082016,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082016,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082016,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082016,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082017,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082017,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082017,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082017,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082017,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082018,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082018,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082018,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082018,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082018,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082019,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082019,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082019,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082019,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082019,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082020,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082020,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082020,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082020,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,crossing_support_priority,2026082020,60,True,True,120,120,120,9,9,
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081901,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081901,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081901,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081901,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081901,60,True,False,120,120,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081902,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081902,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081902,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081902,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081902,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081903,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081903,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081903,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081903,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081903,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081904,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081904,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081904,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081904,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081904,60,True,False,120,120,20,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081905,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081905,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081905,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081905,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081905,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081906,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081906,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081906,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081906,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081906,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081907,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081907,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081907,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081907,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081907,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081908,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081908,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081908,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081908,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081908,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081909,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081909,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081909,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081909,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081909,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081910,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081910,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081910,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081910,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081910,60,True,False,120,120,22,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081911,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081911,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081911,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081911,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081911,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081912,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081912,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081912,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081912,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081912,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081913,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081913,8,True,False,16,16,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081913,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081913,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081913,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081914,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081914,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081914,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081914,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081914,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081915,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081915,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081915,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081915,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081915,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081916,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081916,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081916,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081916,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081916,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081917,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081917,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081917,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081917,20,True,False,40,40,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081917,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081918,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081918,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081918,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081918,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081918,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081919,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081919,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081919,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081919,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081919,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081920,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081920,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081920,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081920,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,crossing_support_priority,2026081920,60,True,False,120,120,16,5,6,too_few_active_dimensions
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082001,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082001,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082001,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082001,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082001,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082002,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082002,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082002,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082002,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082002,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082003,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082003,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082003,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082003,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082003,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082004,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082004,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082004,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082004,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082004,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082005,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082005,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082005,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082005,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082005,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082006,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082006,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082006,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082006,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082006,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082007,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082007,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082007,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082007,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082007,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082008,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082008,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082008,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082008,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082008,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082009,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082009,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082009,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082009,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082009,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082010,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082010,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082010,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082010,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082010,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082011,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082011,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082011,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082011,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082011,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082012,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082012,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082012,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082012,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082012,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082013,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082013,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082013,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082013,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082013,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082014,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082014,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082014,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082014,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082014,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082015,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082015,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082015,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082015,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082015,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082016,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082016,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082016,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082016,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082016,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082017,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082017,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082017,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082017,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082017,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082018,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082018,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082018,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082018,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082018,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082019,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082019,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082019,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082019,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082019,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082020,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082020,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082020,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082020,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,orientation_priority,2026082020,60,True,True,120,120,120,9,9,
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081901,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081901,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081901,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081901,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081901,60,True,False,120,120,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081902,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081902,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081902,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081902,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081902,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081903,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081903,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081903,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081903,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081903,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081904,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081904,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081904,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081904,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081904,60,True,False,120,120,20,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081905,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081905,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081905,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081905,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081905,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081906,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081906,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081906,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081906,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081906,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081907,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081907,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081907,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081907,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081907,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081908,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081908,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081908,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081908,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081908,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081909,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081909,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081909,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081909,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081909,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081910,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081910,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081910,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081910,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081910,60,True,False,120,120,22,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081911,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081911,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081911,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081911,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081911,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081912,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081912,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081912,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081912,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081912,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081913,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081913,8,True,False,16,16,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081913,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081913,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081913,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081914,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081914,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081914,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081914,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081914,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081915,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081915,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081915,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081915,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081915,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081916,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081916,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081916,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081916,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081916,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081917,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081917,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081917,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081917,20,True,False,40,40,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081917,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081918,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081918,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081918,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081918,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081918,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081919,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081919,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081919,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081919,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081919,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081920,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081920,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081920,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081920,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,orientation_priority,2026081920,60,True,False,120,120,16,5,6,too_few_active_dimensions
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082001,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082001,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082001,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082001,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082001,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082002,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082002,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082002,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082002,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082002,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082003,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082003,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082003,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082003,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082003,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082004,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082004,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082004,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082004,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082004,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082005,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082005,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082005,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082005,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082005,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082006,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082006,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082006,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082006,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082006,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082007,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082007,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082007,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082007,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082007,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082008,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082008,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082008,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082008,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082008,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082009,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082009,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082009,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082009,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082009,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082010,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082010,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082010,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082010,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082010,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082011,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082011,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082011,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082011,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082011,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082012,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082012,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082012,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082012,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082012,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082013,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082013,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082013,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082013,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082013,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082014,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082014,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082014,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082014,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082014,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082015,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082015,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082015,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082015,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082015,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082016,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082016,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082016,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082016,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082016,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082017,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082017,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082017,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082017,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082017,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082018,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082018,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082018,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082018,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082018,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082019,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082019,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082019,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082019,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082019,60,True,True,120,120,120,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082020,4,False,False,8,8,8,9,8,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082020,8,True,True,16,16,16,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082020,12,True,True,24,24,24,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082020,20,True,True,40,40,40,9,9,
+synthetic_informative,Banco sintético informativo,True,pedestrian_continuity_priority,2026082020,60,True,True,120,120,120,9,9,
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081901,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081901,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081901,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081901,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081901,60,True,False,120,120,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081902,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081902,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081902,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081902,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081902,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081903,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081903,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081903,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081903,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081903,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081904,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081904,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081904,12,True,False,24,24,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081904,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081904,60,True,False,120,120,20,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081905,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081905,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081905,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081905,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081905,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081906,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081906,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081906,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081906,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081906,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081907,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081907,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081907,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081907,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081907,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081908,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081908,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081908,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081908,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081908,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081909,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081909,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081909,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081909,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081909,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081910,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081910,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081910,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081910,20,True,False,40,40,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081910,60,True,False,120,120,22,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081911,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081911,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081911,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081911,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081911,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081912,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081912,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081912,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081912,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081912,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081913,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081913,8,True,False,16,16,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081913,12,True,False,24,24,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081913,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081913,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081914,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081914,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081914,12,True,False,24,24,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081914,20,True,False,40,40,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081914,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081915,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081915,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081915,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081915,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081915,60,True,False,120,120,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081916,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081916,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081916,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081916,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081916,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081917,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081917,8,True,False,16,16,8,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081917,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081917,20,True,False,40,40,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081917,60,True,False,120,120,18,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081918,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081918,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081918,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081918,20,True,False,40,40,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081918,60,True,False,120,120,16,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081919,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081919,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081919,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081919,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081919,60,True,False,120,120,14,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081920,4,False,False,8,8,8,5,6,too_few_choices|too_few_informative_pairs|too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081920,8,True,False,16,16,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081920,12,True,False,24,24,10,5,6,too_few_unique_comparisons|too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081920,20,True,False,40,40,12,5,6,too_few_active_dimensions
+real_limited,Banco ORS y OSM limitado,False,pedestrian_continuity_priority,2026081920,60,True,False,120,120,16,5,6,too_few_active_dimensions

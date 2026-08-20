@@ -409,6 +409,21 @@ fijo ya tenía un efecto techo. El resultado negativo se conserva como evidencia
 de falta de transferencia en este conjunto, no como una generalización a todo
 uso futuro.
 
+`EXP-008` estudió después si era posible detectar estructuralmente esa falta de
+información sin observar el resultado reservado. El diagnóstico cuenta
+comparaciones con contraste, firmas distintas, dimensiones activas y rango de
+la matriz de diferencias. Desde ocho elecciones aceptó los 80 historiales
+sintéticos de cada punto y rechazó los 80 construidos con el banco ORS y OSM
+limitado, incluso a las 60 elecciones. La diferencia estable fue disponer de
+variación apreciable en nueve dimensiones frente a solo cinco.
+
+No se conecta todavía como activador automático. Una separación perfecta sobre
+los dos bancos que motivaron el diseño puede ser sobreajuste metodológico; en
+particular, una persona con preferencias legítimas concentradas en pocas
+dimensiones podría quedar bloqueada. Su valor actual es doble: convierte la
+limitación de `EXP-007` en una medida auditable y demuestra por qué contar
+interacciones no basta para justificar influencia aprendida.
+
 ## Riesgos y limitaciones
 
 - El usuario sintético elige con la misma familia lineal que el modelo aprende;
@@ -432,6 +447,8 @@ uso futuro.
 - Una elección puede depender del contexto y no de una preferencia estable.
 - Falta ampliar la evaluación real con pares informativos, realizar pruebas
   longitudinales y trabajar con participantes.
+- El diagnóstico de capacidad informativa se ha validado solo sobre dos bancos
+  contrastados y no decide todavía el comportamiento del producto.
 
 ## Texto base para la memoria
 
@@ -466,6 +483,14 @@ los cuatro pares de aprendizaje y dos dimensiones eran constantes. La ausencia
 de transferencia refuerza la necesidad de comprobar la capacidad informativa
 del conjunto antes de usar sus elecciones para cambiar una recomendación.
 
+Se diseñó por ello un diagnóstico estructural que exige ocho elecciones, doce
+comparaciones informativas y distintas, contraste en seis dimensiones y rango
+seis. En `EXP-008`, el banco sintético superó el criterio en el 100 % de los
+historiales desde ocho elecciones y el banco real limitado en el 0 %, incluso
+después de sesenta. El resultado muestra que la cantidad no sustituye la
+variedad, pero no autoriza todavía una activación automática: se requiere
+replicación en otros escenarios y una evaluación temporal independiente.
+
 ## Trabajo pendiente
 
 - [x] Fijar la formulación y calibrar sus hiperparámetros.
@@ -477,6 +502,8 @@ del conjunto antes de usar sus elecciones para cambiar una recomendación.
 - [x] Permitir activar el aprendizaje de forma explícita y mostrar y anunciar
   sus cambios de preferencia de forma comprensible.
 - [x] Repetir la evaluación con costes de rutas ORS enriquecidas con OSM.
+- [x] Implementar y evaluar un diagnóstico estructural de capacidad
+  informativa sin conectarlo todavía al ranking.
 - [ ] Ampliar esa evaluación con pares que distingan perfiles y más
   alternativas aceptadas.
 - [ ] Calibrar una activación que proteja perfiles iniciales ya precisos.

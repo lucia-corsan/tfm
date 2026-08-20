@@ -53,6 +53,18 @@ acertaba las primeras posiciones reservadas. No es una evaluación con usuarios
 ni demuestra que el aprendizaje empeore en otros conjuntos. Fuente:
 OpenRouteService y OpenStreetMap; elaboración propia.
 
+## FIG-11 — Cantidad de elecciones y capacidad informativa
+
+Porcentaje de historiales considerados suficientes según el número de
+elecciones observadas. El panel izquierdo usa únicamente un mínimo de ocho
+elecciones; el derecho exige además contraste, comparaciones distintas,
+dimensiones activas y rango. Se comparan 80 combinaciones perfil–semilla del
+banco sintético informativo y 80 del banco ORS y OSM limitado en cada punto.
+Las semillas del segundo comparten las mismas cuatro situaciones de aprendizaje
+aptas y solo cambian orden y ruido. La figura valida la separación de estos dos
+bancos, no la exactitud general del diagnóstico ni la calidad de una ruta.
+Fuente: `EXP-002`, OpenRouteService y OpenStreetMap; elaboración propia.
+
 ## Plantilla
 
 ### FIG-XX — Título corto

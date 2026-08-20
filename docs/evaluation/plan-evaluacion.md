@@ -19,6 +19,8 @@ Responsabilidad principal: `evaluation`
    adicionales?
 8. ¿Qué ancho de asociación conserva evidencia OSM útil sin atribuir demasiada
    infraestructura próxima a las rutas?
+9. ¿Un historial contiene suficiente contraste y variedad antes de plantear
+   que el aprendizaje influya en la clasificación?
 
 ## Sistemas de referencia
 
@@ -48,6 +50,8 @@ Responsabilidad principal: `evaluation`
   espacial.
 - Elementos OSM asociados, cobertura longitudinal, confianza, incertidumbre y
   estabilidad del ranking según el ancho del corredor.
+- Comparaciones informativas y distintas, dimensiones activas y rango de los
+  contrastes observados.
 
 ## Conjuntos de prueba
 
@@ -120,3 +124,5 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
   cuestionario inicial.
 - [x] Repetir `EXP-002` como `EXP-007` con costes de rutas ORS enriquecidas con
   OSM y conservar el resultado negativo de transferencia.
+- [x] Ejecutar `EXP-008` para distinguir cantidad de elecciones de capacidad
+  informativa y conservar su decisión de no integración automática.

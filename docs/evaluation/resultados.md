@@ -1,6 +1,6 @@
 # Resultados de evaluación
 
-Estado: `En implementación`
+Estado: `Validado`
 Última actualización: 18 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
@@ -130,7 +130,7 @@ dañado y excluye coordenadas y direcciones del registro. Los endpoints de
 comparación y recálculo conservan separados los pesos declarados y efectivos y
 siguen rechazando una alternativa crítica con cualquier mezcla aprendida.
 
-La suite completa alcanza 272 pruebas del backend y 126 de la aplicación, sin
+La suite completa alcanza 282 pruebas del backend y 126 de la aplicación, sin
 incidencias en Ruff, ESLint ni TypeScript. Esto valida la coherencia técnica de
 la integración, no su utilidad ni comprensibilidad para personas ciegas o con
 baja visión. Esa diferencia impide sumar las pruebas de software a la evidencia
@@ -171,6 +171,34 @@ función desactivada al inicio, opcional y reversible.
 El protocolo, la incidencia de ORS, la disponibilidad por par, la figura y los
 CSV sanitizados se encuentran en
 [EXP-007](evaluacion-aprendizaje-rutas-reales.md).
+
+### Diagnóstico de capacidad informativa
+
+`EXP-008` estudió el problema revelado por la transferencia negativa: una
+secuencia larga puede repetir pocas comparaciones y no identificar
+preferencias. Se analizaron dos bancos contrastados en cinco puntos entre 4 y
+60 elecciones. Cada punto reunió 80 combinaciones de cuatro perfiles y veinte
+semillas. En el sintético las semillas generan situaciones; en el real solo
+cambian el orden y el ruido de los mismos cuatro pares aptos.
+
+| Regla después de 8 elecciones | Banco sintético informativo | Banco ORS y OSM limitado |
+| --- | ---: | ---: |
+| Solo contar elecciones | 100 % suficiente | 100 % suficiente |
+| Contraste, variedad, dimensiones y rango | **100 % suficiente** | **0 % suficiente** |
+
+La diferencia persistió hasta 60 elecciones. El banco sintético presentó
+contraste en las nueve dimensiones y rango nueve; el real, solo en cinco
+dimensiones y rango seis. El contador de comparaciones distintas del banco real
+aumentó de 9,4 a 15,9 por repeticiones y elecciones inconsistentes, pero esto no
+creó variación en los factores ausentes.
+
+El resultado valida técnicamente el diagnóstico para estos dos bancos, no una
+regla universal. No se conecta todavía al ranking: hacerlo exigiría más zonas,
+perfiles concentrados en pocas dimensiones y una ventana posterior que compare
+predicciones fijas y adaptativas sobre elecciones no usadas para entrenar. La
+política de producto sigue siendo aprendizaje voluntario y desactivado al
+inicio. El protocolo, la figura y los artefactos están en
+[EXP-008](diagnostico-capacidad-informativa.md).
 
 ## Incertidumbre y explicaciones
 
@@ -277,7 +305,7 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 272 pruebas de backend y 126 de la aplicación,
+La validación automática alcanza 282 pruebas de backend y 126 de la aplicación,
 distribuidas estas últimas en veintiún grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite

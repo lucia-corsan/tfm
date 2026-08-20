@@ -1,0 +1,11 @@
+dataset,dataset_label,choice_count,history_count,expected_sufficient,naive_sufficient_rate,structural_sufficient_rate,structural_accuracy,mean_informative_pairs,mean_unique_comparisons,mean_active_dimensions,mean_comparison_rank,reason_too_few_choices_rate,reason_too_few_informative_pairs_rate,reason_too_few_unique_comparisons_rate,reason_too_few_active_dimensions_rate,reason_low_comparison_rank_rate
+real_limited,Banco ORS y OSM limitado,4,80,False,0.0,0.0,1.0,8.0,8.0,5.0,6.0,1.0,1.0,1.0,1.0,0.0
+real_limited,Banco ORS y OSM limitado,8,80,False,1.0,0.0,1.0,16.0,9.4,5.0,6.0,0.0,0.0,0.95,1.0,0.0
+real_limited,Banco ORS y OSM limitado,12,80,False,1.0,0.0,1.0,24.0,10.5,5.0,6.0,0.0,0.0,0.7,1.0,0.0
+real_limited,Banco ORS y OSM limitado,20,80,False,1.0,0.0,1.0,40.0,11.8,5.0,6.0,0.0,0.0,0.35,1.0,0.0
+real_limited,Banco ORS y OSM limitado,60,80,False,1.0,0.0,1.0,120.0,15.9,5.0,6.0,0.0,0.0,0.05,1.0,0.0
+synthetic_informative,Banco sintético informativo,4,80,True,0.0,0.0,0.0,8.0,8.0,9.0,8.0,1.0,1.0,1.0,0.0,0.0
+synthetic_informative,Banco sintético informativo,8,80,True,1.0,1.0,1.0,16.0,16.0,9.0,9.0,0.0,0.0,0.0,0.0,0.0
+synthetic_informative,Banco sintético informativo,12,80,True,1.0,1.0,1.0,24.0,24.0,9.0,9.0,0.0,0.0,0.0,0.0,0.0
+synthetic_informative,Banco sintético informativo,20,80,True,1.0,1.0,1.0,40.0,40.0,9.0,9.0,0.0,0.0,0.0,0.0,0.0
+synthetic_informative,Banco sintético informativo,60,80,True,1.0,1.0,1.0,120.0,120.0,9.0,9.0,0.0,0.0,0.0,0.0,0.0

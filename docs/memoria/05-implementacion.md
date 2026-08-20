@@ -346,6 +346,22 @@ servicio externo. La formulación completa se encuentra en
 [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md) y el protocolo,
 en [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
 
+### Diagnóstico estructural de la señal
+
+`backend/feedback/signal_quality.py` añade una función pura que resume el
+historial sin modificar el modelo. Convierte cada elección en diferencias de
+costes, descarta pares casi idénticos y calcula comparaciones distintas,
+dimensiones activas y rango. Los umbrales y todos los motivos de insuficiencia
+se validan mediante modelos Pydantic. El cálculo del rango utiliza eliminación
+gaussiana sobre una matriz de nueve columnas, sin incorporar una dependencia
+numérica pesada.
+
+El script `ml/adaptive_preferences/signal_quality_evaluation.py` reproduce
+`EXP-008` desde los costes ya versionados. Genera dos CSV —resultados por
+historial y resumen— y una figura. La función no se ha conectado al estado
+móvil ni al ranking: se conserva como instrumento experimental hasta replicar
+sus umbrales fuera de los dos bancos que motivaron su diseño.
+
 ### Integración local del ciclo adaptativo
 
 La traducción TypeScript reproduce las mismas nueve dimensiones y operaciones
@@ -449,7 +465,7 @@ mismo grafo fechado el 10 de agosto de 2026.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 272 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
+mantiene 282 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta

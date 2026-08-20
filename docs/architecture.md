@@ -175,6 +175,13 @@ historial; no guarda coordenadas, direcciones, geometrías, audio ni trazas GPS.
 El flujo completo se documenta en
 [Integración del aprendizaje adaptativo en la app](research/integracion-aprendizaje-adaptativo-app.md).
 
+`backend/feedback/signal_quality.py` permanece junto al núcleo porque consume
+el mismo formato mínimo de elecciones, pero tiene una responsabilidad distinta:
+diagnostica contraste y diversidad sin actualizar pesos ni ordenar rutas. Su
+resultado no controla todavía la aplicación. Esta separación evita confundir
+una herramienta experimental validada sobre dos bancos con una política de
+activación general.
+
 Los *fixtures* de `backend/routing/fixture_data/` son escenarios sintéticos para
 las pruebas y el desarrollo sin red. Sus geometrías sitúan el ejercicio en el
 corredor

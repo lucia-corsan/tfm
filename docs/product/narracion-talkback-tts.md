@@ -478,7 +478,7 @@ estáticos y separó cada texto relevante como parada de lectura. La declaració
 `es-ES` ayuda a escoger el idioma, aunque la voz concreta sigue dependiendo de
 la configuración de Android.
 
-La integración actual mantiene 272 pruebas de backend y 126 pruebas de la
+La integración actual mantiene 282 pruebas de backend y 126 pruebas de la
 aplicación distribuidas en veintiún grupos. Los casos específicos de voz cubren la
 configuración inicial, los cuatro multiplicadores, el idioma, la interrupción,
 los eventos del motor, el cambio de instrucción, el cierre de la pantalla y la

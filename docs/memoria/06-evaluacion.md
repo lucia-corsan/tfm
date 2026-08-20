@@ -190,7 +190,7 @@ las rutas descartadas. También se recreó el almacenamiento para confirmar la
 recuperación del estado y se inyectaron datos dañados para verificar la vuelta
 segura al perfil declarado.
 
-La batería completa alcanza 272 pruebas en el backend y 126 en la app, sin
+La batería completa alcanza 282 pruebas en el backend y 126 en la app, sin
 errores de Ruff, ESLint o TypeScript. Se comprobó además que los pesos efectivos
 llegan por separado a comparación y recálculo, y que una restricción crítica
 continúa descartando la ruta aunque esos pesos favorezcan sus demás
@@ -246,6 +246,46 @@ interacciones no compensan ejemplos no discriminantes. La consecuencia de
 diseño es mantener la adaptación desactivada inicialmente, opcional y
 reversible, y ampliar en el futuro el banco con comparaciones que cubran
 compensaciones distintas antes de plantear una activación más amplia.
+
+## Diagnóstico de capacidad informativa
+
+El resultado anterior planteó una pregunta adicional: ¿cómo diferenciar ocho
+elecciones realmente variadas de ocho repeticiones de las mismas situaciones?
+`EXP-008` evaluó un diagnóstico estructural sobre los bancos contrastados de
+`EXP-002` y `EXP-007`. Para cada alternativa no elegida se calculó el vector de
+diferencias de costes respecto a la elegida. Después se midieron cinco
+propiedades: número de elecciones, magnitud de los contrastes, comparaciones
+distintas, dimensiones con variación apreciable y rango de la matriz de
+diferencias.
+
+Se fijaron como umbrales ocho elecciones, doce pares y doce comparaciones
+distintas, distancia L1 mínima de 0,10, contraste de al menos 0,03 en seis de
+las nueve dimensiones y rango mínimo de seis. Se estudiaron 4, 8, 12, 20 y 60
+elecciones, cuatro perfiles y veinte semillas: 80 historiales por banco y punto.
+
+| Regla desde ocho elecciones | Sintético informativo | ORS y OSM limitado |
+| --- | ---: | ---: |
+| Solo contar elecciones | 100 % | 100 % |
+| Diagnóstico estructural | **100 %** | **0 %** |
+
+La separación se mantuvo hasta sesenta elecciones. El banco sintético variaba
+en las nueve dimensiones y alcanzaba rango nueve. El real variaba solo en cinco
+y alcanzaba rango seis. El número de comparaciones distintas reales creció con
+el ruido y las repeticiones, pero esa subida no añadió dimensiones ausentes.
+
+El 100 % no se interpreta como exactitud general del diagnóstico. Las semillas
+reales comparten las mismas cuatro situaciones y los dos tipos de banco son los
+que motivaron el diseño. Además, exigir seis dimensiones podría descartar un
+historial legítimo especializado en menos factores. Por ello la función se
+conserva como herramienta experimental y no se conecta todavía a una activación
+automática. Una futura integración deberá replicarse en más zonas y comparar
+pesos fijos y aprendidos en una ventana posterior no usada para actualizar.
+
+La figura 11 contrasta ambas reglas. El panel izquierdo muestra que contar ocho
+elecciones acepta indistintamente los dos bancos. El derecho muestra que
+comprobar variedad y contraste mantiene bloqueado el banco limitado. La figura
+no representa exactitud de rutas, sino la proporción de historiales con
+estructura suficiente para plantear una adaptación.
 
 ## Resultados de datos, rutas y GPS
 

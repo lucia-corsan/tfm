@@ -21,6 +21,15 @@ invalida la implementación, pero demuestra que la adaptación necesita ejemplos
 con compensaciones informativas y que un resultado sintético positivo no basta
 para prometer transferencia.
 
+Como respuesta metodológica se añadió un diagnóstico de capacidad informativa.
+Contar ocho elecciones aceptaba tanto el banco sintético como el real limitado;
+comprobar además variedad, contraste, dimensiones activas y rango aceptó el
+100 % del primero y rechazó el 100 % del segundo desde ocho hasta sesenta
+elecciones. El diagnóstico explica por qué repetir interacciones no resuelve la
+falta de señal. Se mantiene, no obstante, como instrumento experimental: la
+separación se obtuvo sobre dos bancos contrastados y no justifica todavía una
+activación automática en el producto.
+
 El análisis de sensibilidad evita una conclusión excesiva: el aprendizaje
 mejoró declaraciones sintéticas imprecisas, pero perjudicó las que ya contenían
 un 75 % o un 100 % de la preferencia latente. La aportación no es un sustituto
@@ -33,6 +42,8 @@ que requiere control de la persona y una activación conservadora.
 - Clasificación multicriterio explicable.
 - Aprendizaje mediante comparaciones pareadas, seguro, acotado y evaluado sobre
   perfiles sintéticos, integrado de forma opcional y local en la app.
+- Diagnóstico explicable de capacidad informativa para diferenciar número de
+  interacciones de diversidad útil, todavía desacoplado de la activación.
 - Prototipo Android diseñado y auditado con TalkBack.
 
 Estas contribuciones deben ajustarse al trabajo realmente validado al cerrar el
@@ -51,6 +62,11 @@ pruebas automáticas y una comprobación funcional en Android Emulator, pero la
 evaluación longitudinal con elecciones reales y el estudio con participantes
 permanecen pendientes.
 
+El diagnóstico posterior también tiene validez limitada: se evaluó con el
+banco sintético diseñado para ser informativo y con un único banco real
+reducido. Un umbral conservador puede bloquear preferencias especializadas en
+pocas dimensiones, por lo que no se ha integrado como decisión automática.
+
 ## Trabajo futuro
 
 - Más áreas y usuarios.
@@ -59,10 +75,13 @@ permanecen pendientes.
 - Ubicación en segundo plano si se justifica.
 - VLM como experimento separado con un sistema de referencia y métricas.
 - Análisis de preferencias que cambian según el contexto.
+- Replicación del diagnóstico de capacidad informativa y validación temporal
+  de pesos fijos frente a adaptativos antes de automatizar su influencia.
 
 ## Fuente interna
 
 - [Limitaciones](../evaluation/limitaciones.md).
 - [Resultados](../evaluation/resultados.md).
 - [Interpretación de la transferencia del aprendizaje](../evaluation/evaluacion-aprendizaje-rutas-reales.md#interpretación-detallada-para-la-memoria-y-la-defensa).
+- [Diagnóstico de capacidad informativa](../evaluation/diagnostico-capacidad-informativa.md).
 - [Journal](../journal.md).

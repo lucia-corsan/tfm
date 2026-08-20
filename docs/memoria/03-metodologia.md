@@ -68,6 +68,23 @@ coordenadas, geometrías, calles ni credenciales. Las veinte semillas comparten
 las mismas rutas: miden variación de orden y ruido simulado, no veinte muestras
 independientes del entorno.
 
+### Diagnóstico posterior de capacidad informativa
+
+`EXP-008` utiliza los bancos contrastados anteriores para comprobar si una
+regla estructural distingue cantidad de interacciones de diversidad útil. Se
+analizan 4, 8, 12, 20 y 60 elecciones. Cada elección se expresa como
+diferencias entre la ruta elegida y las alternativas aceptadas no elegidas; se
+miden la magnitud, el número de comparaciones distintas, las dimensiones con
+contraste y el rango de la matriz resultante.
+
+La referencia considera suficiente cualquier historial al llegar a ocho
+elecciones. El diagnóstico exige además doce pares informativos y distintos,
+seis dimensiones activas y rango seis. La evaluación es deliberadamente
+comparativa: el banco sintético se etiqueta como informativo por construcción y
+por el resultado positivo de `EXP-002`; el banco real limitado se etiqueta como
+insuficiente por el diagnóstico de transferencia de `EXP-007`. Esta etiqueta no
+se extrapola a otros historiales ni a personas.
+
 ## Reproducibilidad
 
 Entornos fijados, cachés, *fixtures*, pruebas automatizadas y registro de

@@ -24,6 +24,33 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-005 | Pendiente | ¿La ampliación mejora diversidad y disponibilidad de candidatas? | 12 pares del área piloto | Una petición ORS, hasta 3 rutas | Planificado | `docs/research/generacion-rutas-candidatas.md` |
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
 | EXP-007 | 18 de agosto de 2026 | ¿La mejora adaptativa se transfiere a costes de rutas ORS enriquecidas con OSM? | 12 pares fijados; 4 de aprendizaje y 3 de evaluación resultaron aptos | Ruta más corta y pesos fijos | Validación real-sintética completada, transferencia no observada | `docs/evaluation/evaluacion-aprendizaje-rutas-reales.md` |
+| EXP-008 | 18 de agosto de 2026 | ¿Un diagnóstico estructural distingue elecciones informativas de comparaciones repetidas y poco variadas? | Bancos de `EXP-002` y `EXP-007`, 4 perfiles y 20 semillas | Ocho elecciones sin comprobar su diversidad | Validación técnica superada; integración automática aplazada | `docs/evaluation/diagnostico-capacidad-informativa.md` |
+
+### EXP-008 — Capacidad informativa de las elecciones
+
+- Fecha: 18 de agosto de 2026, semana 4, día 4.
+- Pregunta: ¿cantidad, contraste, variedad, dimensiones activas y rango permiten
+  distinguir el banco sintético informativo del banco real limitado donde no
+  se observó transferencia?
+- Datos: cuatro perfiles, veinte semillas y 4, 8, 12, 20 y 60 elecciones; 80
+  historiales por banco y punto. Las semillas reales solo cambian orden y ruido
+  sobre las mismas cuatro situaciones aptas.
+- Umbrales: ocho elecciones, doce pares con distancia L1 mínima de 0,10, doce
+  comparaciones distintas, seis dimensiones con contraste mínimo de 0,03 y
+  rango mínimo de seis.
+- Referencia: una regla que activa al alcanzar ocho elecciones sin estudiar su
+  contenido.
+- Resultado: desde ocho elecciones, la referencia aceptó el 100 % de ambos
+  bancos. El diagnóstico aceptó el 100 % de los historiales sintéticos y el
+  0 % de los reales limitados hasta las 60 elecciones.
+- Diagnóstico: el banco real mantuvo solo cinco dimensiones activas; las
+  comparaciones distintas crecieron con el ruido y las repeticiones, pero la
+  carencia temática no desapareció.
+- Decisión: conservar la función como instrumento experimental y no conectarla
+  todavía como activador automático. La separación perfecta sobre dos bancos
+  contrastados no demuestra generalización a otras zonas o personas.
+- Evidencia: [protocolo y resultados](diagnostico-capacidad-informativa.md), dos
+  CSV sanitizados, una figura y diez pruebas específicas del incremento.
 
 ### EXP-007 — Transferencia del aprendizaje a costes reales
 

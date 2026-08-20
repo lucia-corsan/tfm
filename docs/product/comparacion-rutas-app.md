@@ -198,7 +198,7 @@ independiente de la evidencia desfavorable.
 La validación automática de la app alcanza 126 pruebas distribuidas en 21
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono, interfaz, GPS, voz, recálculo, aprendizaje y
-persistencia. ESLint y TypeScript estricto no detectan errores. Las 272 pruebas
+persistencia. ESLint y TypeScript estricto no detectan errores. Las 282 pruebas
 del backend siguen superándose, por lo que la integración móvil mantiene el
 sistema de decisión y sus restricciones.
 

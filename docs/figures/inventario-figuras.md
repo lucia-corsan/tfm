@@ -15,6 +15,7 @@ Estado: `En implementación`
 | FIG-08 | Arrepentimiento acumulado según elecciones observadas | Evaluación | Generada | `docs/figures/aprendizaje-arrepentimiento.png` |
 | FIG-09 | Sensibilidad de umbrales GPS | Evaluación | Pendiente | — |
 | FIG-10 | Transferencia del aprendizaje a rutas ORS enriquecidas con OSM | Evaluación | Generada | `docs/figures/aprendizaje-rutas-reales.png` |
+| FIG-11 | Cantidad de elecciones frente a capacidad informativa | Evaluación | Generada | `docs/figures/capacidad-informativa-aprendizaje.png` |
 
 ## Requisitos gráficos
 
@@ -32,6 +33,11 @@ periodo de observación en el que el aprendizaje todavía no cambia el orden.
 La figura 10 conserva los mismos colores y marcadores conceptuales, pero usa un
 título explícito para que el resultado negativo pueda entenderse sin asumir que
 toda adaptación mejora necesariamente el sistema fijo.
+
+La figura 11 utiliza dos paneles con la misma escala: la izquierda muestra el
+fallo de una regla basada solo en cantidad y la derecha añade variedad y
+contraste. El desplazamiento mínimo de los marcadores evita ocultar dos series
+cuando sus valores coinciden.
 
 ## Fuente del flujo metodológico
 

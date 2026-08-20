@@ -81,8 +81,20 @@ efecto techo. El resultado se conserva como evidencia de que la IA necesita
 datos informativos y no debe activarse automáticamente por el mero hecho de
 estar disponible.
 
+Como respuesta, `EXP-008` implementó un diagnóstico separado que no aprende ni
+ordena rutas: examina si las elecciones aportan contrastes, comparaciones
+distintas, dimensiones variables y direcciones independientes. A partir de
+ocho elecciones aceptó el 100 % de los historiales del banco sintético
+informativo y rechazó el 100 % de los historiales construidos con el banco real
+limitado, incluso después de sesenta repeticiones. Este resultado valida la
+capacidad de reconocer esos dos casos contrastados, no una regla universal. El
+diagnóstico permanece desacoplado de la activación automática hasta evaluarlo
+con más zonas y con una ventana posterior independiente.
+
 La metodología, las fórmulas, los resultados y las amenazas a la validez se
 encuentran en [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md), en
 [EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md), en la
 [integración móvil](research/integracion-aprendizaje-adaptativo-app.md) y en la
 [evaluación con costes ORS+OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
+La respuesta metodológica a la señal limitada se documenta en
+[EXP-008](evaluation/diagnostico-capacidad-informativa.md).
