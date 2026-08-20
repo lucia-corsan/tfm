@@ -80,7 +80,14 @@ Comprobaciones desde `app/`:
 npm test
 npm run lint
 npm run typecheck
+npm run export:android
 npm run android
+```
+
+La validación completa de ambos proyectos se agrupa en:
+
+```bash
+bash scripts/verificar-mvp.sh
 ```
 
 La aplicación usa por defecto
@@ -109,11 +116,13 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 272 pruebas superadas, incluidas las restricciones,
+- Backend: Ruff correcto y 282 pruebas superadas, incluidas las restricciones,
   la puntuación, el aprendizaje adaptativo y su evaluación reproducible.
 - App: 126 pruebas Jest en veintiún grupos, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
-- Bundle Android generado.
+- Paquete JavaScript Android generado de forma local y en integración continua.
+- Flujo funcional validado en Expo Go; la compilación nativa de desarrollo
+  propia continúa pendiente y no se confunde con la exportación anterior.
 - Comparación validada manualmente con TalkBack, ambos perfiles y recuperación
   tras detener y reiniciar FastAPI.
 - Búsqueda libre de una dirección del área piloto, selección y comparación

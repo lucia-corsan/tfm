@@ -38,3 +38,6 @@ jobs:
 
       - name: Type-check
         run: npm run typecheck
+
+      - name: Export Android bundle
+        run: npm run export:android

@@ -51,6 +51,8 @@ esperadas por `AGENTS.md`.
 - [Calibración del detector de desviación](evaluation/calibracion-detector-desviacion.md).
 - [Calibración y evaluación del aprendizaje adaptativo](evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje con rutas ORS enriquecidas con OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
+- [Diagnóstico de capacidad informativa de las elecciones](evaluation/diagnostico-capacidad-informativa.md).
+- [Cierre y criterios de aceptación del MVP](evaluation/cierre-mvp.md).
 - [Registro de experimentos](evaluation/experimentos.md).
 - [Resultados](evaluation/resultados.md).
 - [Limitaciones](evaluation/limitaciones.md).
@@ -58,6 +60,7 @@ esperadas por `AGENTS.md`.
 ### Operaciones y reproducibilidad
 
 - [Entorno de desarrollo](operations/entorno-desarrollo.md).
+- [Guía de demostración reproducible](operations/guia-demostracion.md).
 - [Caché y servicios externos](operations/cache-y-servicios-externos.md).
 - [Incidencias](operations/incidencias.md).
 

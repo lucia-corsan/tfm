@@ -48,6 +48,7 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "test": "jest --runInBand",
+    "export:android": "expo export --platform android --output-dir .evaluation-build/android",
     "evaluate:deviation": "tsc -p tsconfig.evaluation.json && node scripts/evaluate-deviation-thresholds.cjs"
   },
   "jest": {

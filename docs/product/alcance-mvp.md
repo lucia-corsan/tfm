@@ -1,8 +1,8 @@
 # Alcance y plan de desarrollo del MVP
 
 Fecha inicial: 7 de agosto de 2026
-Última actualización: 17 de agosto de 2026
-Estado: `En implementación`
+Última actualización: 18 de agosto de 2026
+Estado: `Vigente`
 Ámbito piloto: Moncloa–Argüelles–Príncipe Pío, Madrid
 
 ## 1. Propósito del documento
@@ -626,6 +626,10 @@ Entrega: desviación detectada, confirmada y recalculada de extremo a extremo.
 Entrega: MVP, experimento reproducible y evidencias para la memoria.
 
 ## 16. Pruebas y criterios de aceptación
+
+El resultado de la auditoría final, la evidencia asociada y las tareas que no se
+dan por cumplidas se recogen en
+[Cierre y criterios de aceptación del MVP](../evaluation/cierre-mvp.md).
 
 ### 16.1. IA y seguridad
 

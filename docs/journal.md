@@ -1,5 +1,33 @@
 # Journal de desarrollo
 
+## 18 de agosto de 2026 — Semana 4, día 5: estabilización y demostración
+
+Se auditó el MVP contra los criterios fijados al inicio y se separó evidencia
+automática, validación manual, cumplimiento parcial y trabajo pendiente. El
+nuevo comando `bash scripts/verificar-mvp.sh` comprueba Python 3.9, backend,
+aplicación y exportación Android; la integración continua móvil también genera
+el paquete. Se documentó un guion de demostración con modo ORS y respaldo
+sintético, TalkBack, recálculo y recuperación de fallos.
+
+El cierre no presenta Expo Go como una compilación nativa propia ni la revisión
+en emulador como un estudio con participantes. La matriz completa está en
+[Cierre y criterios de aceptación](evaluation/cierre-mvp.md) y la preparación
+operativa en [Guía de demostración](operations/guia-demostracion.md).
+
+## 18 de agosto de 2026 — Semana 4, día 4: capacidad informativa
+
+Se cerró `EXP-007` y se implementó un diagnóstico puro que diferencia número
+de elecciones de contraste y diversidad útil. `EXP-008` analizó 800
+historiales entre 4 y 60 elecciones. La regla basada solo en cantidad aceptó
+ambos bancos al llegar a ocho; el diagnóstico estructural aceptó el 100 % del
+sintético informativo y rechazó el 100 % del ORS y OSM limitado. Solo cinco de
+nueve dimensiones variaban en este último. La función no se conecta todavía a
+una activación automática para evitar generalizar desde un único banco real
+pequeño. Protocolo, tabla, figura y límites en el
+[diagnóstico de capacidad informativa](evaluation/diagnostico-capacidad-informativa.md).
+El cierre completo alcanzó 282 pruebas de backend, 126 de aplicación y análisis
+estáticos sin errores.
+
 ## 18 de agosto de 2026 — Semana 4, día 3: transferencia a rutas reales
 
 Se ejecutó `EXP-007` con doce pares fijados, costes de rutas ORS enriquecidas

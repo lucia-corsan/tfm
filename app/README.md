@@ -21,7 +21,7 @@ Para comprobar que Metro puede construir el paquete Android sin arrancar un
 emulador:
 
 ```bash
-npx expo export --platform android --output-dir /tmp/tfm-expo-export
+npm run export:android
 ```
 
 ## Arranque
@@ -30,9 +30,11 @@ npx expo export --platform android --output-dir /tmp/tfm-expo-export
 npm run start
 ```
 
-La primera pantalla puede probarse inicialmente con Expo Go. GPS, reconocimiento
-de voz y otras integraciones nativas se validarán después mediante una
-compilación de desarrollo (*development build*).
+El flujo actual se ha validado en Android Emulator mediante Expo Go, incluidos
+GPS en primer plano, `expo-speech` y persistencia SQLite. También se exporta el
+paquete JavaScript Android en la integración continua. Esto no equivale a haber
+generado y probado una compilación nativa de desarrollo propia; ese empaquetado
+permanece como tarea previa a una distribución fuera de Expo Go.
 
 ## Organización
 

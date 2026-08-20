@@ -71,6 +71,13 @@ python -m pytest
 python -m ruff check .
 ```
 
+La comprobación completa de backend, app y exportación Android se puede ejecutar
+desde la raíz con:
+
+```bash
+bash scripts/verificar-mvp.sh
+```
+
 ## Aplicación Android
 
 ```bash
@@ -79,11 +86,14 @@ npm ci
 npm test
 npm run lint
 npm run typecheck
+npm run export:android
 npm run start
 ```
 
 La aplicación usa Expo SDK 57, React Native 0.86 y TypeScript estricto. El paquete
 Android puede validarse sin emulador con el comando documentado en `app/README.md`.
+El guion completo para preparar y recuperar una demostración está en
+[`docs/operations/guia-demostracion.md`](docs/operations/guia-demostracion.md).
 
 ## Configuración y secretos
 
