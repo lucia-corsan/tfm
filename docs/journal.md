@@ -947,3 +947,78 @@ completa y las limitaciones se registran en
 La revisión final en el emulador confirmó el comportamiento previsto: con
 TalkBack activo solo aparece la explicación del canal accesible y el cambio de
 paso comunica una única instrucción, sin repetir el contador.
+
+## 20 de agosto de 2026 — Sistema de diseño y separación de pantallas
+
+La interfaz se unificó en un sistema de diseño propio con recursos locales:
+tipografía Atkinson Hyperlegible Next, creada para baja visión, e iconos
+Phosphor copiados como trazos dentro del repositorio. La paleta asigna un color
+y un icono a cada estado de la evidencia y todas sus parejas superan el
+contraste exigido por WCAG 2.2 AA.
+
+El flujo de comparación pasó de una única pantalla larga a tres pantallas
+encadenadas: búsqueda, alternativas ordenadas y detalle. La información que
+falta por confirmar dejó de mostrarse por omisión y ahora vive en el detalle,
+al que se llega con «Saber más»; la evidencia desfavorable permanece siempre
+visible por tratarse de un aviso de seguridad. Con TalkBack activo también se
+retiró la tarjeta que solo describía el canal accesible. El detalle está en
+[Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
+
+La revisión con un teclado físico y sin TalkBack se comprobó en el emulador
+recorriendo la pantalla con el tabulador y leyendo el nodo enfocado en cada
+paso. El recorrido alcanza los controles y la tecla Intro los activa, un
+comportamiento que React Native ya proporciona. Lo que faltaba era el indicador:
+Android no dibuja ningún contorno de foco sobre las vistas de React Native, así
+que no era posible saber dónde estaba el foco. Los controles pintan ahora uno
+propio, cubierto por una prueba del estado de foco.
+
+## 20 de agosto de 2026 — Importación del sistema visual de Rumbo
+
+Se importó el lienzo «Rumbo · Sistema y flujo de búsqueda» publicado en Claude
+Design y se implementó sobre la aplicación existente, sin tocar el backend ni la
+lógica de puntuación. El flujo pasa a pantallas de una sola pregunta: portada,
+elección entre hablar y teclear, destino, origen y tres pasos de configuración.
+«Saber más» deja de abrir una pantalla aparte y se convierte en un detalle
+desplegable dentro de la tarjeta.
+
+Se aplicó la paleta del diseño con una corrección: su verde de marca `#17A55C`
+no alcanza el contraste exigido por WCAG 2.2 AA sobre blanco, así que queda
+reservado al símbolo y los elementos gráficos, y el texto usa el verde oscuro
+`#0E7A43` del mismo sistema. El dictado por voz y el nombre de calle de la
+ubicación actual quedan declarados como no disponibles, según se detalla en
+[Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
+
+Una revisión posterior del lienzo retiró el aviso de alcance de la pantalla de
+elección entre hablar y teclear. El texto se trasladó a la portada, para que esa
+pantalla presente solo la pregunta sin perder el recordatorio de que la decisión
+final es de la persona.
+
+El aviso de posible desviación adoptó también el sistema visual y pasó de
+diálogo modal a pantalla completa, sin cambios en el detector ni en la petición
+de recálculo. Ocupa el primer plano solo mientras la decisión está pendiente:
+el cálculo, el resultado y el error siguen mostrándose sobre la navegación con
+la ruta anterior a la vista.
+
+## 20 de agosto de 2026 — Segunda pasada del sistema visual
+
+Se implementó la revisión del lienzo de Claude Design: portada de marca a
+pantalla completa, banda de acción inferior de altura idéntica en todo el flujo
+con el texto centrado, barra de progreso por segmentos en los tres pasos,
+micrófono dentro del propio campo de búsqueda, extremos del trayecto como filas
+con su acción de cambio y resultados con las tres métricas en cajas suaves.
+
+La escala tipográfica se comprimió para que ninguna pantalla salte de tamaño y
+se retiraron dos textos: el alcance del piloto en la portada y la descripción
+bajo el interruptor del aprendizaje, que ya explica el mensaje de estado.
+
+## 20 de agosto de 2026 — Ajustes sobre la segunda pasada visual
+
+La aplicación dejó de proponer un origen y un destino de partida: ambos extremos
+se eligen ahora de forma explícita, y el lugar seleccionado se presenta sobre
+fondo neutro en lugar de verde. La pantalla de alternativas adoptó la barra
+superior de marca.
+
+En la navegación, la pantalla se redujo a la tarjeta de instrucción y sus
+controles de paso; la información del tramo, los avisos de la ruta, el GPS y la
+voz se agruparon tras un «Saber más» dentro de la tarjeta. En la última
+instrucción la banda inferior pasa a terminar la navegación.

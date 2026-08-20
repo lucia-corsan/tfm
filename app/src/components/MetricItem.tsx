@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { colors, radii, spacing, typography } from '@/theme';
+
 interface MetricItemProps {
   label: string;
   value: string;
 }
 
+/** Cifra destacada con su etiqueta, en una caja suave dentro de la tarjeta. */
 export function MetricItem({ label, value }: MetricItemProps) {
   return (
     <View
@@ -22,24 +25,23 @@ export function MetricItem({ label, value }: MetricItemProps) {
 
 const styles = StyleSheet.create({
   label: {
-    color: '#4A5063',
-    fontSize: 13,
-    lineHeight: 18,
+    ...typography.meta,
+    color: colors.inkMuted,
     textAlign: 'center',
   },
   metric: {
     alignItems: 'center',
-    backgroundColor: '#F3F0FC',
-    borderRadius: 14,
-    flex: 1,
-    gap: 4,
-    minWidth: 96,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
+    backgroundColor: colors.brandSoft,
+    borderRadius: radii.field,
+    flexBasis: '46%',
+    flexGrow: 1,
+    gap: 2,
+    minWidth: 130,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
   },
   value: {
-    color: '#3E277F',
-    fontSize: 19,
-    fontWeight: '800',
+    ...typography.metric,
+    color: colors.brandInk,
   },
 });

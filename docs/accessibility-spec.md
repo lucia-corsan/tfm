@@ -117,9 +117,54 @@ La primera pantalla funcional aplica los principios anteriores de esta manera:
   insignia visual.
 - Si no queda ninguna alternativa compatible, se anuncia de forma explícita y
   no se utiliza lenguaje que presuponga la existencia de una ruta recomendada.
-- Los atributos desconocidos se enumeran individualmente debajo de la métrica
-  de incertidumbre; la persona no tiene que deducir el significado de un
-  porcentaje aislado.
+- Los atributos desconocidos, la evidencia desfavorable y la procedencia
+  detallada se agrupan tras «Saber más», un control desplegable dentro de la
+  propia tarjeta que declara su estado expandido o contraído. La persona no
+  tiene que deducir el significado de un porcentaje aislado.
+- Cuando una alternativa tiene evidencia desfavorable, la tarjeta lo indica con
+  una etiqueta visible aunque el detalle esté contraído. Un aviso de seguridad
+  no puede depender de que alguien despliegue una sección.
+- La comparación se reparte en tres pantallas: búsqueda, alternativas ordenadas
+  y detalle. Cada una tiene un único encabezado de nivel superior y un botón de
+  retroceso con nombre explícito, de modo que el recorrido con TalkBack avanza
+  por pasos cortos.
+- Los ajustes de la voz propia de la aplicación no se muestran mientras hay un
+  lector de pantalla activo: las instrucciones ya se locutan mediante TalkBack y
+  la sección solo alargaría el recorrido de la pantalla.
+- La aplicación no propone ningún origen ni destino de partida: ambos extremos
+  se eligen de forma explícita, de modo que nadie compare un trayecto que no ha
+  pedido.
+- En la navegación, la pantalla solo mantiene la instrucción actual y sus
+  controles de paso. La información de accesibilidad del tramo, los avisos de la
+  ruta, el seguimiento por GPS y los ajustes de voz se agrupan tras un «Saber
+  más» dentro de la propia tarjeta, con su estado expandido o contraído.
+- En la última instrucción, la banda inferior deja de ofrecer el paso siguiente y
+  pasa a terminar la navegación, para que no quede una acción sin efecto.
+- El flujo se recorre en pantallas de una sola pregunta: portada, elección
+  entre hablar y teclear, destino, origen y tres pasos de configuración
+  —confirmación del trayecto, perfil y personalización—. Cada pantalla cabe sin
+  desplazamiento y termina en una sola acción.
+- El alcance del área piloto y el recordatorio de que la decisión final es de la
+  persona se anuncian en la portada, de modo que la pantalla de elección entre
+  hablar y teclear presente solo la pregunta y sus dos respuestas.
+- El dictado por voz todavía no está implementado. La opción se conserva en la
+  interfaz, pero declara su estado con un aviso prioritario en lugar de simular
+  una función inexistente.
+- Los controles se alcanzan con un teclado externo o con acceso por
+  conmutadores, y se activan con Intro o con la tecla central. El control con el
+  foco dibuja un contorno propio, porque Android no dibuja ninguno sobre las
+  vistas de React Native y sin él no es posible saber dónde está el foco.
+- En Android, `accessible` es la misma propiedad que gobierna el foco del
+  teclado: `ReactTextViewManager` y `ReactViewManager` la traducen a
+  `isFocusable`. Cada párrafo que se expone como parada de lectura ocupa también
+  una parada de tabulación, de modo que una pantalla larga vuelve errática la
+  búsqueda de foco de Android y puede dejar un botón fuera del recorrido. Los
+  pasos cortos son la razón principal por la que el recorrido resulta
+  predecible.
+- La tipografía, los iconos y los colores proceden del sistema de diseño
+  descrito en [Sistema de diseño de la aplicación](product/sistema-diseno-app.md),
+  con contraste WCAG 2.2 AA comprobado en todas las parejas de color y con
+  estados de la evidencia distinguidos por icono y texto, nunca solo por color.
 - La evidencia desconocida y la desfavorable se presentan en secciones
   diferentes para evitar que TalkBack comunique ambas como si representaran el
   mismo riesgo.

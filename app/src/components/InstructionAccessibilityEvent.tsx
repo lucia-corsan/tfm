@@ -1,22 +1,50 @@
 import { StyleSheet, View } from 'react-native';
 
-import type { NavigationAccessibilityEvent } from '@/api/types';
+import type {
+  EvidenceState,
+  NavigationAccessibilityEvent,
+} from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
+import { Icon, type IconName } from '@/components/icons';
 import { formatDistance } from '@/features/route-comparison/presenters';
+import { colors, radii, spacing } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface InstructionAccessibilityEventProps {
   event: NavigationAccessibilityEvent;
 }
 
-/** Shows one OSM event as separate TalkBack reading stops. */
+const stateIcons: Record<EvidenceState, IconName> = {
+  favorable: 'checkCircle',
+  unfavorable: 'warning',
+  unknown: 'sealQuestion',
+};
+
+const stateColors: Record<EvidenceState, string> = {
+  favorable: colors.positiveOnSoft,
+  unfavorable: colors.cautionOnSoft,
+  unknown: colors.unknownOnSoft,
+};
+
+const stateBackgrounds: Record<EvidenceState, string> = {
+  favorable: colors.positiveSoft,
+  unfavorable: colors.cautionSoft,
+  unknown: colors.unknownSoft,
+};
+
+/** Muestra un evento de OpenStreetMap como paradas de lectura separadas. */
 export function InstructionAccessibilityEvent({
   event,
 }: InstructionAccessibilityEventProps) {
   return (
-    <View style={styles.eventCard}>
-      <AccessibleText style={styles.eventTitle}>{event.text}</AccessibleText>
-      <AccessibleText style={styles.eventDistance}>
+    <View style={styles.event}>
+      <View style={styles.titleRow}>
+        <Icon color={colors.brandInk} name="handTap" size={20} />
+        <AccessibleText style={styles.title} variant="emphasis">
+          {event.text}
+        </AccessibleText>
+      </View>
+      <AccessibleText style={styles.distance} variant="body">
         {ES.navigation.accessibilityEventDistance(
           formatDistance(event.distance_from_instruction_start_m),
         )}
@@ -25,18 +53,32 @@ export function InstructionAccessibilityEvent({
         <View
           key={detail.attribute}
           style={[
-            styles.detailCard,
-            detail.state === 'unfavorable' && styles.unfavorableDetail,
-            detail.state === 'unknown' && styles.unknownDetail,
+            styles.detail,
+            { backgroundColor: stateBackgrounds[detail.state] },
           ]}
         >
-          <AccessibleText style={styles.stateLabel}>
-            {ES.navigation.evidenceStates[detail.state]}
-          </AccessibleText>
-          <AccessibleText style={styles.detailText}>{detail.text}</AccessibleText>
+          <Icon
+            color={stateColors[detail.state]}
+            name={stateIcons[detail.state]}
+            size={20}
+          />
+          <View style={styles.detailCopy}>
+            <AccessibleText
+              style={{ color: stateColors[detail.state] }}
+              variant="meta"
+            >
+              {ES.navigation.evidenceStates[detail.state]}
+            </AccessibleText>
+            <AccessibleText
+              style={{ color: stateColors[detail.state] }}
+              variant="body"
+            >
+              {detail.text}
+            </AccessibleText>
+          </View>
         </View>
       ))}
-      <AccessibleText style={styles.source}>
+      <AccessibleText style={styles.source} variant="meta">
         {ES.navigation.accessibilitySource}
       </AccessibleText>
     </View>
@@ -44,56 +86,34 @@ export function InstructionAccessibilityEvent({
 }
 
 const styles = StyleSheet.create({
-  detailCard: {
-    backgroundColor: '#E7F5EC',
-    borderColor: '#65A67D',
-    borderLeftWidth: 4,
-    borderRadius: 10,
-    gap: 3,
-    padding: 12,
+  detail: {
+    borderRadius: radii.field,
+    flexDirection: 'row',
+    gap: spacing.md,
+    padding: spacing.md,
   },
-  detailText: {
-    color: '#17213A',
-    fontSize: 16,
-    lineHeight: 24,
+  detailCopy: {
+    flex: 1,
+    gap: 2,
   },
-  eventCard: {
-    backgroundColor: '#F7F5FB',
-    borderColor: '#C8BBEA',
-    borderRadius: 14,
-    borderWidth: 1,
-    gap: 10,
-    padding: 14,
+  distance: {
+    color: colors.inkMuted,
   },
-  eventDistance: {
-    color: '#4B5268',
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  eventTitle: {
-    color: '#2E1A69',
-    fontSize: 17,
-    fontWeight: '700',
-    lineHeight: 24,
+  event: {
+    borderLeftColor: colors.border,
+    borderLeftWidth: 3,
+    gap: spacing.sm,
+    paddingLeft: spacing.lg,
   },
   source: {
-    color: '#596076',
-    fontSize: 14,
-    lineHeight: 20,
+    color: colors.inkSubtle,
   },
-  stateLabel: {
-    color: '#343B50',
-    fontSize: 13,
-    fontWeight: '800',
-    lineHeight: 18,
-    textTransform: 'uppercase',
+  title: {
+    flex: 1,
   },
-  unfavorableDetail: {
-    backgroundColor: '#FFF0E4',
-    borderColor: '#B45B2A',
-  },
-  unknownDetail: {
-    backgroundColor: '#FFF4DC',
-    borderColor: '#A97818',
+  titleRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: spacing.sm,
   },
 });

@@ -185,6 +185,16 @@ const session: NavigationSession = {
   route,
 };
 
+/** Despliega el detalle del tramo dentro de la tarjeta de instrucción. */
+async function openStepDetails(
+  screen: ReturnType<typeof render> extends Promise<infer R> ? R : never,
+  user: ReturnType<typeof userEvent.setup>,
+): Promise<void> {
+  await user.press(
+    screen.getByRole('button', { name: ES.routeComparison.detailsButton }),
+  );
+}
+
 describe('<NavigationScreen />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -197,6 +207,7 @@ describe('<NavigationScreen />', () => {
     const screen = await render(
       <NavigationScreen onFinish={jest.fn()} session={session} />,
     );
+    const user = userEvent.setup();
 
     screen.getByRole('header', { name: ES.navigation.title });
     screen.getByRole('text', { name: route.instructions[0].text });
@@ -208,6 +219,8 @@ describe('<NavigationScreen />', () => {
       disabled: false,
       name: ES.navigation.nextButton,
     });
+
+    await openStepDetails(screen, user);
     screen.getByRole('text', { name: ES.navigation.unknownSummary(1) });
     screen.getByRole('text', { name: ES.navigation.unfavorableSummary(1) });
     screen.getByRole('header', { name: ES.navigation.gpsTitle });
@@ -230,6 +243,7 @@ describe('<NavigationScreen />', () => {
       <NavigationScreen onFinish={jest.fn()} session={session} />,
     );
     const user = userEvent.setup();
+    await openStepDetails(screen, user);
 
     expect(latestSpeechRate).toBe(1);
     await user.press(
@@ -247,8 +261,10 @@ describe('<NavigationScreen />', () => {
       <NavigationScreen onFinish={jest.fn()} session={session} />,
     );
 
-    screen.getByRole('header', { name: ES.navigation.speech.talkBackTitle });
-    screen.getByText(ES.navigation.speech.status.enabled);
+    expect(
+      screen.queryByRole('header', { name: ES.navigation.speech.title }),
+    ).toBeNull();
+    expect(screen.queryByText(ES.navigation.speech.status.enabled)).toBeNull();
     expect(
       screen.getByRole('text', { name: route.instructions[0].text }).props
         .accessibilityLiveRegion,
@@ -277,6 +293,7 @@ describe('<NavigationScreen />', () => {
     );
     screen.getByRole('text', { name: route.instructions[1].text });
     screen.getByRole('text', { name: ES.navigation.progress(2, 3) });
+    await openStepDetails(screen, user);
     screen.getByRole('header', {
       name: ES.navigation.instructionAccessibilityTitle,
     });
@@ -301,10 +318,10 @@ describe('<NavigationScreen />', () => {
       screen.getByRole('button', { name: ES.navigation.nextButton }),
     );
     screen.getByRole('text', { name: route.instructions[2].text });
-    screen.getByRole('button', {
-      disabled: true,
-      name: ES.navigation.nextButton,
-    });
+    expect(
+      screen.queryByRole('button', { name: ES.navigation.nextButton }),
+    ).toBeNull();
+    screen.getByRole('button', { name: ES.navigation.finishButton });
   });
 
   test('finishes navigation only after an explicit action', async () => {
@@ -315,6 +332,11 @@ describe('<NavigationScreen />', () => {
     const user = userEvent.setup();
 
     expect(onFinish).not.toHaveBeenCalled();
+    for (let step = 0; step < route.instructions.length - 1; step += 1) {
+      await user.press(
+        screen.getByRole('button', { name: ES.navigation.nextButton }),
+      );
+    }
     await user.press(
       screen.getByRole('button', { name: ES.navigation.finishButton }),
     );

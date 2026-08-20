@@ -16,10 +16,37 @@ function successfulResponse(profileId = 'balanced_demo'): RouteCompareResponse {
   };
 }
 
+/** El flujo empieza sin lugares: las pruebas eligen los suyos. */
+const ORIGIN_PLACE = {
+  place_id: 'moncloa',
+  name: 'Moncloa',
+  description: 'Intercambiador y entorno de la plaza de Moncloa.',
+  location: { latitude: 40.4353, longitude: -3.7191 },
+  source: 'pilot_catalog' as const,
+};
+
+const DESTINATION_PLACE = {
+  place_id: 'principe_pio',
+  name: 'Príncipe Pío',
+  description: 'Intercambiador y entorno de la estación de Príncipe Pío.',
+  location: { latitude: 40.4211, longitude: -3.7206 },
+  source: 'pilot_catalog' as const,
+};
+
+/** Deja el controlador con un trayecto elegido y comparable. */
+async function chooseJourney(
+  result: { current: ReturnType<typeof useRouteComparison> },
+): Promise<void> {
+  await act(() => result.current.selectOrigin(ORIGIN_PLACE));
+  await act(() => result.current.selectDestination(DESTINATION_PLACE));
+}
+
 describe('route comparison state', () => {
   test('loads the selected profile and exposes a successful result', async () => {
     const compare = jest.fn().mockResolvedValue(successfulResponse());
     const { result } = await renderHook(() => useRouteComparison(compare));
+
+    await chooseJourney(result);
 
     await act(async () => {
       await result.current.compareSelectedProfile();
@@ -48,6 +75,8 @@ describe('route comparison state', () => {
       uncertainty: 0,
     };
 
+    await chooseJourney(result);
+
     await act(async () => {
       await result.current.compareSelectedProfile(effectiveWeights);
     });
@@ -69,6 +98,8 @@ describe('route comparison state', () => {
     const compare = jest.fn().mockResolvedValue(successfulResponse());
     const { result } = await renderHook(() => useRouteComparison(compare));
 
+    await chooseJourney(result);
+
     await act(async () => {
       await result.current.compareSelectedProfile();
     });
@@ -81,6 +112,8 @@ describe('route comparison state', () => {
   test('exposes a stable error code instead of technical network details', async () => {
     const compare = jest.fn().mockRejectedValue(new RouteApiError('network_error'));
     const { result } = await renderHook(() => useRouteComparison(compare));
+
+    await chooseJourney(result);
 
     await act(async () => {
       await result.current.compareSelectedProfile();
@@ -129,6 +162,7 @@ describe('route comparison state', () => {
         source: 'pilot_catalog',
       });
     });
+    await act(() => result.current.selectDestination(DESTINATION_PLACE));
     await act(async () => {
       await result.current.compareSelectedProfile();
     });
@@ -145,7 +179,8 @@ describe('route comparison state', () => {
     const compare = jest.fn();
     const { result } = await renderHook(() => useRouteComparison(compare));
 
-    await act(() => result.current.selectOrigin(result.current.destination));
+    await chooseJourney(result);
+    await act(() => result.current.selectOrigin(DESTINATION_PLACE));
     await act(async () => {
       await result.current.compareSelectedProfile();
     });

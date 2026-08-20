@@ -169,29 +169,139 @@ function response(firstRoute = 'balanced'): RouteCompareResponse {
   };
 }
 
+/**
+ * Recorre el flujo hasta el último paso de configuración.
+ *
+ * El orden es destino, origen, confirmación del trayecto y perfil; las cuatro
+ * pantallas terminan en el mismo botón «Siguiente».
+ */
+async function goToComparisonStep(
+  screen: ReturnType<typeof render> extends Promise<infer R> ? R : never,
+  user: ReturnType<typeof userEvent.setup>,
+): Promise<void> {
+  await chooseJourney(screen, user);
+  for (let advance = 0; advance < 2; advance += 1) {
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
+  }
+}
+
+/** Recorre la configuración y solicita la comparación. */
+async function compareRoutes(
+  screen: ReturnType<typeof render> extends Promise<infer R> ? R : never,
+  user: ReturnType<typeof userEvent.setup>,
+): Promise<void> {
+  await goToComparisonStep(screen, user);
+  await user.press(
+    screen.getByRole('button', { name: ES.routeComparison.compareButton }),
+  );
+}
+
+const MONCLOA = {
+  place_id: 'moncloa',
+  name: 'Moncloa',
+  description: 'Intercambiador y entorno de la plaza de Moncloa.',
+  location: { latitude: 40.4353, longitude: -3.7191 },
+  source: 'pilot_catalog' as const,
+};
+
+const PRINCIPE_PIO = {
+  place_id: 'principe_pio',
+  name: 'Príncipe Pío',
+  description: 'Intercambiador y entorno de la estación de Príncipe Pío.',
+  location: { latitude: 40.4211, longitude: -3.7206 },
+  source: 'pilot_catalog' as const,
+};
+
+/** Devuelve los dos lugares del piloto para cualquier consulta. */
+function pilotSearch() {
+  return jest.fn().mockResolvedValue({ places: [PRINCIPE_PIO, MONCLOA] });
+}
+
+/** Elige un lugar en la pantalla activa y confirma con «Siguiente». */
+async function choosePlace(
+  screen: ReturnType<typeof render> extends Promise<infer R> ? R : never,
+  user: ReturnType<typeof userEvent.setup>,
+  field: 'destination' | 'origin',
+  place: typeof MONCLOA,
+): Promise<void> {
+  if (field === 'origin') {
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.chooseOtherOrigin }),
+    );
+  }
+  fireEvent.changeText(
+    screen.getByLabelText(ES.routeComparison.placeSearch[field].inputLabel),
+    place.name,
+  );
+  await user.press(
+    screen.getByRole('button', {
+      name: ES.routeComparison.placeSearch[field].searchButton,
+    }),
+  );
+  await user.press(
+    await screen.findByRole('button', {
+      name: `${place.name}. ${place.description}`,
+    }),
+  );
+  await user.press(
+    screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+  );
+}
+
+/** Elige destino y origen, dejando el flujo en el paso de confirmación. */
+async function chooseJourney(
+  screen: ReturnType<typeof render> extends Promise<infer R> ? R : never,
+  user: ReturnType<typeof userEvent.setup>,
+): Promise<void> {
+  await choosePlace(screen, user, 'destination', PRINCIPE_PIO);
+  await choosePlace(screen, user, 'origin', MONCLOA);
+}
+
 describe('<RouteComparisonScreen />', () => {
   test('shows the accessible initial profile selection', async () => {
     const screen = await render(
-      <RouteComparisonScreen compare={jest.fn()} />,
+      <RouteComparisonScreen compare={jest.fn()} search={pilotSearch()} />,
     );
 
-    screen.getByRole('header', { name: ES.routeComparison.title });
+    const user = userEvent.setup();
+
+    screen.getByRole('header', { name: ES.placeQuery.destination.title });
+    expect(
+      screen.queryByRole('radio', {
+        name: ES.routeComparison.profiles.balanced_demo.label,
+      }),
+    ).toBeNull();
+
+    await chooseJourney(screen, user);
+    screen.getByRole('header', { name: ES.routeComparison.steps.confirm.title });
+    screen.getByText(ES.routeComparison.stepIndicator(1, 3));
+
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
+
+    screen.getByText(ES.routeComparison.stepIndicator(2, 3));
     screen.getByRole('radio', {
       name: ES.routeComparison.profiles.balanced_demo.label,
       selected: true,
     });
+
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
+
+    screen.getByText(ES.routeComparison.stepIndicator(3, 3));
     screen.getByRole('button', { name: ES.routeComparison.compareButton });
-    screen.getByText(ES.routeComparison.idleDescription);
   });
 
   test('presents metrics, reasons, warnings, and rejected routes', async () => {
     const compare = jest.fn().mockResolvedValue(response());
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     await screen.findByText(ES.routeComparison.resultSummary(2, 1));
     screen.getByRole('header', { name: 'Alternativa equilibrada' });
@@ -199,6 +309,12 @@ describe('<RouteComparisonScreen />', () => {
     screen.getByLabelText(`${ES.routeComparison.confidence}: 75 %`);
     screen.getByLabelText(`${ES.routeComparison.uncertainty}: 0 %`);
     screen.getByText(/Ventaja respecto a las demás alternativas: distancia/);
+    screen.getByLabelText(ES.routeComparison.unfavorableCountChip(1));
+    await user.press(
+      screen.getAllByRole('button', {
+        name: ES.routeComparison.detailsButton,
+      })[0],
+    );
     screen.getByRole('alert', {
       name: /Evidencia desfavorable sobre pendiente/,
     });
@@ -213,13 +329,12 @@ describe('<RouteComparisonScreen />', () => {
       <RouteComparisonScreen
         compare={compare}
         onChooseRoute={onChooseRoute}
+        search={pilotSearch()}
       />,
     );
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
     const chooseButtons = await screen.findAllByRole('button', {
       name: ES.routeComparison.chooseRouteButton,
     });
@@ -246,9 +361,11 @@ describe('<RouteComparisonScreen />', () => {
         compare={compare}
         onChooseRoute={onChooseRoute}
         preferenceStorage={storage}
+        search={pilotSearch()}
       />,
     );
     const user = userEvent.setup();
+    await goToComparisonStep(screen, user);
     const learningSwitch = screen.getByRole('switch', {
       name: ES.adaptivePreferences.switchLabel,
     });
@@ -289,12 +406,10 @@ describe('<RouteComparisonScreen />', () => {
 
   test('exposes result paragraphs as independent Spanish reading stops', async () => {
     const compare = jest.fn().mockResolvedValue(response());
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     const introduction = await screen.findByRole('text', {
       name: ES.routeComparison.resultIntroduction,
@@ -305,14 +420,19 @@ describe('<RouteComparisonScreen />', () => {
     const firstReason = screen.getByRole('text', {
       name: /Ventaja respecto a las demás alternativas: distancia/,
     });
-    const warningsHeader = screen.getAllByRole('header', {
-      name: ES.routeComparison.unfavorableEvidenceTitle,
+    await user.press(
+      screen.getAllByRole('button', {
+        name: ES.routeComparison.detailsButton,
+      })[0],
+    );
+    const warning = screen.getAllByRole('alert', {
+      name: /Evidencia desfavorable sobre pendiente/,
     })[0];
 
     expect(introduction.props.accessibilityLanguage).toBe('es-ES');
     expect(reasonsHeader.props.accessibilityLanguage).toBe('es-ES');
     expect(firstReason.props.accessibilityLanguage).toBe('es-ES');
-    expect(warningsHeader.props.accessibilityLanguage).toBe('es-ES');
+    expect(warning.props.accessibilityLanguage).toBe('es-ES');
   });
 
   test('explains real route provenance and the attributes behind uncertainty', async () => {
@@ -358,16 +478,27 @@ describe('<RouteComparisonScreen />', () => {
       rejected_routes: [],
     };
     const compare = jest.fn().mockResolvedValue(realResponse);
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     await screen.findByRole('text', { name: ES.routeComparison.realData });
+    expect(
+      screen.queryByRole('text', {
+        name: /Información no confirmada sobre ausencia de escalones/,
+      }),
+    ).toBeNull();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.routeComparison.detailsButton }),
+    );
+
     screen.getByRole('text', {
       name: ES.routeComparison.realDataProvenance,
+    });
+    screen.getByRole('header', {
+      name: ES.routeComparison.unknownEvidenceTitle,
     });
     screen.getByRole('text', {
       name: ES.routeComparison.unknownEvidenceIntroduction('27 %', 3),
@@ -397,13 +528,20 @@ describe('<RouteComparisonScreen />', () => {
         ),
       ),
     );
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
+    await chooseJourney(screen, user);
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
     await user.press(
       screen.getByRole('radio', {
         name: ES.routeComparison.profiles.simpler_crossings_demo.label,
       }),
+    );
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
     );
     await user.press(
       screen.getByRole('button', { name: ES.routeComparison.compareButton }),
@@ -424,7 +562,7 @@ describe('<RouteComparisonScreen />', () => {
           element.props.children === 'Alternativa con cruces más sencillos',
       ),
     ).toBeDefined();
-    screen.getByText(ES.routeComparison.rankLabel(1));
+    screen.getByText(ES.routeComparison.bestRouteLabel);
   });
 
   test('announces loading and disables duplicate submissions', async () => {
@@ -435,12 +573,10 @@ describe('<RouteComparisonScreen />', () => {
           resolveComparison = resolve;
         }),
     );
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     screen.getByRole('progressbar', { name: ES.routeComparison.loading });
     screen.getByRole('button', {
@@ -459,12 +595,10 @@ describe('<RouteComparisonScreen />', () => {
     'network_error',
   ] as const)('presents the controlled %s error without technical details', async (code) => {
     const compare = jest.fn().mockRejectedValue(new RouteApiError(code));
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     await screen.findByRole('alert', {
       name: `${ES.routeComparison.errorTitle}. ${ES.routeComparison.errors[code]}`,
@@ -479,12 +613,10 @@ describe('<RouteComparisonScreen />', () => {
       routes: [],
     };
     const compare = jest.fn().mockResolvedValue(rejectedOnly);
-    const screen = await render(<RouteComparisonScreen compare={compare} />);
+    const screen = await render(<RouteComparisonScreen compare={compare} search={pilotSearch()} />);
     const user = userEvent.setup();
 
-    await user.press(
-      screen.getByRole('button', { name: ES.routeComparison.compareButton }),
-    );
+    await compareRoutes(screen, user);
 
     await screen.findByRole('header', {
       name: ES.routeComparison.noAcceptedRoutesTitle,
@@ -505,13 +637,21 @@ describe('<RouteComparisonScreen />', () => {
       location: { latitude: 40.4304497, longitude: -3.7155854 },
       source: 'pilot_catalog' as const,
     };
-    const search = jest.fn().mockResolvedValue({ places: [arguelles] });
+    const search = jest
+      .fn()
+      .mockResolvedValue({ places: [arguelles, PRINCIPE_PIO] });
     const compare = jest.fn().mockResolvedValue(response());
     const screen = await render(
       <RouteComparisonScreen compare={compare} search={search} />,
     );
     const user = userEvent.setup();
 
+    await choosePlace(screen, user, 'destination', PRINCIPE_PIO);
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.placeQuery.chooseOtherOrigin,
+      }),
+    );
     fireEvent.changeText(
       screen.getByLabelText(
         ES.routeComparison.placeSearch.origin.inputLabel,
@@ -528,6 +668,11 @@ describe('<RouteComparisonScreen />', () => {
         name: `${arguelles.name}. ${arguelles.description}`,
       }),
     );
+    for (let advance = 0; advance < 3; advance += 1) {
+      await user.press(
+        screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+      );
+    }
     await user.press(
       screen.getByRole('button', { name: ES.routeComparison.compareButton }),
     );
@@ -546,13 +691,21 @@ describe('<RouteComparisonScreen />', () => {
       location: { latitude: 40.4298, longitude: -3.7185 },
       source: 'ors_geocoder' as const,
     };
-    const search = jest.fn().mockResolvedValue({ places: [address] });
+    const search = jest
+      .fn()
+      .mockResolvedValue({ places: [address, PRINCIPE_PIO] });
     const compare = jest.fn().mockResolvedValue(response());
     const screen = await render(
       <RouteComparisonScreen compare={compare} search={search} />,
     );
     const user = userEvent.setup();
 
+    await choosePlace(screen, user, 'destination', PRINCIPE_PIO);
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.placeQuery.chooseOtherOrigin,
+      }),
+    );
     fireEvent.changeText(
       screen.getByLabelText(
         ES.routeComparison.placeSearch.origin.inputLabel,
@@ -569,6 +722,11 @@ describe('<RouteComparisonScreen />', () => {
         name: `${address.name}. ${address.description}`,
       }),
     );
+    for (let advance = 0; advance < 3; advance += 1) {
+      await user.press(
+        screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+      );
+    }
     await user.press(
       screen.getByRole('button', { name: ES.routeComparison.compareButton }),
     );
@@ -611,10 +769,17 @@ describe('<RouteComparisonScreen />', () => {
       }),
     );
 
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
+    await user.press(
+      screen.getByRole('button', { name: ES.placeQuery.nextButton }),
+    );
+
     screen.getByRole('alert', { name: ES.routeComparison.samePlaceError });
     screen.getByRole('button', {
       disabled: true,
-      name: ES.routeComparison.compareButton,
+      name: ES.routeComparison.continueButton,
     });
     expect(compare).not.toHaveBeenCalled();
   });

@@ -1,7 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import type { ComparedRoute } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
+import { Callout } from '@/components/Callout';
+import { Card } from '@/components/Card';
+import { Chip } from '@/components/Chip';
+import { Icon } from '@/components/icons';
 import { MetricItem } from '@/components/MetricItem';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import {
@@ -11,6 +16,7 @@ import {
   formatDuration,
   formatPercentage,
 } from '@/features/route-comparison/presenters';
+import { colors, spacing } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface RouteCardProps {
@@ -20,12 +26,19 @@ interface RouteCardProps {
   route: ComparedRoute;
 }
 
+/**
+ * Resumen accionable de una alternativa.
+ *
+ * Muestra siempre la evidencia desfavorable, porque es un aviso de seguridad,
+ * y remite al detalle la información que todavía no puede confirmarse.
+ */
 export function RouteCard({
   choosing = false,
   disabled = false,
   onChoose,
   route,
 }: RouteCardProps) {
+  const [detailExpanded, setDetailExpanded] = useState(false);
   const unknownWarnings = route.warnings.filter(
     (warning) => warning.state === 'unknown',
   );
@@ -34,35 +47,48 @@ export function RouteCard({
   );
 
   return (
-    <View style={[styles.card, route.rank === 1 && styles.recommendedCard]}>
-      <View style={styles.topLine}>
-        <AccessibleText style={styles.rank}>
-          {ES.routeComparison.rankLabel(route.rank)}
-        </AccessibleText>
-        {route.is_synthetic && (
-          <AccessibleText style={styles.synthetic}>
-            {ES.routeComparison.syntheticData}
-          </AccessibleText>
-        )}
-        {route.source === 'ors' && !route.is_synthetic && (
-          <AccessibleText style={styles.realData}>
-            {ES.routeComparison.realData}
-          </AccessibleText>
-        )}
+    <Card highlighted={route.rank === 1}>
+      <View style={styles.chips}>
+        <Chip
+          icon={route.rank === 1 ? 'trophy' : 'listChecks'}
+          label={
+            route.rank === 1
+              ? ES.routeComparison.bestRouteLabel
+              : ES.routeComparison.rankLabel(route.rank)
+          }
+          tone={route.rank === 1 ? 'accent' : 'neutral'}
+        />
+        {route.is_synthetic ? (
+          <Chip
+            icon="sparkle"
+            label={ES.routeComparison.syntheticData}
+            tone="unknown"
+          />
+        ) : null}
+        {route.source === 'ors' && !route.is_synthetic ? (
+          <Chip
+            icon="shieldCheck"
+            label={ES.routeComparison.realData}
+            tone="brand"
+          />
+        ) : null}
+        {unfavorableWarnings.length > 0 ? (
+          <Chip
+            icon="warning"
+            label={ES.routeComparison.unfavorableCountChip(
+              unfavorableWarnings.length,
+            )}
+            tone="caution"
+          />
+        ) : null}
       </View>
 
-      {route.source === 'ors' && !route.is_synthetic && (
-        <AccessibleText style={styles.provenance}>
-          {ES.routeComparison.realDataProvenance}
-        </AccessibleText>
-      )}
-
-      <AccessibleText accessibilityRole="header" style={styles.title}>
+      <AccessibleText accessibilityRole="header" variant="section">
         {route.name}
       </AccessibleText>
+
       <AccessibleText style={styles.journey}>
-        {ES.routeComparison.distance}: {formatDistance(route.distance_m)} ·{' '}
-        {ES.routeComparison.duration}: {formatDuration(route.duration_s)}
+        {`${ES.routeComparison.distance}: ${formatDistance(route.distance_m)} · ${ES.routeComparison.duration}: ${formatDuration(route.duration_s)}`}
       </AccessibleText>
 
       <View style={styles.metrics}>
@@ -80,180 +106,141 @@ export function RouteCard({
         />
       </View>
 
-      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-        {ES.routeComparison.reasonsTitle}
-      </AccessibleText>
-      {route.reasons.map((reason) => (
-        <AccessibleText
-          key={`${reason.kind}-${reason.dimension}`}
-          style={styles.detail}
-        >
-          • {describeReason(reason)}
+      <View style={styles.reasons}>
+        <AccessibleText accessibilityRole="header" variant="subheading">
+          {ES.routeComparison.reasonsTitle}
         </AccessibleText>
-      ))}
-
-      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-        {ES.routeComparison.unknownEvidenceTitle}
-      </AccessibleText>
-      {unknownWarnings.length === 0 ? (
-        <AccessibleText style={styles.detail}>
-          {ES.routeComparison.noUnknownEvidence}
-        </AccessibleText>
-      ) : (
-        <>
-          <AccessibleText style={styles.detail}>
-            {ES.routeComparison.unknownEvidenceIntroduction(
-              formatPercentage(route.score.uncertainty),
-              unknownWarnings.length,
-            )}
-          </AccessibleText>
-          {unknownWarnings.map((warning) => (
-            <AccessibleText
-              accessibilityLabel={describeWarning(warning)}
-              key={warning.attribute}
-              style={styles.unknownWarning}
-            >
-              {describeWarning(warning)}
+        {route.reasons.map((reason) => (
+          <View key={`${reason.kind}-${reason.dimension}`} style={styles.reason}>
+            <Icon color={colors.brandInk} name="checkCircle" size={20} />
+            <AccessibleText style={styles.reasonText} variant="body">
+              {describeReason(reason)}
             </AccessibleText>
-          ))}
-        </>
-      )}
-
-      <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-        {ES.routeComparison.unfavorableEvidenceTitle}
-      </AccessibleText>
-      {unfavorableWarnings.length === 0 ? (
-        <AccessibleText style={styles.detail}>
-          {ES.routeComparison.noUnfavorableEvidence}
-        </AccessibleText>
-      ) : (
-        unfavorableWarnings.map((warning) => (
-          <View
-            accessible
-            accessibilityLanguage="es-ES"
-            accessibilityLabel={describeWarning(warning)}
-            accessibilityRole="alert"
-            key={warning.attribute}
-            style={styles.warning}
-          >
-            <Text style={styles.warningText}>{describeWarning(warning)}</Text>
           </View>
-        ))
-      )}
+        ))}
+      </View>
 
       <PrimaryButton
-        accessibilityHint={ES.routeComparison.chooseRouteHint(route.name)}
-        disabled={disabled}
+        accessibilityHint={ES.routeComparison.detailsHint(route.name)}
+        expanded={detailExpanded}
+        icon={detailExpanded ? 'caretUp' : 'caretDown'}
         label={
-          choosing
-            ? ES.routeComparison.choosingRouteButton
-            : ES.routeComparison.chooseRouteButton
+          detailExpanded
+            ? ES.routeComparison.detailsCloseButton
+            : ES.routeComparison.detailsButton
         }
-        onPress={() => onChoose(route)}
+        onPress={() => setDetailExpanded(!detailExpanded)}
+        variant="quiet"
       />
-    </View>
+
+      {detailExpanded && (
+        <View style={styles.detail}>
+          {route.source === 'ors' && !route.is_synthetic ? (
+            <AccessibleText style={styles.provenance} variant="meta">
+              {ES.routeComparison.realDataProvenance}
+            </AccessibleText>
+          ) : null}
+
+          <AccessibleText accessibilityRole="header" variant="subheading">
+            {ES.routeComparison.unknownEvidenceTitle}
+          </AccessibleText>
+          {unknownWarnings.length === 0 ? (
+            <AccessibleText style={styles.reasonText}>
+              {ES.routeComparison.noUnknownEvidence}
+            </AccessibleText>
+          ) : (
+            <>
+              <AccessibleText style={styles.reasonText}>
+                {ES.routeComparison.unknownEvidenceIntroduction(
+                  formatPercentage(route.score.uncertainty),
+                  unknownWarnings.length,
+                )}
+              </AccessibleText>
+              {unknownWarnings.map((warning) => (
+                <Callout
+                  key={warning.attribute}
+                  text={describeWarning(warning)}
+                  tone="unknown"
+                />
+              ))}
+            </>
+          )}
+
+          <AccessibleText accessibilityRole="header" variant="subheading">
+            {ES.routeComparison.unfavorableEvidenceTitle}
+          </AccessibleText>
+          {unfavorableWarnings.length === 0 ? (
+            <AccessibleText style={styles.reasonText}>
+              {ES.routeComparison.noUnfavorableEvidence}
+            </AccessibleText>
+          ) : (
+            unfavorableWarnings.map((warning) => (
+              <Callout
+                key={warning.attribute}
+                role="alert"
+                text={describeWarning(warning)}
+                tone="caution"
+              />
+            ))
+          )}
+        </View>
+      )}
+
+      <View style={styles.actions}>
+        <PrimaryButton
+          accessibilityHint={ES.routeComparison.chooseRouteHint(route.name)}
+          disabled={disabled}
+          icon="navigationArrow"
+          label={
+            choosing
+              ? ES.routeComparison.choosingRouteButton
+              : ES.routeComparison.chooseRouteButton
+          }
+          onPress={() => onChoose(route)}
+        />
+      </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#DDD8E9',
-    borderRadius: 20,
-    borderWidth: 1,
-    gap: 12,
-    padding: 20,
+  actions: {
+    gap: spacing.md,
+    marginTop: spacing.xs,
   },
-  detail: {
-    color: '#343B50',
-    fontSize: 15,
-    lineHeight: 22,
+  chips: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
   },
   journey: {
-    color: '#454B5E',
-    fontSize: 15,
-    lineHeight: 22,
+    color: colors.inkMuted,
   },
   metrics: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-  },
-  rank: {
-    color: '#5B3FC4',
-    fontSize: 14,
-    fontWeight: '800',
-    textTransform: 'uppercase',
-  },
-  recommendedCard: {
-    borderColor: '#7A5BD1',
-    borderWidth: 2,
+    gap: spacing.sm,
   },
   provenance: {
-    color: '#285A4B',
-    fontSize: 14,
-    lineHeight: 20,
+    color: colors.inkSubtle,
   },
-  realData: {
-    backgroundColor: '#DDF3EA',
-    borderRadius: 10,
-    color: '#17523E',
-    fontSize: 12,
-    fontWeight: '700',
-    overflow: 'hidden',
-    paddingHorizontal: 9,
-    paddingVertical: 5,
-  },
-  sectionTitle: {
-    color: '#17213A',
-    fontSize: 16,
-    fontWeight: '700',
-    marginTop: 4,
-  },
-  synthetic: {
-    backgroundColor: '#ECE8FA',
-    borderRadius: 10,
-    color: '#3E277F',
-    fontSize: 12,
-    fontWeight: '700',
-    overflow: 'hidden',
-    paddingHorizontal: 9,
-    paddingVertical: 5,
-  },
-  title: {
-    color: '#17213A',
-    fontSize: 23,
-    fontWeight: '800',
-    lineHeight: 29,
-  },
-  topLine: {
-    alignItems: 'center',
+  reason: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    justifyContent: 'space-between',
+    gap: spacing.sm,
   },
-  warning: {
-    backgroundColor: '#FFF4DC',
-    borderColor: '#E4BC65',
-    borderRadius: 12,
-    borderWidth: 1,
-    padding: 12,
+  reasonText: {
+    color: colors.inkMuted,
+    flex: 1,
   },
-  warningText: {
-    color: '#533B0C',
-    fontSize: 14,
-    lineHeight: 20,
+  detail: {
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    gap: spacing.md,
+    paddingTop: spacing.lg,
   },
-  unknownWarning: {
-    backgroundColor: '#F1EFF7',
-    borderColor: '#B7AEC9',
-    borderRadius: 12,
-    borderWidth: 1,
-    color: '#40384F',
-    fontSize: 14,
-    lineHeight: 20,
-    overflow: 'hidden',
-    padding: 12,
+  reasons: {
+    gap: spacing.sm,
   },
 });

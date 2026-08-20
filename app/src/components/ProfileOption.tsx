@@ -1,5 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { Icon } from '@/components/icons';
+import { colors, focusRing, radii, spacing, typography, useFocusRing } from '@/theme';
+
 interface ProfileOptionProps {
   description: string;
   hint: string;
@@ -8,6 +11,7 @@ interface ProfileOptionProps {
   selected: boolean;
 }
 
+/** Opción de perfil con estado visible por color, borde e icono. */
 export function ProfileOption({
   description,
   hint,
@@ -15,6 +19,8 @@ export function ProfileOption({
   onPress,
   selected,
 }: ProfileOptionProps) {
+  const { focused, focusProps } = useFocusRing();
+
   return (
     <Pressable
       accessibilityHint={hint}
@@ -27,12 +33,18 @@ export function ProfileOption({
         styles.option,
         selected && styles.optionSelected,
         pressed && styles.optionPressed,
+        focused && focusRing,
       ]}
+      {...focusProps}
     >
       <View
         importantForAccessibility="no-hide-descendants"
         style={[styles.indicator, selected && styles.indicatorSelected]}
-      />
+      >
+        {selected ? (
+          <Icon color={colors.inkInverse} name="checkCircle" size={18} />
+        ) : null}
+      </View>
       <View importantForAccessibility="no-hide-descendants" style={styles.copy}>
         <Text style={styles.label}>{label}</Text>
         <Text style={styles.description}>{description}</Text>
@@ -44,48 +56,47 @@ export function ProfileOption({
 const styles = StyleSheet.create({
   copy: {
     flex: 1,
-    gap: 4,
+    gap: spacing.xs,
   },
   description: {
-    color: '#454B5E',
-    fontSize: 15,
-    lineHeight: 21,
+    ...typography.body,
+    color: colors.inkMuted,
   },
   indicator: {
-    borderColor: '#6B6680',
-    borderRadius: 10,
+    alignItems: 'center',
+    borderColor: colors.inkMuted,
+    borderRadius: radii.pill,
     borderWidth: 2,
-    height: 20,
+    height: 28,
+    justifyContent: 'center',
     marginTop: 2,
-    width: 20,
+    width: 28,
   },
   indicatorSelected: {
-    backgroundColor: '#6C4BC3',
-    borderColor: '#6C4BC3',
-    borderWidth: 5,
+    backgroundColor: colors.brandInk,
+    borderColor: colors.brandInk,
   },
   label: {
-    color: '#17213A',
-    fontSize: 17,
-    fontWeight: '700',
+    ...typography.emphasis,
+    color: colors.ink,
   },
   option: {
     alignItems: 'flex-start',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#D6D0E6',
-    borderRadius: 16,
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: radii.card,
     borderWidth: 1,
     flexDirection: 'row',
-    gap: 14,
-    minHeight: 72,
-    padding: 16,
+    gap: spacing.lg,
+    minHeight: 76,
+    padding: spacing.lg,
   },
   optionPressed: {
-    backgroundColor: '#F3F0FC',
+    backgroundColor: colors.brandSoft,
   },
   optionSelected: {
-    backgroundColor: '#F3F0FC',
-    borderColor: '#6C4BC3',
+    backgroundColor: colors.brandSoft,
+    borderColor: colors.brandInk,
     borderWidth: 2,
   },
 });

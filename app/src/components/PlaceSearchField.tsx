@@ -11,6 +11,17 @@ import {
 import { searchPlaces } from '@/api/client';
 import type { PlaceResult, PlaceSearchResponse } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
+import { Callout } from '@/components/Callout';
+import { Icon } from '@/components/icons';
+import {
+  colors,
+  focusRing,
+  MINIMUM_TOUCH_TARGET,
+  radii,
+  spacing,
+  typography,
+} from '@/theme';
+
 import { ES } from '../../i18n/es';
 
 export type SearchPlacesFunction = (query: string) => Promise<PlaceSearchResponse>;
@@ -19,7 +30,7 @@ interface PlaceSearchFieldProps {
   field: 'destination' | 'origin';
   onSelect: (place: PlaceResult) => void;
   search?: SearchPlacesFunction;
-  selectedPlace: PlaceResult;
+  selectedPlace: PlaceResult | null;
 }
 
 type SearchState =
@@ -28,6 +39,7 @@ type SearchState =
   | { status: 'results'; places: PlaceResult[] }
   | { status: 'empty' | 'error' | 'invalid' };
 
+/** Campo de búsqueda de un extremo del trayecto, con su selección visible. */
 export function PlaceSearchField({
   field,
   onSelect,
@@ -35,8 +47,12 @@ export function PlaceSearchField({
   selectedPlace,
 }: PlaceSearchFieldProps) {
   const copy = ES.routeComparison.placeSearch[field];
-  const [query, setQuery] = useState(selectedPlace.name);
+  const [query, setQuery] = useState(selectedPlace?.name ?? '');
   const [state, setState] = useState<SearchState>({ status: 'idle' });
+  const [focusedPlaceId, setFocusedPlaceId] = useState<string | null>(null);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [dictationFocused, setDictationFocused] = useState(false);
+  const [dictationRequested, setDictationRequested] = useState(false);
   const requestVersion = useRef(0);
 
   const runSearch = useCallback(async () => {
@@ -83,49 +99,103 @@ export function PlaceSearchField({
 
   return (
     <View style={styles.container}>
-      <AccessibleText accessibilityRole="header" style={styles.label}>
-        {copy.label}
-      </AccessibleText>
-      <TextInput
-        accessibilityHint={copy.inputHint}
-        accessibilityLanguage="es-ES"
-        accessibilityLabel={copy.inputLabel}
-        autoCapitalize="words"
-        autoCorrect={false}
-        onChangeText={updateQuery}
-        onSubmitEditing={() => void runSearch()}
-        returnKeyType="search"
-        style={styles.input}
-        value={query}
-      />
-      <Pressable
-        accessibilityHint={copy.searchHint}
-        accessibilityLanguage="es-ES"
-        accessibilityLabel={copy.searchButton}
-        accessibilityRole="button"
-        accessibilityState={{ disabled: state.status === 'loading' }}
-        disabled={state.status === 'loading'}
-        onPress={() => void runSearch()}
-        style={({ pressed }) => [
-          styles.searchButton,
-          pressed && styles.searchButtonPressed,
-        ]}
-      >
-        <Text style={styles.searchButtonText}>{copy.searchButton}</Text>
-      </Pressable>
-
-      <View
-        accessible
-        accessibilityLanguage="es-ES"
-        accessibilityRole="text"
-        style={styles.selection}
-      >
-        <Text style={styles.selectionLabel}>
-          {ES.routeComparison.placeSearch.selectedLabel}
-        </Text>
-        <Text style={styles.selectionName}>{selectedPlace.name}</Text>
-        <Text style={styles.selectionDescription}>{selectedPlace.description}</Text>
+      <View style={styles.labelRow}>
+        <Icon
+          color={colors.brandInk}
+          name={field === 'origin' ? 'mapPin' : 'flagCheckered'}
+          size={22}
+        />
+        <AccessibleText accessibilityRole="header" variant="subheading">
+          {copy.label}
+        </AccessibleText>
       </View>
+
+      <View style={styles.field}>
+        <TextInput
+          accessibilityHint={copy.inputHint}
+          accessibilityLanguage="es-ES"
+          accessibilityLabel={copy.inputLabel}
+          autoCapitalize="words"
+          autoCorrect={false}
+          onChangeText={updateQuery}
+          onSubmitEditing={() => void runSearch()}
+          placeholderTextColor={colors.inkSubtle}
+          returnKeyType="search"
+          style={styles.input}
+          value={query}
+        />
+        <Pressable
+          accessibilityHint={ES.placeQuery.microphoneHint}
+          accessibilityLanguage="es-ES"
+          accessibilityLabel={ES.placeQuery[field].microphoneLabel}
+          accessibilityRole="button"
+          onBlur={() => setDictationFocused(false)}
+          onFocus={() => setDictationFocused(true)}
+          onPress={() => setDictationRequested(true)}
+          style={({ pressed }) => [
+            styles.dictationButton,
+            pressed && styles.dictationButtonPressed,
+            dictationFocused && focusRing,
+          ]}
+        >
+          <Icon color={colors.brandInk} name="microphone" size={24} />
+        </Pressable>
+      </View>
+
+      <AccessibleText style={styles.hint} variant="meta">
+        {ES.placeQuery.inputHint}
+      </AccessibleText>
+
+      <View>
+        <Pressable
+          accessibilityHint={copy.searchHint}
+          accessibilityLanguage="es-ES"
+          accessibilityLabel={copy.searchButton}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: state.status === 'loading' }}
+          disabled={state.status === 'loading'}
+          onBlur={() => setSearchFocused(false)}
+          onFocus={() => setSearchFocused(true)}
+          onPress={() => void runSearch()}
+          style={({ pressed }) => [
+            styles.searchButton,
+            pressed && styles.searchButtonPressed,
+            searchFocused && focusRing,
+          ]}
+        >
+          <Icon color={colors.brandInk} name="magnifyingGlass" size={22} />
+          <Text style={styles.searchLabel}>{copy.searchButton}</Text>
+        </Pressable>
+      </View>
+
+      {dictationRequested && (
+        <Callout
+          accessibilityLiveRegion="assertive"
+          role="alert"
+          text={ES.inputMode.voiceUnavailable}
+          tone="caution"
+        />
+      )}
+
+      {selectedPlace && (
+        <View
+          accessible
+          accessibilityLanguage="es-ES"
+          accessibilityRole="text"
+          style={styles.selection}
+        >
+          <Icon color={colors.brandInk} name="checkCircle" size={20} />
+          <View style={styles.selectionCopy}>
+            <Text style={styles.selectionLabel}>
+              {ES.routeComparison.placeSearch.selectedLabel}
+            </Text>
+            <Text style={styles.selectionName}>{selectedPlace.name}</Text>
+            <Text style={styles.selectionDescription}>
+              {selectedPlace.description}
+            </Text>
+          </View>
+        </View>
+      )}
 
       {state.status === 'loading' && (
         <View
@@ -137,30 +207,45 @@ export function PlaceSearchField({
           accessibilityState={{ busy: true }}
           style={styles.status}
         >
-          <ActivityIndicator color="#5B3FC4" />
-          <Text style={styles.statusText}>{ES.routeComparison.placeSearch.loading}</Text>
+          <ActivityIndicator color={colors.brandInk} />
+          <Text style={styles.statusText}>
+            {ES.routeComparison.placeSearch.loading}
+          </Text>
         </View>
       )}
 
       {state.status === 'invalid' && (
-        <AccessibleText accessibilityLiveRegion="polite" style={styles.message}>
+        <AccessibleText
+          accessibilityLiveRegion="polite"
+          style={styles.message}
+          variant="body"
+        >
           {ES.routeComparison.placeSearch.minimumCharacters}
         </AccessibleText>
       )}
       {state.status === 'empty' && (
-        <AccessibleText accessibilityLiveRegion="polite" style={styles.message}>
+        <AccessibleText
+          accessibilityLiveRegion="polite"
+          style={styles.message}
+          variant="body"
+        >
           {ES.routeComparison.placeSearch.noResults}
         </AccessibleText>
       )}
       {state.status === 'error' && (
-        <AccessibleText accessibilityLiveRegion="assertive" accessibilityRole="alert" style={styles.error}>
+        <AccessibleText
+          accessibilityLiveRegion="assertive"
+          accessibilityRole="alert"
+          style={styles.error}
+          variant="body"
+        >
           {ES.routeComparison.placeSearch.error}
         </AccessibleText>
       )}
 
       {state.status === 'results' && (
         <View style={styles.results}>
-          <AccessibleText accessibilityRole="header" style={styles.resultsTitle}>
+          <AccessibleText accessibilityRole="header" variant="subheading">
             {copy.resultsTitle}
           </AccessibleText>
           {state.places.map((place) => (
@@ -169,17 +254,26 @@ export function PlaceSearchField({
               accessibilityLanguage="es-ES"
               accessibilityLabel={`${place.name}. ${place.description}`}
               accessibilityRole="button"
-              accessibilityState={{ selected: place.place_id === selectedPlace.place_id }}
+              accessibilityState={{
+                selected: place.place_id === selectedPlace?.place_id,
+              }}
               key={place.place_id}
+              onBlur={() => setFocusedPlaceId(null)}
+              onFocus={() => setFocusedPlaceId(place.place_id)}
               onPress={() => selectResult(place)}
               style={({ pressed }) => [
                 styles.result,
-                place.place_id === selectedPlace.place_id && styles.resultSelected,
+                place.place_id === selectedPlace?.place_id &&
+                  styles.resultSelected,
                 pressed && styles.resultPressed,
+                focusedPlaceId === place.place_id && focusRing,
               ]}
             >
-              <Text style={styles.resultName}>{place.name}</Text>
-              <Text style={styles.resultDescription}>{place.description}</Text>
+              <Icon color={colors.brandInk} name="mapPin" size={20} />
+              <View style={styles.resultCopy}>
+                <Text style={styles.resultName}>{place.name}</Text>
+                <Text style={styles.resultDescription}>{place.description}</Text>
+              </View>
             </Pressable>
           ))}
         </View>
@@ -190,119 +284,131 @@ export function PlaceSearchField({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#D6D0E6',
-    borderRadius: 16,
-    borderWidth: 1,
-    gap: 10,
-    padding: 16,
+    gap: spacing.md,
   },
   error: {
-    color: '#7A2525',
-    fontSize: 14,
-    lineHeight: 20,
+    color: colors.dangerOnSoft,
+  },
+  field: {
+    alignItems: 'center',
+    borderColor: colors.ink,
+    borderRadius: radii.field,
+    borderWidth: 1,
+    flexDirection: 'row',
+    paddingRight: spacing.sm,
+  },
+  hint: {
+    color: colors.inkMuted,
   },
   input: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#6B6680',
-    borderRadius: 12,
-    borderWidth: 1,
-    color: '#17213A',
-    fontSize: 17,
-    minHeight: 48,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    ...typography.emphasis,
+    color: colors.ink,
+    flex: 1,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
   },
-  label: {
-    color: '#17213A',
-    fontSize: 18,
-    fontWeight: '800',
+  dictationButton: {
+    alignItems: 'center',
+    borderRadius: radii.field,
+    height: 48,
+    justifyContent: 'center',
+    width: 48,
   },
-  message: {
-    color: '#4B5265',
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  result: {
-    backgroundColor: '#FAF9FD',
-    borderColor: '#D6D0E6',
-    borderRadius: 12,
-    borderWidth: 1,
-    gap: 3,
-    minHeight: 58,
-    padding: 12,
-  },
-  resultDescription: {
-    color: '#4B5265',
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  resultName: {
-    color: '#17213A',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  resultPressed: {
-    backgroundColor: '#ECE8FA',
-  },
-  resultSelected: {
-    borderColor: '#6C4BC3',
-    borderWidth: 2,
-  },
-  results: {
-    gap: 8,
-  },
-  resultsTitle: {
-    color: '#30364A',
-    fontSize: 15,
-    fontWeight: '700',
+  dictationButtonPressed: {
+    backgroundColor: colors.brandSoft,
   },
   searchButton: {
     alignItems: 'center',
-    backgroundColor: '#ECE8FA',
-    borderRadius: 12,
+    backgroundColor: colors.brandSoft,
+    borderRadius: radii.field,
+    flexDirection: 'row',
+    gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 48,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    minHeight: 52,
+    paddingHorizontal: spacing.lg,
   },
   searchButtonPressed: {
-    backgroundColor: '#DCD4F5',
+    backgroundColor: colors.border,
   },
-  searchButtonText: {
-    color: '#432B9B',
-    fontSize: 16,
-    fontWeight: '700',
+  searchLabel: {
+    ...typography.emphasis,
+    color: colors.brandInk,
+  },
+  labelRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  message: {
+    color: colors.inkMuted,
+  },
+  result: {
+    alignItems: 'center',
+    backgroundColor: colors.canvas,
+    borderColor: colors.border,
+    borderRadius: radii.field,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    minHeight: MINIMUM_TOUCH_TARGET + 12,
+    padding: spacing.md,
+  },
+  resultCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  resultDescription: {
+    ...typography.meta,
+    color: colors.inkMuted,
+  },
+  resultName: {
+    ...typography.emphasis,
+    color: colors.ink,
+  },
+  resultPressed: {
+    backgroundColor: colors.brandSoft,
+  },
+  resultSelected: {
+    borderColor: colors.brandInk,
+    borderWidth: 2,
+  },
+  results: {
+    gap: spacing.sm,
   },
   selection: {
-    backgroundColor: '#F3F0FC',
-    borderRadius: 12,
-    gap: 3,
-    padding: 12,
+    alignItems: 'flex-start',
+    borderColor: colors.border,
+    borderRadius: radii.field,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    padding: spacing.md,
+  },
+  selectionCopy: {
+    flex: 1,
+    gap: 2,
   },
   selectionDescription: {
-    color: '#4B5265',
-    fontSize: 14,
-    lineHeight: 20,
+    ...typography.meta,
+    color: colors.inkMuted,
   },
   selectionLabel: {
-    color: '#5B3FC4',
-    fontSize: 12,
-    fontWeight: '800',
-    textTransform: 'uppercase',
+    ...typography.meta,
+    color: colors.inkMuted,
   },
   selectionName: {
-    color: '#17213A',
-    fontSize: 16,
-    fontWeight: '700',
+    ...typography.emphasis,
+    color: colors.ink,
   },
   status: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 8,
+    gap: spacing.sm,
   },
   statusText: {
-    color: '#4B5265',
-    fontSize: 14,
+    ...typography.body,
+    color: colors.inkMuted,
+    flex: 1,
   },
 });

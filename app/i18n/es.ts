@@ -1,12 +1,52 @@
 export const ES = {
-  appName: 'Rutas a tu medida',
+  appName: 'Rumbo',
+  welcome: {
+    tagline: 'Rutas peatonales a tu medida.',
+    startHint: 'Continúa a la elección entre hablar y teclear.',
+  },
+  inputMode: {
+    question: '¿Prefieres interactuar hablando o tecleando?',
+    typeButton: 'Teclear la respuesta',
+    typeHint: 'Continúa escribiendo el destino con el teclado.',
+    voiceButton: 'Interactuar por voz',
+    voiceHint: 'Consulta el estado del dictado por voz en esta versión.',
+    voiceUnavailable:
+      'El dictado por voz todavía no está disponible en esta versión. Puedes continuar tecleando y usar TalkBack para escuchar cada pantalla.',
+  },
+  placeQuery: {
+    destination: {
+      title: '¿A dónde quieres ir?',
+      microphoneLabel: 'Micrófono para dictar el destino',
+    },
+    origin: {
+      title: '¿Desde dónde sales?',
+      microphoneLabel: 'Micrófono para dictar el origen',
+    },
+    inputHint: 'Escribe o pulsa el micrófono para dictarlo.',
+    microphoneHint: 'Consulta el estado del dictado por voz en esta versión.',
+    nextButton: 'Siguiente',
+    nextHint: 'Confirma este lugar y continúa.',
+    useCurrentLocation: 'Usar mi ubicación actual',
+    useCurrentLocationHint:
+      'Pide permiso para leer tu ubicación solo en este momento y usarla como origen.',
+    chooseOtherOrigin: 'Elegir otro punto de partida',
+    chooseOtherOriginHint: 'Abre el campo para escribir o dictar el origen.',
+    backToDestinationButton: 'Volver al destino',
+    backToDestinationHint: 'Vuelve a la pantalla del destino.',
+    currentLocationName: 'Tu ubicación actual',
+    currentLocationDescription: (latitude: string, longitude: string) =>
+      `Coordenadas aproximadas: ${latitude}, ${longitude}. Esta versión todavía no traduce la ubicación a un nombre de calle.`,
+    currentLocationPending: 'Leyendo tu ubicación actual.',
+    currentLocationDenied:
+      'No se ha concedido el permiso de ubicación. Puedes escribir o dictar el origen.',
+    currentLocationUnavailable:
+      'No se ha podido leer la ubicación. Puedes escribir o dictar el origen.',
+  },
   adaptivePreferences: {
     title: 'Personalización adaptativa',
     description:
       'Si la activas, la app observará qué ruta eliges entre las alternativas válidas y ajustará poco a poco la importancia de tus preferencias.',
     switchLabel: 'Aprender de mis elecciones',
-    switchDescription:
-      'Está desactivado al principio. Puedes pausarlo o borrar lo aprendido cuando quieras.',
     switchHint:
       'Activa o pausa el aprendizaje local a partir de elecciones explícitas de ruta.',
     loading: 'Cargando las preferencias guardadas en este dispositivo.',
@@ -48,13 +88,35 @@ export const ES = {
       'No se ha podido acceder al aprendizaje local. La navegación sigue disponible y se mantienen las preferencias declaradas.',
   },
   routeComparison: {
-    eyebrow: 'MVP · Madrid',
-    title: 'Compara rutas para caminar según tus preferencias',
-    description:
-      'Elige dos lugares del área piloto y prueba cómo cambia la recomendación al modificar el perfil.',
-    locationSectionTitle: 'Elige el origen y el destino',
-    locationSectionDescription:
-      'La búsqueda inicial se limita al entorno de Moncloa, Argüelles, Príncipe Pío y Plaza de España.',
+    appBarTitle: 'Rumbo',
+    appBarSubtitle: 'Área piloto de Madrid',
+    stepIndicator: (current: number, total: number) =>
+      `Paso ${current} de ${total}`,
+    steps: {
+      confirm: {
+        title: 'Confirma origen y destino',
+        description:
+          'Revisa el trayecto antes de comparar. Puedes cambiar cualquiera de los dos extremos.',
+      },
+      profile: {
+        title: 'Elige un perfil para esta comparación',
+        description:
+          'El perfil decide qué factores pesan más al ordenar las alternativas.',
+      },
+      learning: {
+        title: 'Personalización adaptativa',
+        description:
+          'Si la activas, Rumbo aprenderá poco a poco de las rutas que elijas entre las alternativas válidas. Puedes pausarla o borrar lo aprendido cuando quieras.',
+      },
+    },
+    changeButton: (field: string) => `Cambiar ${field}`,
+    changeShortButton: 'Cambiar',
+    placeNotChosen: 'Todavía sin elegir',
+    changeHint: (field: string) => `Vuelve a elegir el ${field}.`,
+    continueButton: 'Siguiente',
+    continueHint: 'Avanza al siguiente paso de la configuración.',
+    backStepButton: 'Paso anterior',
+    backStepHint: 'Vuelve al paso anterior de la configuración.',
     samePlaceError: 'El origen y el destino deben ser lugares distintos.',
     placeSearch: {
       selectedLabel: 'Lugar seleccionado',
@@ -99,17 +161,30 @@ export const ES = {
     compareHint: 'Solicita al servidor hasta tres alternativas para el perfil seleccionado.',
     loadingButton: 'Comparando rutas…',
     loading: 'Estamos comparando las alternativas. Espera un momento.',
-    idleTitle: 'Comparación preparada',
-    idleDescription:
-      'Selecciona un perfil y pulsa Comparar rutas. El servidor indicará la procedencia de cada alternativa.',
     resultSummary: (accepted: number, rejected: number) =>
       `Comparación terminada. ${accepted} rutas disponibles y ${rejected} descartadas.`,
+    resultsAppBarTitle: 'Alternativas ordenadas',
+    resultsAppBarSubtitle: (origin: string, destination: string) =>
+      `De ${origin} a ${destination}`,
+    backToSearchButton: 'Volver a la búsqueda',
+    backToSearchHint:
+      'Cierra la lista de alternativas y vuelve a elegir lugares y perfil.',
+    detailAppBarTitle: 'Detalle de la ruta',
+    backToResultsButton: 'Volver a las alternativas',
+    backToResultsHint: 'Cierra el detalle y vuelve a la lista ordenada de rutas.',
+    detailsButton: 'Saber más',
+    detailsCloseButton: 'Ocultar el detalle',
+    detailsHint: (routeName: string) =>
+      `Muestra u oculta la información que falta por confirmar de ${routeName}.`,
+    detailEvidenceIntroduction:
+      'Aquí se reúne la evidencia completa de esta alternativa, incluida la que no ha podido confirmarse.',
     resultTitle: 'Alternativas ordenadas',
     resultIntroduction:
       'La primera posición indica mayor adecuación al perfil, no una garantía absoluta de accesibilidad.',
     noAcceptedRoutesTitle: 'No hay rutas compatibles con este perfil',
     noAcceptedRoutesDescription:
       'Las alternativas encontradas incumplen al menos una restricción crítica. Revisa los motivos de descarte antes de cambiar tus preferencias.',
+    bestRouteLabel: 'Mejor ruta',
     rankLabel: (rank: number) => `Puesto ${rank}`,
     syntheticData: 'Datos sintéticos para desarrollo',
     realData: 'Ruta real enriquecida',
@@ -126,6 +201,10 @@ export const ES = {
       `${percentage} de información desconocida. ${count === 1 ? 'Este aspecto no tiene evidencia concluyente:' : `Estos ${count} aspectos no tienen evidencia concluyente:`}`,
     noUnknownEvidence:
       'No hay atributos clasificados como desconocidos con los datos disponibles.',
+    unfavorableCountChip: (count: number) =>
+      count === 1
+        ? '1 aviso de evidencia desfavorable'
+        : `${count} avisos de evidencia desfavorable`,
     unfavorableEvidenceTitle: 'Evidencia desfavorable encontrada',
     noUnfavorableEvidence:
       'No se ha encontrado evidencia desfavorable con los datos disponibles.',
@@ -191,7 +270,6 @@ export const ES = {
     },
   },
   navigation: {
-    eyebrow: 'Navegación en primer plano',
     title: 'Sigue las instrucciones de la ruta',
     routeLabel: (routeName: string) => `Ruta elegida: ${routeName}.`,
     manualMode:
@@ -258,11 +336,12 @@ export const ES = {
       'Vuelve a solicitar alternativas desde la última posición fiable.',
     progress: (current: number, total: number) =>
       `Instrucción ${current} de ${total}`,
-    currentInstructionTitle: 'Instrucción actual',
     streetLabel: (streetName: string) => `Referencia: ${streetName}.`,
     stepDistance: 'Distancia de este tramo',
     stepDuration: 'Duración estimada del tramo',
     instructionAccessibilityTitle: 'Información de accesibilidad en este tramo',
+    stepDetailsHint:
+      'Muestra u oculta la información de accesibilidad y los avisos de esta ruta.',
     noInstructionAccessibilityEvents:
       'No hay información puntual de OpenStreetMap asociada a esta instrucción.',
     speech: {

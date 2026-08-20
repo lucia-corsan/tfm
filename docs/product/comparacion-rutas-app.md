@@ -152,12 +152,14 @@ observar el cambio de ranking sin desactivar distancia, pendiente,
 incertidumbre ni el resto de la evidencia. En ambos perfiles continúan activas
 las mismas restricciones críticas.
 
-La pantalla reemplaza la portada técnica provisional y presenta un flujo único:
-selección de lugares y perfil, acción de comparación, estado dinámico y
-resultados. Las
-tarjetas muestran las tres métricas como texto, los factores recibidos del
-backend, los avisos y las rutas descartadas. La app solo transforma códigos y
-valores en textos españoles; no recalcula la puntuación.
+El flujo se reparte en pantallas de una sola pregunta en lugar de una lista
+única muy larga: portada, elección entre hablar y teclear, destino, origen y
+tres pasos de configuración —confirmar el trayecto, elegir perfil y revisar la
+personalización adaptativa—, seguidos de la pantalla de resultados. Cada
+pantalla conserva un botón de retroceso explícito. Las tarjetas muestran las tres métricas como
+texto, los factores recibidos del backend, los avisos y las rutas descartadas.
+La app solo transforma códigos y valores en textos españoles; no recalcula la
+puntuación.
 
 En las rutas reales, cada tarjeta identifica explícitamente dos procedencias:
 OpenRouteService calcula la geometría e instrucciones del recorrido y
@@ -165,7 +167,10 @@ OpenStreetMap aporta la evidencia con la que se estiman adecuación, confianza e
 incertidumbre. La interfaz obtiene los atributos desconocidos filtrando los
 avisos estructurados cuyo estado es `unknown`; no reconstruye ese estado ni
 modifica el cálculo del backend. Estos atributos se muestran en una sección
-independiente de la evidencia desfavorable.
+independiente de la evidencia desfavorable, dentro del detalle desplegable que
+abre «Saber más» en la propia tarjeta. La presencia de evidencia desfavorable se
+anuncia con una etiqueta visible aunque el detalle esté contraído, porque es un
+aviso de seguridad y no puede depender de una acción adicional.
 
 ## Pruebas
 

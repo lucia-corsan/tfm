@@ -1,7 +1,10 @@
 import { Alert, StyleSheet, Switch, View } from 'react-native';
 
 import { AccessibleText } from '@/components/AccessibleText';
+import { Callout } from '@/components/Callout';
+import { Card } from '@/components/Card';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { colors, spacing } from '@/theme';
 import { effectiveInfluence, type PreferenceLearningState } from '@/features/adaptive-preferences/learner';
 import type { AdaptivePreferenceStatus } from '@/features/adaptive-preferences/useAdaptivePreferences';
 import { ES } from '../../i18n/es';
@@ -67,20 +70,11 @@ export function AdaptivePreferencesPanel({
   };
 
   return (
-    <View style={styles.card}>
-      <AccessibleText accessibilityRole="header" style={styles.title}>
-        {ES.adaptivePreferences.title}
-      </AccessibleText>
-      <AccessibleText style={styles.description}>
-        {ES.adaptivePreferences.description}
-      </AccessibleText>
+    <Card>
       <View style={styles.switchRow}>
         <View style={styles.switchCopy}>
-          <AccessibleText style={styles.switchLabel}>
+          <AccessibleText variant="emphasis">
             {ES.adaptivePreferences.switchLabel}
-          </AccessibleText>
-          <AccessibleText style={styles.description}>
-            {ES.adaptivePreferences.switchDescription}
           </AccessibleText>
         </View>
         <Switch
@@ -94,7 +88,8 @@ export function AdaptivePreferencesPanel({
           }}
           disabled={status !== 'ready'}
           onValueChange={(enabled) => void onSetEnabled(enabled)}
-          trackColor={{ false: '#AAA5B4', true: '#7A5BD1' }}
+          thumbColor={colors.surface}
+          trackColor={{ false: colors.inkMuted, true: colors.brandInk }}
           value={learningState.enabled}
         />
       </View>
@@ -105,82 +100,51 @@ export function AdaptivePreferencesPanel({
         {statusText(status, learningState)}
       </AccessibleText>
       {recoveredFromInvalidData && (
-        <AccessibleText accessibilityRole="alert" style={styles.warning}>
-          {ES.adaptivePreferences.recoveredState}
-        </AccessibleText>
+        <Callout
+          role="alert"
+          text={ES.adaptivePreferences.recoveredState}
+          tone="caution"
+        />
       )}
-      <AccessibleText style={styles.privacy}>
+      <AccessibleText style={styles.privacy} variant="meta">
         {ES.adaptivePreferences.privacy}
       </AccessibleText>
       {learningState.choiceCount > 0 && (
         <PrimaryButton
           accessibilityHint={ES.adaptivePreferences.resetHint}
+          icon="trash"
           label={ES.adaptivePreferences.resetButton}
           onPress={confirmReset}
+          variant="secondary"
         />
       )}
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#F3F0FC',
-    borderColor: '#C6BCEB',
-    borderRadius: 18,
-    borderWidth: 1,
-    gap: 12,
-    padding: 18,
-  },
   description: {
-    color: '#454B5E',
-    fontSize: 15,
-    lineHeight: 22,
+    color: colors.inkMuted,
   },
   privacy: {
-    color: '#555B6D',
-    fontSize: 13,
-    lineHeight: 19,
+    color: colors.inkSubtle,
   },
   status: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.brandSoft,
     borderRadius: 12,
-    color: '#34216D',
-    fontSize: 15,
-    fontWeight: '700',
-    lineHeight: 22,
+    color: colors.brandOnSoft,
     overflow: 'hidden',
-    padding: 12,
+    padding: spacing.md,
   },
   switchCopy: {
     flex: 1,
-    gap: 4,
-  },
-  switchLabel: {
-    color: '#17213A',
-    fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 23,
+    gap: spacing.xs,
   },
   switchRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 14,
+    gap: spacing.lg,
     justifyContent: 'space-between',
-    minHeight: 52,
-  },
-  title: {
-    color: '#17213A',
-    fontSize: 19,
-    fontWeight: '800',
-  },
-  warning: {
-    backgroundColor: '#FFF4DC',
-    borderRadius: 12,
-    color: '#533B0C',
-    fontSize: 14,
-    lineHeight: 20,
-    overflow: 'hidden',
-    padding: 12,
+    minHeight: 56,
   },
 });

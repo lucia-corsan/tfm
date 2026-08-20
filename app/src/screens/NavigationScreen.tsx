@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import type { NavigationSession } from '@/api/types';
+import type { NavigationManeuver, NavigationSession } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
+import { Callout } from '@/components/Callout';
+import { Card } from '@/components/Card';
+import { Chip } from '@/components/Chip';
+import { Icon, type IconName } from '@/components/icons';
 import { InstructionAccessibilityEvent } from '@/components/InstructionAccessibilityEvent';
+import { ActionBand } from '@/components/ActionBand';
 import { PrimaryButton } from '@/components/PrimaryButton';
-import { RerouteConfirmationDialog } from '@/components/RerouteConfirmationDialog';
+import { RerouteNoticeScreen } from '@/screens/RerouteNoticeScreen';
+import { Screen } from '@/components/Screen';
 import { SpeechControls } from '@/components/SpeechControls';
+import { TopBar } from '@/components/TopBar';
 import { useManualNavigation } from '@/features/navigation/useManualNavigation';
 import {
   DEFAULT_SPEECH_PREFERENCES,
@@ -24,6 +30,7 @@ import {
   formatDistance,
   formatDuration,
 } from '@/features/route-comparison/presenters';
+import { colors, radii, spacing } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface NavigationScreenProps {
@@ -32,6 +39,24 @@ interface NavigationScreenProps {
   session: NavigationSession;
 }
 
+/** Icono orientativo de cada maniobra; el texto sigue siendo la fuente única. */
+const maneuverIcons: Record<NavigationManeuver, IconName> = {
+  arrive: 'flagCheckered',
+  continue_straight: 'arrowRight',
+  depart: 'personSimpleWalk',
+  enter_roundabout: 'arrowsClockwise',
+  exit_roundabout: 'arrowsClockwise',
+  keep_left: 'arrowLeft',
+  keep_right: 'arrowRight',
+  turn_left: 'arrowLeft',
+  turn_right: 'arrowRight',
+  turn_sharp_left: 'arrowLeft',
+  turn_sharp_right: 'arrowRight',
+  turn_slight_left: 'arrowLeft',
+  turn_slight_right: 'arrowRight',
+  u_turn: 'arrowsClockwise',
+};
+
 export function NavigationScreen({
   onFinish,
   reroute,
@@ -39,6 +64,7 @@ export function NavigationScreen({
 }: NavigationScreenProps) {
   const [route, setRoute] = useState(session.route);
   const [gpsEnabled, setGpsEnabled] = useState(false);
+  const [detailExpanded, setDetailExpanded] = useState(false);
   const [speechPreferences, setSpeechPreferences] = useState(
     DEFAULT_SPEECH_PREFERENCES,
   );
@@ -72,9 +98,14 @@ export function NavigationScreen({
     },
     [],
   );
+  /**
+   * El aviso ocupa la pantalla solo mientras la decisión sigue pendiente. El
+   * cálculo, el resultado y el error se muestran ya sobre la navegación, con la
+   * ruta anterior visible.
+   */
   const confirmationVisible =
     tracking.status === 'confirmation_required' &&
-    rerouting.state.status !== 'loading';
+    rerouting.state.status === 'idle';
 
   const keepCurrentRoute = () => {
     rerouting.reset();
@@ -108,52 +139,191 @@ export function NavigationScreen({
     tracking.startRerouteCooldown();
   };
 
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <RerouteConfirmationDialog
+  if (confirmationVisible) {
+    return (
+      <RerouteNoticeScreen
         onConfirm={() => void recalculateRoute()}
         onKeepCurrentRoute={keepCurrentRoute}
-        visible={confirmationVisible}
+        routeName={route.name}
       />
-      <ScrollView contentContainerStyle={styles.content}>
-        <AccessibleText style={styles.eyebrow}>
-          {ES.navigation.eyebrow}
-        </AccessibleText>
-        <AccessibleText accessibilityRole="header" style={styles.title}>
-          {ES.navigation.title}
-        </AccessibleText>
-        <AccessibleText style={styles.routeName}>
+    );
+  }
+
+  return (
+    <>
+      <Screen
+        band={
+          <ActionBand
+            accessibilityHint={
+              controller.canGoNext
+                ? ES.navigation.nextHint
+                : ES.navigation.finishHint
+            }
+            label={
+              controller.canGoNext
+                ? ES.navigation.nextButton
+                : ES.navigation.finishButton
+            }
+            onPress={controller.canGoNext ? controller.goNext : onFinish}
+          />
+        }
+        header={<TopBar title={ES.navigation.title} />}
+      >
+        <AccessibleText style={styles.manualNotice} variant="meta">
           {ES.navigation.routeLabel(route.name)}
         </AccessibleText>
-        <AccessibleText style={styles.manualNotice}>
-          {ES.navigation.manualMode}
-        </AccessibleText>
-
         {session.learning_feedback && (
-          <AccessibleText
+          <Callout
             accessibilityLiveRegion="polite"
-            accessibilityRole="alert"
-            style={styles.learningFeedback}
-          >
-            {session.learning_feedback}
-          </AccessibleText>
+            role="alert"
+            text={session.learning_feedback}
+            tone="positive"
+          />
         )}
 
-        <View style={styles.gpsCard}>
-          <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-            {ES.navigation.gpsTitle}
-          </AccessibleText>
-          <AccessibleText accessibilityLiveRegion="polite" style={styles.detail}>
-            {ES.navigation.gpsStatus[tracking.status]}
-          </AccessibleText>
-          {!gpsEnabled && (
-            <PrimaryButton
-              accessibilityHint={ES.navigation.activateGpsHint}
-              label={ES.navigation.activateGpsButton}
-              onPress={() => setGpsEnabled(true)}
+        <View style={styles.instruction}>
+          <View style={styles.instructionTop}>
+            <Icon
+              color={colors.brandInk}
+              name={maneuverIcons[instruction.maneuver]}
+              size={30}
             />
+            <AccessibleText style={styles.progress} variant="emphasis">
+              {ES.navigation.progress(
+                controller.currentIndex + 1,
+                controller.totalInstructions,
+              )}
+            </AccessibleText>
+          </View>
+          <AccessibleText
+            accessibilityLiveRegion={
+              screenReaderStatus === 'enabled' ? 'polite' : 'none'
+            }
+            variant="instruction"
+          >
+            {instruction.text}
+          </AccessibleText>
+          {instruction.street_name && (
+            <AccessibleText style={styles.street} variant="body">
+              {ES.navigation.streetLabel(instruction.street_name)}
+            </AccessibleText>
+          )}
+          <View style={styles.chips}>
+            <Chip
+              icon="ruler"
+              label={`${ES.navigation.stepDistance}: ${formatDistance(instruction.distance_m)}.`}
+            />
+            <Chip
+              icon="clock"
+              label={`${ES.navigation.stepDuration}: ${formatDuration(instruction.duration_s)}.`}
+            />
+          </View>
+
+          <PrimaryButton
+            accessibilityHint={ES.navigation.stepDetailsHint}
+            expanded={detailExpanded}
+            icon={detailExpanded ? 'caretUp' : 'caretDown'}
+            label={
+              detailExpanded
+                ? ES.routeComparison.detailsCloseButton
+                : ES.routeComparison.detailsButton
+            }
+            onPress={() => setDetailExpanded(!detailExpanded)}
+            variant="quiet"
+          />
+
+          {detailExpanded && (
+            <View style={styles.detail}>
+              <AccessibleText accessibilityRole="header" variant="subheading">
+                {ES.navigation.instructionAccessibilityTitle}
+              </AccessibleText>
+              {instruction.accessibility_events.length === 0 ? (
+                <AccessibleText style={styles.muted} variant="body">
+                  {ES.navigation.noInstructionAccessibilityEvents}
+                </AccessibleText>
+              ) : (
+                instruction.accessibility_events.map((event) => (
+                  <InstructionAccessibilityEvent
+                    event={event}
+                    key={event.sequence}
+                  />
+                ))
+              )}
+
+              <AccessibleText accessibilityRole="header" variant="subheading">
+                {ES.navigation.routeContextTitle}
+              </AccessibleText>
+              {unknownCount === 0 && unfavorableCount === 0 ? (
+                <AccessibleText style={styles.muted} variant="body">
+                  {ES.navigation.noWarnings}
+                </AccessibleText>
+              ) : (
+                <>
+                  {unknownCount > 0 && (
+                    <AccessibleText style={styles.muted} variant="body">
+                      {ES.navigation.unknownSummary(unknownCount)}
+                    </AccessibleText>
+                  )}
+                  {unfavorableCount > 0 && (
+                    <AccessibleText style={styles.muted} variant="body">
+                      {ES.navigation.unfavorableSummary(unfavorableCount)}
+                    </AccessibleText>
+                  )}
+                </>
+              )}
+              <AccessibleText style={styles.disclaimer} variant="meta">
+                {ES.navigation.disclaimer}
+              </AccessibleText>
+
+            <Card>
+              <View style={styles.titleRow}>
+                <Icon color={colors.brandInk} name="crosshair" size={24} />
+                <AccessibleText accessibilityRole="header" variant="section">
+                  {ES.navigation.gpsTitle}
+                </AccessibleText>
+              </View>
+              <AccessibleText
+                accessibilityLiveRegion="polite"
+                style={styles.muted}
+                variant="body"
+              >
+                {ES.navigation.gpsStatus[tracking.status]}
+              </AccessibleText>
+              {!gpsEnabled && (
+                <PrimaryButton
+                  accessibilityHint={ES.navigation.activateGpsHint}
+                  icon="navigationArrow"
+                  label={ES.navigation.activateGpsButton}
+                  onPress={() => setGpsEnabled(true)}
+                  variant="secondary"
+                />
+              )}
+            </Card>
+
+            <SpeechControls
+              error={instructionSpeech.error}
+              isSpeaking={instructionSpeech.isSpeaking}
+              onChange={(preferences) => {
+                void instructionSpeech.stop();
+                setSpeechPreferences(preferences);
+              }}
+              onSpeak={() => void instructionSpeech.speak()}
+              onStop={() => void instructionSpeech.stop()}
+              preferences={speechPreferences}
+              screenReaderStatus={screenReaderStatus}
+            />
+            </View>
           )}
         </View>
+
+        <PrimaryButton
+          accessibilityHint={ES.navigation.previousHint}
+          disabled={!controller.canGoPrevious}
+          icon="arrowLeft"
+          label={ES.navigation.previousButton}
+          onPress={controller.goPrevious}
+          variant="secondary"
+        />
 
         {rerouting.state.status === 'loading' && (
           <View
@@ -163,301 +333,113 @@ export function NavigationScreen({
             accessibilityLiveRegion="assertive"
             accessibilityRole="progressbar"
             accessibilityState={{ busy: true }}
-            style={styles.reroutingCard}
+            style={styles.rerouting}
           >
-            <ActivityIndicator color="#5B3FC4" size="large" />
-            <AccessibleText style={styles.detail}>
+            <ActivityIndicator color={colors.brandInk} size="large" />
+            <AccessibleText
+              accessible={false}
+              style={styles.reroutingText}
+              variant="body"
+            >
               {ES.navigation.reroutingLoading}
             </AccessibleText>
           </View>
         )}
 
         {rerouting.state.status === 'success' && (
-          <AccessibleText
+          <Callout
             accessibilityLiveRegion="assertive"
-            accessibilityRole="alert"
-            style={styles.successCard}
-          >
-            {ES.navigation.reroutingSuccess}
-          </AccessibleText>
+            role="alert"
+            text={ES.navigation.reroutingSuccess}
+            tone="positive"
+          />
         )}
 
         {rerouting.state.status === 'error' && (
-          <View style={styles.errorCard}>
-            <View
-              accessible
-              accessibilityLanguage="es-ES"
-              accessibilityLabel={`${ES.navigation.reroutingErrorTitle}. ${ES.navigation.reroutingErrors[rerouting.state.code]}`}
+          <View style={styles.section}>
+            <Callout
               accessibilityLiveRegion="assertive"
-              accessibilityRole="alert"
-            >
-              <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-                {ES.navigation.reroutingErrorTitle}
-              </AccessibleText>
-              <AccessibleText style={styles.detail}>
-                {ES.navigation.reroutingErrors[rerouting.state.code]}
-              </AccessibleText>
-            </View>
+              role="alert"
+              text={ES.navigation.reroutingErrors[rerouting.state.code]}
+              title={ES.navigation.reroutingErrorTitle}
+              tone="danger"
+            />
             <PrimaryButton
               accessibilityHint={ES.navigation.retryRerouteHint}
+              icon="arrowsClockwise"
               label={ES.navigation.retryRerouteButton}
               onPress={() => void recalculateRoute()}
+              variant="secondary"
             />
           </View>
         )}
 
-        <AccessibleText style={styles.progress}>
-          {ES.navigation.progress(
-            controller.currentIndex + 1,
-            controller.totalInstructions,
-          )}
-        </AccessibleText>
 
-        <View style={styles.instructionCard}>
-          <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-            {ES.navigation.currentInstructionTitle}
-          </AccessibleText>
-          <AccessibleText
-            accessibilityLiveRegion={
-              screenReaderStatus === 'enabled' ? 'polite' : 'none'
-            }
-            style={styles.instructionText}
-          >
-            {instruction.text}
-          </AccessibleText>
-          {instruction.street_name && (
-            <AccessibleText style={styles.detail}>
-              {ES.navigation.streetLabel(instruction.street_name)}
-            </AccessibleText>
-          )}
-          <AccessibleText style={styles.detail}>
-            {ES.navigation.stepDistance}: {formatDistance(instruction.distance_m)}.
-          </AccessibleText>
-          <AccessibleText style={styles.detail}>
-            {ES.navigation.stepDuration}: {formatDuration(instruction.duration_s)}.
-          </AccessibleText>
-          <View style={styles.accessibilityContext}>
-            <AccessibleText accessibilityRole="header" style={styles.contextTitle}>
-              {ES.navigation.instructionAccessibilityTitle}
-            </AccessibleText>
-            {instruction.accessibility_events.length === 0 ? (
-              <AccessibleText style={styles.detail}>
-                {ES.navigation.noInstructionAccessibilityEvents}
-              </AccessibleText>
-            ) : (
-              instruction.accessibility_events.map((event) => (
-                <InstructionAccessibilityEvent
-                  event={event}
-                  key={event.sequence}
-                />
-              ))
-            )}
-          </View>
-        </View>
-
-        <View style={styles.controls}>
-          <PrimaryButton
-            accessibilityHint={ES.navigation.previousHint}
-            disabled={!controller.canGoPrevious}
-            label={ES.navigation.previousButton}
-            onPress={controller.goPrevious}
-          />
-          <PrimaryButton
-            accessibilityHint={ES.navigation.nextHint}
-            disabled={!controller.canGoNext}
-            label={ES.navigation.nextButton}
-            onPress={controller.goNext}
-          />
-        </View>
-
-        <SpeechControls
-          error={instructionSpeech.error}
-          isSpeaking={instructionSpeech.isSpeaking}
-          onChange={(preferences) => {
-            void instructionSpeech.stop();
-            setSpeechPreferences(preferences);
-          }}
-          onSpeak={() => void instructionSpeech.speak()}
-          onStop={() => void instructionSpeech.stop()}
-          preferences={speechPreferences}
-          screenReaderStatus={screenReaderStatus}
-        />
-
-        <View style={styles.contextCard}>
-          <AccessibleText accessibilityRole="header" style={styles.sectionTitle}>
-            {ES.navigation.routeContextTitle}
-          </AccessibleText>
-          {unknownCount === 0 && unfavorableCount === 0 ? (
-            <AccessibleText style={styles.detail}>
-              {ES.navigation.noWarnings}
-            </AccessibleText>
-          ) : (
-            <>
-              {unknownCount > 0 && (
-                <AccessibleText style={styles.detail}>
-                  {ES.navigation.unknownSummary(unknownCount)}
-                </AccessibleText>
-              )}
-              {unfavorableCount > 0 && (
-                <AccessibleText style={styles.detail}>
-                  {ES.navigation.unfavorableSummary(unfavorableCount)}
-                </AccessibleText>
-              )}
-            </>
-          )}
-          <AccessibleText style={styles.disclaimer}>
-            {ES.navigation.disclaimer}
-          </AccessibleText>
-        </View>
-
-        <PrimaryButton
-          accessibilityHint={ES.navigation.finishHint}
-          label={ES.navigation.finishButton}
-          onPress={onFinish}
-        />
-      </ScrollView>
-    </SafeAreaView>
+      </Screen>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  accessibilityContext: {
-    gap: 12,
-    marginTop: 6,
-  },
-  content: {
-    gap: 18,
-    marginHorizontal: 'auto',
-    maxWidth: 680,
-    paddingHorizontal: 20,
-    paddingVertical: 28,
-    width: '100%',
-  },
-  contextCard: {
-    backgroundColor: '#FFF4DC',
-    borderColor: '#E4BC65',
-    borderRadius: 16,
-    borderWidth: 1,
-    gap: 10,
-    padding: 18,
-  },
-  contextTitle: {
-    color: '#17213A',
-    fontSize: 17,
-    fontWeight: '700',
-    lineHeight: 24,
-  },
-  controls: {
-    gap: 12,
-  },
-  detail: {
-    color: '#343B50',
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  errorCard: {
-    backgroundColor: '#FFF1F1',
-    borderColor: '#D99090',
-    borderRadius: 16,
-    borderWidth: 1,
-    gap: 14,
-    padding: 18,
+  chips: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginTop: spacing.xs,
   },
   disclaimer: {
-    color: '#533B0C',
-    fontSize: 15,
-    lineHeight: 22,
+    color: colors.inkSubtle,
   },
-  eyebrow: {
-    color: '#5B3FC4',
-    fontSize: 14,
-    fontWeight: '800',
-    letterSpacing: 1,
-    textTransform: 'uppercase',
+  detail: {
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    gap: spacing.md,
+    paddingTop: spacing.lg,
   },
-  instructionCard: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#7A5BD1',
-    borderRadius: 20,
-    borderWidth: 2,
-    gap: 12,
-    padding: 22,
+  instruction: {
+    backgroundColor: colors.brandSoft,
+    borderRadius: radii.large,
+    gap: spacing.md,
+    padding: spacing.xxl,
   },
-  gpsCard: {
-    backgroundColor: '#E7F4EE',
-    borderColor: '#69B693',
-    borderRadius: 16,
-    borderWidth: 1,
-    gap: 8,
-    padding: 18,
-  },
-  instructionText: {
-    color: '#17213A',
-    fontSize: 23,
-    fontWeight: '800',
-    lineHeight: 31,
-  },
-  learningFeedback: {
-    backgroundColor: '#E7F4EE',
-    borderColor: '#69B693',
-    borderRadius: 14,
-    borderWidth: 1,
-    color: '#174B34',
-    fontSize: 15,
-    lineHeight: 22,
-    overflow: 'hidden',
-    padding: 14,
+  instructionTop: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
   },
   manualNotice: {
-    backgroundColor: '#ECE8FA',
-    borderRadius: 14,
-    color: '#3E277F',
-    fontSize: 15,
-    lineHeight: 22,
-    overflow: 'hidden',
-    padding: 14,
+    color: colors.inkSubtle,
+  },
+  muted: {
+    color: colors.inkMuted,
   },
   progress: {
-    color: '#5B3FC4',
-    fontSize: 17,
-    fontWeight: '700',
-  },
-  reroutingCard: {
-    alignItems: 'center',
-    backgroundColor: '#F3F0FC',
-    borderRadius: 16,
-    gap: 12,
-    padding: 18,
-  },
-  routeName: {
-    color: '#3F465A',
-    fontSize: 17,
-    lineHeight: 25,
-  },
-  successCard: {
-    backgroundColor: '#E5F4EC',
-    borderColor: '#69B693',
-    borderRadius: 16,
-    borderWidth: 1,
-    color: '#1E5035',
-    fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 24,
-    padding: 18,
-  },
-  safeArea: {
-    backgroundColor: '#F7F5FB',
+    color: colors.brandOnSoft,
     flex: 1,
   },
-  sectionTitle: {
-    color: '#17213A',
-    fontSize: 18,
-    fontWeight: '700',
+  rerouting: {
+    alignItems: 'center',
+    backgroundColor: colors.brandSoft,
+    borderRadius: radii.card,
+    gap: spacing.md,
+    padding: spacing.xl,
   },
-  title: {
-    color: '#17213A',
-    fontSize: 32,
-    fontWeight: '800',
-    lineHeight: 39,
+  reroutingText: {
+    color: colors.brandOnSoft,
+    flex: 1,
+  },
+  section: {
+    gap: spacing.md,
+  },
+  stepControls: {
+    gap: spacing.md,
+  },
+  street: {
+    color: colors.inkMuted,
+  },
+  titleRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
   },
 });

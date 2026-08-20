@@ -11,8 +11,6 @@ import type {
 import {
   buildPilotComparisonRequest,
   type DemoProfileId,
-  PILOT_DESTINATION_PLACE,
-  PILOT_ORIGIN_PLACE,
 } from '@/features/route-comparison/profiles';
 
 export type CompareRoutesFunction = (
@@ -32,8 +30,10 @@ export type ComparisonState =
 interface RouteComparisonController {
   canCompare: boolean;
   compareSelectedProfile: (effectiveWeights?: PreferenceWeights) => Promise<void>;
-  destination: PlaceResult;
-  origin: PlaceResult;
+  destination: PlaceResult | null;
+  origin: PlaceResult | null;
+  /** Vuelve al estado inicial para regresar a la pantalla de búsqueda. */
+  reset: () => void;
   selectDestination: (place: PlaceResult) => void;
   selectOrigin: (place: PlaceResult) => void;
   selectedProfileId: DemoProfileId;
@@ -46,12 +46,14 @@ export function useRouteComparison(
 ): RouteComparisonController {
   const [selectedProfileId, setSelectedProfileId] =
     useState<DemoProfileId>('balanced_demo');
-  const [origin, setOrigin] = useState<PlaceResult>(PILOT_ORIGIN_PLACE);
-  const [destination, setDestination] =
-    useState<PlaceResult>(PILOT_DESTINATION_PLACE);
+  const [origin, setOrigin] = useState<PlaceResult | null>(null);
+  const [destination, setDestination] = useState<PlaceResult | null>(null);
   const [state, setState] = useState<ComparisonState>({ status: 'idle' });
   const requestVersion = useRef(0);
-  const canCompare = origin.place_id !== destination.place_id;
+  const canCompare =
+    origin !== null &&
+    destination !== null &&
+    origin.place_id !== destination.place_id;
 
   const resetComparison = useCallback(() => {
     requestVersion.current += 1;
@@ -76,7 +78,7 @@ export function useRouteComparison(
   const compareSelectedProfile = useCallback(async (
     effectiveWeights?: PreferenceWeights,
   ) => {
-    if (!canCompare) {
+    if (!canCompare || origin === null || destination === null) {
       return;
     }
     const currentVersion = requestVersion.current + 1;
@@ -103,13 +105,14 @@ export function useRouteComparison(
         status: 'error',
       });
     }
-  }, [canCompare, compare, destination.location, origin.location, selectedProfileId]);
+  }, [canCompare, compare, destination, origin, selectedProfileId]);
 
   return {
     canCompare,
     compareSelectedProfile,
     destination,
     origin,
+    reset: resetComparison,
     selectDestination,
     selectOrigin,
     selectedProfileId,

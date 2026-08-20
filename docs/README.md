@@ -30,6 +30,7 @@ esperadas por `AGENTS.md`.
 - [Búsqueda y selección de lugares](product/busqueda-lugares.md).
 - [GPS y rerouting](product/gps-rerouting.md).
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
+- [Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
 
 ### Investigación y decisiones técnicas
 

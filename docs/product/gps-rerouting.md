@@ -79,15 +79,20 @@ no envía coordenadas al backend ni solicita otra ruta.
 ### 2. Información a la persona
 
 Cuando la evidencia espacial y temporal es suficiente, el estado pasa a
-`confirmation_required`. La aplicación conserva visibles la ruta y la
-instrucción actuales y abre un diálogo modal. TalkBack sitúa el foco en su
-título para evitar que el aviso pase inadvertido. El texto explica que la
-posición parece haberse separado de la ruta y que solo se utilizará la última
-posición fiable si la persona decide recalcular.
+`confirmation_required` y la aplicación presenta el aviso como una pantalla
+completa, no como una capa sobre la navegación: así el recorrido con TalkBack no
+arrastra el contenido anterior. TalkBack sitúa el foco en su título para evitar
+que el aviso pase inadvertido. El texto explica que la posición parece haberse
+separado de la ruta y que solo se utilizará la última posición fiable si la
+persona decide recalcular.
+
+La pantalla ocupa el primer plano únicamente mientras la decisión sigue
+pendiente. El cálculo, el resultado correcto y el error se muestran ya sobre la
+navegación, con la ruta anterior y su instrucción a la vista.
 
 ### 3. Confirmación o rechazo
 
-El diálogo ofrece dos acciones explícitas:
+El aviso ofrece dos acciones explícitas:
 
 - **Mantener la ruta actual:** no se realiza ninguna petición, no se comparte la
   posición y se reinicia la evidencia de desviación. La navegación y los
@@ -272,10 +277,10 @@ El 16 de agosto de 2026 se validó manualmente el recorrido completo en un Pixel
 9 de Android Emulator con Android 16, TalkBack, el backend local y ORS. Una
 secuencia de posiciones simuladas fuera de la geometría activa produjo primero
 el estado de posible desviación y, tras cumplir el número de muestras y el
-tiempo mínimo, abrió el diálogo accesible. TalkBack recorrió el título, la
+tiempo mínimo, abrió el aviso accesible. TalkBack recorrió el título, la
 explicación y las acciones de mantener o recalcular.
 
-El rechazo cerró el diálogo, conservó la ruta y la instrucción, y no provocó la
+El rechazo cerró el aviso, conservó la ruta y la instrucción, y no provocó la
 petición de recálculo. La aceptación generó nuevas candidatas desde la posición
 confirmada, volvió a aplicar enriquecimiento OSM, restricciones y puntuación,
 sustituyó la ruta con una respuesta válida, regresó a la primera instrucción y
