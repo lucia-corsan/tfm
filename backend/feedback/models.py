@@ -64,6 +64,42 @@ class LearningUpdateStatus(str, Enum):
     INFLUENTIAL = "influential"
 
 
+class SignalQualityReason(str, Enum):
+    """Explain why a choice history is not yet structurally informative."""
+
+    TOO_FEW_CHOICES = "too_few_choices"
+    TOO_FEW_INFORMATIVE_PAIRS = "too_few_informative_pairs"
+    TOO_FEW_UNIQUE_COMPARISONS = "too_few_unique_comparisons"
+    TOO_FEW_ACTIVE_DIMENSIONS = "too_few_active_dimensions"
+    LOW_COMPARISON_RANK = "low_comparison_rank"
+
+
+class SignalQualityConfig(FeedbackModel):
+    """Conservative thresholds for structural choice-history diagnostics."""
+
+    minimum_choices: int = Field(default=8, ge=1, le=200)
+    minimum_pair_l1: float = Field(default=0.10, gt=0.0, le=9.0)
+    minimum_informative_pairs: int = Field(default=12, ge=1, le=400)
+    minimum_unique_comparisons: int = Field(default=12, ge=1, le=400)
+    minimum_dimension_contrast: float = Field(default=0.03, gt=0.0, le=1.0)
+    minimum_active_dimensions: int = Field(default=6, ge=1, le=9)
+    minimum_comparison_rank: int = Field(default=6, ge=1, le=9)
+    signature_decimals: int = Field(default=3, ge=1, le=9)
+
+
+class SignalQualityAssessment(FeedbackModel):
+    """Auditable structural summary of explicit accepted-route choices."""
+
+    sufficient: bool
+    choice_count: int = Field(ge=0)
+    pair_count: int = Field(ge=0)
+    informative_pair_count: int = Field(ge=0)
+    unique_comparison_count: int = Field(ge=0)
+    active_dimensions: list[ScoringDimension]
+    comparison_rank: int = Field(ge=0, le=9)
+    reasons: list[SignalQualityReason]
+
+
 class PreferenceLearningState(FeedbackModel):
     """Complete, serializable state of one local preference learner."""
 

@@ -18,8 +18,12 @@ from backend.feedback.models import (
     PairwiseChoice,
     PreferenceLearningState,
     PreferenceUpdate,
+    SignalQualityAssessment,
+    SignalQualityConfig,
+    SignalQualityReason,
     WeightChange,
 )
+from backend.feedback.signal_quality import assess_signal_quality
 
 __all__ = [
     "PREFERENCE_DIMENSIONS",
@@ -29,7 +33,11 @@ __all__ = [
     "PairwiseChoice",
     "PreferenceLearningState",
     "PreferenceUpdate",
+    "SignalQualityAssessment",
+    "SignalQualityConfig",
+    "SignalQualityReason",
     "WeightChange",
+    "assess_signal_quality",
     "build_pairwise_choice",
     "effective_influence",
     "initialize_learning",
