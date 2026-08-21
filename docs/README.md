@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 18 de agosto de 2026.
+Última actualización: 21 de agosto de 2026.
 
 ## Propósito
 
@@ -31,6 +31,7 @@ esperadas por `AGENTS.md`.
 - [GPS y rerouting](product/gps-rerouting.md).
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
 - [Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
+- [Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
 
 ### Investigación y decisiones técnicas
 

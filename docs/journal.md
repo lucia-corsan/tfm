@@ -1022,3 +1022,13 @@ En la navegación, la pantalla se redujo a la tarjeta de instrucción y sus
 controles de paso; la información del tramo, los avisos de la ruta, el GPS y la
 voz se agruparon tras un «Saber más» dentro de la tarjeta. En la última
 instrucción la banda inferior pasa a terminar la navegación.
+
+## 21 de agosto de 2026 — Perfil inicial conectado con la clasificación
+
+Se incorporó un cuestionario inicial de catorce preguntas funcionales y se
+conectaron sus restricciones y prioridades con el perfil enviado al backend. El
+perfil se guarda solo en el dispositivo, se recupera al reiniciar la aplicación
+y puede editarse conservando las respuestas. El consentimiento del aprendizaje
+queda desactivado por defecto y se sincroniza con el estado adaptativo local.
+La decisión, la traducción 0–3, las alternativas y las referencias se detallan
+en [Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
