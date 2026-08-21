@@ -25,7 +25,7 @@ nueve dimensiones variaban en este último. La función no se conecta todavía a
 una activación automática para evitar generalizar desde un único banco real
 pequeño. Protocolo, tabla, figura y límites en el
 [diagnóstico de capacidad informativa](evaluation/diagnostico-capacidad-informativa.md).
-El cierre completo alcanzó 282 pruebas de backend, 126 de aplicación y análisis
+El cierre completo alcanzó 283 pruebas de backend, 153 de aplicación y análisis
 estáticos sin errores.
 
 ## 18 de agosto de 2026 — Semana 4, día 3: transferencia a rutas reales
@@ -1032,3 +1032,140 @@ y puede editarse conservando las respuestas. El consentimiento del aprendizaje
 queda desactivado por defecto y se sincroniza con el estado adaptativo local.
 La decisión, la traducción 0–3, las alternativas y las referencias se detallan
 en [Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
+
+## 21 de agosto de 2026 — Logotipo animado en la portada
+
+Se reprodujo en React Native la secuencia del logotipo animado de Rumbo: el
+punto aparece primero y el trazo se dibuja después. La animación se limita a la
+portada verde, donde se muestra a 160 puntos para reforzar la jerarquía visual;
+el símbolo de las barras superiores permanece estático y reducido. Cuando el
+sistema solicita reducir el movimiento, se muestra directamente el logotipo
+completo. La decisión se recoge en
+[Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
+
+## 21 de agosto de 2026 — Ajustes, presentación y perfil adaptativo
+
+La respuesta visual del cuestionario pasó a controlar cuatro modos efectivos:
+sistema, texto un 25 % mayor, contraste reforzado y combinación de ambos. Se
+añadió una pantalla de Ajustes local para modificar la presentación, revisar el
+perfil, pausar el aprendizaje y reservar el futuro apartado de favoritos sin
+simular su funcionamiento. La pantalla conserva el flujo de ruta que queda
+debajo. El detalle se recoge en
+[Ajustes locales y modos de presentación](product/ajustes-presentacion.md).
+
+También se verificó de extremo a extremo que el perfil inicial puede cambiar el
+primer puesto del ranking. Al revisar el aprendizaje se detectó que los estados
+debían distinguir no solo pesos, sino también escalones y desvío máximo. Se
+incorporó una identidad canónica por configuración: los cambios visuales o de
+voz conservan el aprendizaje, mientras que los cambios materiales del ranking
+utilizan un estado separado. La fórmula adaptativa no se modificó.
+
+## 21 de agosto de 2026 — Distinción entre perfiles generales y personalizado
+
+La omisión del cuestionario dejó de guardarse como si fuera una respuesta
+equilibrada. Ahora se conserva un modo general explícito: la comparación ofrece
+los perfiles «Preferencias equilibradas» y «Priorizar cruces sencillos», cada
+uno con aprendizaje independiente. Al terminar el cuestionario desaparece ese
+selector y se usa únicamente el perfil personal, combinado con aprendizaje si
+la persona lo autorizó. La migración mantiene como personalizados los perfiles
+locales creados antes de esta distinción. La decisión completa se recoge en
+[Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
+
+## 21 de agosto de 2026 — Voz centralizada y lugares guardados
+
+Los controles que modificaban modo y velocidad de voz se trasladaron desde
+«Saber más» a Ajustes; junto a cada instrucción queda únicamente la acción de
+escuchar, repetir o detener. El perfil local pasa a controlar de extremo a
+extremo reproducción automática, escucha bajo demanda, desactivación y cuatro
+velocidades. El engranaje permanece disponible en todas las pantallas
+operativas, incluida la confirmación de redirección. La decisión se actualiza en
+[Narración, TalkBack y TTS](product/narracion-talkback-tts.md) y
+[Ajustes locales y modos de presentación](product/ajustes-presentacion.md).
+
+También se implementaron lugares habituales con alias y resultado
+geocodificado, guardados solo en SQLite local. El primer uso permite añadir uno
+u omitir el paso; Ajustes permite consultar, añadir y eliminar, y la búsqueda
+los ofrece como origen o destino. La especificación y sus límites de privacidad
+se recogen en [Lugares guardados en el dispositivo](product/lugares-guardados.md).
+
+## 21 de agosto de 2026 — Vista previa del perfil y acceso continuo a Ajustes
+
+Una comprobación del primer uso reveló que texto grande y contraste solo se
+aplicaban después de terminar el cuestionario y que sus pantallas no mostraban
+el engranaje. Se separó el borrador del perfil definitivo: el borrador controla
+la presentación de inmediato y se comparte con Ajustes, mientras que el ranking
+continúa esperando a la finalización del formulario. También se añadió el acceso
+a Ajustes en la introducción, las preguntas y el paso opcional de lugares.
+
+Fuente principal: [Ajustes locales y modos de presentación](product/ajustes-presentacion.md).
+
+La misma revisión mostró que una lista vacía hacía desaparecer por completo
+«Lugares guardados» de origen y destino. Se mantuvo el apartado visible con un
+mensaje de estado y acceso directo al alta, y se adelantó su sección dentro de
+Ajustes. De este modo se distingue una función disponible pero todavía vacía de
+una función inexistente.
+
+La captura del emulador permitió detectar además que el botón flotante «Tools»
+de TalkBack coincidía con la posición del engranaje de Rumbo. El acceso de la
+aplicación se desplazó hacia el interior de la barra superior para no exigir que
+la persona desactive o mueva su ayuda técnica.
+
+La inspección del árbol accesible distinguió un segundo caso: el cuestionario
+abierto para revisar el perfil desde Ajustes no mostraba un regreso explícito a
+la pantalla que lo contenía. Se conectó también en esa rama el engranaje, que
+vuelve a Ajustes conservando las respuestas y el resto del flujo.
+
+La prueba sobre una instalación ya utilizada reveló además que el paso de
+lugares habituales solo se alcanzaba al terminar un perfil nuevo. Se añadió una
+marca local independiente: quienes ya tenían perfil reciben la pregunta una
+vez, y tanto guardar un lugar como elegir «Ahora no» evitan que vuelva a
+mostrarse en cada inicio. La suite de la aplicación queda en 160 pruebas.
+
+La ausencia aparente de estos cambios en el emulador no procedía de la
+funcionalidad: el puerto 8081 seguía ocupado por Metro iniciado desde un
+`worktree` anterior. Se detuvo ese proceso y se arrancó Expo desde `tfm/app`.
+La verificación visual confirmó el paso inicial, el engranaje propio de Rumbo y
+la sección «Lugares guardados» al inicio de Ajustes. La incidencia y su
+diagnóstico quedan recogidos en
+[Entorno de desarrollo](operations/entorno-desarrollo.md).
+
+## 21 de agosto de 2026 — Simplificación de Ajustes, lugares y alternativas
+
+Ajustes dejó de duplicar los selectores del cuestionario: cada apartado muestra
+el valor vigente y abre únicamente su pregunta, con vista previa, confirmación
+explícita y retorno. La búsqueda de origen y destino se colocó antes del atajo
+«Elige un lugar guardado». La pantalla de resultados eliminó el recuadro azul,
+el logotipo y los encabezados repetidos; conserva una sola cabecera
+«Alternativas ordenadas» y muestra directamente las tarjetas aceptadas y
+descartadas. La tipografía continúa procediendo de la escala común Atkinson
+Hyperlegible Next. Las decisiones se detallan en
+[Ajustes locales](product/ajustes-presentacion.md),
+[Lugares guardados](product/lugares-guardados.md),
+[Comparación de rutas](product/comparacion-rutas-app.md) y
+[Sistema de diseño](product/sistema-diseno-app.md).
+
+## 21 de agosto de 2026 — Arranque visual de Rumbo
+
+Se sustituyeron los recursos azules de ejemplo de Expo por el icono blanco de
+Rumbo sobre verde oscuro en la configuración general, el icono adaptativo de
+Android y la pantalla nativa de carga. La barra de estado usa iconos claros
+durante la portada. La carga nativa permanece estática y enlaza con la animación
+React del mismo símbolo. Se documentó que Expo Go controla una transición
+propia y que el arranque definitivo debe comprobarse en una compilación de
+previsualización o producción.
+
+La revisión posterior unificó también el retroceso: todas las cabeceras usan
+una flecha verde sobre fondo transparente, en lugar de alternar ese patrón con
+una flecha blanca dentro de un círculo verde. Se conserva el área táctil mínima
+y un resaltado verde claro durante la pulsación.
+
+## 21 de agosto de 2026 — Acceso directo a la planificación
+
+Se eliminó la pantalla «¿Prefieres interactuar hablando o tecleando?». Después
+de la portada —y del paso opcional de lugares guardados cuando corresponde— la
+aplicación abre directamente la selección de destino. La alternativa de voz no
+estaba implementada y mantener una pantalla completa para anunciar esa carencia
+añadía una decisión sin efecto. El micrófono contextual de los buscadores se
+mantiene y explica honestamente su estado al activarlo. La decisión se refleja
+en [Comparación de rutas](product/comparacion-rutas-app.md) y
+[Sistema de diseño](product/sistema-diseno-app.md).

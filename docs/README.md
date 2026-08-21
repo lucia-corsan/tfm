@@ -32,6 +32,8 @@ esperadas por `AGENTS.md`.
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
 - [Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
 - [Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
+- [Ajustes locales y modos de presentación](product/ajustes-presentacion.md).
+- [Lugares guardados en el dispositivo](product/lugares-guardados.md).
 
 ### Investigación y decisiones técnicas
 

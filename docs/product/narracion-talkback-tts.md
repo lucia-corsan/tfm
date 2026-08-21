@@ -364,20 +364,24 @@ técnico, no una calibración clínica ni una preferencia demostrada para todo e
 colectivo.
 
 La velocidad normal y la reproducción manual son los valores iniciales. La
-persona puede pulsar «Escuchar instrucción», detener la voz de inmediato o
-activar voluntariamente «Reproducir cada instrucción automáticamente». Al
+persona puede pulsar «Escuchar instrucción» o elegir desde Ajustes que cada
+instrucción se reproduzca automáticamente. Si hay una locución activa, el mismo
+control permite detenerla de inmediato. Al
 cambiar de paso, recalcular la ruta o cerrar la navegación, la aplicación
 interrumpe la frase anterior y vacía la cola antes de reproducir otra. La salida
 solicita `es-ES` y un tono normal, pero no sustituye la voz instalada en Android.
 
-Durante este MVP, la preferencia vive en el estado de la navegación y no sale
-del dispositivo. No se envía al backend ni interviene en la puntuación. Es
-razonable ofrecerla en la configuración inicial de la aplicación, pero se
-pospone su persistencia hasta incorporar el repositorio local común del perfil
-y del aprendizaje. Guardarla ahora con un mecanismo aislado duplicaría la
-lógica y dificultaría reiniciarla junto con el resto de preferencias. La
-evolución prevista es almacenar localmente el identificador del nivel y el
-interruptor automático; nunca audio ni historial de frases.
+El modo y la velocidad se preguntan en la configuración inicial, se guardan
+junto con el perfil local y pueden cambiarse después en Ajustes. Una navegación
+abierta recibe el nuevo valor sin tener que volver a comparar la ruta. Los
+controles que modifican estas preferencias se retiraron de «Saber más»: ese
+desplegable queda reservado a evidencia de accesibilidad y avisos. Junto a la
+instrucción solo permanece la acción operativa «Escuchar» o «Repetir», porque no
+es un ajuste sino una solicitud puntual.
+
+Estas preferencias no salen del dispositivo, no se envían al backend ni
+intervienen en la puntuación. Se almacena únicamente el identificador del modo y
+del nivel de velocidad; nunca audio ni historial de frases.
 
 ### 8. Convivencia con TalkBack
 
@@ -387,14 +391,14 @@ activo y recibir cambios mientras la app está abierta. El MVP aplica la
 siguiente política:
 
 1. mientras se comprueba el estado, no se permite emitir voz propia;
-2. con TalkBack activo, se ocultan la escucha manual, la velocidad y la
-   reproducción automática de la app, porque ninguna de ellas modifica el
-   lector de pantalla;
+2. con TalkBack activo, se oculta la acción de escucha de la app y se impide la
+   reproducción automática, porque ninguna de ellas modifica el lector de
+   pantalla; los ajustes siguen disponibles para un uso posterior sin TalkBack;
 3. la nueva instrucción sigue disponible como texto y se marca como única
    región dinámica moderada del bloque, de modo que TalkBack puede comunicar el
    cambio con sus propios ajustes sin repetir también el contador;
-4. sin lector de pantalla, la persona puede escuchar manualmente o activar el
-   modo automático;
+4. sin lector de pantalla, la persona puede escuchar manualmente o utilizar el
+   modo automático guardado en su perfil;
 5. si TalkBack se activa durante una locución, se detiene la voz de la app.
 
 Los estados críticos de desviación, recálculo y error mantienen anuncios
@@ -438,8 +442,9 @@ de pantalla debe ajustar su ritmo en Android.
 
 ## Resultados
 
-El incremento automático queda validado con 231 pruebas del backend y 53 de la
-aplicación, además de Ruff, TypeScript y ESLint sin errores. Las pruebas cubren
+La narración y su integración forman parte de una validación actual de 283
+pruebas del backend y 157 de la aplicación, además de Ruff, TypeScript y ESLint
+sin errores. Las pruebas cubren
 los catorce tipos de ORS, la narración determinista, las posiciones sobre la
 geometría, la validación de la respuesta móvil, la elección de ruta y el avance
 manual. También cubren la limpieza de valores de relleno, la asociación espacial
@@ -478,8 +483,8 @@ estáticos y separó cada texto relevante como parada de lectura. La declaració
 `es-ES` ayuda a escoger el idioma, aunque la voz concreta sigue dependiendo de
 la configuración de Android.
 
-La integración actual mantiene 282 pruebas de backend y 126 pruebas de la
-aplicación distribuidas en veintiún grupos. Los casos específicos de voz cubren la
+La integración actual mantiene 283 pruebas de backend y 162 pruebas de la
+aplicación distribuidas en veinticinco grupos. Los casos específicos de voz cubren la
 configuración inicial, los cuatro multiplicadores, el idioma, la interrupción,
 los eventos del motor, el cambio de instrucción, el cierre de la pantalla y la
 activación o desactivación dinámica del lector. Ruff, TypeScript y ESLint
@@ -523,8 +528,8 @@ contador.
   minuto en todas las voces o dispositivos.
 - Los cuatro niveles y el valor normal por defecto requieren validación con
   personas ciegas y con baja visión, incluidas usuarias noveles y expertas.
-- La preferencia se conserva durante la navegación actual, pero todavía no
-  persiste al reiniciar la aplicación.
+- La preferencia sí persiste al reiniciar la aplicación, pero no se sincroniza
+  entre dispositivos ni modifica la voz global de Android.
 
 ## Texto base para la memoria
 
@@ -540,8 +545,8 @@ presenta como garantía de accesibilidad. TalkBack y TTS son canales de acceso a
 información validada, no componentes de decisión ni aportaciones propias de
 inteligencia artificial. La voz de la app se ofrece con cuatro velocidades y
 reproducción automática voluntaria; cuando el sistema detecta TalkBack, la voz
-propia se bloquea para impedir locuciones simultáneas. La selección se mantiene
-local y no altera la clasificación.
+propia se bloquea para impedir locuciones simultáneas. La selección se guarda
+localmente, puede modificarse desde Ajustes y no altera la clasificación.
 
 ## Trabajo pendiente
 
@@ -556,7 +561,7 @@ local y no altera la clasificación.
 - [x] Integrar TTS y política de solapamiento con TalkBack.
 - [x] Confirmar manualmente el anuncio único después de ocultar los controles
   de voz propios con TalkBack.
-- [ ] Persistir la velocidad y el modo automático junto con el perfil local.
+- [x] Persistir la velocidad y el modo automático junto con el perfil local.
 - [ ] Evaluar comprensión y preferencia de velocidad con personas usuarias.
 
 ## Referencias técnicas

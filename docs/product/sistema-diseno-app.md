@@ -1,7 +1,7 @@
 # Sistema de diseño de la aplicación móvil
 
 Estado: `Vigente`  
-Última actualización: 2026-08-20  
+Última actualización: 2026-08-21
 Responsabilidad principal: `product`
 
 ## Problema que resuelve
@@ -86,8 +86,8 @@ tipografía, y un conjunto reducido de componentes compartidos: `Screen`,
   Intro, pero Android no dibuja ningún indicador de foco sobre las vistas de
   React Native, de modo que no había forma de saber dónde estaba el foco. Los
   controles pintan ahora un contorno ámbar mientras lo tienen.
-- **Pantallas de una sola pregunta**: portada, elección entre hablar y teclear,
-  destino, origen y tres pasos de configuración. Además de seguir el diseño,
+- **Pantallas de una sola pregunta**: portada, destino, origen y tres pasos de
+  configuración. Además de seguir el diseño,
   resuelve un problema real: en Android la propiedad `accessible` introduce cada
   párrafo en el recorrido del teclado, y con una pantalla larga la búsqueda de
   foco saltaba de forma errática sin alcanzar el botón de comparación.
@@ -97,35 +97,79 @@ tipografía, y un conjunto reducido de componentes compartidos: `Screen`,
 - **Marca**: la aplicación se llama Rumbo. El símbolo vive en
   `RumboLogo.tsx`, dibujado con los mismos trazos del archivo original, y va
   siempre acompañado del nombre como texto, de modo que se oculta al lector de
-  pantalla para no duplicar la locución.
+  pantalla para no duplicar la locución. En la portada verde, el punto aparece
+  primero y el trazo se dibuja a continuación, siguiendo la animación de la
+  identidad visual. El símbolo de la portada se representa a 160 puntos para
+  que actúe como elemento principal de la composición, mientras que las barras
+  superiores conservan el símbolo estático y reducido para no introducir
+  movimiento repetitivo durante el uso. Si Android tiene activada la opción
+  «reducir movimiento», la portada muestra directamente el logotipo completo
+  sin ejecutar la animación.
+- **Arranque de marca**: los recursos nativos ya no utilizan el símbolo azul de
+  ejemplo de Expo. El icono general, el icono adaptativo de Android y la pantalla
+  nativa de carga comparten el verde oscuro y el símbolo blanco de Rumbo. La
+  pantalla nativa es necesariamente estática; al terminar la carga da paso a la
+  portada React, que inicia la animación del mismo trazado. Expo Go puede seguir
+  mostrando una transición propia porque funciona como aplicación contenedora;
+  la experiencia nativa definitiva solo puede comprobarse en una compilación de
+  previsualización o producción.
+- **Presentación configurable**: un proveedor temático global aplica la
+  preferencia elegida en el cuestionario o en Ajustes. «Texto más grande»
+  incrementa un 25 % tamaños e interlineados sin desactivar el escalado de
+  Android. «Contraste reforzado» utiliza texto negro sobre blanco, verde de
+  acción `#005A2B` y bordes más visibles. Ambos modos pueden combinarse y no
+  modifican el ranking.
+- **Ajustes**: una pantalla sencilla de una columna permite revisar el perfil,
+  cambiar la presentación, configurar el modo y velocidad de voz, pausar el
+  aprendizaje y gestionar lugares guardados. Se abre a pantalla completa sin
+  desmontar el flujo anterior. Su botón de retroceso usa una flecha verde sobre
+  el fondo transparente de la cabecera. El engranaje permanece
+  disponible en búsqueda, planificación, resultados, navegación y confirmación
+  de redirección.
+- **Edición coherente**: Ajustes muestra el valor vigente y un botón «Editar»;
+  presentación, voz y aprendizaje reutilizan después la misma pregunta del
+  formulario inicial, con guardado explícito. No se duplican radios ni
+  interruptores en la pantalla principal de Ajustes.
+- **Resultados sin cabeceras duplicadas**: «Alternativas ordenadas» aparece una
+  sola vez en la barra superior. Bajo ella solo se presentan las tarjetas
+  aceptadas y descartadas. La flecha de retorno es verde y transparente para no
+  competir con el contenido; el mismo patrón se aplica a todas las pantallas
+  para que el retroceso sea predecible.
+- **Agrupación neutra**: los recuadros azules se eliminan de Ajustes y del
+  resumen de resultados. Los colores informativos se reservan para significados
+  reales, no para decorar o repetir la estructura de una pantalla.
 
 ## Datos de entrada y salida
 
 ### Entrada
 
 - Textos de interfaz de `app/i18n/es.ts`.
+- Preferencia local de presentación recuperada del cuestionario.
 - Respuestas estructuradas del backend, sin cambios respecto a la versión
   anterior.
 
 ### Salida
 
-- Interfaz renderizada. Ningún componente nuevo transforma, calcula ni filtra
-  datos de dominio.
+- Interfaz renderizada con tema efectivo. Ningún componente visual transforma,
+  calcula ni filtra datos de dominio.
 
 ## Implementación
 
 - Módulos afectados: `app/src/theme`, `app/src/components`, `app/src/screens`,
   `app/src/app/_layout.tsx`, `app/i18n/es.ts` y `app/app.json`.
+- `app/src/theme/presentation.tsx` concentra la paleta reforzada y la escala
+  tipográfica; `SettingsScreen.tsx` permite modificarlas.
 - Dependencia añadida: `react-native-svg`, incluida en Expo Go y necesaria solo
   para dibujar los trazos locales de los iconos.
 - El flujo de comparación se ha repartido en tres pantallas, descritas en
   [Comparación de rutas en la aplicación](comparacion-rutas-app.md).
-- No se ha modificado el backend, el índice de adecuación, la narración ni el
-  aprendizaje adaptativo.
+- No se ha modificado el backend, el índice de adecuación ni la narración. El
+  aprendizaje solo ha recibido una identidad local más precisa para separar
+  configuraciones de restricciones; su fórmula no cambia.
 
 ## Pruebas
 
-- `npm test`: 128 pruebas, incluidas las de accesibilidad de las pantallas, el
+- `npm test`: 162 pruebas, incluidas las de accesibilidad de las pantallas, el
   recorrido por pasos y el estado del indicador de foco.
 - Recorrido con teclado comprobado en el emulador leyendo el nodo enfocado en
   cada tabulación: los tres pasos se completan con el tabulador y la tecla
@@ -135,6 +179,8 @@ tipografía, y un conjunto reducido de componentes compartidos: `Screen`,
   mínimo entre los textos es 5,82:1 y el de un control desactivado, 5,12:1.
 - Comprobación manual en el emulador de Android con TalkBack activo y con
   TalkBack desactivado.
+- Pruebas automáticas de aumento de tamaño, paleta reforzada y actualización
+  local desde Ajustes.
 
 ## Resultados
 
@@ -144,18 +190,25 @@ usuarias reales está pendiente de la evaluación de usabilidad.
 
 ## Trabajo no implementado del diseño
 
-Dos elementos del lienzo no tienen soporte todavía y se han dejado declarados en
-la interfaz en lugar de simularlos:
+Dos elementos del lienzo no tienen soporte todavía. Solo se mantienen en los
+puntos donde su presencia resulta comprensible:
 
 - **Dictado por voz**. `expo-speech` solo sintetiza voz; el reconocimiento
   exigiría una dependencia nativa fuera de Expo Go o un servicio externo, con las
-  implicaciones de privacidad que eso conlleva. La opción «Interactuar por voz» y
-  el micrófono de los campos existen y anuncian que la función no está
-  disponible en esta versión.
+  implicaciones de privacidad que eso conlleva. Se eliminó la pantalla previa
+  que obligaba a escoger entre hablar o teclear porque añadía un paso para
+  anunciar una función todavía no disponible. El micrófono de cada buscador se
+  conserva como indicación contextual y, al activarlo, explica que el dictado no
+  está disponible en esta versión.
 - **Nombre de calle de la ubicación actual**. El diseño muestra «Calle de Ferraz
   22»; el backend no expone geocodificación inversa y traducir las coordenadas
   con un servicio del dispositivo enviaría la ubicación a un tercero. La
   aplicación usa la ubicación real y la presenta como coordenadas aproximadas.
+
+Queda pendiente comprobar visualmente en el emulador las dos variantes de la
+portada: animación completa con la configuración habitual y símbolo estático con
+«reducir movimiento» activado. La implementación consulta esa preferencia del
+sistema y reacciona también si cambia mientras la pantalla está abierta.
 
 ## Limitación conocida del recorrido con teclado
 
@@ -174,6 +227,9 @@ plataforma, como ya se documenta en la especificación de accesibilidad.
 - Mantener los componentes propios exige revisar el contraste al añadir colores.
 - La mejora de legibilidad de Atkinson Hyperlegible está documentada por su
   autor, pero no se ha medido en este trabajo.
+- La ampliación interna puede combinarse con el tamaño máximo del sistema y
+  alargar mucho las pantallas; se permite desplazamiento, pero falta una
+  revisión visual exhaustiva.
 
 ## Texto base para la memoria
 
@@ -191,6 +247,7 @@ orden visual siga coincidiendo con el orden de lectura de TalkBack.
 
 - [ ] Medir el efecto del rediseño en la evaluación de usabilidad.
 - [ ] Revisar el comportamiento con el tamaño de fuente del sistema al máximo.
+- [ ] Validar los cuatro modos de presentación con personas usuarias.
 
 ## Referencias y evidencias
 
@@ -198,6 +255,8 @@ orden visual siga coincidiendo con el orden de lectura de TalkBack.
   License: `app/assets/fonts/OFL.txt`.
 - Phosphor Icons, licencia MIT: `app/src/components/icons/paths.ts`.
 - Tokens: `app/src/theme/tokens.ts`.
+- Expo, [Splash screen and app icon](https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/):
+  configuración nativa y limitaciones de comprobación en Expo Go.
 
 ## Revisión previa a la publicación
 

@@ -32,6 +32,10 @@ el perfil, la API y la aplicación Android.
 - Permitir reintentar una petición fallida.
 - Mantener etiquetas, roles, estados y orden de lectura compatibles con
   TalkBack.
+- Presentar los resultados con una cabecera inequívoca y, bajo ella, únicamente
+  las tarjetas de rutas aceptadas y descartadas.
+- Usar en esta pantalla una flecha verde sin fondo para volver, sin repetir el
+  símbolo ni el nombre de Rumbo en la cabecera.
 - No incluir claves ni otros secretos en variables públicas de Expo.
 - No registrar las coordenadas ni el contenido completo de las peticiones.
 - Mantener el resultado reproducible mediante el proveedor de datos sintéticos
@@ -153,13 +157,23 @@ incertidumbre ni el resto de la evidencia. En ambos perfiles continúan activas
 las mismas restricciones críticas.
 
 El flujo se reparte en pantallas de una sola pregunta en lugar de una lista
-única muy larga: portada, elección entre hablar y teclear, destino, origen y
-tres pasos de configuración —confirmar el trayecto, elegir perfil y revisar la
-personalización adaptativa—, seguidos de la pantalla de resultados. Cada
+única muy larga: portada, destino, origen y tres pasos de configuración
+—confirmar el trayecto, elegir perfil y revisar la personalización adaptativa—,
+seguidos de la pantalla de resultados. Cada
 pantalla conserva un botón de retroceso explícito. Las tarjetas muestran las tres métricas como
 texto, los factores recibidos del backend, los avisos y las rutas descartadas.
 La app solo transforma códigos y valores en textos españoles; no recalcula la
 puntuación.
+
+La pantalla de resultados se titula «Alternativas ordenadas». Su flecha de
+retroceso es verde sobre fondo transparente y la cabecera no repite el logotipo
+ni el nombre de Rumbo. También se eliminaron el recuadro azul de finalización y
+la segunda introducción «Alternativas ordenadas»: tras la barra superior
+aparecen directamente las tarjetas, en el orden calculado por el backend. Cada
+ruta descartada se identifica dentro de su propia tarjeta, por lo que no
+necesita una sección introductoria independiente. Esta simplificación elimina
+duplicaciones visuales sin ocultar adecuación, incertidumbre ni motivos de
+descarte.
 
 En las rutas reales, cada tarjeta identifica explícitamente dos procedencias:
 OpenRouteService calcula la geometría e instrucciones del recorrido y
@@ -185,8 +199,10 @@ aviso de seguridad y no puede depender de una acción adicional.
 - Cambio de la primera ruta al seleccionar el perfil de cruces sencillos.
 - Presentación textual de las tres métricas, razones, avisos y descartes.
 - Roles, etiquetas, estados de selección y anuncios dinámicos accesibles.
-- Paradas independientes para la introducción, los encabezados y cada razón,
+- Paradas independientes para los encabezados y cada razón de las tarjetas,
   todas identificadas con el idioma `es-ES`.
+- Una sola cabecera «Alternativas ordenadas», sin resumen duplicado y con una
+  etiqueta propia dentro de cada ruta descartada.
 - Búsqueda de lugares, validación de sus respuestas, propagación de coordenadas
   y bloqueo de origen y destino iguales.
 - Identificación visible y accesible de ORS y OSM en rutas no sintéticas.
@@ -200,10 +216,10 @@ aviso de seguridad y no puede depender de una acción adicional.
 
 ## Resultados
 
-La validación automática de la app alcanza 126 pruebas distribuidas en 21
+La validación automática de la app alcanza 162 pruebas distribuidas en 25
 grupos. Se han comprobado tipos, validación matemática, configuración, cliente
 HTTP, perfiles, estado asíncrono, interfaz, GPS, voz, recálculo, aprendizaje y
-persistencia. ESLint y TypeScript estricto no detectan errores. Las 282 pruebas
+persistencia. ESLint y TypeScript estricto no detectan errores. Las 283 pruebas
 del backend siguen superándose, por lo que la integración móvil mantiene el
 sistema de decisión y sus restricciones.
 

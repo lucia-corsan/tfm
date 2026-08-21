@@ -109,6 +109,43 @@ aplicación.
 `emulator` y `platform-tools`. `adb devices` debe mostrar el emulador como
 `device` antes de iniciar la app.
 
+## Evitar servir una copia de trabajo antigua
+
+Expo Go muestra el código del proceso Metro que escucha en el puerto 8081, con
+independencia de la carpeta abierta en VS Code. Si se utilizó un `worktree`, un
+Metro antiguo puede seguir sirviendo esa copia y ocultar cambios presentes en
+la rama principal. Antes de diagnosticar una interfaz aparentemente
+desactualizada se comprueba el proceso y su directorio:
+
+```bash
+lsof -nP -iTCP:8081 -sTCP:LISTEN
+lsof -a -p <PID> -d cwd -Fn
+```
+
+Si el directorio no es `tfm/app`, se detiene únicamente ese PID y se vuelve a
+ejecutar `npm run android` desde la carpeta principal `app/`. Esta comprobación
+resolvió la discrepancia visual detectada al incorporar lugares guardados y
+modos de presentación.
+
+## Arranque visual y limitación de Expo Go
+
+`app/app.json` configura un fondo verde `#0E7A43` y el símbolo blanco de Rumbo
+para el icono de la aplicación, el icono adaptativo de Android y la pantalla
+nativa de carga. El símbolo nativo es estático porque Android e iOS muestran esa
+vista antes de ejecutar JavaScript. Cuando las fuentes locales están listas,
+`expo-splash-screen` oculta la vista nativa y la portada React comienza la
+animación del mismo logotipo.
+
+Expo Go no permite comprobar fielmente este arranque. Desde Expo SDK 52 muestra
+el icono del proyecto en su propia pantalla de carga y puede ignorar parte de la
+configuración nativa. Por tanto, durante el desarrollo puede persistir una
+transición propia de Expo Go, aunque ya no debería utilizar el recurso azul del
+proyecto. La ausencia total de esa pantalla solo se valida con una compilación
+de previsualización o producción. Esta limitación pertenece al entorno de
+prueba, no al flujo de Rumbo.
+
+Fuente: Expo, [Splash screen and app icon](https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/).
+
 ## Secretos
 
 `.env` es local y está ignorado. `.env.example` documenta nombres de variables
@@ -116,9 +153,9 @@ sin valores secretos. Nunca se guardan tokens en notebooks, trazas o commits.
 
 ## Validación actual
 
-- Backend: Ruff correcto y 282 pruebas superadas, incluidas las restricciones,
+- Backend: Ruff correcto y 283 pruebas superadas, incluidas las restricciones,
   la puntuación, el aprendizaje adaptativo y su evaluación reproducible.
-- App: 126 pruebas Jest en veintiún grupos, ESLint y TypeScript correctos. Expo Doctor quedó
+- App: 162 pruebas Jest en veinticinco grupos, ESLint y TypeScript correctos. Expo Doctor quedó
   validado durante la configuración inicial del entorno.
 - Paquete JavaScript Android generado de forma local y en integración continua.
 - Flujo funcional validado en Expo Go; la compilación nativa de desarrollo
