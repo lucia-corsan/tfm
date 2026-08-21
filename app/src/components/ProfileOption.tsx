@@ -4,7 +4,7 @@ import { Icon } from '@/components/icons';
 import { colors, focusRing, radii, spacing, typography, useFocusRing } from '@/theme';
 
 interface ProfileOptionProps {
-  description: string;
+  description?: string;
   hint: string;
   label: string;
   onPress: () => void;
@@ -47,7 +47,9 @@ export function ProfileOption({
       </View>
       <View importantForAccessibility="no-hide-descendants" style={styles.copy}>
         <Text style={styles.label}>{label}</Text>
-        <Text style={styles.description}>{description}</Text>
+        {description ? (
+          <Text style={styles.description}>{description}</Text>
+        ) : null}
       </View>
     </Pressable>
   );

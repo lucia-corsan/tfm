@@ -1,5 +1,112 @@
 export const ES = {
   appName: 'Rumbo',
+  onboarding: {
+    intro: {
+      title: 'Vamos a configurar cómo quieres que comparemos las rutas.',
+      storageNotice:
+        'Tus respuestas se guardarán únicamente en este dispositivo y podrás modificarlas o reiniciarlas cuando quieras.',
+      evidenceNotice:
+        'La aplicación utiliza información cartográfica que puede estar incompleta. Una recomendación no garantiza que una ruta sea accesible o segura en ese momento.',
+      continueButton: 'Continuar con la configuración.',
+      continueHint: 'Abre la primera de las catorce preguntas.',
+      skipButton: 'Usar un perfil equilibrado y configurarlo más adelante.',
+      skipHint:
+        'Omite las preguntas y aplica un perfil que valora por igual todos los factores.',
+    },
+    progress: (current: number, total: number) =>
+      `Pregunta ${current} de ${total}`,
+    backButton: 'Pregunta anterior',
+    backHint: 'Vuelve a la pregunta anterior de la configuración.',
+    nextButton: 'Siguiente',
+    nextHint: 'Guarda la respuesta y continúa.',
+    optionGroupLabel: 'Opciones de respuesta',
+    priorityOptions: {
+      none: 'No es una prioridad.',
+      low: 'Prioridad baja.',
+      medium: 'Prioridad media.',
+      high: 'Prioridad alta.',
+    },
+    steps: {
+      title: 'Si una ruta contiene escalones confirmados, ¿qué quieres que haga la aplicación?',
+      options: {
+        exclude: 'Excluir siempre esa ruta.',
+        avoid:
+          'Darle menos prioridad, pero seguir mostrándola con un aviso.',
+        inform:
+          'No utilizar los escalones para ordenar las rutas, pero seguir informándome de ellos.',
+      },
+    },
+    detour: {
+      title:
+        '¿Cuánto recorrido adicional aceptarías para evitar una ruta menos adecuada según tus preferencias?',
+      options: {
+        ten: 'Hasta un 10 % más.',
+        twentyFive: 'Hasta un 25 % más.',
+        fifty: 'Hasta un 50 % más —recomendado inicialmente—.',
+        double: 'Hasta el doble de distancia.',
+      },
+      example:
+        'Si la ruta más corta mide 1 km, aceptar un 50 % adicional permite considerar rutas de hasta 1,5 km.',
+    },
+    priorities: {
+      distance:
+        'Entre las rutas que respetan tus límites, ¿cuánta importancia das a recorrer la menor distancia posible?',
+      complex_crossings:
+        '¿Cuánta importancia das a evitar rutas con muchos cruces o con cruces complejos?',
+      crossing_support:
+        '¿Cuánta importancia das a utilizar cruces con ayudas confirmadas?',
+      crossingSupportDetail:
+        'Semáforo peatonal, señal acústica, pavimento podotáctil o bordillo rebajado o a nivel.',
+      sidewalk_evidence:
+        '¿Cuánta importancia das a que la ruta tenga aceras y acceso peatonal bien documentados?',
+      surface:
+        '¿Cuánta importancia das a que exista información sobre el pavimento o la superficie del recorrido?',
+      orientation_complexity:
+        '¿Cuánta importancia das a seguir una ruta sencilla, con menos giros y menos cambios de dirección?',
+      slope: '¿Cuánta importancia das a evitar pendientes pronunciadas?',
+      uncertainty:
+        'Cuando faltan datos de accesibilidad, ¿cuánta importancia das a elegir otra ruta mejor documentada, aunque sea algo más larga?',
+    },
+    speech: {
+      title: '¿Quieres que la aplicación lea las instrucciones en voz alta?',
+      options: {
+        automatic: 'Sí, automáticamente.',
+        onDemand: 'Solo cuando pulse «Escuchar».',
+        never: 'No, prefiero leerlas en pantalla.',
+      },
+      screenReaderDetected:
+        'Hemos detectado que utilizas un lector de pantalla. Las indicaciones se leerán mediante el lector del sistema y evitaremos reproducir una segunda voz simultáneamente.',
+    },
+    speechRate: {
+      title: '¿A qué velocidad prefieres la voz de la aplicación?',
+      options: {
+        slow: 'Lenta.',
+        normal: 'Normal.',
+        fast: 'Rápida.',
+        very_fast: 'Muy rápida.',
+      },
+    },
+    presentation: {
+      title: '¿Cómo prefieres que se presente el contenido visual?',
+      options: {
+        system:
+          'Seguir los ajustes de texto y accesibilidad del teléfono —recomendado—.',
+        largeText: 'Texto más grande.',
+        highContrast: 'Contraste reforzado.',
+        both: 'Texto más grande y contraste reforzado.',
+      },
+    },
+    learning: {
+      title: '¿Quieres que la aplicación aprenda gradualmente de las rutas que eliges?',
+      description:
+        'El aprendizaje utiliza las características de las rutas que eliges y descartas. No necesita guardar tus coordenadas, direcciones ni recorridos. Las tres primeras elecciones se utilizan solo para observar. Después, la adaptación se introduce gradualmente y nunca puede eliminar las restricciones de seguridad. Puedes desactivarla o reiniciarla cuando quieras.',
+      defaultTag: 'Opción predeterminada',
+      declineButton: 'No, mantener siempre mis preferencias iniciales.',
+      declineHint: 'Termina la configuración sin activar el aprendizaje.',
+      acceptButton: 'Sí, adaptar gradualmente el orden de las rutas.',
+      acceptHint: 'Termina la configuración activando el aprendizaje local.',
+    },
+  },
   welcome: {
     tagline: 'Rutas peatonales a tu medida.',
     startHint: 'Continúa a la elección entre hablar y teclear.',
@@ -115,6 +222,9 @@ export const ES = {
     changeHint: (field: string) => `Vuelve a elegir el ${field}.`,
     continueButton: 'Siguiente',
     continueHint: 'Avanza al siguiente paso de la configuración.',
+    editPreferencesButton: 'Editar mis preferencias',
+    editPreferencesHint:
+      'Abre de nuevo el cuestionario conservando las respuestas actuales.',
     backStepButton: 'Paso anterior',
     backStepHint: 'Vuelve al paso anterior de la configuración.',
     samePlaceError: 'El origen y el destino deben ser lugares distintos.',

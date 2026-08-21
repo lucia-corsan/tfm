@@ -8,6 +8,7 @@ import type {
 } from '@/api/types';
 import { RouteComparisonScreen } from '@/screens/RouteComparisonScreen';
 import type { PreferenceStorage } from '@/features/adaptive-preferences/storage';
+import { DEFAULT_ONBOARDING_ANSWERS } from '@/features/onboarding/answers';
 import { ES } from '../i18n/es';
 
 const weights = {
@@ -260,6 +261,81 @@ async function chooseJourney(
 }
 
 describe('<RouteComparisonScreen />', () => {
+  test('applies the saved questionnaire profile to the comparison', async () => {
+    const storage = new MemoryPreferenceStorage();
+    const compare = jest.fn().mockResolvedValue(response());
+    const answers = {
+      ...DEFAULT_ONBOARDING_ANSWERS,
+      detour: 'twentyFive' as const,
+      priorities: {
+        ...DEFAULT_ONBOARDING_ANSWERS.priorities,
+        complex_crossings: 'high' as const,
+        distance: 'none' as const,
+      },
+      steps: 'avoid' as const,
+    };
+    const screen = await render(
+      <RouteComparisonScreen
+        compare={compare}
+        onboardingAnswers={answers}
+        preferenceStorage={storage}
+        search={pilotSearch()}
+      />,
+    );
+    const user = userEvent.setup();
+
+    await chooseJourney(screen, user);
+    await user.press(
+      await screen.findByRole('button', {
+        name: ES.routeComparison.compareButton,
+      }),
+    );
+
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({
+        profile: expect.objectContaining({
+          avoid_steps: false,
+          declared_weights: expect.objectContaining({
+            complex_crossings: 3,
+            distance: 0,
+          }),
+          maximum_detour_ratio: 1.25,
+          profile_id: 'onboarding_profile',
+        }),
+      }),
+    );
+  });
+
+  test('edits the questionnaire without losing the chosen journey', async () => {
+    const onUpdatePreferences = jest.fn();
+    const screen = await render(
+      <RouteComparisonScreen
+        onboardingAnswers={DEFAULT_ONBOARDING_ANSWERS}
+        onUpdatePreferences={onUpdatePreferences}
+        preferenceStorage={new MemoryPreferenceStorage()}
+        search={pilotSearch()}
+      />,
+    );
+    const user = userEvent.setup();
+
+    await chooseJourney(screen, user);
+    await user.press(
+      screen.getByRole('button', {
+        name: ES.routeComparison.editPreferencesButton,
+      }),
+    );
+    screen.getByRole('header', { name: ES.onboarding.intro.title });
+    await user.press(
+      screen.getByRole('button', { name: ES.onboarding.intro.skipButton }),
+    );
+
+    expect(onUpdatePreferences).toHaveBeenCalledWith(
+      DEFAULT_ONBOARDING_ANSWERS,
+    );
+    screen.getByText(MONCLOA.name);
+    screen.getByText(PRINCIPE_PIO.name);
+  });
+
   test('shows the accessible initial profile selection', async () => {
     const screen = await render(
       <RouteComparisonScreen compare={jest.fn()} search={pilotSearch()} />,

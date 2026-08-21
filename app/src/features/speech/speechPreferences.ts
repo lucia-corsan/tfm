@@ -2,6 +2,8 @@ export type SpeechRateId = 'slow' | 'normal' | 'fast' | 'very_fast';
 
 export interface SpeechPreferences {
   automaticPlayback: boolean;
+  /** Permite ocultar por completo la voz propia de la aplicación. */
+  enabled: boolean;
   rateId: SpeechRateId;
 }
 
@@ -19,6 +21,7 @@ export const SPEECH_RATE_OPTIONS: SpeechRateOption[] = [
 
 export const DEFAULT_SPEECH_PREFERENCES: SpeechPreferences = {
   automaticPlayback: false,
+  enabled: true,
   rateId: 'normal',
 };
 

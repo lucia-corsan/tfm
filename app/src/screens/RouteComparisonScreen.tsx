@@ -1,8 +1,14 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { SearchPlacesFunction } from '@/components/PlaceSearchField';
 import { PlaceQueryScreen } from '@/screens/PlaceQueryScreen';
-import { PlanRouteScreen, type PlanStep } from '@/screens/PlanRouteScreen';
+import { OnboardingScreen } from '@/screens/OnboardingScreen';
+import {
+  CONFIGURED_PLAN_STEPS,
+  PLAN_STEPS,
+  PlanRouteScreen,
+  type PlanStep,
+} from '@/screens/PlanRouteScreen';
 import { RouteResultsScreen } from '@/screens/RouteResultsScreen';
 import type { ComparedRoute, NavigationSession } from '@/api/types';
 import { useAdaptivePreferences } from '@/features/adaptive-preferences/useAdaptivePreferences';
@@ -14,11 +20,19 @@ import {
   useRouteComparison,
 } from '@/features/route-comparison/useRouteComparison';
 import { DEMO_PROFILES } from '@/features/route-comparison/profiles';
+import {
+  buildProfileFromAnswers,
+  DEFAULT_ONBOARDING_ANSWERS,
+  type OnboardingAnswers,
+} from '@/features/onboarding/answers';
 import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
+  /** Respuestas del cuestionario inicial, si se completó. */
+  onboardingAnswers?: OnboardingAnswers;
   onChooseRoute?: (session: NavigationSession) => void;
+  onUpdatePreferences?: (answers: OnboardingAnswers) => void;
   preferenceStorage?: PreferenceStorage;
   search?: SearchPlacesFunction;
 }
@@ -31,24 +45,57 @@ interface RouteComparisonScreenProps {
  */
 export function RouteComparisonScreen({
   compare,
+  onboardingAnswers,
   onChooseRoute = () => undefined,
+  onUpdatePreferences,
   preferenceStorage = sqlitePreferenceStorage,
   search,
 }: RouteComparisonScreenProps) {
-  const controller = useRouteComparison(compare);
+  const configuredProfile = useMemo(
+    () =>
+      onboardingAnswers ? buildProfileFromAnswers(onboardingAnswers) : undefined,
+    [onboardingAnswers],
+  );
+  /**
+   * El cuestionario ya fijó el perfil y el consentimiento del aprendizaje, así
+   * que esos dos pasos no vuelven a pedirse.
+   */
+  const planSteps: readonly PlanStep[] = onboardingAnswers
+    ? CONFIGURED_PLAN_STEPS
+    : PLAN_STEPS;
+  const controller = useRouteComparison(compare, configuredProfile);
   const { state } = controller;
   const [choosingRouteId, setChoosingRouteId] = useState<string | null>(null);
+  const [editingPreferences, setEditingPreferences] = useState(false);
   const [planStep, setPlanStep] = useState<PlanStep>('confirm');
   const [placeStep, setPlaceStep] = useState<'destination' | 'origin' | null>(
     'destination',
   );
   const choiceInProgress = useRef(false);
-  const selectedProfile = DEMO_PROFILES[controller.selectedProfileId];
+  const selectedProfile =
+    configuredProfile ?? DEMO_PROFILES[controller.selectedProfileId];
   const adaptive = useAdaptivePreferences(
-    controller.selectedProfileId,
+    selectedProfile.profile_id,
     selectedProfile.declared_weights,
     preferenceStorage,
   );
+  const adaptiveEnabled = adaptive.learningState.enabled;
+  const adaptiveStatus = adaptive.status;
+  const setAdaptiveEnabled = adaptive.setEnabled;
+
+  useEffect(() => {
+    if (onboardingAnswers && adaptiveStatus === 'ready') {
+      const desired = onboardingAnswers.adaptiveLearning;
+      if (adaptiveEnabled !== desired) {
+        void setAdaptiveEnabled(desired);
+      }
+    }
+  }, [
+    adaptiveEnabled,
+    adaptiveStatus,
+    onboardingAnswers,
+    setAdaptiveEnabled,
+  ]);
 
   const chooseRoute = async (route: ComparedRoute) => {
     if (state.status !== 'success' || choiceInProgress.current) {
@@ -83,6 +130,18 @@ export function RouteComparisonScreen({
     setPlanStep('confirm');
     controller.reset();
   };
+
+  if (editingPreferences && onboardingAnswers) {
+    return (
+      <OnboardingScreen
+        initialAnswers={onboardingAnswers}
+        onFinish={(answers) => {
+          onUpdatePreferences?.(answers ?? DEFAULT_ONBOARDING_ANSWERS);
+          setEditingPreferences(false);
+        }}
+      />
+    );
+  }
 
   if (state.status === 'success') {
     return (
@@ -144,6 +203,9 @@ export function RouteComparisonScreen({
       {...(state.status === 'error' ? { errorCode: state.code } : {})}
       onChangeDestination={() => setPlaceStep('destination')}
       onChangeOrigin={() => setPlaceStep('origin')}
+      {...(onboardingAnswers && onUpdatePreferences
+        ? { onEditPreferences: () => setEditingPreferences(true) }
+        : {})}
       onCompare={() =>
         void controller.compareSelectedProfile(
           adaptive.learningState.effectiveWeights,
@@ -154,6 +216,7 @@ export function RouteComparisonScreen({
       origin={controller.origin}
       selectedProfileId={controller.selectedProfileId}
       step={planStep}
+      steps={planSteps}
     />
   );
 }

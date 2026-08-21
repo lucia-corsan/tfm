@@ -28,6 +28,9 @@ export const PLAN_STEPS = ['confirm', 'profile', 'learning'] as const;
 
 export type PlanStep = (typeof PLAN_STEPS)[number];
 
+/** Pasos que quedan cuando el cuestionario inicial ya fijó las preferencias. */
+export const CONFIGURED_PLAN_STEPS = ['confirm'] as const;
+
 interface PlanRouteScreenProps {
   adaptive: {
     learningState: PreferenceLearningState;
@@ -43,11 +46,14 @@ interface PlanRouteScreenProps {
   onCompare: () => void;
   onChangeDestination: () => void;
   onChangeOrigin: () => void;
+  onEditPreferences?: () => void;
   onGoToStep: (step: PlanStep) => void;
   onSelectProfile: (profileId: DemoProfileId) => void;
   origin: PlaceResult | null;
   selectedProfileId: DemoProfileId;
   step: PlanStep;
+  /** Pasos vigentes; se acortan si el cuestionario ya respondió alguno. */
+  steps: readonly PlanStep[];
 }
 
 /**
@@ -66,15 +72,18 @@ export function PlanRouteScreen({
   errorCode,
   onChangeDestination,
   onChangeOrigin,
+  onEditPreferences,
   onCompare,
   onGoToStep,
   onSelectProfile,
   origin,
   selectedProfileId,
   step,
+  steps,
 }: PlanRouteScreenProps) {
   const loading = comparisonStatus === 'loading';
-  const stepIndex = PLAN_STEPS.indexOf(step);
+  const stepIndex = steps.indexOf(step);
+  const isLastStep = stepIndex === steps.length - 1;
   const copy = ES.routeComparison.steps[step];
 
   return (
@@ -82,27 +91,25 @@ export function PlanRouteScreen({
       band={
         <ActionBand
           accessibilityHint={
-            step === 'learning'
+            isLastStep
               ? ES.routeComparison.compareHint
               : ES.routeComparison.continueHint
           }
           busy={loading}
           disabled={
-            step === 'learning'
+            isLastStep
               ? adaptive.status === 'loading' || !canCompare
               : !canCompare
           }
           label={
-            step === 'learning'
+            isLastStep
               ? loading
                 ? ES.routeComparison.loadingButton
                 : ES.routeComparison.compareButton
               : ES.routeComparison.continueButton
           }
           onPress={
-            step === 'learning'
-              ? onCompare
-              : () => onGoToStep(PLAN_STEPS[stepIndex + 1])
+            isLastStep ? onCompare : () => onGoToStep(steps[stepIndex + 1])
           }
         />
       }
@@ -113,15 +120,15 @@ export function PlanRouteScreen({
             backLabel={ES.routeComparison.backStepButton}
             onBack={
               stepIndex > 0
-                ? () => onGoToStep(PLAN_STEPS[stepIndex - 1])
+                ? () => onGoToStep(steps[stepIndex - 1])
                 : onChangeOrigin
             }
             title={ES.routeComparison.stepIndicator(
               stepIndex + 1,
-              PLAN_STEPS.length,
+              steps.length,
             )}
           />
-          <StepProgress current={stepIndex + 1} total={PLAN_STEPS.length} />
+          <StepProgress current={stepIndex + 1} total={steps.length} />
         </>
       }
     >
@@ -194,6 +201,15 @@ export function PlanRouteScreen({
               tone="danger"
             />
           )}
+          {onEditPreferences && (
+            <PrimaryButton
+              accessibilityHint={ES.routeComparison.editPreferencesHint}
+              icon="gear"
+              label={ES.routeComparison.editPreferencesButton}
+              onPress={onEditPreferences}
+              variant="secondary"
+            />
+          )}
         </View>
       )}
 
@@ -230,47 +246,47 @@ export function PlanRouteScreen({
             recoveredFromInvalidData={adaptive.recoveredFromInvalidData}
             status={adaptive.status}
           />
-
-          {loading && (
-            <View
-              accessible
-              accessibilityLanguage="es-ES"
-              accessibilityLabel={ES.routeComparison.loading}
-              accessibilityLiveRegion="polite"
-              accessibilityRole="progressbar"
-              accessibilityState={{ busy: true }}
-              style={styles.loading}
-            >
-              <ActivityIndicator color={colors.brandInk} size="large" />
-              <AccessibleText
-                accessible={false}
-                style={styles.loadingText}
-                variant="body"
-              >
-                {ES.routeComparison.loading}
-              </AccessibleText>
-            </View>
-          )}
-
-          {comparisonStatus === 'error' && errorCode && (
-            <>
-              <Callout
-                accessibilityLiveRegion="assertive"
-                role="alert"
-                text={ES.routeComparison.errors[errorCode]}
-                title={ES.routeComparison.errorTitle}
-                tone="danger"
-              />
-              <PrimaryButton
-                accessibilityHint={ES.routeComparison.retryHint}
-                icon="arrowsClockwise"
-                label={ES.routeComparison.retryButton}
-                onPress={onCompare}
-                variant="secondary"
-              />
-            </>
-          )}
         </View>
+      )}
+
+      {loading && (
+        <View
+          accessible
+          accessibilityLanguage="es-ES"
+          accessibilityLabel={ES.routeComparison.loading}
+          accessibilityLiveRegion="polite"
+          accessibilityRole="progressbar"
+          accessibilityState={{ busy: true }}
+          style={styles.loading}
+        >
+          <ActivityIndicator color={colors.brandInk} size="large" />
+          <AccessibleText
+            accessible={false}
+            style={styles.loadingText}
+            variant="body"
+          >
+            {ES.routeComparison.loading}
+          </AccessibleText>
+        </View>
+      )}
+
+      {comparisonStatus === 'error' && errorCode && (
+        <>
+          <Callout
+            accessibilityLiveRegion="assertive"
+            role="alert"
+            text={ES.routeComparison.errors[errorCode]}
+            title={ES.routeComparison.errorTitle}
+            tone="danger"
+          />
+          <PrimaryButton
+            accessibilityHint={ES.routeComparison.retryHint}
+            icon="arrowsClockwise"
+            label={ES.routeComparison.retryButton}
+            onPress={onCompare}
+            variant="secondary"
+          />
+        </>
       )}
 
       <AccessibleText style={styles.disclaimer} variant="meta">

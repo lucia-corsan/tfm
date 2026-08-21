@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-native';
 
 import { RouteApiError } from '@/api/client';
-import type { RouteCompareResponse } from '@/api/types';
+import type { MobilityProfile, RouteCompareResponse } from '@/api/types';
 import { useRouteComparison } from '@/features/route-comparison/useRouteComparison';
 
 function successfulResponse(profileId = 'balanced_demo'): RouteCompareResponse {
@@ -91,6 +91,43 @@ describe('route comparison state', () => {
           }),
         }),
       }),
+    );
+  });
+
+  test('uses the questionnaire profile instead of a demonstration profile', async () => {
+    const compare = jest
+      .fn()
+      .mockResolvedValue(successfulResponse('onboarding_profile'));
+    const profile: MobilityProfile = {
+      avoid_incompatible_crossings: true,
+      avoid_steps: false,
+      declared_weights: {
+        complex_crossings: 3,
+        crossing_support: 1,
+        distance: 0,
+        orientation_complexity: 2,
+        sidewalk_evidence: 2,
+        slope: 1,
+        steps: 3,
+        surface: 2,
+        uncertainty: 3,
+      },
+      maximum_detour_ratio: 1.25,
+      maximum_slope_percent: null,
+      profile_id: 'onboarding_profile',
+      require_pedestrian_access: true,
+    };
+    const { result } = await renderHook(() =>
+      useRouteComparison(compare, profile),
+    );
+
+    await chooseJourney(result);
+    await act(async () => {
+      await result.current.compareSelectedProfile();
+    });
+
+    expect(compare).toHaveBeenCalledWith(
+      expect.objectContaining({ profile }),
     );
   });
 

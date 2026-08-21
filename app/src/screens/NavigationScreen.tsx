@@ -18,6 +18,7 @@ import { useManualNavigation } from '@/features/navigation/useManualNavigation';
 import {
   DEFAULT_SPEECH_PREFERENCES,
   getSpeechRate,
+  type SpeechPreferences,
 } from '@/features/speech/speechPreferences';
 import { useInstructionSpeech } from '@/features/speech/useInstructionSpeech';
 import { useScreenReaderStatus } from '@/features/speech/useScreenReaderStatus';
@@ -34,6 +35,7 @@ import { colors, radii, spacing } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface NavigationScreenProps {
+  initialSpeechPreferences?: SpeechPreferences;
   onFinish: () => void;
   reroute?: RerouteRoutesFunction;
   session: NavigationSession;
@@ -58,6 +60,7 @@ const maneuverIcons: Record<NavigationManeuver, IconName> = {
 };
 
 export function NavigationScreen({
+  initialSpeechPreferences = DEFAULT_SPEECH_PREFERENCES,
   onFinish,
   reroute,
   session,
@@ -66,7 +69,7 @@ export function NavigationScreen({
   const [gpsEnabled, setGpsEnabled] = useState(false);
   const [detailExpanded, setDetailExpanded] = useState(false);
   const [speechPreferences, setSpeechPreferences] = useState(
-    DEFAULT_SPEECH_PREFERENCES,
+    initialSpeechPreferences,
   );
   const screenMounted = useRef(true);
   const controller = useManualNavigation(route);
@@ -79,7 +82,8 @@ export function NavigationScreen({
   const instruction = controller.currentInstruction;
   const screenReaderStatus = useScreenReaderStatus();
   const instructionSpeech = useInstructionSpeech({
-    automaticPlayback: speechPreferences.automaticPlayback,
+    automaticPlayback:
+      speechPreferences.enabled && speechPreferences.automaticPlayback,
     instructionKey: `${route.route_id}:${instruction.sequence}`,
     rate: getSpeechRate(speechPreferences.rateId),
     screenReaderEnabled: screenReaderStatus !== 'disabled',
@@ -300,18 +304,20 @@ export function NavigationScreen({
               )}
             </Card>
 
-            <SpeechControls
-              error={instructionSpeech.error}
-              isSpeaking={instructionSpeech.isSpeaking}
-              onChange={(preferences) => {
-                void instructionSpeech.stop();
-                setSpeechPreferences(preferences);
-              }}
-              onSpeak={() => void instructionSpeech.speak()}
-              onStop={() => void instructionSpeech.stop()}
-              preferences={speechPreferences}
-              screenReaderStatus={screenReaderStatus}
-            />
+            {speechPreferences.enabled && (
+              <SpeechControls
+                error={instructionSpeech.error}
+                isSpeaking={instructionSpeech.isSpeaking}
+                onChange={(preferences) => {
+                  void instructionSpeech.stop();
+                  setSpeechPreferences(preferences);
+                }}
+                onSpeak={() => void instructionSpeech.speak()}
+                onStop={() => void instructionSpeech.stop()}
+                preferences={speechPreferences}
+                screenReaderStatus={screenReaderStatus}
+              />
+            )}
             </View>
           )}
         </View>

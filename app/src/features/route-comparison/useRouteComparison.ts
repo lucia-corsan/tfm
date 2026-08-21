@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from 'react';
 import { compareRoutes, RouteApiError } from '@/api/client';
 import type { RouteApiErrorCode } from '@/api/client';
 import type {
+  MobilityProfile,
   PlaceResult,
   PreferenceWeights,
   RouteCompareRequest,
@@ -43,6 +44,8 @@ interface RouteComparisonController {
 
 export function useRouteComparison(
   compare: CompareRoutesFunction = compareRoutes,
+  /** Perfil derivado del cuestionario inicial, si se completó. */
+  profileOverride?: MobilityProfile,
 ): RouteComparisonController {
   const [selectedProfileId, setSelectedProfileId] =
     useState<DemoProfileId>('balanced_demo');
@@ -91,6 +94,7 @@ export function useRouteComparison(
         origin.location,
         destination.location,
         effectiveWeights,
+        profileOverride,
       );
       const response = await compare(request);
       if (requestVersion.current === currentVersion) {
@@ -105,7 +109,14 @@ export function useRouteComparison(
         status: 'error',
       });
     }
-  }, [canCompare, compare, destination, origin, selectedProfileId]);
+  }, [
+    canCompare,
+    compare,
+    destination,
+    origin,
+    profileOverride,
+    selectedProfileId,
+  ]);
 
   return {
     canCompare,

@@ -69,13 +69,15 @@ export function buildPilotComparisonRequest(
   origin: GeoPoint = PILOT_ORIGIN_PLACE.location,
   destination: GeoPoint = PILOT_DESTINATION_PLACE.location,
   effectiveWeights?: PreferenceWeights,
+  profileOverride?: MobilityProfile,
 ): RouteCompareRequest {
+  const profile = profileOverride ?? DEMO_PROFILES[profileId];
   return {
     origin: { ...origin },
     destination: { ...destination },
     profile: {
-      ...DEMO_PROFILES[profileId],
-      declared_weights: { ...DEMO_PROFILES[profileId].declared_weights },
+      ...profile,
+      declared_weights: { ...profile.declared_weights },
     },
     ...(effectiveWeights
       ? { effective_weights: { ...effectiveWeights } }

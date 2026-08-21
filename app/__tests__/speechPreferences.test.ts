@@ -8,6 +8,7 @@ describe('speech preferences', () => {
   test('start with a normal rate and no automatic audio', () => {
     expect(DEFAULT_SPEECH_PREFERENCES).toEqual({
       automaticPlayback: false,
+      enabled: true,
       rateId: 'normal',
     });
   });
