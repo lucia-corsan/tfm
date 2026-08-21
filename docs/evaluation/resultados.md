@@ -130,7 +130,7 @@ dañado y excluye coordenadas y direcciones del registro. Los endpoints de
 comparación y recálculo conservan separados los pesos declarados y efectivos y
 siguen rechazando una alternativa crítica con cualquier mezcla aprendida.
 
-La suite completa alcanza 282 pruebas del backend y 126 de la aplicación, sin
+La suite completa alcanza 283 pruebas del backend y 153 de la aplicación, sin
 incidencias en Ruff, ESLint ni TypeScript. Esto valida la coherencia técnica de
 la integración, no su utilidad ni comprensibilidad para personas ciegas o con
 baja visión. Esa diferencia impide sumar las pruebas de software a la evidencia
@@ -305,8 +305,8 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 282 pruebas de backend y 126 de la aplicación,
-distribuidas estas últimas en veintiún grupos. Se ha ampliado con casos
+La validación automática alcanza 283 pruebas de backend y 157 de la aplicación,
+distribuidas estas últimas en veinticinco grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
 el multiplicador elegido, detiene la cola anterior y no llama al motor de voz

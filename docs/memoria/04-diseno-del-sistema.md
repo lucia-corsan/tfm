@@ -1,7 +1,7 @@
 # 4. Diseño del sistema
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026.
+Última actualización: 21 de agosto de 2026.
 
 ## Arquitectura
 
@@ -69,6 +69,18 @@ nueva mediante una única región dinámica moderada. Los avisos críticos conse
 prioridad alta. La velocidad de TalkBack permanece como preferencia global de
 Android.
 
+La presentación visual se mantiene separada de las preferencias de movilidad.
+La persona puede respetar la escala base, ampliar en un 25 % la tipografía
+interna, activar una paleta de contraste reforzado o combinar ambas medidas.
+Estas opciones se eligen en el perfil inicial y pueden modificarse desde una
+pantalla de «Ajustes» sencilla, sin alterar la puntuación. La pantalla se abre
+sobre el flujo vigente para no perder el trayecto y utiliza una flecha verde
+sobre el fondo blanco y transparente de la cabecera. Desde esta misma
+pantalla se gestionan el modo y la velocidad de la voz propia y una lista local
+de lugares habituales. Cada lugar une un alias con un resultado geocodificado y
+puede reutilizarse como origen o destino; no forma parte del perfil del ranking
+ni crea un historial de desplazamientos.
+
 ### Diseño de las instrucciones de navegación
 
 La ruta y su narración se han diseñado como datos relacionados, pero no
@@ -113,6 +125,24 @@ se regulariza hacia el perfil inicial, se proyecta a pesos no negativos que
 suman uno y se limita por interacción. Si solo queda una ruta aceptada no se
 genera una observación, porque no existe una preferencia relativa interpretable.
 
+Al hacer editable el perfil inicial se añadió una identidad adaptativa derivada
+de sus pesos y restricciones. Un cambio de presentación o voz conserva el
+aprendizaje, porque no afecta a la elección de ruta. En cambio, modificar la
+tolerancia a escalones, el desvío máximo o las prioridades abre un estado
+adaptativo separado. Así no se mezclan elecciones realizadas bajo necesidades
+de movilidad incompatibles y tampoco se borra aprendizaje por un cambio
+puramente visual.
+
+La omisión y la finalización del cuestionario se modelan como estados distintos.
+Si se omite, la aplicación mantiene dos perfiles generales —equilibrado y
+orientado a cruces sencillos— para no atribuir a la persona necesidades que no
+ha declarado. Si se completa, ese selector desaparece y la clasificación usa
+solo el perfil personal. El aprendizaje también respeta esta procedencia: los
+dos perfiles generales conservan estados separados y ninguna de sus elecciones
+se mezcla con el modelo del cuestionario. La salida continúa mostrando varias
+alternativas válidas ordenadas; «personalizar» no equivale a ocultarlas ni a
+presentar una única ruta como segura.
+
 La confianza no interviene en la probabilidad de elección: describe la cobertura
 de la evidencia y se presenta como una salida independiente. La incertidumbre
 también sigue visible por separado, pero además forma parte de los nueve costes
@@ -149,5 +179,6 @@ no contiene direcciones, coordenadas, geometrías, instrucciones ni audio.
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Integración móvil del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).
+- [Ajustes locales y modos de presentación](../product/ajustes-presentacion.md).
 - [Seguridad](../safety.md).
 - [Accesibilidad](../accessibility-spec.md).

@@ -465,7 +465,7 @@ mismo grafo fechado el 10 de agosto de 2026.
 ## Calidad
 
 Ruff, pytest, ESLint, TypeScript, Jest, Expo Doctor y CI separada. El backend
-mantiene 282 pruebas superadas y la aplicación alcanza 126 pruebas en veintiún
+mantiene 283 pruebas superadas y la aplicación alcanza 162 pruebas en veinticinco
 grupos, además de superar lint y comprobación estricta de tipos. En navegación
 se prueban los catorce tipos de maniobra, la coherencia geométrica, las frases,
 la limpieza de referencias, la asociación de evidencia a cada tramo, la ruta
@@ -496,4 +496,5 @@ implementación final y enlazar evidencias.
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Integración móvil del aprendizaje](../research/integracion-aprendizaje-adaptativo-app.md).
+- [Ajustes locales y modos de presentación](../product/ajustes-presentacion.md).
 - [Evaluación del aprendizaje con rutas reales](../evaluation/evaluacion-aprendizaje-rutas-reales.md).

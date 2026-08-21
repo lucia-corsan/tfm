@@ -256,7 +256,7 @@ desactivada. Además, ofrece una explicación concreta para la defensa: no basta
 con acumular clics; el sistema debe comprobar primero qué se puede aprender de
 ellos.
 
-La validación final del incremento obtuvo 282 pruebas de backend y 126 de la
+La validación final del incremento obtuvo 283 pruebas de backend y 153 de la
 aplicación. Ruff, ESLint y TypeScript finalizaron sin errores. Las diez pruebas
 específicas del día 4 cubren tanto la función como la reproducción de
 `EXP-008`. La aplicación no necesitó cambios, por lo que no se requiere una

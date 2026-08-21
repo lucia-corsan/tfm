@@ -2,7 +2,7 @@
 
 Estado: `Validado`  
 Alcance de la validación: `Automática y funcional en Android Emulator`  
-Última actualización: `2026-08-18`  
+Última actualización: `2026-08-21`
 Responsabilidad principal: `research`
 
 ## Problema que resuelve
@@ -49,6 +49,10 @@ ya son visibles y explicables.
 | Modelo local en TypeScript con casos de paridad y persistencia SQLite | Privacidad, funcionamiento sin red para actualizar y trazabilidad | Hay que mantener dos implementaciones pequeñas y comprobar su equivalencia | Adoptada |
 | Tabla SQLite relacional completa | Consultas y migraciones muy detalladas | Complejidad desproporcionada para un único estado pequeño por perfil | Descartada por ahora |
 | Almacén clave-valor respaldado por SQLite | Persistencia simple, inspeccionable y suficiente para el MVP | No está orientado a consultas analíticas complejas | Adoptada |
+| Compartir un único aprendizaje tras cualquier edición del perfil | Conserva todas las observaciones | Mezcla elecciones realizadas con restricciones distintas | Descartada |
+| Reiniciar siempre al cambiar cualquier ajuste | Regla muy conservadora | Borra aprendizaje útil al cambiar solo voz, texto o contraste | Descartada |
+| Separar el estado por configuración material del ranking | Evita contaminación y conserva cambios puramente visuales | Puede mantener varios estados locales pequeños | Adoptada |
+| Mezclar elecciones de perfiles generales con el perfil del cuestionario | Aprovecha más observaciones | Une decisiones tomadas bajo prioridades de procedencia distinta | Descartada |
 
 ## Decisión adoptada
 
@@ -74,6 +78,43 @@ un cierre entre dos escrituras deje el contador y el historial en estados
 distintos. La fecha se reduce al día para no conservar una cronología
 innecesariamente precisa.
 
+### Adaptación al perfil inicial real
+
+La incorporación del cuestionario editable obligó a revisar qué significa «el
+mismo perfil» para el aprendizaje. El identificador público
+`onboarding_profile` es estable y útil para la API, pero no basta para separar
+dos configuraciones locales: una persona puede cambiar el desvío máximo o pasar
+de penalizar escalones a excluirlos sin cambiar ese identificador.
+
+Se añadió una identidad adaptativa canónica, distinta del identificador de la
+API. Se construye únicamente con:
+
+- los nueve pesos declarados ya traducidos;
+- la exclusión o el tratamiento gradual de escalones;
+- el desvío máximo admitido;
+- una versión explícita de la estructura (`onboarding-v2`).
+
+La identidad no incluye contraste, tamaño de texto, voz ni consentimiento. Si
+solo cambia una de esas preferencias, el estado aprendido continúa porque las
+rutas aceptadas y sus costes no han cambiado. Si cambia un peso o una
+restricción, se carga otro estado local y las observaciones anteriores no
+contaminan la nueva configuración. Volver exactamente a una configuración
+anterior permite recuperar su estado, siempre que siga siendo compatible.
+
+No se modificaron la regresión logística por pares, la regularización, el
+periodo de observación ni la influencia máxima. El problema encontrado era de
+identidad y procedencia de los datos, no de la fórmula. Mantener la fórmula
+preserva la calibración y la paridad Python–TypeScript ya evaluadas.
+
+La procedencia también determina la experiencia de comparación. Si se omite el
+cuestionario, se conservan los perfiles generales equilibrado y de cruces
+sencillos, cada uno con una identidad y un consentimiento adaptativo propios.
+Si se completa, ambos desaparecen de la interfaz y se utiliza únicamente el
+perfil derivado de las respuestas. Su aprendizaje parte de ese vector declarado
+y no reutiliza elecciones de los perfiles generales. Esto no cambia la fórmula:
+impide alimentar el mismo modelo con decisiones realizadas bajo criterios
+incompatibles.
+
 ## Datos de entrada y salida
 
 ### Entrada
@@ -82,6 +123,8 @@ innecesariamente precisa.
 - Costes normalizados de la ruta elegida y de una o dos alternativas aceptadas
   no elegidas.
 - Identificador técnico del perfil e identificadores opacos de las rutas.
+- Identidad local de la configuración del ranking, sin preferencias visuales ni
+  de voz.
 - Consentimiento local para activar el aprendizaje.
 
 ### Salida
@@ -114,6 +157,8 @@ innecesariamente precisa.
   carga, consentimiento, aprendizaje y reinicio.
 - `app/src/screens/RouteComparisonScreen.tsx`: controles accesibles y conexión
   de la elección explícita.
+- `app/src/features/onboarding/answers.ts`: identidad adaptativa canónica a
+  partir de pesos y restricciones del perfil real.
 - `app/i18n/es.ts`: todos los textos de interfaz y explicaciones.
 
 La dependencia nueva es `expo-sqlite` 57, instalada con el gestor de Expo para
@@ -135,15 +180,18 @@ mantener compatibilidad con el SDK del proyecto.
 - Los registros persistidos no contienen claves de ubicación, direcciones ni
   geometrías.
 - El backend mantiene las restricciones críticas aunque reciba pesos efectivos.
+- Cambiar solo presentación o voz conserva la misma identidad adaptativa.
+- Cambiar tratamiento de escalones, desvío o pesos produce una identidad
+  distinta.
 
 ## Resultados
 
-La validación automática del 18 de agosto de 2026 produjo estos resultados:
+La validación automática del 21 de agosto de 2026 produjo estos resultados:
 
 | Comprobación | Resultado |
 | --- | ---: |
-| Pruebas del backend | 265 superadas |
-| Pruebas de la aplicación | 126 superadas en 21 grupos |
+| Pruebas del backend | 283 superadas |
+| Pruebas de la aplicación | 153 superadas en 24 grupos |
 | Análisis estático Python con Ruff | Sin incidencias |
 | Análisis estático TypeScript y Expo | Sin incidencias |
 | Caso dorado Python–TypeScript | Coincidencia hasta 12 decimales |
@@ -215,6 +263,10 @@ instrucciones, audio ni identificadores del escenario.
   fuera del MVP porque exige una compilación nativa y gestión de claves.
 - La evaluación actual es sintética. La integración demuestra funcionamiento,
   no eficacia con participantes ni mejora universal para cualquier perfil.
+- La separación por configuración puede conservar varias entradas locales si
+  la persona modifica muchas veces su perfil. Cada una continúa limitada a 200
+  observaciones y no contiene ubicaciones; una futura opción de borrado global
+  deberá eliminarlas todas.
 
 ## Texto base para la memoria
 
@@ -231,6 +283,18 @@ estados anterior y posterior. No se almacenaron coordenadas, direcciones ni
 trazas GPS. Esta arquitectura materializa el carácter local, explicable y
 acotado del componente de inteligencia artificial.
 
+La llegada de un perfil inicial editable añadió una salvaguarda de procedencia:
+el estado adaptativo se separó por configuración material de pesos y
+restricciones. De esta forma, una elección realizada bajo un límite de desvío o
+una política de escalones no modifica otra configuración incompatible, mientras
+que los cambios puramente visuales o de voz conservan lo aprendido.
+
+Además, la aplicación diferencia la omisión de la finalización. La primera
+mantiene dos perfiles generales con aprendizajes independientes; la segunda
+activa un único perfil personal y elimina esas etiquetas de la comparación.
+Esta regla mantiene una sola fuente de preferencias activa en cada decisión y
+evita mezclar ejemplos de aprendizaje con significados distintos.
+
 ## Trabajo pendiente
 
 - [x] Ejecutar y registrar las pruebas automáticas de backend y aplicación.
@@ -239,6 +303,8 @@ acotado del componente de inteligencia artificial.
 - [ ] Evaluar con participantes si las explicaciones de cambios son
   comprensibles y útiles.
 - [ ] Repetir la evaluación con elecciones de rutas reales enriquecidas.
+- [ ] Añadir una acción global para borrar todos los estados asociados a las
+  configuraciones históricas del perfil.
 
 ## Referencias y evidencias
 

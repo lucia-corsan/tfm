@@ -190,7 +190,7 @@ las rutas descartadas. También se recreó el almacenamiento para confirmar la
 recuperación del estado y se inyectaron datos dañados para verificar la vuelta
 segura al perfil declarado.
 
-La batería completa alcanza 282 pruebas en el backend y 126 en la app, sin
+La batería completa alcanza 283 pruebas en el backend y 151 en la app, sin
 errores de Ruff, ESLint o TypeScript. Se comprobó además que los pesos efectivos
 llegan por separado a comparación y recálculo, y que una restricción crítica
 continúa descartando la ruta aunque esos pesos favorezcan sus demás
