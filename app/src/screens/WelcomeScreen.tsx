@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,6 +15,9 @@ interface WelcomeScreenProps {
 /** Tiempo que la portada permanece visible antes de continuar sola. */
 const AUTOMATIC_ADVANCE_MS = 2500;
 
+/** Tamaño protagonista del símbolo animado en la portada. */
+const WELCOME_LOGO_SIZE = 160;
+
 /**
  * Portada de marca.
  *
@@ -28,30 +32,37 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   }, [onStart]);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Pressable
-        accessibilityHint={ES.welcome.startHint}
-        accessibilityLanguage="es-ES"
-        accessibilityLabel={`${ES.appName}. ${ES.welcome.tagline}`}
-        accessibilityRole="button"
-        onPress={onStart}
-        style={styles.content}
-      >
-        <View accessibilityElementsHidden style={styles.brand}>
-          <RumboLogo color={colors.inkInverse} size={64} />
-          <AccessibleText
-            accessible={false}
-            style={styles.name}
-            variant="display"
-          >
-            {ES.appName}
-          </AccessibleText>
-          <AccessibleText accessible={false} style={styles.tagline}>
-            {ES.welcome.tagline}
-          </AccessibleText>
-        </View>
-      </Pressable>
-    </SafeAreaView>
+    <>
+      <StatusBar style="light" />
+      <SafeAreaView style={styles.safeArea}>
+        <Pressable
+          accessibilityHint={ES.welcome.startHint}
+          accessibilityLanguage="es-ES"
+          accessibilityLabel={`${ES.appName}. ${ES.welcome.tagline}`}
+          accessibilityRole="button"
+          onPress={onStart}
+          style={styles.content}
+        >
+          <View accessibilityElementsHidden style={styles.brand}>
+            <RumboLogo
+              animated
+              color={colors.inkInverse}
+              size={WELCOME_LOGO_SIZE}
+            />
+            <AccessibleText
+              accessible={false}
+              style={styles.name}
+              variant="display"
+            >
+              {ES.appName}
+            </AccessibleText>
+            <AccessibleText accessible={false} style={styles.tagline}>
+              {ES.welcome.tagline}
+            </AccessibleText>
+          </View>
+        </Pressable>
+      </SafeAreaView>
+    </>
   );
 }
 
@@ -59,6 +70,7 @@ const styles = StyleSheet.create({
   brand: {
     alignItems: 'center',
     gap: spacing.md,
+    transform: [{ translateY: -spacing.xxl }],
   },
   content: {
     alignItems: 'center',
