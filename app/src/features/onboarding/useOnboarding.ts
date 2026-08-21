@@ -23,7 +23,9 @@ interface OnboardingController {
 }
 
 interface OnboardingOptions {
+  answers?: OnboardingAnswers;
   initialAnswers?: OnboardingAnswers;
+  onAnswersChange?: (answers: OnboardingAnswers) => void;
   onFinish: (answers: OnboardingAnswers) => void;
   screenReaderEnabled: boolean;
 }
@@ -35,12 +37,15 @@ interface OnboardingOptions {
  * retroceso nunca deja a la persona en una pregunta que no procede.
  */
 export function useOnboarding({
+  answers: controlledAnswers,
   initialAnswers = DEFAULT_ONBOARDING_ANSWERS,
+  onAnswersChange,
   onFinish,
   screenReaderEnabled,
 }: OnboardingOptions): OnboardingController {
-  const [answers, setAnswers] = useState(initialAnswers);
+  const [localAnswers, setLocalAnswers] = useState(initialAnswers);
   const [index, setIndex] = useState(0);
+  const answers = controlledAnswers ?? localAnswers;
 
   const question = useMemo(
     () => ONBOARDING_QUESTIONS[index] ?? null,
@@ -71,15 +76,19 @@ export function useOnboarding({
       if (question === null) {
         return;
       }
-      setAnswers((previous) => writeAnswer(previous, question, value));
+      const next = writeAnswer(answers, question, value);
+      if (controlledAnswers === undefined) {
+        setLocalAnswers(next);
+      }
+      onAnswersChange?.(next);
     },
-    [question],
+    [answers, controlledAnswers, onAnswersChange, question],
   );
 
   const goNext = useCallback(() => {
     const candidate = findNextIndex(index, 1, answers);
     if (candidate >= ONBOARDING_QUESTIONS.length) {
-      onFinish(answers);
+      onFinish({ ...answers, profileMode: 'personalized' });
       return;
     }
     setIndex(candidate);

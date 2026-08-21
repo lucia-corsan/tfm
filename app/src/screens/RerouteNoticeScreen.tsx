@@ -12,12 +12,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AccessibleText } from '@/components/AccessibleText';
 import { Icon } from '@/components/icons';
 import { PrimaryButton } from '@/components/PrimaryButton';
-import { colors, radii, spacing, typography } from '@/theme';
+import { TopBar } from '@/components/TopBar';
+import { radii, spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface RerouteNoticeScreenProps {
   onConfirm: () => void;
   onKeepCurrentRoute: () => void;
+  onOpenSettings?: () => void;
   routeName: string;
 }
 
@@ -32,9 +34,11 @@ interface RerouteNoticeScreenProps {
 export function RerouteNoticeScreen({
   onConfirm,
   onKeepCurrentRoute,
+  onOpenSettings,
   routeName,
 }: RerouteNoticeScreenProps) {
   const titleRef = useRef<ComponentRef<typeof Text>>(null);
+  const presentation = usePresentation();
 
   useEffect(() => {
     const node = findNodeHandle(titleRef.current);
@@ -44,26 +48,58 @@ export function RerouteNoticeScreen({
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View accessibilityViewIsModal style={styles.content}>
-        <View style={styles.notice}>
-          <Icon color={colors.cautionOnSoft} name="warning" size={32} />
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: presentation.colors.canvas }]}
+    >
+      <TopBar
+        {...(onOpenSettings
+          ? {
+              actionHint: ES.settings.openHint,
+              actionLabel: ES.settings.openButton,
+              onAction: onOpenSettings,
+            }
+          : {})}
+        title={ES.appName}
+      />
+      <View style={styles.content}>
+        <View
+          style={[
+            styles.notice,
+            {
+              backgroundColor: presentation.colors.cautionSoft,
+              borderLeftColor: presentation.colors.cautionBorder,
+            },
+          ]}
+        >
+          <Icon
+            color={presentation.colors.cautionOnSoft}
+            name="warning"
+            size={32}
+          />
           <Text
             accessible
             accessibilityLanguage="es-ES"
             accessibilityLiveRegion="assertive"
             accessibilityRole="header"
             ref={titleRef}
-            style={styles.title}
+            style={[
+              presentation.typography.display,
+              { color: presentation.colors.ink },
+            ]}
           >
             {ES.navigation.rerouteDialogTitle}
           </Text>
-          <AccessibleText style={styles.description}>
+          <AccessibleText
+            style={{ color: presentation.colors.cautionOnSoft }}
+          >
             {ES.navigation.rerouteDialogDescription}
           </AccessibleText>
         </View>
 
-        <AccessibleText style={styles.routeName} variant="meta">
+        <AccessibleText
+          style={{ color: presentation.colors.inkMuted }}
+          variant="meta"
+        >
           {ES.navigation.routeLabel(routeName)}
         </AccessibleText>
 
@@ -100,26 +136,13 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     width: '100%',
   },
-  description: {
-    color: colors.cautionOnSoft,
-  },
   notice: {
-    backgroundColor: colors.cautionSoft,
-    borderLeftColor: colors.cautionBorder,
     borderLeftWidth: 5,
     borderRadius: radii.large,
     gap: spacing.md,
     padding: spacing.xxl,
   },
-  routeName: {
-    color: colors.inkMuted,
-  },
   safeArea: {
-    backgroundColor: colors.canvas,
     flex: 1,
-  },
-  title: {
-    ...typography.display,
-    color: colors.ink,
   },
 });

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { colors, radii, spacing } from '@/theme';
+import { radii, spacing, usePresentation } from '@/theme';
 
 interface CardProps {
   children: ReactNode;
@@ -16,8 +16,20 @@ interface CardProps {
  * tarjeta, para que la jerarquía visual y la de lectura coincidan.
  */
 export function Card({ children, highlighted = false }: CardProps) {
+  const presentation = usePresentation();
   return (
-    <View style={[styles.card, highlighted && styles.highlighted]}>
+    <View
+      style={[
+        styles.card,
+        {
+          backgroundColor: presentation.colors.surface,
+          borderColor: highlighted
+            ? presentation.colors.borderStrong
+            : presentation.colors.border,
+          borderWidth: highlighted ? 2 : 1,
+        },
+      ]}
+    >
       {children}
     </View>
   );
@@ -25,15 +37,8 @@ export function Card({ children, highlighted = false }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
     borderRadius: radii.card,
-    borderWidth: 1,
     gap: spacing.md,
     padding: spacing.xl,
-  },
-  highlighted: {
-    borderColor: colors.borderStrong,
-    borderWidth: 2,
   },
 });

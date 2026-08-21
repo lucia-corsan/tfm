@@ -1,9 +1,12 @@
 import { render, userEvent } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 
 import {
+  buildAdaptiveLearningProfileId,
   buildProfileFromAnswers,
   buildSpeechPreferencesFromAnswers,
   DEFAULT_ONBOARDING_ANSWERS,
+  SKIPPED_ONBOARDING_ANSWERS,
 } from '@/features/onboarding/answers';
 import {
   loadOnboardingAnswers,
@@ -69,7 +72,32 @@ describe('configuración inicial', () => {
     screen.getByRole('button', { name: ES.onboarding.intro.skipButton });
   });
 
-  test('omitir la configuración no devuelve respuestas', async () => {
+  test('aplica el borrador visual y ofrece Ajustes antes de terminar el perfil', async () => {
+    const onOpenSettings = jest.fn();
+    const screen = await render(
+      <OnboardingScreen
+        initialAnswers={{
+          ...DEFAULT_ONBOARDING_ANSWERS,
+          presentation: 'both',
+        }}
+        onFinish={jest.fn()}
+        onOpenSettings={onOpenSettings}
+      />,
+    );
+    const user = userEvent.setup();
+    const title = screen.getByRole('header', {
+      name: ES.onboarding.intro.title,
+    });
+    const titleStyle = StyleSheet.flatten(title.props.style);
+
+    expect(titleStyle.color).toBe('#000000');
+    await user.press(
+      screen.getByRole('button', { name: ES.settings.openButton }),
+    );
+    expect(onOpenSettings).toHaveBeenCalledTimes(1);
+  });
+
+  test('omitir la configuración conserva el modo de perfiles generales', async () => {
     const onFinish = jest.fn();
     const screen = await render(<OnboardingScreen onFinish={onFinish} />);
     const user = userEvent.setup();
@@ -78,7 +106,7 @@ describe('configuración inicial', () => {
       screen.getByRole('button', { name: ES.onboarding.intro.skipButton }),
     );
 
-    expect(onFinish).toHaveBeenCalledWith(null);
+    expect(onFinish).toHaveBeenCalledWith(SKIPPED_ONBOARDING_ANSWERS);
   });
 
   test('la primera pregunta anuncia su posición y su opción marcada', async () => {
@@ -206,6 +234,24 @@ describe('configuración inicial', () => {
     ).toEqual({ automaticPlayback: false, enabled: false, rateId: 'normal' });
   });
 
+  test('el aprendizaje distingue restricciones, pero no ajustes visuales o de voz', () => {
+    const baseId = buildAdaptiveLearningProfileId(DEFAULT_ONBOARDING_ANSWERS);
+    const visualId = buildAdaptiveLearningProfileId({
+      ...DEFAULT_ONBOARDING_ANSWERS,
+      presentation: 'both',
+      speech: 'automatic',
+      speechRate: 'fast',
+    });
+    const differentRestrictionId = buildAdaptiveLearningProfileId({
+      ...DEFAULT_ONBOARDING_ANSWERS,
+      detour: 'ten',
+      steps: 'inform',
+    });
+
+    expect(visualId).toBe(baseId);
+    expect(differentRestrictionId).not.toBe(baseId);
+  });
+
   test('guarda y recupera las respuestas completas en el almacenamiento local', async () => {
     const values = new Map<string, string>();
     const storage: PreferenceStorage = {
@@ -239,5 +285,20 @@ describe('configuración inicial', () => {
     };
 
     await expect(loadOnboardingAnswers(storage)).resolves.toBeNull();
+  });
+
+  test('migra un perfil anterior como personalizado sin perder respuestas', async () => {
+    const { profileMode: _profileMode, ...legacyAnswers } =
+      DEFAULT_ONBOARDING_ANSWERS;
+    const storage: PreferenceStorage = {
+      getItem: async () =>
+        JSON.stringify({ version: 1, answers: legacyAnswers }),
+      removeItem: async () => undefined,
+      setItem: async () => undefined,
+    };
+
+    await expect(loadOnboardingAnswers(storage)).resolves.toEqual(
+      DEFAULT_ONBOARDING_ANSWERS,
+    );
   });
 });

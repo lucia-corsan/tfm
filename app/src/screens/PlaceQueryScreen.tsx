@@ -11,15 +11,11 @@ import {
   PlaceSearchField,
   type SearchPlacesFunction,
 } from '@/components/PlaceSearchField';
+import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
 import { TopBar } from '@/components/TopBar';
-import {
-  colors,
-  focusRing,
-  spacing,
-  typography,
-  useFocusRing,
-} from '@/theme';
+import type { SavedPlace } from '@/features/saved-places/storage';
+import { focusRing, spacing, useFocusRing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 type CurrentLocationStatus = 'denied' | 'idle' | 'loading' | 'unavailable';
@@ -30,8 +26,10 @@ interface PlaceQueryScreenProps {
   field: 'destination' | 'origin';
   onBack?: () => void;
   onNext: () => void;
+  onOpenSettings?: () => void;
   onSelect: (place: PlaceResult) => void;
   search?: SearchPlacesFunction;
+  savedPlaces?: SavedPlace[];
   selectedPlace: PlaceResult | null;
 }
 
@@ -46,6 +44,7 @@ interface ChoiceRowProps {
 /** Fila de elección: etiqueta destacada y, si existe, el valor bajo ella. */
 function ChoiceRow({ hint, icon, label, onPress, value }: ChoiceRowProps) {
   const { focused, focusProps } = useFocusRing();
+  const presentation = usePresentation();
 
   return (
     <Pressable
@@ -56,15 +55,32 @@ function ChoiceRow({ hint, icon, label, onPress, value }: ChoiceRowProps) {
       onPress={onPress}
       style={({ pressed }) => [
         styles.row,
-        pressed && styles.rowPressed,
+        { borderBottomColor: presentation.colors.border },
+        pressed && { backgroundColor: presentation.colors.brandSoft },
         focused && focusRing,
       ]}
       {...focusProps}
     >
-      <Icon color={colors.brandInk} name={icon} size={24} />
+      <Icon color={presentation.colors.brandInk} name={icon} size={24} />
       <View style={styles.rowCopy}>
-        <Text style={styles.rowLabel}>{label}</Text>
-        {value ? <Text style={styles.rowValue}>{value}</Text> : null}
+        <Text
+          style={[
+            presentation.typography.emphasis,
+            { color: presentation.colors.brandInk },
+          ]}
+        >
+          {label}
+        </Text>
+        {value ? (
+          <Text
+            style={[
+              presentation.typography.body,
+              { color: presentation.colors.ink },
+            ]}
+          >
+            {value}
+          </Text>
+        ) : null}
       </View>
     </Pressable>
   );
@@ -83,14 +99,16 @@ export function PlaceQueryScreen({
   field,
   onBack,
   onNext,
+  onOpenSettings,
   onSelect,
   search,
+  savedPlaces = [],
   selectedPlace,
 }: PlaceQueryScreenProps) {
   const copy = ES.placeQuery[field];
+  const presentation = usePresentation();
   const [locationStatus, setLocationStatus] =
     useState<CurrentLocationStatus>('idle');
-  const [manualEntry, setManualEntry] = useState(field === 'destination');
 
   const readCurrentLocation = async () => {
     setLocationStatus('loading');
@@ -130,6 +148,13 @@ export function PlaceQueryScreen({
       }
       header={
         <TopBar
+          {...(onOpenSettings
+            ? {
+                actionHint: ES.settings.openHint,
+                actionLabel: ES.settings.openButton,
+                onAction: onOpenSettings,
+              }
+            : {})}
           {...(backLabel && onBack ? { backHint, backLabel, onBack } : {})}
           title={ES.appName}
         />
@@ -139,7 +164,52 @@ export function PlaceQueryScreen({
         {copy.title}
       </AccessibleText>
 
-      {field === 'origin' && !manualEntry && (
+      <PlaceSearchField
+        field={field}
+        onSelect={onSelect}
+        search={search}
+        selectedPlace={selectedPlace}
+      />
+
+      <View style={styles.savedPlaces}>
+        <AccessibleText accessibilityRole="header" variant="subheading">
+          {ES.placeQuery.savedPlacesTitle}
+        </AccessibleText>
+        {savedPlaces.length > 0 ? (
+          savedPlaces.map((item) => (
+            <ChoiceRow
+              hint={ES.savedPlaces.useHint(
+                item.name,
+                field === 'origin' ? 'origen' : 'destino',
+              )}
+              icon="mapPin"
+              key={item.id}
+              label={item.name}
+              onPress={() => onSelect(item.place)}
+              value={item.place.description}
+            />
+          ))
+        ) : (
+          <>
+            <AccessibleText
+              style={{ color: presentation.colors.inkMuted }}
+            >
+              {ES.placeQuery.savedPlacesEmpty}
+            </AccessibleText>
+            {onOpenSettings ? (
+              <PrimaryButton
+                accessibilityHint={ES.placeQuery.savedPlacesAddHint}
+                icon="mapPin"
+                label={ES.placeQuery.savedPlacesAddButton}
+                onPress={onOpenSettings}
+                variant="secondary"
+              />
+            ) : null}
+          </>
+        )}
+      </View>
+
+      {field === 'origin' && (
         <View style={styles.rows}>
           <ChoiceRow
             hint={ES.placeQuery.useCurrentLocationHint}
@@ -151,12 +221,6 @@ export function PlaceQueryScreen({
             }
             onPress={() => void readCurrentLocation()}
             {...(selectedPlace ? { value: selectedPlace.name } : {})}
-          />
-          <ChoiceRow
-            hint={ES.placeQuery.chooseOtherOriginHint}
-            icon="magnifyingGlass"
-            label={ES.placeQuery.chooseOtherOrigin}
-            onPress={() => setManualEntry(true)}
           />
           {locationStatus === 'denied' && (
             <Callout
@@ -176,15 +240,6 @@ export function PlaceQueryScreen({
           )}
         </View>
       )}
-
-      {manualEntry && (
-        <PlaceSearchField
-          field={field}
-          onSelect={onSelect}
-          search={search}
-          selectedPlace={selectedPlace}
-        />
-      )}
     </Screen>
   );
 }
@@ -192,7 +247,6 @@ export function PlaceQueryScreen({
 const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
-    borderBottomColor: colors.border,
     borderBottomWidth: 1,
     flexDirection: 'row',
     gap: spacing.md,
@@ -203,18 +257,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 2,
   },
-  rowLabel: {
-    ...typography.emphasis,
-    color: colors.brandInk,
-  },
-  rowPressed: {
-    backgroundColor: colors.brandSoft,
-  },
-  rowValue: {
-    ...typography.body,
-    color: colors.ink,
-  },
   rows: {
     gap: 0,
   },
+  savedPlaces: { gap: spacing.xs },
 });

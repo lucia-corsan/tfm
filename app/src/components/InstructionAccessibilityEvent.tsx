@@ -7,7 +7,7 @@ import type {
 import { AccessibleText } from '@/components/AccessibleText';
 import { Icon, type IconName } from '@/components/icons';
 import { formatDistance } from '@/features/route-comparison/presenters';
-import { colors, radii, spacing } from '@/theme';
+import { radii, spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface InstructionAccessibilityEventProps {
@@ -20,31 +20,43 @@ const stateIcons: Record<EvidenceState, IconName> = {
   unknown: 'sealQuestion',
 };
 
-const stateColors: Record<EvidenceState, string> = {
-  favorable: colors.positiveOnSoft,
-  unfavorable: colors.cautionOnSoft,
-  unknown: colors.unknownOnSoft,
-};
-
-const stateBackgrounds: Record<EvidenceState, string> = {
-  favorable: colors.positiveSoft,
-  unfavorable: colors.cautionSoft,
-  unknown: colors.unknownSoft,
-};
-
 /** Muestra un evento de OpenStreetMap como paradas de lectura separadas. */
 export function InstructionAccessibilityEvent({
   event,
 }: InstructionAccessibilityEventProps) {
+  const presentation = usePresentation();
+  const stateColors: Record<EvidenceState, string> = {
+    favorable: presentation.colors.positiveOnSoft,
+    unfavorable: presentation.colors.cautionOnSoft,
+    unknown: presentation.colors.unknownOnSoft,
+  };
+  const stateBackgrounds: Record<EvidenceState, string> = {
+    favorable: presentation.colors.positiveSoft,
+    unfavorable: presentation.colors.cautionSoft,
+    unknown: presentation.colors.unknownSoft,
+  };
+
   return (
-    <View style={styles.event}>
+    <View
+      style={[
+        styles.event,
+        { borderLeftColor: presentation.colors.border },
+      ]}
+    >
       <View style={styles.titleRow}>
-        <Icon color={colors.brandInk} name="handTap" size={20} />
+        <Icon
+          color={presentation.colors.brandInk}
+          name="handTap"
+          size={20}
+        />
         <AccessibleText style={styles.title} variant="emphasis">
           {event.text}
         </AccessibleText>
       </View>
-      <AccessibleText style={styles.distance} variant="body">
+      <AccessibleText
+        style={{ color: presentation.colors.inkMuted }}
+        variant="body"
+      >
         {ES.navigation.accessibilityEventDistance(
           formatDistance(event.distance_from_instruction_start_m),
         )}
@@ -78,7 +90,10 @@ export function InstructionAccessibilityEvent({
           </View>
         </View>
       ))}
-      <AccessibleText style={styles.source} variant="meta">
+      <AccessibleText
+        style={{ color: presentation.colors.inkSubtle }}
+        variant="meta"
+      >
         {ES.navigation.accessibilitySource}
       </AccessibleText>
     </View>
@@ -96,17 +111,10 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 2,
   },
-  distance: {
-    color: colors.inkMuted,
-  },
   event: {
-    borderLeftColor: colors.border,
     borderLeftWidth: 3,
     gap: spacing.sm,
     paddingLeft: spacing.lg,
-  },
-  source: {
-    color: colors.inkSubtle,
   },
   title: {
     flex: 1,

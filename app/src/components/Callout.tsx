@@ -3,7 +3,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { AccessibleText } from '@/components/AccessibleText';
 import { Icon, type IconName } from '@/components/icons';
-import { colors, radii, spacing } from '@/theme';
+import {
+  type PresentationColors,
+  radii,
+  spacing,
+  usePresentation,
+} from '@/theme';
 
 export type CalloutTone =
   | 'caution'
@@ -45,8 +50,10 @@ export function Callout({
   title,
   tone,
 }: CalloutProps) {
+  const presentation = usePresentation();
+  const textColors = toneTextColors(presentation.colors);
   const label = title ? `${title}. ${text}` : text;
-  const textColor = { color: toneTextColors[tone] };
+  const textColor = { color: textColors[tone] };
 
   return (
     <View
@@ -55,9 +62,13 @@ export function Callout({
       accessibilityLabel={label}
       accessibilityLiveRegion={accessibilityLiveRegion}
       accessibilityRole={role}
-      style={[styles.container, containerTones[tone]]}
+      style={[
+        styles.container,
+        containerTones(presentation.colors)[tone],
+        presentation.highContrast && styles.highContrast,
+      ]}
     >
-      <Icon color={toneTextColors[tone]} name={toneIcons[tone]} size={22} />
+      <Icon color={textColors[tone]} name={toneIcons[tone]} size={22} />
       <View style={styles.copy}>
         {title ? (
           <AccessibleText
@@ -89,35 +100,47 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: spacing.xs,
   },
+  highContrast: {
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderTopWidth: 1,
+  },
 });
 
-const containerTones = StyleSheet.create({
+const containerTones = (palette: PresentationColors) => StyleSheet.create({
   caution: {
-    backgroundColor: colors.cautionSoft,
-    borderLeftColor: colors.cautionBorder,
+    backgroundColor: palette.cautionSoft,
+    borderLeftColor: palette.cautionBorder,
+    borderColor: palette.cautionBorder,
   },
   danger: {
-    backgroundColor: colors.dangerSoft,
-    borderLeftColor: colors.dangerBorder,
+    backgroundColor: palette.dangerSoft,
+    borderLeftColor: palette.dangerBorder,
+    borderColor: palette.dangerBorder,
   },
   info: {
-    backgroundColor: colors.surfaceSunken,
-    borderLeftColor: colors.border,
+    backgroundColor: palette.surfaceSunken,
+    borderLeftColor: palette.border,
+    borderColor: palette.border,
   },
   positive: {
-    backgroundColor: colors.positiveSoft,
-    borderLeftColor: colors.brandInk,
+    backgroundColor: palette.positiveSoft,
+    borderLeftColor: palette.brandInk,
+    borderColor: palette.brandInk,
   },
   unknown: {
-    backgroundColor: colors.unknownSoft,
-    borderLeftColor: colors.unknownBorder,
+    backgroundColor: palette.unknownSoft,
+    borderLeftColor: palette.unknownBorder,
+    borderColor: palette.unknownBorder,
   },
 });
 
-const toneTextColors: Record<CalloutTone, string> = {
-  caution: colors.cautionOnSoft,
-  danger: colors.dangerOnSoft,
-  info: colors.ink,
-  positive: colors.positiveOnSoft,
-  unknown: colors.unknownOnSoft,
-};
+const toneTextColors = (
+  palette: PresentationColors,
+): Record<CalloutTone, string> => ({
+  caution: palette.cautionOnSoft,
+  danger: palette.dangerOnSoft,
+  info: palette.ink,
+  positive: palette.positiveOnSoft,
+  unknown: palette.unknownOnSoft,
+});

@@ -7,7 +7,7 @@ import type { PreferenceStorage } from '@/features/adaptive-preferences/storage'
 const STORAGE_KEY = 'onboarding:v1:answers';
 
 interface PersistedAnswers {
-  answers: OnboardingAnswers;
+  answers: unknown;
   version: number;
 }
 
@@ -18,9 +18,9 @@ function hasValue<T extends string>(
   return typeof value === 'string' && allowed.includes(value as T);
 }
 
-function isOnboardingAnswers(value: unknown): value is OnboardingAnswers {
+function parseOnboardingAnswers(value: unknown): OnboardingAnswers | null {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-    return false;
+    return null;
   }
   const answers = value as Partial<OnboardingAnswers>;
   if (
@@ -36,14 +36,32 @@ function isOnboardingAnswers(value: unknown): value is OnboardingAnswers {
     typeof answers.priorities !== 'object' ||
     answers.priorities === null
   ) {
-    return false;
+    return null;
   }
-  return PRIORITY_DIMENSIONS.every((dimension) =>
+  const prioritiesAreValid = PRIORITY_DIMENSIONS.every((dimension) =>
     hasValue(
       ['high', 'low', 'medium', 'none'],
       answers.priorities?.[dimension],
     ),
   );
+  if (!prioritiesAreValid) {
+    return null;
+  }
+
+  const profileMode =
+    answers.profileMode === undefined
+      ? 'personalized'
+      : hasValue(['generic', 'personalized'], answers.profileMode)
+        ? answers.profileMode
+        : null;
+  if (profileMode === null) {
+    return null;
+  }
+
+  return {
+    ...(answers as Omit<OnboardingAnswers, 'profileMode'>),
+    profileMode,
+  };
 }
 
 /**
@@ -62,10 +80,10 @@ export async function loadOnboardingAnswers(
       return null;
     }
     const parsed = JSON.parse(raw) as PersistedAnswers;
-    if (parsed.version !== 1 || !isOnboardingAnswers(parsed.answers)) {
+    if (parsed.version !== 1) {
       return null;
     }
-    return parsed.answers;
+    return parseOnboardingAnswers(parsed.answers);
   } catch {
     return null;
   }

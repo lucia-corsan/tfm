@@ -2,13 +2,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Icon, type IconName } from '@/components/icons';
 import {
-  colors,
   focusRing,
   MINIMUM_TOUCH_TARGET,
   radii,
   spacing,
-  typography,
+  type PresentationColors,
   useFocusRing,
+  usePresentation,
 } from '@/theme';
 
 export type ButtonVariant = 'link' | 'primary' | 'quiet' | 'secondary';
@@ -38,6 +38,19 @@ export function PrimaryButton({
   variant = 'primary',
 }: PrimaryButtonProps) {
   const { focused, focusProps } = useFocusRing();
+  const presentation = usePresentation();
+  const labelColors: Record<ButtonVariant, string> = {
+    link: presentation.colors.brandInk,
+    primary: presentation.colors.inkInverse,
+    quiet: presentation.colors.brandOnSoft,
+    secondary: presentation.colors.brandOnSoft,
+  };
+  const disabledLabelColors: Record<ButtonVariant, string> = {
+    link: presentation.colors.inkMuted,
+    primary: presentation.colors.inkInverse,
+    quiet: presentation.colors.inkMuted,
+    secondary: presentation.colors.inkMuted,
+  };
   const iconColor = disabled
     ? disabledLabelColors[variant]
     : labelColors[variant];
@@ -53,9 +66,9 @@ export function PrimaryButton({
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
-        variantStyles[variant],
-        pressed && !disabled && pressedStyles[variant],
-        disabled && disabledStyles[variant],
+        variantStyles(presentation.colors)[variant],
+        pressed && !disabled && pressedStyles(presentation.colors)[variant],
+        disabled && disabledStyles(presentation.colors)[variant],
         focused && focusRing,
       ]}
       {...focusProps}
@@ -64,6 +77,7 @@ export function PrimaryButton({
         {icon ? <Icon color={iconColor} name={icon} size={22} /> : null}
         <Text
           style={[
+            presentation.typography.emphasis,
             styles.label,
             { color: disabled ? disabledLabelColors[variant] : labelColors[variant] },
           ]}
@@ -74,20 +88,6 @@ export function PrimaryButton({
     </Pressable>
   );
 }
-
-const labelColors: Record<ButtonVariant, string> = {
-  link: colors.brandInk,
-  primary: colors.inkInverse,
-  quiet: colors.brandOnSoft,
-  secondary: colors.brandOnSoft,
-};
-
-const disabledLabelColors: Record<ButtonVariant, string> = {
-  link: colors.inkMuted,
-  primary: colors.inkInverse,
-  quiet: colors.inkMuted,
-  secondary: colors.inkMuted,
-};
 
 const styles = StyleSheet.create({
   button: {
@@ -107,12 +107,11 @@ const styles = StyleSheet.create({
     minHeight: MINIMUM_TOUCH_TARGET - 2 * spacing.md,
   },
   label: {
-    ...typography.emphasis,
     textAlign: 'center',
   },
 });
 
-const variantStyles = StyleSheet.create({
+const variantStyles = (palette: PresentationColors) => StyleSheet.create({
   link: {
     alignSelf: 'auto',
     backgroundColor: 'transparent',
@@ -120,44 +119,44 @@ const variantStyles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
   },
   primary: {
-    backgroundColor: colors.brandInk,
+    backgroundColor: palette.brandInk,
   },
   quiet: {
     backgroundColor: 'transparent',
   },
   secondary: {
-    backgroundColor: colors.surface,
-    borderColor: colors.brandInk,
+    backgroundColor: palette.surface,
+    borderColor: palette.brandInk,
     borderWidth: 2,
   },
 });
 
-const pressedStyles = StyleSheet.create({
+const pressedStyles = (palette: PresentationColors) => StyleSheet.create({
   link: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: palette.brandSoft,
   },
   primary: {
-    backgroundColor: colors.brandPressed,
+    backgroundColor: palette.brandPressed,
   },
   quiet: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: palette.brandSoft,
   },
   secondary: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: palette.brandSoft,
   },
 });
 
-const disabledStyles = StyleSheet.create({
+const disabledStyles = (palette: PresentationColors) => StyleSheet.create({
   link: {
     opacity: 0.7,
   },
   primary: {
-    backgroundColor: colors.brandDisabled,
+    backgroundColor: palette.brandDisabled,
   },
   quiet: {
     opacity: 0.7,
   },
   secondary: {
-    borderColor: colors.border,
+    borderColor: palette.border,
   },
 });

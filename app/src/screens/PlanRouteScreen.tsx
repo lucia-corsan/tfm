@@ -15,7 +15,7 @@ import type { PreferenceLearningState } from '@/features/adaptive-preferences/le
 import type { AdaptivePreferenceStatus } from '@/features/adaptive-preferences/useAdaptivePreferences';
 import type { RouteApiErrorCode } from '@/api/client';
 import type { DemoProfileId } from '@/features/route-comparison/profiles';
-import { colors, spacing } from '@/theme';
+import { spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 const PROFILE_IDS: DemoProfileId[] = [
@@ -48,6 +48,7 @@ interface PlanRouteScreenProps {
   onChangeOrigin: () => void;
   onEditPreferences?: () => void;
   onGoToStep: (step: PlanStep) => void;
+  onOpenSettings?: () => void;
   onSelectProfile: (profileId: DemoProfileId) => void;
   origin: PlaceResult | null;
   selectedProfileId: DemoProfileId;
@@ -75,12 +76,14 @@ export function PlanRouteScreen({
   onEditPreferences,
   onCompare,
   onGoToStep,
+  onOpenSettings,
   onSelectProfile,
   origin,
   selectedProfileId,
   step,
   steps,
 }: PlanRouteScreenProps) {
+  const presentation = usePresentation();
   const loading = comparisonStatus === 'loading';
   const stepIndex = steps.indexOf(step);
   const isLastStep = stepIndex === steps.length - 1;
@@ -116,6 +119,13 @@ export function PlanRouteScreen({
       header={
         <>
           <TopBar
+            {...(onOpenSettings
+              ? {
+                  actionHint: ES.settings.openHint,
+                  actionLabel: ES.settings.openButton,
+                  onAction: onOpenSettings,
+                }
+              : {})}
             backHint={ES.routeComparison.backStepHint}
             backLabel={ES.routeComparison.backStepButton}
             onBack={
@@ -140,16 +150,35 @@ export function PlanRouteScreen({
         >
           {copy.title}
         </AccessibleText>
-        <AccessibleText style={styles.muted}>{copy.description}</AccessibleText>
+        <AccessibleText style={{ color: presentation.colors.inkMuted }}>
+          {copy.description}
+        </AccessibleText>
       </View>
 
       {step === 'confirm' && (
         <View style={styles.section}>
-          <View style={styles.endpoints}>
-            <View style={styles.endpoint}>
-              <Icon color={colors.brandInk} name="mapPin" size={22} />
+          <View
+            style={[
+              styles.endpoints,
+              { borderTopColor: presentation.colors.border },
+            ]}
+          >
+            <View
+              style={[
+                styles.endpoint,
+                { borderBottomColor: presentation.colors.border },
+              ]}
+            >
+              <Icon
+                color={presentation.colors.brandInk}
+                name="mapPin"
+                size={22}
+              />
               <View style={styles.endpointCopy}>
-                <AccessibleText style={styles.endpointLabel} variant="meta">
+                <AccessibleText
+                  style={{ color: presentation.colors.brandInk }}
+                  variant="meta"
+                >
                   {ES.routeComparison.placeSearch.origin.label}
                 </AccessibleText>
                 <AccessibleText variant="emphasis">
@@ -169,10 +198,22 @@ export function PlanRouteScreen({
               />
             </View>
 
-            <View style={styles.endpoint}>
-              <Icon color={colors.brandInk} name="flagCheckered" size={22} />
+            <View
+              style={[
+                styles.endpoint,
+                { borderBottomColor: presentation.colors.border },
+              ]}
+            >
+              <Icon
+                color={presentation.colors.brandInk}
+                name="flagCheckered"
+                size={22}
+              />
               <View style={styles.endpointCopy}>
-                <AccessibleText style={styles.endpointLabel} variant="meta">
+                <AccessibleText
+                  style={{ color: presentation.colors.brandInk }}
+                  variant="meta"
+                >
                   {ES.routeComparison.placeSearch.destination.label}
                 </AccessibleText>
                 <AccessibleText variant="emphasis">
@@ -257,12 +298,21 @@ export function PlanRouteScreen({
           accessibilityLiveRegion="polite"
           accessibilityRole="progressbar"
           accessibilityState={{ busy: true }}
-          style={styles.loading}
+          style={[
+            styles.loading,
+            { backgroundColor: presentation.colors.brandSoft },
+          ]}
         >
-          <ActivityIndicator color={colors.brandInk} size="large" />
+          <ActivityIndicator
+            color={presentation.colors.brandInk}
+            size="large"
+          />
           <AccessibleText
             accessible={false}
-            style={styles.loadingText}
+            style={[
+              styles.loadingText,
+              { color: presentation.colors.brandOnSoft },
+            ]}
             variant="body"
           >
             {ES.routeComparison.loading}
@@ -289,7 +339,10 @@ export function PlanRouteScreen({
         </>
       )}
 
-      <AccessibleText style={styles.disclaimer} variant="meta">
+      <AccessibleText
+        style={{ color: presentation.colors.inkSubtle }}
+        variant="meta"
+      >
         {ES.routeComparison.disclaimer}
       </AccessibleText>
     </Screen>
@@ -297,40 +350,27 @@ export function PlanRouteScreen({
 }
 
 const styles = StyleSheet.create({
-  disclaimer: {
-    color: colors.inkSubtle,
-  },
   hero: {
     gap: spacing.sm,
   },
   loading: {
     alignItems: 'center',
-    backgroundColor: colors.brandSoft,
     borderRadius: 20,
     gap: spacing.md,
     padding: spacing.xxl,
   },
   loadingText: {
-    color: colors.brandOnSoft,
     textAlign: 'center',
-  },
-  muted: {
-    color: colors.inkMuted,
   },
   endpoint: {
     alignItems: 'center',
-    borderBottomColor: colors.border,
     borderBottomWidth: 1,
     flexDirection: 'row',
     gap: spacing.md,
     minHeight: 68,
     paddingVertical: spacing.md,
   },
-  endpointLabel: {
-    color: colors.brandInk,
-  },
   endpoints: {
-    borderTopColor: colors.border,
     borderTopWidth: 1,
   },
   endpointCopy: {

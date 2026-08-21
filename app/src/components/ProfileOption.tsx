@@ -1,7 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { colors, focusRing, radii, spacing, typography, useFocusRing } from '@/theme';
+import {
+  focusRing,
+  radii,
+  spacing,
+  useFocusRing,
+  usePresentation,
+} from '@/theme';
 
 interface ProfileOptionProps {
   description?: string;
@@ -20,6 +26,7 @@ export function ProfileOption({
   selected,
 }: ProfileOptionProps) {
   const { focused, focusProps } = useFocusRing();
+  const presentation = usePresentation();
 
   return (
     <Pressable
@@ -31,24 +38,58 @@ export function ProfileOption({
       onPress={onPress}
       style={({ pressed }) => [
         styles.option,
-        selected && styles.optionSelected,
-        pressed && styles.optionPressed,
+        {
+          backgroundColor: selected
+            ? presentation.colors.brandSoft
+            : presentation.colors.surface,
+          borderColor: selected
+            ? presentation.colors.brandInk
+            : presentation.colors.border,
+          borderWidth: selected ? 2 : 1,
+        },
+        pressed && { backgroundColor: presentation.colors.brandSoft },
         focused && focusRing,
       ]}
       {...focusProps}
     >
       <View
         importantForAccessibility="no-hide-descendants"
-        style={[styles.indicator, selected && styles.indicatorSelected]}
+        style={[
+          styles.indicator,
+          {
+            borderColor: selected
+              ? presentation.colors.brandInk
+              : presentation.colors.inkMuted,
+          },
+          selected && { backgroundColor: presentation.colors.brandInk },
+        ]}
       >
         {selected ? (
-          <Icon color={colors.inkInverse} name="checkCircle" size={18} />
+          <Icon
+            color={presentation.colors.inkInverse}
+            name="checkCircle"
+            size={18}
+          />
         ) : null}
       </View>
       <View importantForAccessibility="no-hide-descendants" style={styles.copy}>
-        <Text style={styles.label}>{label}</Text>
+        <Text
+          style={[
+            presentation.typography.emphasis,
+            { color: presentation.colors.ink },
+          ]}
+        >
+          {label}
+        </Text>
         {description ? (
-          <Text style={styles.description}>{description}</Text>
+          <Text
+            style={[
+              presentation.typography.body,
+              { color: presentation.colors.inkMuted },
+            ]}
+          >
+            {description}
+          </Text>
         ) : null}
       </View>
     </Pressable>
@@ -60,13 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: spacing.xs,
   },
-  description: {
-    ...typography.body,
-    color: colors.inkMuted,
-  },
   indicator: {
     alignItems: 'center',
-    borderColor: colors.inkMuted,
     borderRadius: radii.pill,
     borderWidth: 2,
     height: 28,
@@ -74,31 +110,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
     width: 28,
   },
-  indicatorSelected: {
-    backgroundColor: colors.brandInk,
-    borderColor: colors.brandInk,
-  },
-  label: {
-    ...typography.emphasis,
-    color: colors.ink,
-  },
   option: {
     alignItems: 'flex-start',
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
     borderRadius: radii.card,
-    borderWidth: 1,
     flexDirection: 'row',
     gap: spacing.lg,
     minHeight: 76,
     padding: spacing.lg,
-  },
-  optionPressed: {
-    backgroundColor: colors.brandSoft,
-  },
-  optionSelected: {
-    backgroundColor: colors.brandSoft,
-    borderColor: colors.brandInk,
-    borderWidth: 2,
   },
 });

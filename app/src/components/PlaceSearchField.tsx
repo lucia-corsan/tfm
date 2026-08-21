@@ -20,6 +20,7 @@ import {
   radii,
   spacing,
   typography,
+  usePresentation,
 } from '@/theme';
 
 import { ES } from '../../i18n/es';
@@ -47,6 +48,7 @@ export function PlaceSearchField({
   selectedPlace,
 }: PlaceSearchFieldProps) {
   const copy = ES.routeComparison.placeSearch[field];
+  const presentation = usePresentation();
   const [query, setQuery] = useState(selectedPlace?.name ?? '');
   const [state, setState] = useState<SearchState>({ status: 'idle' });
   const [focusedPlaceId, setFocusedPlaceId] = useState<string | null>(null);
@@ -101,7 +103,7 @@ export function PlaceSearchField({
     <View style={styles.container}>
       <View style={styles.labelRow}>
         <Icon
-          color={colors.brandInk}
+          color={presentation.colors.brandInk}
           name={field === 'origin' ? 'mapPin' : 'flagCheckered'}
           size={22}
         />
@@ -110,7 +112,9 @@ export function PlaceSearchField({
         </AccessibleText>
       </View>
 
-      <View style={styles.field}>
+      <View
+        style={[styles.field, { borderColor: presentation.colors.ink }]}
+      >
         <TextInput
           accessibilityHint={copy.inputHint}
           accessibilityLanguage="es-ES"
@@ -119,9 +123,13 @@ export function PlaceSearchField({
           autoCorrect={false}
           onChangeText={updateQuery}
           onSubmitEditing={() => void runSearch()}
-          placeholderTextColor={colors.inkSubtle}
+          placeholderTextColor={presentation.colors.inkSubtle}
           returnKeyType="search"
-          style={styles.input}
+          style={[
+            styles.input,
+            presentation.typography.emphasis,
+            { color: presentation.colors.ink },
+          ]}
           value={query}
         />
         <Pressable
@@ -134,15 +142,22 @@ export function PlaceSearchField({
           onPress={() => setDictationRequested(true)}
           style={({ pressed }) => [
             styles.dictationButton,
-            pressed && styles.dictationButtonPressed,
+            pressed && { backgroundColor: presentation.colors.brandSoft },
             dictationFocused && focusRing,
           ]}
         >
-          <Icon color={colors.brandInk} name="microphone" size={24} />
+          <Icon
+            color={presentation.colors.brandInk}
+            name="microphone"
+            size={24}
+          />
         </Pressable>
       </View>
 
-      <AccessibleText style={styles.hint} variant="meta">
+      <AccessibleText
+        style={{ color: presentation.colors.inkMuted }}
+        variant="meta"
+      >
         {ES.placeQuery.inputHint}
       </AccessibleText>
 
@@ -159,12 +174,24 @@ export function PlaceSearchField({
           onPress={() => void runSearch()}
           style={({ pressed }) => [
             styles.searchButton,
-            pressed && styles.searchButtonPressed,
+            { backgroundColor: presentation.colors.brandSoft },
+            pressed && { backgroundColor: presentation.colors.border },
             searchFocused && focusRing,
           ]}
         >
-          <Icon color={colors.brandInk} name="magnifyingGlass" size={22} />
-          <Text style={styles.searchLabel}>{copy.searchButton}</Text>
+          <Icon
+            color={presentation.colors.brandInk}
+            name="magnifyingGlass"
+            size={22}
+          />
+          <Text
+            style={[
+              presentation.typography.emphasis,
+              { color: presentation.colors.brandInk },
+            ]}
+          >
+            {copy.searchButton}
+          </Text>
         </Pressable>
       </View>
 
@@ -172,7 +199,7 @@ export function PlaceSearchField({
         <Callout
           accessibilityLiveRegion="assertive"
           role="alert"
-          text={ES.inputMode.voiceUnavailable}
+          text={ES.placeQuery.voiceUnavailable}
           tone="caution"
         />
       )}
@@ -182,15 +209,39 @@ export function PlaceSearchField({
           accessible
           accessibilityLanguage="es-ES"
           accessibilityRole="text"
-          style={styles.selection}
+          style={[
+            styles.selection,
+            { borderColor: presentation.colors.border },
+          ]}
         >
-          <Icon color={colors.brandInk} name="checkCircle" size={20} />
+          <Icon
+            color={presentation.colors.brandInk}
+            name="checkCircle"
+            size={20}
+          />
           <View style={styles.selectionCopy}>
-            <Text style={styles.selectionLabel}>
+            <Text
+              style={[
+                presentation.typography.meta,
+                { color: presentation.colors.inkMuted },
+              ]}
+            >
               {ES.routeComparison.placeSearch.selectedLabel}
             </Text>
-            <Text style={styles.selectionName}>{selectedPlace.name}</Text>
-            <Text style={styles.selectionDescription}>
+            <Text
+              style={[
+                presentation.typography.emphasis,
+                { color: presentation.colors.ink },
+              ]}
+            >
+              {selectedPlace.name}
+            </Text>
+            <Text
+              style={[
+                presentation.typography.meta,
+                { color: presentation.colors.inkMuted },
+              ]}
+            >
               {selectedPlace.description}
             </Text>
           </View>
@@ -207,8 +258,14 @@ export function PlaceSearchField({
           accessibilityState={{ busy: true }}
           style={styles.status}
         >
-          <ActivityIndicator color={colors.brandInk} />
-          <Text style={styles.statusText}>
+          <ActivityIndicator color={presentation.colors.brandInk} />
+          <Text
+            style={[
+              presentation.typography.body,
+              styles.statusText,
+              { color: presentation.colors.inkMuted },
+            ]}
+          >
             {ES.routeComparison.placeSearch.loading}
           </Text>
         </View>
@@ -217,7 +274,7 @@ export function PlaceSearchField({
       {state.status === 'invalid' && (
         <AccessibleText
           accessibilityLiveRegion="polite"
-          style={styles.message}
+          style={{ color: presentation.colors.inkMuted }}
           variant="body"
         >
           {ES.routeComparison.placeSearch.minimumCharacters}
@@ -226,7 +283,7 @@ export function PlaceSearchField({
       {state.status === 'empty' && (
         <AccessibleText
           accessibilityLiveRegion="polite"
-          style={styles.message}
+          style={{ color: presentation.colors.inkMuted }}
           variant="body"
         >
           {ES.routeComparison.placeSearch.noResults}
@@ -236,7 +293,7 @@ export function PlaceSearchField({
         <AccessibleText
           accessibilityLiveRegion="assertive"
           accessibilityRole="alert"
-          style={styles.error}
+          style={{ color: presentation.colors.dangerOnSoft }}
           variant="body"
         >
           {ES.routeComparison.placeSearch.error}
@@ -263,16 +320,41 @@ export function PlaceSearchField({
               onPress={() => selectResult(place)}
               style={({ pressed }) => [
                 styles.result,
-                place.place_id === selectedPlace?.place_id &&
-                  styles.resultSelected,
-                pressed && styles.resultPressed,
+                {
+                  backgroundColor: presentation.colors.canvas,
+                  borderColor:
+                    place.place_id === selectedPlace?.place_id
+                      ? presentation.colors.brandInk
+                      : presentation.colors.border,
+                  borderWidth:
+                    place.place_id === selectedPlace?.place_id ? 2 : 1,
+                },
+                pressed && { backgroundColor: presentation.colors.brandSoft },
                 focusedPlaceId === place.place_id && focusRing,
               ]}
             >
-              <Icon color={colors.brandInk} name="mapPin" size={20} />
+              <Icon
+                color={presentation.colors.brandInk}
+                name="mapPin"
+                size={20}
+              />
               <View style={styles.resultCopy}>
-                <Text style={styles.resultName}>{place.name}</Text>
-                <Text style={styles.resultDescription}>{place.description}</Text>
+                <Text
+                  style={[
+                    presentation.typography.emphasis,
+                    { color: presentation.colors.ink },
+                  ]}
+                >
+                  {place.name}
+                </Text>
+                <Text
+                  style={[
+                    presentation.typography.meta,
+                    { color: presentation.colors.inkMuted },
+                  ]}
+                >
+                  {place.description}
+                </Text>
               </View>
             </Pressable>
           ))}
@@ -286,9 +368,6 @@ const styles = StyleSheet.create({
   container: {
     gap: spacing.md,
   },
-  error: {
-    color: colors.dangerOnSoft,
-  },
   field: {
     alignItems: 'center',
     borderColor: colors.ink,
@@ -296,9 +375,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     paddingRight: spacing.sm,
-  },
-  hint: {
-    color: colors.inkMuted,
   },
   input: {
     ...typography.emphasis,
@@ -339,9 +415,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: spacing.sm,
-  },
-  message: {
-    color: colors.inkMuted,
   },
   result: {
     alignItems: 'center',

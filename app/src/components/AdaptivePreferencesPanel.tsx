@@ -4,7 +4,7 @@ import { AccessibleText } from '@/components/AccessibleText';
 import { Callout } from '@/components/Callout';
 import { Card } from '@/components/Card';
 import { PrimaryButton } from '@/components/PrimaryButton';
-import { colors, spacing } from '@/theme';
+import { spacing, usePresentation } from '@/theme';
 import { effectiveInfluence, type PreferenceLearningState } from '@/features/adaptive-preferences/learner';
 import type { AdaptivePreferenceStatus } from '@/features/adaptive-preferences/useAdaptivePreferences';
 import { ES } from '../../i18n/es';
@@ -51,6 +51,7 @@ export function AdaptivePreferencesPanel({
   recoveredFromInvalidData,
   status,
 }: AdaptivePreferencesPanelProps) {
+  const presentation = usePresentation();
   const confirmReset = () => {
     Alert.alert(
       ES.adaptivePreferences.resetDialogTitle,
@@ -88,14 +89,23 @@ export function AdaptivePreferencesPanel({
           }}
           disabled={status !== 'ready'}
           onValueChange={(enabled) => void onSetEnabled(enabled)}
-          thumbColor={colors.surface}
-          trackColor={{ false: colors.inkMuted, true: colors.brandInk }}
+          thumbColor={presentation.colors.surface}
+          trackColor={{
+            false: presentation.colors.inkMuted,
+            true: presentation.colors.brandInk,
+          }}
           value={learningState.enabled}
         />
       </View>
       <AccessibleText
         accessibilityLiveRegion="polite"
-        style={styles.status}
+        style={[
+          styles.status,
+          {
+            backgroundColor: presentation.colors.brandSoft,
+            color: presentation.colors.brandOnSoft,
+          },
+        ]}
       >
         {statusText(status, learningState)}
       </AccessibleText>
@@ -106,7 +116,10 @@ export function AdaptivePreferencesPanel({
           tone="caution"
         />
       )}
-      <AccessibleText style={styles.privacy} variant="meta">
+      <AccessibleText
+        style={{ color: presentation.colors.inkSubtle }}
+        variant="meta"
+      >
         {ES.adaptivePreferences.privacy}
       </AccessibleText>
       {learningState.choiceCount > 0 && (
@@ -123,16 +136,8 @@ export function AdaptivePreferencesPanel({
 }
 
 const styles = StyleSheet.create({
-  description: {
-    color: colors.inkMuted,
-  },
-  privacy: {
-    color: colors.inkSubtle,
-  },
   status: {
-    backgroundColor: colors.brandSoft,
     borderRadius: 12,
-    color: colors.brandOnSoft,
     overflow: 'hidden',
     padding: spacing.md,
   },

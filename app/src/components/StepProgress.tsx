@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import { colors, radii, spacing } from '@/theme';
+import { radii, spacing, usePresentation } from '@/theme';
 
 interface StepProgressProps {
   current: number;
@@ -14,6 +14,7 @@ interface StepProgressProps {
  * superior, así que se oculta al lector de pantalla para no repetirlo.
  */
 export function StepProgress({ current, total }: StepProgressProps) {
+  const presentation = usePresentation();
   return (
     <View
       accessibilityElementsHidden
@@ -23,7 +24,15 @@ export function StepProgress({ current, total }: StepProgressProps) {
       {Array.from({ length: total }, (unused, index) => (
         <View
           key={index}
-          style={[styles.segment, index < current && styles.segmentDone]}
+          style={[
+            styles.segment,
+            {
+              backgroundColor:
+                index < current
+                  ? presentation.colors.brand
+                  : presentation.colors.border,
+            },
+          ]}
         />
       ))}
     </View>
@@ -32,13 +41,9 @@ export function StepProgress({ current, total }: StepProgressProps) {
 
 const styles = StyleSheet.create({
   segment: {
-    backgroundColor: colors.border,
     borderRadius: radii.pill,
     flex: 1,
     height: 6,
-  },
-  segmentDone: {
-    backgroundColor: colors.brand,
   },
   track: {
     flexDirection: 'row',

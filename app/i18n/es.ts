@@ -109,16 +109,122 @@ export const ES = {
   },
   welcome: {
     tagline: 'Rutas peatonales a tu medida.',
-    startHint: 'Continúa a la elección entre hablar y teclear.',
+    startHint: 'Continúa a elegir el destino de la ruta.',
   },
-  inputMode: {
-    question: '¿Prefieres interactuar hablando o tecleando?',
-    typeButton: 'Teclear la respuesta',
-    typeHint: 'Continúa escribiendo el destino con el teclado.',
-    voiceButton: 'Interactuar por voz',
-    voiceHint: 'Consulta el estado del dictado por voz en esta versión.',
-    voiceUnavailable:
-      'El dictado por voz todavía no está disponible en esta versión. Puedes continuar tecleando y usar TalkBack para escuchar cada pantalla.',
+  settings: {
+    title: 'Ajustes',
+    backButton: 'Volver',
+    backHint: 'Cierra los ajustes y vuelve a la pantalla anterior.',
+    openButton: 'Abrir ajustes',
+    openHint: 'Abre tus preferencias guardadas en este dispositivo.',
+    savedNotice:
+      'Las preferencias que confirmes y los lugares que guardes permanecerán solo en este dispositivo.',
+    currentValue: (value: string) => `Configuración actual: ${value}`,
+    editor: {
+      title: 'Editar ajuste',
+      backButton: 'Volver a Ajustes',
+      backHint: 'Vuelve a Ajustes sin guardar este cambio.',
+      saveButton: 'Guardar cambios',
+      saveHint: 'Guarda esta respuesta y vuelve a Ajustes.',
+      optionHint: 'Selecciona esta respuesta antes de guardar el cambio.',
+    },
+    activeNavigationNotice:
+      'Los cambios visuales se aplican ahora. Los cambios del perfil de movilidad se utilizarán en la próxima comparación y no sustituyen la ruta que estás siguiendo.',
+    routePreferences: {
+      title: 'Preferencias de las rutas',
+      description:
+        'Revisa las restricciones y la importancia que das a distancia, cruces, aceras, orientación, pendiente e incertidumbre.',
+      genericDescription:
+        'Todavía no has completado el cuestionario. Al comparar podrás elegir entre el perfil equilibrado y el que prioriza cruces sencillos.',
+      button: 'Editar mi perfil completo',
+      genericButton: 'Crear mi perfil personalizado',
+      hint: 'Abre de nuevo las catorce preguntas conservando tus respuestas.',
+      genericHint:
+        'Abre las catorce preguntas para sustituir los perfiles generales por tus propias preferencias.',
+    },
+    presentation: {
+      title: 'Presentación visual',
+      description:
+        'Puedes previsualizar el cambio en su pregunta y guardarlo para aplicarlo a toda la aplicación.',
+      groupLabel: 'Opciones de presentación visual',
+      editButton: 'Editar presentación visual',
+      editHint: 'Abre la pregunta sobre tamaño de texto y contraste.',
+    },
+    speech: {
+      title: 'Voz e interacción',
+      automatic: 'Lectura automática de instrucciones',
+      onDemand: 'Lectura al pulsar «Escuchar»',
+      never: 'Sin voz adicional de la aplicación',
+      summary: (mode: string, rate: string) => `${mode}. Velocidad preferida: ${rate}.`,
+      modeDescription:
+        'Elige cuándo debe utilizarse la voz propia de Rumbo durante la navegación.',
+      modeGroupLabel: 'Opciones de reproducción de instrucciones',
+      rateDescription:
+        'La velocidad elegida se aplica a la voz propia de Rumbo. No cambia la velocidad de TalkBack.',
+      rateGroupLabel: 'Opciones de velocidad de la voz',
+      note:
+        'Si TalkBack está activo, se utiliza la voz y la velocidad configuradas en Android para evitar dos voces simultáneas.',
+      editModeButton: 'Editar uso de la voz',
+      editModeHint: 'Abre la pregunta sobre cuándo escuchar las instrucciones.',
+      editRateButton: 'Editar velocidad de la voz',
+      editRateHint: 'Abre la pregunta sobre la velocidad de la voz de Rumbo.',
+    },
+    learning: {
+      title: 'Aprendizaje adaptativo',
+      switchLabel: 'Aprender de las rutas que elijo',
+      switchHint:
+        'Activa o pausa el aprendizaje local sin cambiar tus preferencias declaradas.',
+      description:
+        'La adaptación es gradual, permanece subordinada a tus restricciones y puede reiniciarse desde la comparación de rutas.',
+      genericDescription:
+        'Mientras uses perfiles generales, el aprendizaje se configura por separado para el perfil que elijas al comparar.',
+      genericNotice:
+        'Completa el cuestionario si quieres un único perfil personal que reúna tus prioridades y lo aprendido de tus elecciones.',
+      enabled: 'Aprendizaje adaptativo activado.',
+      disabled: 'Aprendizaje adaptativo desactivado.',
+      editButton: 'Editar aprendizaje adaptativo',
+      editHint: 'Abre la pregunta sobre el aprendizaje a partir de tus elecciones.',
+    },
+    favorites: {
+      title: 'Lugares guardados',
+      description:
+        'Guarda lugares habituales para elegirlos como origen o destino sin volver a escribir su dirección.',
+      empty: 'Todavía no hay lugares guardados.',
+      addButton: 'Añadir un lugar',
+      addHint: 'Abre el formulario para asignar un nombre a una dirección.',
+      deleteButton: (name: string) => `Eliminar ${name}`,
+      deleteHint: (name: string) =>
+        `Elimina ${name} de los lugares guardados en este dispositivo.`,
+    },
+    privacy: {
+      title: 'Privacidad y almacenamiento',
+      description:
+        'El perfil, la presentación, el aprendizaje y los lugares elegidos se guardan localmente. Rumbo no guarda audio ni trazas GPS.',
+    },
+  },
+  savedPlaces: {
+    onboardingTitle: '¿Quieres guardar un lugar habitual?',
+    onboardingDescription:
+      'Puedes guardar, por ejemplo, «Casa», «Trabajo» o «Gimnasio» junto con su dirección. Después podrás usarlo directamente como origen o destino. El lugar se conservará solo en este dispositivo.',
+    onboardingAddButton: 'Sí, guardar un lugar',
+    onboardingAddHint: 'Abre el formulario para escribir un nombre y buscar su dirección.',
+    onboardingSkipButton: 'Ahora no',
+    onboardingSkipHint:
+      'Continúa sin guardar lugares. Podrás añadirlos más adelante desde Ajustes.',
+    onboardingFormTitle: 'Guarda tu primer lugar',
+    settingsFormTitle: 'Añadir un lugar guardado',
+    formDescription:
+      'Escribe un nombre fácil de reconocer y selecciona una dirección de los resultados de búsqueda.',
+    nameLabel: 'Nombre del lugar',
+    nameHint: 'Escribe cómo quieres reconocer este lugar.',
+    namePlaceholder: 'Por ejemplo, Casa o Gimnasio',
+    saveButton: 'Guardar lugar',
+    saveHint: 'Guarda el nombre y la dirección únicamente en este dispositivo.',
+    backButton: 'Volver',
+    backHint: 'Vuelve sin guardar este lugar.',
+    sectionTitle: 'Lugares guardados',
+    useHint: (name: string, field: string) =>
+      `Usa ${name} como ${field} de la ruta.`,
   },
   placeQuery: {
     destination: {
@@ -131,6 +237,8 @@ export const ES = {
     },
     inputHint: 'Escribe o pulsa el micrófono para dictarlo.',
     microphoneHint: 'Consulta el estado del dictado por voz en esta versión.',
+    voiceUnavailable:
+      'El dictado por voz todavía no está disponible en esta versión. Puedes continuar tecleando y usar TalkBack para escuchar cada pantalla.',
     nextButton: 'Siguiente',
     nextHint: 'Confirma este lugar y continúa.',
     useCurrentLocation: 'Usar mi ubicación actual',
@@ -148,6 +256,12 @@ export const ES = {
       'No se ha concedido el permiso de ubicación. Puedes escribir o dictar el origen.',
     currentLocationUnavailable:
       'No se ha podido leer la ubicación. Puedes escribir o dictar el origen.',
+    savedPlacesTitle: 'Elige un lugar guardado',
+    savedPlacesEmpty:
+      'Todavía no tienes lugares guardados. Puedes añadir uno desde Ajustes.',
+    savedPlacesAddButton: 'Añadir un lugar desde Ajustes',
+    savedPlacesAddHint:
+      'Abre Ajustes para guardar un nombre y una dirección habitual.',
   },
   adaptivePreferences: {
     title: 'Personalización adaptativa',
@@ -323,6 +437,7 @@ export const ES = {
     chooseRouteHint: (routeName: string) =>
       `Abre la navegación manual de ${routeName}.`,
     rejectedTitle: 'Alternativas descartadas',
+    rejectedCardLabel: 'Ruta descartada por una restricción del perfil',
     rejectedDescription:
       'Estas rutas incumplen una restricción crítica del perfil y no participan en el ranking.',
     disclaimer:
@@ -490,6 +605,7 @@ export const ES = {
       automaticHint:
         'Activa o desactiva las indicaciones automáticas de navegación por voz.',
       listenButton: 'Escuchar instrucción',
+      repeatButton: 'Repetir instrucción',
       listenHint:
         'Reproduce la instrucción actual con la voz y la velocidad seleccionadas.',
       stopButton: 'Detener voz',

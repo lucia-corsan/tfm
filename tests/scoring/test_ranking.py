@@ -54,6 +54,54 @@ def test_profile_priorities_change_ranking_in_expected_direction() -> None:
     assert result.routes[0].score.adequacy > result.routes[1].score.adequacy
 
 
+def test_initial_questionnaire_answers_can_change_the_first_route() -> None:
+    """The 0–3 questionnaire scale must produce an observable ranking change."""
+
+    scenario = load_pilot_route_scenario()
+    balanced_answers = PreferenceWeights(
+        distance=2,
+        complex_crossings=2,
+        crossing_support=2,
+        sidewalk_evidence=2,
+        steps=3,
+        surface=2,
+        orientation_complexity=2,
+        slope=2,
+        uncertainty=2,
+    )
+    crossing_focused_answers = PreferenceWeights(
+        distance=0,
+        complex_crossings=3,
+        crossing_support=0,
+        sidewalk_evidence=0,
+        steps=0,
+        surface=0,
+        orientation_complexity=0,
+        slope=0,
+        uncertainty=0,
+    )
+
+    balanced = rank_routes(
+        MobilityProfile(
+            profile_id="questionnaire_balanced",
+            declared_weights=balanced_answers,
+        ),
+        scenario.routes,
+    )
+    crossing_focused = rank_routes(
+        MobilityProfile(
+            profile_id="questionnaire_crossings",
+            avoid_steps=False,
+            declared_weights=crossing_focused_answers,
+        ),
+        scenario.routes,
+    )
+
+    assert balanced.routes[0].route_id == "balanced_route"
+    assert crossing_focused.routes[0].route_id == "fewer_crossings_route"
+    assert balanced.routes[0].route_id != crossing_focused.routes[0].route_id
+
+
 def test_disabling_crossing_restriction_allows_distance_profile_to_choose_shortest() -> None:
     """A disabled rule remains separate from the user's gradual distance priority."""
 

@@ -21,20 +21,23 @@ import {
 } from '@/features/route-comparison/useRouteComparison';
 import { DEMO_PROFILES } from '@/features/route-comparison/profiles';
 import {
+  buildAdaptiveLearningProfileId,
   buildProfileFromAnswers,
-  DEFAULT_ONBOARDING_ANSWERS,
   type OnboardingAnswers,
 } from '@/features/onboarding/answers';
+import type { SavedPlace } from '@/features/saved-places/storage';
 import { ES } from '../../i18n/es';
 
 interface RouteComparisonScreenProps {
   compare?: CompareRoutesFunction;
-  /** Respuestas del cuestionario inicial, si se completó. */
+  /** Ajustes guardados y procedencia general o personalizada del perfil. */
   onboardingAnswers?: OnboardingAnswers;
   onChooseRoute?: (session: NavigationSession) => void;
+  onOpenSettings?: () => void;
   onUpdatePreferences?: (answers: OnboardingAnswers) => void;
   preferenceStorage?: PreferenceStorage;
   search?: SearchPlacesFunction;
+  savedPlaces?: SavedPlace[];
 }
 
 /**
@@ -47,20 +50,26 @@ export function RouteComparisonScreen({
   compare,
   onboardingAnswers,
   onChooseRoute = () => undefined,
+  onOpenSettings,
   onUpdatePreferences,
   preferenceStorage = sqlitePreferenceStorage,
   search,
+  savedPlaces = [],
 }: RouteComparisonScreenProps) {
+  const usesPersonalizedProfile =
+    onboardingAnswers?.profileMode === 'personalized';
   const configuredProfile = useMemo(
     () =>
-      onboardingAnswers ? buildProfileFromAnswers(onboardingAnswers) : undefined,
+      onboardingAnswers?.profileMode === 'personalized'
+        ? buildProfileFromAnswers(onboardingAnswers)
+        : undefined,
     [onboardingAnswers],
   );
   /**
    * El cuestionario ya fijó el perfil y el consentimiento del aprendizaje, así
    * que esos dos pasos no vuelven a pedirse.
    */
-  const planSteps: readonly PlanStep[] = onboardingAnswers
+  const planSteps: readonly PlanStep[] = usesPersonalizedProfile
     ? CONFIGURED_PLAN_STEPS
     : PLAN_STEPS;
   const controller = useRouteComparison(compare, configuredProfile);
@@ -74,8 +83,11 @@ export function RouteComparisonScreen({
   const choiceInProgress = useRef(false);
   const selectedProfile =
     configuredProfile ?? DEMO_PROFILES[controller.selectedProfileId];
+  const adaptiveProfileId = usesPersonalizedProfile && onboardingAnswers
+    ? buildAdaptiveLearningProfileId(onboardingAnswers)
+    : selectedProfile.profile_id;
   const adaptive = useAdaptivePreferences(
-    selectedProfile.profile_id,
+    adaptiveProfileId,
     selectedProfile.declared_weights,
     preferenceStorage,
   );
@@ -84,7 +96,11 @@ export function RouteComparisonScreen({
   const setAdaptiveEnabled = adaptive.setEnabled;
 
   useEffect(() => {
-    if (onboardingAnswers && adaptiveStatus === 'ready') {
+    if (
+      usesPersonalizedProfile &&
+      onboardingAnswers &&
+      adaptiveStatus === 'ready'
+    ) {
       const desired = onboardingAnswers.adaptiveLearning;
       if (adaptiveEnabled !== desired) {
         void setAdaptiveEnabled(desired);
@@ -95,6 +111,7 @@ export function RouteComparisonScreen({
     adaptiveStatus,
     onboardingAnswers,
     setAdaptiveEnabled,
+    usesPersonalizedProfile,
   ]);
 
   const chooseRoute = async (route: ComparedRoute) => {
@@ -136,7 +153,7 @@ export function RouteComparisonScreen({
       <OnboardingScreen
         initialAnswers={onboardingAnswers}
         onFinish={(answers) => {
-          onUpdatePreferences?.(answers ?? DEFAULT_ONBOARDING_ANSWERS);
+          onUpdatePreferences?.(answers);
           setEditingPreferences(false);
         }}
       />
@@ -147,10 +164,9 @@ export function RouteComparisonScreen({
     return (
       <RouteResultsScreen
         choosingRouteId={choosingRouteId}
-        destinationName={controller.destination?.name ?? ''}
         onBack={returnToSearch}
         onChooseRoute={(route) => void chooseRoute(route)}
-        originName={controller.origin?.name ?? ''}
+        {...(onOpenSettings ? { onOpenSettings } : {})}
         response={state.response}
       />
     );
@@ -163,7 +179,9 @@ export function RouteComparisonScreen({
         key="destination"
         onNext={() => setPlaceStep('origin')}
         onSelect={controller.selectDestination}
+        {...(onOpenSettings ? { onOpenSettings } : {})}
         search={search}
+        savedPlaces={savedPlaces}
         selectedPlace={controller.destination}
       />
     );
@@ -182,7 +200,9 @@ export function RouteComparisonScreen({
           setPlanStep('confirm');
         }}
         onSelect={controller.selectOrigin}
+        {...(onOpenSettings ? { onOpenSettings } : {})}
         search={search}
+        savedPlaces={savedPlaces}
         selectedPlace={controller.origin}
       />
     );
@@ -203,6 +223,7 @@ export function RouteComparisonScreen({
       {...(state.status === 'error' ? { errorCode: state.code } : {})}
       onChangeDestination={() => setPlaceStep('destination')}
       onChangeOrigin={() => setPlaceStep('origin')}
+      {...(onOpenSettings ? { onOpenSettings } : {})}
       {...(onboardingAnswers && onUpdatePreferences
         ? { onEditPreferences: () => setEditingPreferences(true) }
         : {})}

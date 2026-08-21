@@ -1,46 +1,58 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Icon } from '@/components/icons';
+import { Icon, type IconName } from '@/components/icons';
 import { RumboLogo } from '@/components/RumboLogo';
 import {
-  colors,
   focusRing,
   MINIMUM_TOUCH_TARGET,
   radii,
   spacing,
-  typography,
   useFocusRing,
+  usePresentation,
 } from '@/theme';
 
 interface TopBarProps {
+  actionHint?: string;
+  actionIcon?: IconName;
+  actionLabel?: string;
   backHint?: string;
   /** Muestra el símbolo de la marca junto al título. */
   brand?: boolean;
   /** Etiqueta accesible del botón de retroceso; si falta, no se muestra. */
   backLabel?: string;
+  onAction?: () => void;
   onBack?: () => void;
   title: string;
 }
 
-/**
- * Barra superior de altura fija.
- *
- * Solo cambia lo que va a la izquierda: la marca al abrir un tramo del flujo o
- * el retroceso dentro de él. La altura y la posición del título no varían de
- * una pantalla a otra.
- */
+/** Barra superior común, con flecha de retroceso verde y una acción opcional. */
 export function TopBar({
+  actionHint,
+  actionIcon = 'gear',
+  actionLabel,
   backHint,
   backLabel,
   brand = false,
+  onAction,
   onBack,
   title,
 }: TopBarProps) {
-  const { focused, focusProps } = useFocusRing();
+  const backFocus = useFocusRing();
+  const actionFocus = useFocusRing();
+  const presentation = usePresentation();
   const hasBack = Boolean(backLabel && onBack);
+  const hasAction = Boolean(actionLabel && onAction);
 
   return (
-    <View style={styles.bar}>
+    <View
+      style={[
+        styles.bar,
+        {
+          backgroundColor: presentation.colors.canvas,
+          borderBottomColor: presentation.colors.border,
+        },
+      ]}
+    >
       {hasBack ? (
         <Pressable
           accessibilityHint={backHint}
@@ -50,12 +62,17 @@ export function TopBar({
           onPress={onBack}
           style={({ pressed }) => [
             styles.back,
-            pressed && styles.backPressed,
-            focused && focusRing,
+            { backgroundColor: 'transparent' },
+            pressed && { backgroundColor: presentation.colors.brandSoft },
+            backFocus.focused && focusRing,
           ]}
-          {...focusProps}
+          {...backFocus.focusProps}
         >
-          <Icon color={colors.ink} name="arrowLeft" size={26} />
+          <Icon
+            color={presentation.colors.brandInk}
+            name="arrowLeft"
+            size={26}
+          />
         </Pressable>
       ) : null}
       {!hasBack || brand ? <RumboLogo size={30} /> : null}
@@ -63,15 +80,53 @@ export function TopBar({
         accessible
         accessibilityLanguage="es-ES"
         accessibilityRole="header"
-        style={styles.title}
+        style={[
+          presentation.typography.section,
+          styles.title,
+          hasAction && styles.titleWithAction,
+          { color: presentation.colors.ink },
+        ]}
       >
         {title}
       </Text>
+      {hasAction ? (
+        <Pressable
+          accessibilityHint={actionHint}
+          accessibilityLabel={actionLabel}
+          accessibilityLanguage="es-ES"
+          accessibilityRole="button"
+          onPress={onAction}
+          style={({ pressed }) => [
+            styles.action,
+            { borderColor: presentation.colors.brandInk },
+            pressed && { backgroundColor: presentation.colors.brandSoft },
+            actionFocus.focused && focusRing,
+          ]}
+          {...actionFocus.focusProps}
+        >
+          <Icon
+            color={presentation.colors.brandInk}
+            name={actionIcon}
+            size={24}
+          />
+        </Pressable>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  action: {
+    alignItems: 'center',
+    borderRadius: radii.pill,
+    borderWidth: 2,
+    height: MINIMUM_TOUCH_TARGET,
+    justifyContent: 'center',
+    // Se reserva la esquina al control flotante «Tools» del entorno de prueba.
+    position: 'absolute',
+    right: spacing.xxxl + spacing.xl,
+    width: MINIMUM_TOUCH_TARGET,
+  },
   back: {
     alignItems: 'center',
     borderRadius: radii.pill,
@@ -80,13 +135,8 @@ const styles = StyleSheet.create({
     marginLeft: -spacing.md,
     width: MINIMUM_TOUCH_TARGET,
   },
-  backPressed: {
-    backgroundColor: colors.brandSoft,
-  },
   bar: {
     alignItems: 'center',
-    backgroundColor: colors.canvas,
-    borderBottomColor: colors.border,
     borderBottomWidth: 1,
     flexDirection: 'row',
     gap: spacing.md,
@@ -97,8 +147,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    ...typography.section,
-    color: colors.ink,
     flex: 1,
+  },
+  titleWithAction: {
+    marginRight: MINIMUM_TOUCH_TARGET + spacing.xxxl + spacing.xl,
   },
 });

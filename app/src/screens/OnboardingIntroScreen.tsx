@@ -4,10 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AccessibleText } from '@/components/AccessibleText';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { TopBar } from '@/components/TopBar';
-import { colors, spacing } from '@/theme';
+import { spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface OnboardingIntroScreenProps {
+  onOpenSettings?: () => void;
   onSkip: () => void;
   onStart: () => void;
 }
@@ -20,24 +21,47 @@ interface OnboardingIntroScreenProps {
  * configuración empiece con esa expectativa ya fijada.
  */
 export function OnboardingIntroScreen({
+  onOpenSettings,
   onSkip,
   onStart,
 }: OnboardingIntroScreenProps) {
+  const presentation = usePresentation();
   return (
-    <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
-      <TopBar title={ES.appName} />
+    <SafeAreaView
+      edges={['top', 'left', 'right']}
+      style={[
+        styles.safeArea,
+        { backgroundColor: presentation.colors.canvas },
+      ]}
+    >
+      <TopBar
+        {...(onOpenSettings
+          ? {
+              actionHint: ES.settings.openHint,
+              actionLabel: ES.settings.openButton,
+              onAction: onOpenSettings,
+            }
+          : {})}
+        title={ES.appName}
+      />
       <View style={styles.content}>
         <AccessibleText accessibilityRole="header" variant="display">
           {ES.onboarding.intro.title}
         </AccessibleText>
-        <AccessibleText style={styles.notice}>
+        <AccessibleText style={{ color: presentation.colors.inkMuted }}>
           {ES.onboarding.intro.storageNotice}
         </AccessibleText>
-        <AccessibleText style={styles.notice}>
+        <AccessibleText style={{ color: presentation.colors.inkMuted }}>
           {ES.onboarding.intro.evidenceNotice}
         </AccessibleText>
       </View>
-      <SafeAreaView edges={['bottom']} style={styles.band}>
+      <SafeAreaView
+        edges={['bottom']}
+        style={[
+          styles.band,
+          { backgroundColor: presentation.colors.brandSoft },
+        ]}
+      >
         <View style={styles.actions}>
           <PrimaryButton
             accessibilityHint={ES.onboarding.intro.continueHint}
@@ -64,10 +88,7 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     width: '100%',
   },
-  band: {
-    backgroundColor: colors.brandSoft,
-    width: '100%',
-  },
+  band: { width: '100%' },
   content: {
     flex: 1,
     gap: spacing.lg,
@@ -76,11 +97,5 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     width: '100%',
   },
-  notice: {
-    color: colors.inkMuted,
-  },
-  safeArea: {
-    backgroundColor: colors.canvas,
-    flex: 1,
-  },
+  safeArea: { flex: 1 },
 });

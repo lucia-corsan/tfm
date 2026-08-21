@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, spacing } from '@/theme';
+import { spacing, usePresentation } from '@/theme';
 
 interface ScreenProps {
   /** Banda de acción inferior, fija bajo el contenido desplazable. */
@@ -21,8 +21,12 @@ interface ScreenProps {
  * mismo lugar.
  */
 export function Screen({ band, children, header }: ScreenProps) {
+  const presentation = usePresentation();
   return (
-    <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
+    <SafeAreaView
+      edges={['top', 'left', 'right']}
+      style={[styles.safeArea, { backgroundColor: presentation.colors.canvas }]}
+    >
       {header}
       <ScrollView
         contentContainerStyle={styles.content}
@@ -31,7 +35,10 @@ export function Screen({ band, children, header }: ScreenProps) {
         {children}
       </ScrollView>
       {band ? (
-        <SafeAreaView edges={['bottom']} style={styles.band}>
+        <SafeAreaView
+          edges={['bottom']}
+          style={[styles.band, { backgroundColor: presentation.colors.brandInk }]}
+        >
           {band}
         </SafeAreaView>
       ) : null}
@@ -41,7 +48,6 @@ export function Screen({ band, children, header }: ScreenProps) {
 
 const styles = StyleSheet.create({
   band: {
-    backgroundColor: colors.brandInk,
     width: '100%',
   },
   content: {
@@ -54,7 +60,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   safeArea: {
-    backgroundColor: colors.canvas,
     flex: 1,
   },
 });

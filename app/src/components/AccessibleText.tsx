@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 
-import { colors, typography } from '@/theme';
+import { typography, usePresentation } from '@/theme';
 
 type TextVariant = keyof typeof typography;
 
@@ -24,19 +24,18 @@ export function AccessibleText({
   variant = 'body',
   ...props
 }: AccessibleTextProps) {
+  const presentation = usePresentation();
   return (
     <Text
       accessible
       accessibilityLanguage="es-ES"
       accessibilityRole={accessibilityRole}
-      style={[styles.base, typography[variant], style]}
+      style={[
+        { color: presentation.colors.ink },
+        presentation.typography[variant],
+        style,
+      ]}
       {...props}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    color: colors.ink,
-  },
-});

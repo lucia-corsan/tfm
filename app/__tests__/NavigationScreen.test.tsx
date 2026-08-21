@@ -226,33 +226,52 @@ describe('<NavigationScreen />', () => {
     screen.getByRole('header', { name: ES.navigation.gpsTitle });
     screen.getByRole('button', { name: ES.navigation.activateGpsButton });
     screen.getByRole('text', { name: ES.navigation.gpsStatus.on_route });
-    screen.getByRole('header', { name: ES.navigation.speech.title });
+    screen.getByRole('button', { name: ES.navigation.speech.listenButton });
     expect(
       screen.getByRole('text', { name: route.instructions[0].text }).props
         .accessibilityLiveRegion,
     ).toBe('none');
-    screen.getByRole('radio', {
-      name: ES.navigation.speech.rateLabels.normal,
-      selected: true,
-    });
-    screen.getByRole('button', { name: ES.navigation.speech.listenButton });
+    expect(
+      screen.queryByRole('header', { name: ES.navigation.speech.title }),
+    ).toBeNull();
   });
 
-  test('changes the app speech rate without changing TalkBack settings', async () => {
+  test('opens settings without finishing the active navigation', async () => {
+    const onFinish = jest.fn();
+    const onOpenSettings = jest.fn();
     const screen = await render(
-      <NavigationScreen onFinish={jest.fn()} session={session} />,
+      <NavigationScreen
+        onFinish={onFinish}
+        onOpenSettings={onOpenSettings}
+        session={session}
+      />,
     );
     const user = userEvent.setup();
-    await openStepDetails(screen, user);
 
-    expect(latestSpeechRate).toBe(1);
     await user.press(
-      screen.getByRole('radio', {
-        name: ES.navigation.speech.rateLabels.fast,
-      }),
+      screen.getByRole('button', { name: ES.settings.openButton }),
+    );
+    expect(onOpenSettings).toHaveBeenCalledTimes(1);
+    expect(onFinish).not.toHaveBeenCalled();
+  });
+
+  test('uses the speech rate received from the saved profile', async () => {
+    const screen = await render(
+      <NavigationScreen
+        initialSpeechPreferences={{
+          automaticPlayback: false,
+          enabled: true,
+          rateId: 'fast',
+        }}
+        onFinish={jest.fn()}
+        session={session}
+      />,
+    );
+    const user = userEvent.setup();
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.speech.listenButton }),
     );
     expect(latestSpeechRate).toBe(1.25);
-    expect(mockSpeechStop).toHaveBeenCalledTimes(1);
   });
 
   test('uses one live TalkBack instruction and hides second-voice controls', async () => {

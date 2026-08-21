@@ -19,6 +19,9 @@ export type SpeechAnswer = 'automatic' | 'never' | 'onDemand';
 /** Ajuste visual solicitado sobre el del sistema. */
 export type PresentationAnswer = 'both' | 'highContrast' | 'largeText' | 'system';
 
+/** Procedencia de las preferencias usadas para comparar rutas. */
+export type ProfileMode = 'generic' | 'personalized';
+
 /** Dimensiones que el cuestionario expone como prioridad graduable. */
 export const PRIORITY_DIMENSIONS = [
   'distance',
@@ -37,6 +40,7 @@ export interface OnboardingAnswers {
   adaptiveLearning: boolean;
   detour: DetourAnswer;
   presentation: PresentationAnswer;
+  profileMode: ProfileMode;
   priorities: Record<PriorityDimension, PriorityAnswer>;
   speech: SpeechAnswer;
   speechRate: SpeechRateId;
@@ -53,6 +57,7 @@ export const DEFAULT_ONBOARDING_ANSWERS: OnboardingAnswers = {
   adaptiveLearning: false,
   detour: 'fifty',
   presentation: 'system',
+  profileMode: 'personalized',
   priorities: {
     complex_crossings: 'medium',
     crossing_support: 'medium',
@@ -66,6 +71,12 @@ export const DEFAULT_ONBOARDING_ANSWERS: OnboardingAnswers = {
   speech: 'onDemand',
   speechRate: 'normal',
   steps: 'exclude',
+};
+
+/** Ajustes seguros usados cuando la persona omite el cuestionario. */
+export const SKIPPED_ONBOARDING_ANSWERS: OnboardingAnswers = {
+  ...DEFAULT_ONBOARDING_ANSWERS,
+  profileMode: 'generic',
 };
 
 /** Peso declarado que corresponde a cada nivel de prioridad. */
@@ -134,6 +145,30 @@ export function buildProfileFromAnswers(
     profile_id: 'onboarding_profile',
     require_pedestrian_access: true,
   };
+}
+
+/**
+ * Construye la identidad local de una configuración relevante para aprender.
+ *
+ * No incluye presentación, voz ni el consentimiento: cambiar esos ajustes no
+ * altera qué rutas estaban disponibles. Sí incluye pesos y restricciones, de
+ * modo que una elección observada bajo unas reglas no contamine otra
+ * configuración materialmente distinta.
+ */
+export function buildAdaptiveLearningProfileId(
+  answers: OnboardingAnswers,
+): string {
+  const profile = buildProfileFromAnswers(answers);
+  const weightSignature = Object.entries(profile.declared_weights)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([dimension, weight]) => `${dimension}=${weight}`)
+    .join(',');
+  return [
+    'onboarding-v2',
+    `steps=${profile.avoid_steps ? 'exclude' : 'gradual'}`,
+    `detour=${profile.maximum_detour_ratio}`,
+    `weights=${weightSignature}`,
+  ].join('|');
 }
 
 /** Traduce las respuestas de voz a los controles de navegación. */

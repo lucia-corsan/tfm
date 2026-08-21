@@ -12,7 +12,6 @@ import { ActionBand } from '@/components/ActionBand';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { RerouteNoticeScreen } from '@/screens/RerouteNoticeScreen';
 import { Screen } from '@/components/Screen';
-import { SpeechControls } from '@/components/SpeechControls';
 import { TopBar } from '@/components/TopBar';
 import { useManualNavigation } from '@/features/navigation/useManualNavigation';
 import {
@@ -31,12 +30,13 @@ import {
   formatDistance,
   formatDuration,
 } from '@/features/route-comparison/presenters';
-import { colors, radii, spacing } from '@/theme';
+import { radii, spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface NavigationScreenProps {
   initialSpeechPreferences?: SpeechPreferences;
   onFinish: () => void;
+  onOpenSettings?: () => void;
   reroute?: RerouteRoutesFunction;
   session: NavigationSession;
 }
@@ -62,15 +62,15 @@ const maneuverIcons: Record<NavigationManeuver, IconName> = {
 export function NavigationScreen({
   initialSpeechPreferences = DEFAULT_SPEECH_PREFERENCES,
   onFinish,
+  onOpenSettings,
   reroute,
   session,
 }: NavigationScreenProps) {
+  const presentation = usePresentation();
   const [route, setRoute] = useState(session.route);
   const [gpsEnabled, setGpsEnabled] = useState(false);
   const [detailExpanded, setDetailExpanded] = useState(false);
-  const [speechPreferences, setSpeechPreferences] = useState(
-    initialSpeechPreferences,
-  );
+  const speechPreferences = initialSpeechPreferences;
   const screenMounted = useRef(true);
   const controller = useManualNavigation(route);
   const rerouting = useRouteRerouting(reroute);
@@ -102,6 +102,7 @@ export function NavigationScreen({
     },
     [],
   );
+
   /**
    * El aviso ocupa la pantalla solo mientras la decisión sigue pendiente. El
    * cálculo, el resultado y el error se muestran ya sobre la navegación, con la
@@ -148,6 +149,7 @@ export function NavigationScreen({
       <RerouteNoticeScreen
         onConfirm={() => void recalculateRoute()}
         onKeepCurrentRoute={keepCurrentRoute}
+        {...(onOpenSettings ? { onOpenSettings } : {})}
         routeName={route.name}
       />
     );
@@ -171,9 +173,23 @@ export function NavigationScreen({
             onPress={controller.canGoNext ? controller.goNext : onFinish}
           />
         }
-        header={<TopBar title={ES.navigation.title} />}
+        header={
+          <TopBar
+            {...(onOpenSettings
+              ? {
+                  actionHint: ES.settings.openHint,
+                  actionLabel: ES.settings.openButton,
+                  onAction: onOpenSettings,
+                }
+              : {})}
+            title={ES.navigation.title}
+          />
+        }
       >
-        <AccessibleText style={styles.manualNotice} variant="meta">
+        <AccessibleText
+          style={{ color: presentation.colors.inkSubtle }}
+          variant="meta"
+        >
           {ES.navigation.routeLabel(route.name)}
         </AccessibleText>
         {session.learning_feedback && (
@@ -185,14 +201,25 @@ export function NavigationScreen({
           />
         )}
 
-        <View style={styles.instruction}>
+        <View
+          style={[
+            styles.instruction,
+            { backgroundColor: presentation.colors.brandSoft },
+          ]}
+        >
           <View style={styles.instructionTop}>
             <Icon
-              color={colors.brandInk}
+              color={presentation.colors.brandInk}
               name={maneuverIcons[instruction.maneuver]}
               size={30}
             />
-            <AccessibleText style={styles.progress} variant="emphasis">
+            <AccessibleText
+              style={[
+                styles.progress,
+                { color: presentation.colors.brandOnSoft },
+              ]}
+              variant="emphasis"
+            >
               {ES.navigation.progress(
                 controller.currentIndex + 1,
                 controller.totalInstructions,
@@ -208,7 +235,10 @@ export function NavigationScreen({
             {instruction.text}
           </AccessibleText>
           {instruction.street_name && (
-            <AccessibleText style={styles.street} variant="body">
+            <AccessibleText
+              style={{ color: presentation.colors.inkMuted }}
+              variant="body"
+            >
               {ES.navigation.streetLabel(instruction.street_name)}
             </AccessibleText>
           )}
@@ -222,6 +252,39 @@ export function NavigationScreen({
               label={`${ES.navigation.stepDuration}: ${formatDuration(instruction.duration_s)}.`}
             />
           </View>
+
+          {speechPreferences.enabled && screenReaderStatus === 'disabled' ? (
+            <PrimaryButton
+              accessibilityHint={
+                instructionSpeech.isSpeaking
+                  ? ES.navigation.speech.stopHint
+                  : ES.navigation.speech.listenHint
+              }
+              icon={instructionSpeech.isSpeaking ? 'stop' : 'speakerHigh'}
+              label={
+                instructionSpeech.isSpeaking
+                  ? ES.navigation.speech.stopButton
+                  : speechPreferences.automaticPlayback
+                    ? ES.navigation.speech.repeatButton
+                    : ES.navigation.speech.listenButton
+              }
+              onPress={() =>
+                void (instructionSpeech.isSpeaking
+                  ? instructionSpeech.stop()
+                  : instructionSpeech.speak())
+              }
+              variant="secondary"
+            />
+          ) : null}
+
+          {instructionSpeech.error ? (
+            <Callout
+              accessibilityLiveRegion="assertive"
+              role="alert"
+              text={ES.navigation.speech.error}
+              tone="danger"
+            />
+          ) : null}
 
           <PrimaryButton
             accessibilityHint={ES.navigation.stepDetailsHint}
@@ -237,12 +300,20 @@ export function NavigationScreen({
           />
 
           {detailExpanded && (
-            <View style={styles.detail}>
+            <View
+              style={[
+                styles.detail,
+                { borderTopColor: presentation.colors.border },
+              ]}
+            >
               <AccessibleText accessibilityRole="header" variant="subheading">
                 {ES.navigation.instructionAccessibilityTitle}
               </AccessibleText>
               {instruction.accessibility_events.length === 0 ? (
-                <AccessibleText style={styles.muted} variant="body">
+                <AccessibleText
+                  style={{ color: presentation.colors.inkMuted }}
+                  variant="body"
+                >
                   {ES.navigation.noInstructionAccessibilityEvents}
                 </AccessibleText>
               ) : (
@@ -258,37 +329,53 @@ export function NavigationScreen({
                 {ES.navigation.routeContextTitle}
               </AccessibleText>
               {unknownCount === 0 && unfavorableCount === 0 ? (
-                <AccessibleText style={styles.muted} variant="body">
+                <AccessibleText
+                  style={{ color: presentation.colors.inkMuted }}
+                  variant="body"
+                >
                   {ES.navigation.noWarnings}
                 </AccessibleText>
               ) : (
                 <>
                   {unknownCount > 0 && (
-                    <AccessibleText style={styles.muted} variant="body">
+                    <AccessibleText
+                      style={{ color: presentation.colors.inkMuted }}
+                      variant="body"
+                    >
                       {ES.navigation.unknownSummary(unknownCount)}
                     </AccessibleText>
                   )}
                   {unfavorableCount > 0 && (
-                    <AccessibleText style={styles.muted} variant="body">
+                    <AccessibleText
+                      style={{ color: presentation.colors.inkMuted }}
+                      variant="body"
+                    >
                       {ES.navigation.unfavorableSummary(unfavorableCount)}
                     </AccessibleText>
                   )}
                 </>
               )}
-              <AccessibleText style={styles.disclaimer} variant="meta">
+              <AccessibleText
+                style={{ color: presentation.colors.inkSubtle }}
+                variant="meta"
+              >
                 {ES.navigation.disclaimer}
               </AccessibleText>
 
             <Card>
               <View style={styles.titleRow}>
-                <Icon color={colors.brandInk} name="crosshair" size={24} />
+                <Icon
+                  color={presentation.colors.brandInk}
+                  name="crosshair"
+                  size={24}
+                />
                 <AccessibleText accessibilityRole="header" variant="section">
                   {ES.navigation.gpsTitle}
                 </AccessibleText>
               </View>
               <AccessibleText
                 accessibilityLiveRegion="polite"
-                style={styles.muted}
+                style={{ color: presentation.colors.inkMuted }}
                 variant="body"
               >
                 {ES.navigation.gpsStatus[tracking.status]}
@@ -304,20 +391,6 @@ export function NavigationScreen({
               )}
             </Card>
 
-            {speechPreferences.enabled && (
-              <SpeechControls
-                error={instructionSpeech.error}
-                isSpeaking={instructionSpeech.isSpeaking}
-                onChange={(preferences) => {
-                  void instructionSpeech.stop();
-                  setSpeechPreferences(preferences);
-                }}
-                onSpeak={() => void instructionSpeech.speak()}
-                onStop={() => void instructionSpeech.stop()}
-                preferences={speechPreferences}
-                screenReaderStatus={screenReaderStatus}
-              />
-            )}
             </View>
           )}
         </View>
@@ -339,12 +412,21 @@ export function NavigationScreen({
             accessibilityLiveRegion="assertive"
             accessibilityRole="progressbar"
             accessibilityState={{ busy: true }}
-            style={styles.rerouting}
+            style={[
+              styles.rerouting,
+              { backgroundColor: presentation.colors.brandSoft },
+            ]}
           >
-            <ActivityIndicator color={colors.brandInk} size="large" />
+            <ActivityIndicator
+              color={presentation.colors.brandInk}
+              size="large"
+            />
             <AccessibleText
               accessible={false}
-              style={styles.reroutingText}
+              style={[
+                styles.reroutingText,
+                { color: presentation.colors.brandOnSoft },
+              ]}
               variant="body"
             >
               {ES.navigation.reroutingLoading}
@@ -393,17 +475,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     marginTop: spacing.xs,
   },
-  disclaimer: {
-    color: colors.inkSubtle,
-  },
   detail: {
-    borderTopColor: colors.border,
     borderTopWidth: 1,
     gap: spacing.md,
     paddingTop: spacing.lg,
   },
   instruction: {
-    backgroundColor: colors.brandSoft,
     borderRadius: radii.large,
     gap: spacing.md,
     padding: spacing.xxl,
@@ -413,25 +490,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.md,
   },
-  manualNotice: {
-    color: colors.inkSubtle,
-  },
-  muted: {
-    color: colors.inkMuted,
-  },
   progress: {
-    color: colors.brandOnSoft,
     flex: 1,
   },
   rerouting: {
     alignItems: 'center',
-    backgroundColor: colors.brandSoft,
     borderRadius: radii.card,
     gap: spacing.md,
     padding: spacing.xl,
   },
   reroutingText: {
-    color: colors.brandOnSoft,
     flex: 1,
   },
   section: {
@@ -439,9 +507,6 @@ const styles = StyleSheet.create({
   },
   stepControls: {
     gap: spacing.md,
-  },
-  street: {
-    color: colors.inkMuted,
   },
   titleRow: {
     alignItems: 'center',

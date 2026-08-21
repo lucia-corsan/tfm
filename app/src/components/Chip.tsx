@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Icon, type IconName } from '@/components/icons';
-import { colors, radii, spacing, typography } from '@/theme';
+import {
+  type PresentationColors,
+  radii,
+  spacing,
+  usePresentation,
+} from '@/theme';
 
 export type ChipTone = 'accent' | 'brand' | 'caution' | 'neutral' | 'unknown';
 
@@ -13,18 +18,23 @@ interface ChipProps {
 
 /** Etiqueta breve de estado o procedencia, leída como una sola parada. */
 export function Chip({ icon, label, tone = 'neutral' }: ChipProps) {
+  const presentation = usePresentation();
+  const textColors = toneTextColors(presentation.colors);
   return (
     <View
       accessible
       accessibilityLanguage="es-ES"
       accessibilityLabel={label}
       accessibilityRole="text"
-      style={[styles.chip, backgrounds[tone]]}
+      style={[styles.chip, backgrounds(presentation.colors)[tone]]}
     >
-      {icon ? <Icon color={toneTextColors[tone]} name={icon} size={16} /> : null}
+      {icon ? <Icon color={textColors[tone]} name={icon} size={16} /> : null}
       <Text
         accessible={false}
-        style={[styles.label, { color: toneTextColors[tone] }]}
+        style={[
+          presentation.typography.meta,
+          { color: textColors[tone] },
+        ]}
       >
         {label}
       </Text>
@@ -32,13 +42,15 @@ export function Chip({ icon, label, tone = 'neutral' }: ChipProps) {
   );
 }
 
-const toneTextColors: Record<ChipTone, string> = {
-  accent: colors.brandOnSoft,
-  caution: colors.cautionOnSoft,
-  brand: colors.brandOnSoft,
-  neutral: colors.inkMuted,
-  unknown: colors.unknownOnSoft,
-};
+const toneTextColors = (
+  palette: PresentationColors,
+): Record<ChipTone, string> => ({
+  accent: palette.brandOnSoft,
+  caution: palette.cautionOnSoft,
+  brand: palette.brandOnSoft,
+  neutral: palette.inkMuted,
+  unknown: palette.unknownOnSoft,
+});
 
 const styles = StyleSheet.create({
   chip: {
@@ -49,25 +61,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs + 2,
   },
-  label: {
-    ...typography.meta,
-  },
 });
 
-const backgrounds = StyleSheet.create({
+const backgrounds = (palette: PresentationColors) => StyleSheet.create({
   accent: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: palette.brandSoft,
   },
   caution: {
-    backgroundColor: colors.cautionSoft,
+    backgroundColor: palette.cautionSoft,
   },
   brand: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: palette.brandSoft,
   },
   neutral: {
-    backgroundColor: colors.surfaceSunken,
+    backgroundColor: palette.surfaceSunken,
   },
   unknown: {
-    backgroundColor: colors.unknownSoft,
+    backgroundColor: palette.unknownSoft,
   },
 });

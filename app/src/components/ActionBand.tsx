@@ -2,11 +2,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import {
   ACTION_BAND_HEIGHT,
-  colors,
   focusRing,
   spacing,
-  typography,
   useFocusRing,
+  usePresentation,
 } from '@/theme';
 
 interface ActionBandProps {
@@ -34,6 +33,7 @@ export function ActionBand({
   onPress,
 }: ActionBandProps) {
   const { focused, focusProps } = useFocusRing();
+  const presentation = usePresentation();
   const inactive = busy || disabled;
 
   return (
@@ -47,14 +47,28 @@ export function ActionBand({
       onPress={onPress}
       style={({ pressed }) => [
         styles.band,
-        inactive && styles.bandInactive,
-        pressed && !inactive && styles.bandPressed,
+        {
+          backgroundColor: inactive
+            ? presentation.colors.brandDisabled
+            : presentation.colors.brandInk,
+        },
+        pressed && !inactive && {
+          backgroundColor: presentation.colors.brandPressed,
+        },
         focused && focusRing,
       ]}
       {...focusProps}
     >
       <View style={styles.content}>
-        <Text style={styles.label}>{label}</Text>
+        <Text
+          style={[
+            presentation.typography.action,
+            styles.label,
+            { color: presentation.colors.inkInverse },
+          ]}
+        >
+          {label}
+        </Text>
       </View>
     </Pressable>
   );
@@ -63,25 +77,16 @@ export function ActionBand({
 const styles = StyleSheet.create({
   band: {
     alignItems: 'center',
-    backgroundColor: colors.brandInk,
     justifyContent: 'center',
     minHeight: ACTION_BAND_HEIGHT,
     paddingHorizontal: spacing.xl,
     width: '100%',
-  },
-  bandInactive: {
-    backgroundColor: colors.brandDisabled,
-  },
-  bandPressed: {
-    backgroundColor: colors.brandPressed,
   },
   content: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   label: {
-    ...typography.action,
-    color: colors.inkInverse,
     textAlign: 'center',
   },
 });

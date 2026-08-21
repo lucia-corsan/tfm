@@ -11,13 +11,14 @@ import {
   ONBOARDING_QUESTION_COUNT,
   type Question,
 } from '@/features/onboarding/questions';
-import { colors, radii, spacing } from '@/theme';
+import { radii, spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface OnboardingQuestionScreenProps {
   currentIndex: number;
   onBack: () => void;
   onNext: () => void;
+  onOpenSettings?: () => void;
   onSelect: (value: string) => void;
   question: Question;
   /** Se muestra en lugar de la pregunta de voz cuando hay lector activo. */
@@ -36,11 +37,13 @@ export function OnboardingQuestionScreen({
   currentIndex,
   onBack,
   onNext,
+  onOpenSettings,
   onSelect,
   question,
   screenReaderDetected,
   selectedValue,
 }: OnboardingQuestionScreenProps) {
+  const presentation = usePresentation();
   const isLearningQuestion = question.id === 'learning';
   const showsScreenReaderNotice =
     question.id === 'speech' && screenReaderDetected;
@@ -59,6 +62,13 @@ export function OnboardingQuestionScreen({
       header={
         <>
           <TopBar
+            {...(onOpenSettings
+              ? {
+                  actionHint: ES.settings.openHint,
+                  actionLabel: ES.settings.openButton,
+                  onAction: onOpenSettings,
+                }
+              : {})}
             backHint={ES.onboarding.backHint}
             backLabel={ES.onboarding.backButton}
             onBack={onBack}
@@ -84,13 +94,13 @@ export function OnboardingQuestionScreen({
             {question.title}
           </AccessibleText>
           {question.detail ? (
-            <AccessibleText style={styles.detail}>
+            <AccessibleText style={{ color: presentation.colors.inkMuted }}>
               {question.detail}
             </AccessibleText>
           ) : null}
 
           {isLearningQuestion ? (
-            <AccessibleText style={styles.detail}>
+            <AccessibleText style={{ color: presentation.colors.inkMuted }}>
               {ES.onboarding.learning.description}
             </AccessibleText>
           ) : (
@@ -112,7 +122,10 @@ export function OnboardingQuestionScreen({
           )}
 
           {question.example ? (
-            <AccessibleText style={styles.example} variant="meta">
+            <AccessibleText
+              style={{ color: presentation.colors.inkSubtle }}
+              variant="meta"
+            >
               {question.example}
             </AccessibleText>
           ) : null}
@@ -121,10 +134,18 @@ export function OnboardingQuestionScreen({
 
       {isLearningQuestion && (
         <View style={styles.decision}>
-          <View style={styles.defaultChoice}>
+          <View
+            style={[
+              styles.defaultChoice,
+              { backgroundColor: presentation.colors.brandSoft },
+            ]}
+          >
             <AccessibleText
               accessible={false}
-              style={styles.defaultTag}
+              style={[
+                styles.defaultTag,
+                { color: presentation.colors.brandOnSoft },
+              ]}
               variant="meta"
             >
               {ES.onboarding.learning.defaultTag}
@@ -159,21 +180,11 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   defaultChoice: {
-    backgroundColor: colors.brandSoft,
     borderRadius: radii.card,
     gap: spacing.sm,
     padding: spacing.md,
   },
-  defaultTag: {
-    color: colors.brandOnSoft,
-    textAlign: 'center',
-  },
-  detail: {
-    color: colors.inkMuted,
-  },
-  example: {
-    color: colors.inkSubtle,
-  },
+  defaultTag: { textAlign: 'center' },
   options: {
     gap: spacing.sm,
   },

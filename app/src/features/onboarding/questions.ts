@@ -177,8 +177,8 @@ export function writeAnswer(
  * Indica si una pregunta debe omitirse.
  *
  * La velocidad de la voz propia no se pregunta cuando hay un lector de pantalla
- * activo, porque se configura en los ajustes de Android, ni cuando se ha pedido
- * leer las instrucciones solo en pantalla.
+ * activo, porque esa velocidad se configura en Android, ni cuando se ha pedido
+ * no utilizar la voz adicional de Rumbo.
  */
 export function isQuestionSkipped(
   question: Question,

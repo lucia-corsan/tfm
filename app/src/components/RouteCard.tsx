@@ -16,7 +16,7 @@ import {
   formatDuration,
   formatPercentage,
 } from '@/features/route-comparison/presenters';
-import { colors, spacing } from '@/theme';
+import { spacing, usePresentation } from '@/theme';
 import { ES } from '../../i18n/es';
 
 interface RouteCardProps {
@@ -38,6 +38,7 @@ export function RouteCard({
   onChoose,
   route,
 }: RouteCardProps) {
+  const presentation = usePresentation();
   const [detailExpanded, setDetailExpanded] = useState(false);
   const unknownWarnings = route.warnings.filter(
     (warning) => warning.state === 'unknown',
@@ -87,7 +88,7 @@ export function RouteCard({
         {route.name}
       </AccessibleText>
 
-      <AccessibleText style={styles.journey}>
+      <AccessibleText style={{ color: presentation.colors.inkMuted }}>
         {`${ES.routeComparison.distance}: ${formatDistance(route.distance_m)} · ${ES.routeComparison.duration}: ${formatDuration(route.duration_s)}`}
       </AccessibleText>
 
@@ -112,8 +113,15 @@ export function RouteCard({
         </AccessibleText>
         {route.reasons.map((reason) => (
           <View key={`${reason.kind}-${reason.dimension}`} style={styles.reason}>
-            <Icon color={colors.brandInk} name="checkCircle" size={20} />
-            <AccessibleText style={styles.reasonText} variant="body">
+            <Icon
+              color={presentation.colors.brandInk}
+              name="checkCircle"
+              size={20}
+            />
+            <AccessibleText
+              style={[styles.reasonText, { color: presentation.colors.inkMuted }]}
+              variant="body"
+            >
               {describeReason(reason)}
             </AccessibleText>
           </View>
@@ -134,9 +142,17 @@ export function RouteCard({
       />
 
       {detailExpanded && (
-        <View style={styles.detail}>
+        <View
+          style={[
+            styles.detail,
+            { borderTopColor: presentation.colors.border },
+          ]}
+        >
           {route.source === 'ors' && !route.is_synthetic ? (
-            <AccessibleText style={styles.provenance} variant="meta">
+            <AccessibleText
+              style={{ color: presentation.colors.inkSubtle }}
+              variant="meta"
+            >
               {ES.routeComparison.realDataProvenance}
             </AccessibleText>
           ) : null}
@@ -145,12 +161,16 @@ export function RouteCard({
             {ES.routeComparison.unknownEvidenceTitle}
           </AccessibleText>
           {unknownWarnings.length === 0 ? (
-            <AccessibleText style={styles.reasonText}>
+            <AccessibleText
+              style={[styles.reasonText, { color: presentation.colors.inkMuted }]}
+            >
               {ES.routeComparison.noUnknownEvidence}
             </AccessibleText>
           ) : (
             <>
-              <AccessibleText style={styles.reasonText}>
+              <AccessibleText
+                style={[styles.reasonText, { color: presentation.colors.inkMuted }]}
+              >
                 {ES.routeComparison.unknownEvidenceIntroduction(
                   formatPercentage(route.score.uncertainty),
                   unknownWarnings.length,
@@ -170,7 +190,9 @@ export function RouteCard({
             {ES.routeComparison.unfavorableEvidenceTitle}
           </AccessibleText>
           {unfavorableWarnings.length === 0 ? (
-            <AccessibleText style={styles.reasonText}>
+            <AccessibleText
+              style={[styles.reasonText, { color: presentation.colors.inkMuted }]}
+            >
               {ES.routeComparison.noUnfavorableEvidence}
             </AccessibleText>
           ) : (
@@ -214,16 +236,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: spacing.sm,
   },
-  journey: {
-    color: colors.inkMuted,
-  },
   metrics: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-  },
-  provenance: {
-    color: colors.inkSubtle,
   },
   reason: {
     alignItems: 'flex-start',
@@ -231,11 +247,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   reasonText: {
-    color: colors.inkMuted,
     flex: 1,
   },
   detail: {
-    borderTopColor: colors.border,
     borderTopWidth: 1,
     gap: spacing.md,
     paddingTop: spacing.lg,
