@@ -72,13 +72,14 @@ export function OnboardingQuestionScreen({
             backHint={ES.onboarding.backHint}
             backLabel={ES.onboarding.backButton}
             onBack={onBack}
-            title={ES.onboarding.progress(
-              currentIndex + 1,
-              ONBOARDING_QUESTION_COUNT,
-            )}
+            title={ES.onboarding.appBarTitle}
           />
           <StepProgress
             current={currentIndex + 1}
+            label={ES.onboarding.progress(
+              currentIndex + 1,
+              ONBOARDING_QUESTION_COUNT,
+            )}
             total={ONBOARDING_QUESTION_COUNT}
           />
         </>

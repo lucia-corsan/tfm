@@ -42,7 +42,7 @@ export function OnboardingIntroScreen({
               onAction: onOpenSettings,
             }
           : {})}
-        title={ES.appName}
+        title={ES.onboarding.appBarTitle}
       />
       <View style={styles.content}>
         <AccessibleText accessibilityRole="header" variant="display">

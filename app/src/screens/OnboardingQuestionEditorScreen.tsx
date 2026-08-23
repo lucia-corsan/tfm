@@ -40,6 +40,25 @@ interface QuestionEditorProps extends OnboardingQuestionEditorScreenProps {
   onDraftChange: (answers: OnboardingAnswers) => void;
 }
 
+/** Título breve de la sección de Ajustes a la que pertenece cada pregunta. */
+function editorAppBarTitle(questionId: QuestionId): string {
+  if (
+    questionId === 'steps' ||
+    questionId === 'detour' ||
+    questionId.startsWith('priority:')
+  ) {
+    return ES.settings.routePreferences.title;
+  }
+  switch (questionId) {
+    case 'presentation':
+      return ES.settings.presentation.title;
+    case 'learning':
+      return ES.settings.learning.title;
+    default:
+      return ES.settings.speech.title;
+  }
+}
+
 function QuestionEditor({
   draft,
   onBack,
@@ -86,7 +105,7 @@ function QuestionEditor({
           backHint={ES.settings.editor.backHint}
           backLabel={ES.settings.editor.backButton}
           onBack={onBack}
-          title={ES.settings.editor.title}
+          title={editorAppBarTitle(questionId)}
         />
       }
     >

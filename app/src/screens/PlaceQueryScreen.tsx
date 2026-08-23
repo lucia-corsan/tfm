@@ -156,7 +156,7 @@ export function PlaceQueryScreen({
               }
             : {})}
           {...(backLabel && onBack ? { backHint, backLabel, onBack } : {})}
-          title={ES.appName}
+          title={copy.appBarTitle}
         />
       }
     >

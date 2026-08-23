@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import type { NavigationManeuver, NavigationSession } from '@/api/types';
 import { AccessibleText } from '@/components/AccessibleText';
-import { Callout } from '@/components/Callout';
+import { Callout, type CalloutTone } from '@/components/Callout';
 import { Card } from '@/components/Card';
 import { Chip } from '@/components/Chip';
 import { Icon, type IconName } from '@/components/icons';
@@ -26,6 +26,12 @@ import {
   useRouteRerouting,
 } from '@/features/navigation/useRouteRerouting';
 import { useForegroundRouteTracking } from '@/features/location/useForegroundRouteTracking';
+import { deliverOrientationFeedback } from '@/features/orientation/orientationFeedback';
+import { routeBearingAfterGeometryIndex } from '@/features/orientation/routeOrientation';
+import {
+  type RouteOrientationStatus,
+  useRouteOrientation,
+} from '@/features/orientation/useRouteOrientation';
 import {
   formatDistance,
   formatDuration,
@@ -59,6 +65,28 @@ const maneuverIcons: Record<NavigationManeuver, IconName> = {
   u_turn: 'arrowsClockwise',
 };
 
+function orientationTone(status: RouteOrientationStatus): CalloutTone {
+  if (status === 'aligned') {
+    return 'positive';
+  }
+  if (
+    status === 'adjust_left' ||
+    status === 'adjust_right' ||
+    status === 'clearly_off_left' ||
+    status === 'clearly_off_right'
+  ) {
+    return 'caution';
+  }
+  if (
+    status === 'low_accuracy' ||
+    status === 'unavailable' ||
+    status === 'no_route_direction'
+  ) {
+    return 'unknown';
+  }
+  return 'info';
+}
+
 export function NavigationScreen({
   initialSpeechPreferences = DEFAULT_SPEECH_PREFERENCES,
   onFinish,
@@ -69,7 +97,9 @@ export function NavigationScreen({
   const presentation = usePresentation();
   const [route, setRoute] = useState(session.route);
   const [gpsEnabled, setGpsEnabled] = useState(false);
-  const [detailExpanded, setDetailExpanded] = useState(false);
+  const [expandedInstructionKey, setExpandedInstructionKey] = useState<
+    string | null
+  >(null);
   const speechPreferences = initialSpeechPreferences;
   const screenMounted = useRef(true);
   const controller = useManualNavigation(route);
@@ -80,14 +110,41 @@ export function NavigationScreen({
     gpsEnabled,
   );
   const instruction = controller.currentInstruction;
+  const instructionKey = `${route.route_id}:${instruction.sequence}:${instruction.text}`;
+  const detailExpanded = expandedInstructionKey === instructionKey;
   const screenReaderStatus = useScreenReaderStatus();
+  const speechRate = getSpeechRate(speechPreferences.rateId);
   const instructionSpeech = useInstructionSpeech({
     automaticPlayback:
       speechPreferences.enabled && speechPreferences.automaticPlayback,
     instructionKey: `${route.route_id}:${instruction.sequence}`,
-    rate: getSpeechRate(speechPreferences.rateId),
+    rate: speechRate,
     screenReaderEnabled: screenReaderStatus !== 'disabled',
     text: instruction.text,
+  });
+  const desiredHeadingDeg = useMemo(
+    () =>
+      routeBearingAfterGeometryIndex(
+        route.geometry,
+        instruction.geometry_index,
+      ),
+    [instruction.geometry_index, route.geometry],
+  );
+  const handleOrientationResult = useCallback(
+    (nextState: { status: RouteOrientationStatus }) => {
+      const message = ES.navigation.orientation.status[nextState.status];
+      void deliverOrientationFeedback({
+        message,
+        rate: speechRate,
+        screenReaderStatus,
+        speechEnabled: speechPreferences.enabled,
+      });
+    }, [screenReaderStatus, speechPreferences.enabled, speechRate],
+  );
+  const orientation = useRouteOrientation({
+    desiredHeadingDeg,
+    instructionKey,
+    onResult: handleOrientationResult,
   });
   const unknownCount = route.warnings.filter(
     (warning) => warning.state === 'unknown',
@@ -182,10 +239,13 @@ export function NavigationScreen({
                   onAction: onOpenSettings,
                 }
               : {})}
-            title={ES.navigation.title}
+            title={ES.navigation.appBarTitle}
           />
         }
       >
+        <AccessibleText accessibilityRole="header" variant="display">
+          {ES.navigation.title}
+        </AccessibleText>
         <AccessibleText
           style={{ color: presentation.colors.inkSubtle }}
           variant="meta"
@@ -295,7 +355,11 @@ export function NavigationScreen({
                 ? ES.routeComparison.detailsCloseButton
                 : ES.routeComparison.detailsButton
             }
-            onPress={() => setDetailExpanded(!detailExpanded)}
+            onPress={() =>
+              setExpandedInstructionKey((currentKey) =>
+                currentKey === instructionKey ? null : instructionKey,
+              )
+            }
             variant="quiet"
           />
 
@@ -395,14 +459,71 @@ export function NavigationScreen({
           )}
         </View>
 
-        <PrimaryButton
-          accessibilityHint={ES.navigation.previousHint}
-          disabled={!controller.canGoPrevious}
-          icon="arrowLeft"
-          label={ES.navigation.previousButton}
-          onPress={controller.goPrevious}
-          variant="secondary"
-        />
+        {instruction.maneuver !== 'arrive' ? (
+          <Card>
+            <View style={styles.titleRow}>
+              <Icon
+                color={presentation.colors.brandInk}
+                name="navigationArrow"
+                size={24}
+              />
+              <AccessibleText accessibilityRole="header" variant="section">
+                {ES.navigation.orientation.title}
+              </AccessibleText>
+            </View>
+            <AccessibleText
+              style={{ color: presentation.colors.inkMuted }}
+              variant="body"
+            >
+              {ES.navigation.orientation.description}
+            </AccessibleText>
+            <Callout
+              accessibilityLiveRegion="none"
+              text={ES.navigation.orientation.status[orientation.status]}
+              tone={orientationTone(orientation.status)}
+            />
+            <PrimaryButton
+              accessibilityHint={
+                orientation.status === 'idle'
+                  ? ES.navigation.orientation.checkHint
+                  : ES.navigation.orientation.recheckHint
+              }
+              disabled={orientation.status === 'checking'}
+              icon="crosshair"
+              label={
+                orientation.status === 'checking'
+                  ? ES.navigation.orientation.checkingButton
+                  : orientation.status === 'idle'
+                    ? ES.navigation.orientation.checkButton
+                    : ES.navigation.orientation.recheckButton
+              }
+              onPress={() => void orientation.check()}
+              variant="secondary"
+            />
+          </Card>
+        ) : null}
+
+        <View style={styles.navigationActions}>
+          <View style={styles.navigationAction}>
+            <PrimaryButton
+              accessibilityHint={ES.navigation.previousHint}
+              disabled={!controller.canGoPrevious}
+              icon="arrowLeft"
+              label={ES.navigation.previousButton}
+              onPress={controller.goPrevious}
+              variant="secondary"
+            />
+          </View>
+          <View style={styles.navigationAction}>
+            <PrimaryButton
+              accessibilityHint={ES.navigation.endHint}
+              icon="x"
+              label={ES.navigation.endButton}
+              onPress={onFinish}
+              variant="danger"
+            />
+          </View>
+        </View>
 
         {rerouting.state.status === 'loading' && (
           <View
@@ -487,6 +608,13 @@ const styles = StyleSheet.create({
   },
   instructionTop: {
     alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
+  },
+  navigationAction: {
+    flex: 1,
+  },
+  navigationActions: {
     flexDirection: 'row',
     gap: spacing.md,
   },

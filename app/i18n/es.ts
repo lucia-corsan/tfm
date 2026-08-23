@@ -1,6 +1,7 @@
 export const ES = {
   appName: 'Rumbo',
   onboarding: {
+    appBarTitle: 'Configura tu perfil',
     intro: {
       title: 'Vamos a configurar cómo quieres que comparemos las rutas.',
       storageNotice:
@@ -121,7 +122,6 @@ export const ES = {
       'Las preferencias que confirmes y los lugares que guardes permanecerán solo en este dispositivo.',
     currentValue: (value: string) => `Configuración actual: ${value}`,
     editor: {
-      title: 'Editar ajuste',
       backButton: 'Volver a Ajustes',
       backHint: 'Vuelve a Ajustes sin guardar este cambio.',
       saveButton: 'Guardar cambios',
@@ -203,6 +203,7 @@ export const ES = {
     },
   },
   savedPlaces: {
+    appBarTitle: 'Lugares guardados',
     onboardingTitle: '¿Quieres guardar un lugar habitual?',
     onboardingDescription:
       'Puedes guardar, por ejemplo, «Casa», «Trabajo» o «Gimnasio» junto con su dirección. Después podrás usarlo directamente como origen o destino. El lugar se conservará solo en este dispositivo.',
@@ -228,10 +229,12 @@ export const ES = {
   },
   placeQuery: {
     destination: {
+      appBarTitle: 'Elige el destino',
       title: '¿A dónde quieres ir?',
       microphoneLabel: 'Micrófono para dictar el destino',
     },
     origin: {
+      appBarTitle: 'Elige el origen',
       title: '¿Desde dónde sales?',
       microphoneLabel: 'Micrófono para dictar el origen',
     },
@@ -309,8 +312,7 @@ export const ES = {
       'No se ha podido acceder al aprendizaje local. La navegación sigue disponible y se mantienen las preferencias declaradas.',
   },
   routeComparison: {
-    appBarTitle: 'Rumbo',
-    appBarSubtitle: 'Área piloto de Madrid',
+    setupAppBarTitle: 'Prepara tu ruta',
     stepIndicator: (current: number, total: number) =>
       `Paso ${current} de ${total}`,
     steps: {
@@ -495,6 +497,7 @@ export const ES = {
     },
   },
   navigation: {
+    appBarTitle: 'Navegación',
     title: 'Sigue las instrucciones de la ruta',
     routeLabel: (routeName: string) => `Ruta elegida: ${routeName}.`,
     manualMode:
@@ -526,6 +529,40 @@ export const ES = {
         'Se están calculando nuevas alternativas. La ruta anterior continúa disponible.',
       reroute_cooldown:
         'La ruta se ha actualizado. Durante un minuto no se mostrarán nuevas alertas de desviación.',
+    },
+    orientation: {
+      title: 'Orientación hacia el siguiente tramo',
+      description:
+        'Sujeta el teléfono apuntando hacia delante y mantenlo quieto durante la comprobación. Es una ayuda aproximada y no sustituye la orientación personal ni la comprobación del entorno.',
+      checkButton: 'Comprobar orientación',
+      checkHint:
+        'Compara la dirección del teléfono con el siguiente tramo de la ruta.',
+      recheckButton: 'Comprobar de nuevo',
+      recheckHint:
+        'Repite la comparación entre la dirección del teléfono y el siguiente tramo.',
+      checkingButton: 'Comprobando orientación…',
+      status: {
+        idle:
+          'Todavía no se ha comprobado la orientación para esta instrucción.',
+        checking:
+          'Comprobando varias lecturas de la brújula. Mantén el teléfono quieto y apuntando hacia delante.',
+        aligned:
+          'El teléfono apunta aproximadamente hacia el siguiente tramo de la ruta.',
+        adjust_left:
+          'Gira el teléfono un poco hacia la izquierda para orientarlo hacia el siguiente tramo.',
+        adjust_right:
+          'Gira el teléfono un poco hacia la derecha para orientarlo hacia el siguiente tramo.',
+        clearly_off_left:
+          'La orientación del teléfono no coincide con el siguiente tramo. Gíralo hacia la izquierda y vuelve a comprobar.',
+        clearly_off_right:
+          'La orientación del teléfono no coincide con el siguiente tramo. Gíralo hacia la derecha y vuelve a comprobar.',
+        low_accuracy:
+          'La brújula no ha dado lecturas suficientemente precisas y estables. Aléjate de objetos metálicos, mantén el teléfono quieto y vuelve a comprobar.',
+        unavailable:
+          'No se ha podido consultar la brújula. Puedes continuar con las instrucciones y volver a intentarlo.',
+        no_route_direction:
+          'Los datos de esta instrucción no permiten calcular una dirección fiable hacia el siguiente tramo.',
+      },
     },
     rerouteDialogTitle: 'Posible desviación de la ruta',
     rerouteDialogDescription:
@@ -623,8 +660,10 @@ export const ES = {
       unfavorable: 'Aviso declarado',
       unknown: 'Información no confirmada',
     },
-    previousButton: 'Instrucción anterior',
+    previousButton: 'Anterior',
     previousHint: 'Vuelve a la instrucción anterior de esta ruta.',
+    endButton: 'Terminar',
+    endHint: 'Termina la navegación actual y vuelve a la comparación de rutas.',
     nextButton: 'Siguiente instrucción',
     nextHint: 'Avanza a la siguiente instrucción de esta ruta.',
     finishButton: 'Terminar navegación',

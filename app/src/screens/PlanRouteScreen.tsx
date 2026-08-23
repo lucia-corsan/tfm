@@ -133,12 +133,16 @@ export function PlanRouteScreen({
                 ? () => onGoToStep(steps[stepIndex - 1])
                 : onChangeOrigin
             }
-            title={ES.routeComparison.stepIndicator(
+            title={ES.routeComparison.setupAppBarTitle}
+          />
+          <StepProgress
+            current={stepIndex + 1}
+            label={ES.routeComparison.stepIndicator(
               stepIndex + 1,
               steps.length,
             )}
+            total={steps.length}
           />
-          <StepProgress current={stepIndex + 1} total={steps.length} />
         </>
       }
     >

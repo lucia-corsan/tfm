@@ -117,6 +117,7 @@ describe('configuración inicial', () => {
       screen.getByRole('button', { name: ES.onboarding.intro.continueButton }),
     );
 
+    screen.getByRole('header', { name: ES.onboarding.appBarTitle });
     screen.getByText(ES.onboarding.progress(1, 14));
     screen.getByRole('header', { name: ES.onboarding.steps.title });
     screen.getByRole('radio', {

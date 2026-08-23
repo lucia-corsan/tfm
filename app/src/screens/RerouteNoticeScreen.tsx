@@ -59,7 +59,7 @@ export function RerouteNoticeScreen({
               onAction: onOpenSettings,
             }
           : {})}
-        title={ES.appName}
+        title={ES.navigation.appBarTitle}
       />
       <View style={styles.content}>
         <View

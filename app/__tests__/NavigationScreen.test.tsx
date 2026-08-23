@@ -209,6 +209,7 @@ describe('<NavigationScreen />', () => {
     );
     const user = userEvent.setup();
 
+    screen.getByRole('header', { name: ES.navigation.appBarTitle });
     screen.getByRole('header', { name: ES.navigation.title });
     screen.getByRole('text', { name: route.instructions[0].text });
     screen.getByRole('button', {
@@ -218,6 +219,10 @@ describe('<NavigationScreen />', () => {
     screen.getByRole('button', {
       disabled: false,
       name: ES.navigation.nextButton,
+    });
+    screen.getByRole('header', { name: ES.navigation.orientation.title });
+    screen.getByRole('button', {
+      name: ES.navigation.orientation.checkButton,
     });
 
     await openStepDetails(screen, user);
@@ -343,6 +348,33 @@ describe('<NavigationScreen />', () => {
     screen.getByRole('button', { name: ES.navigation.finishButton });
   });
 
+  test('collapses instruction details when the current instruction changes', async () => {
+    const screen = await render(
+      <NavigationScreen onFinish={jest.fn()} session={session} />,
+    );
+    const user = userEvent.setup();
+
+    await openStepDetails(screen, user);
+    screen.getByRole('header', {
+      name: ES.navigation.instructionAccessibilityTitle,
+    });
+
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.nextButton }),
+    );
+
+    expect(
+      screen.queryByRole('header', {
+        name: ES.navigation.instructionAccessibilityTitle,
+      }),
+    ).toBeNull();
+    expect(
+      screen.getByRole('button', {
+        name: ES.routeComparison.detailsButton,
+      }).props.accessibilityState,
+    ).toEqual({ disabled: false, expanded: false });
+  });
+
   test('finishes navigation only after an explicit action', async () => {
     const onFinish = jest.fn();
     const screen = await render(
@@ -359,6 +391,20 @@ describe('<NavigationScreen />', () => {
     await user.press(
       screen.getByRole('button', { name: ES.navigation.finishButton }),
     );
+    expect(onFinish).toHaveBeenCalledTimes(1);
+  });
+
+  test('allows finishing navigation from any instruction', async () => {
+    const onFinish = jest.fn();
+    const screen = await render(
+      <NavigationScreen onFinish={onFinish} session={session} />,
+    );
+    const user = userEvent.setup();
+
+    await user.press(
+      screen.getByRole('button', { name: ES.navigation.endButton }),
+    );
+
     expect(onFinish).toHaveBeenCalledTimes(1);
   });
 

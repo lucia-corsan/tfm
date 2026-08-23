@@ -284,7 +284,12 @@ describe('<RouteComparisonScreen />', () => {
     const user = userEvent.setup();
 
     await chooseJourney(screen, user);
-    screen.getByText(ES.routeComparison.stepIndicator(1, 1));
+    screen.getByRole('header', {
+      name: ES.routeComparison.setupAppBarTitle,
+    });
+    expect(
+      screen.queryByText(ES.routeComparison.stepIndicator(1, 1)),
+    ).toBeNull();
     expect(
       screen.queryByRole('radio', {
         name: ES.routeComparison.profiles.balanced_demo.label,
@@ -361,6 +366,9 @@ describe('<RouteComparisonScreen />', () => {
 
     await chooseJourney(screen, user);
     screen.getByRole('header', { name: ES.routeComparison.steps.confirm.title });
+    screen.getByRole('header', {
+      name: ES.routeComparison.setupAppBarTitle,
+    });
     screen.getByText(ES.routeComparison.stepIndicator(1, 3));
 
     await user.press(

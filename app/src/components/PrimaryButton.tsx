@@ -11,7 +11,7 @@ import {
   usePresentation,
 } from '@/theme';
 
-export type ButtonVariant = 'link' | 'primary' | 'quiet' | 'secondary';
+export type ButtonVariant = 'danger' | 'link' | 'primary' | 'quiet' | 'secondary';
 
 interface PrimaryButtonProps {
   accessibilityHint: string;
@@ -40,12 +40,14 @@ export function PrimaryButton({
   const { focused, focusProps } = useFocusRing();
   const presentation = usePresentation();
   const labelColors: Record<ButtonVariant, string> = {
+    danger: presentation.colors.dangerOnSoft,
     link: presentation.colors.brandInk,
     primary: presentation.colors.inkInverse,
     quiet: presentation.colors.brandOnSoft,
     secondary: presentation.colors.brandOnSoft,
   };
   const disabledLabelColors: Record<ButtonVariant, string> = {
+    danger: presentation.colors.inkMuted,
     link: presentation.colors.inkMuted,
     primary: presentation.colors.inkInverse,
     quiet: presentation.colors.inkMuted,
@@ -112,6 +114,11 @@ const styles = StyleSheet.create({
 });
 
 const variantStyles = (palette: PresentationColors) => StyleSheet.create({
+  danger: {
+    backgroundColor: palette.surface,
+    borderColor: palette.dangerBorder,
+    borderWidth: 2,
+  },
   link: {
     alignSelf: 'auto',
     backgroundColor: 'transparent',
@@ -132,6 +139,9 @@ const variantStyles = (palette: PresentationColors) => StyleSheet.create({
 });
 
 const pressedStyles = (palette: PresentationColors) => StyleSheet.create({
+  danger: {
+    backgroundColor: palette.dangerSoft,
+  },
   link: {
     backgroundColor: palette.brandSoft,
   },
@@ -147,6 +157,9 @@ const pressedStyles = (palette: PresentationColors) => StyleSheet.create({
 });
 
 const disabledStyles = (palette: PresentationColors) => StyleSheet.create({
+  danger: {
+    borderColor: palette.border,
+  },
   link: {
     opacity: 0.7,
   },

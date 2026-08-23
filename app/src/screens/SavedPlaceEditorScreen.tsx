@@ -61,7 +61,7 @@ export function SavedPlaceEditorScreen({
                 onBack,
               }
             : {})}
-          title={ES.appName}
+          title={ES.savedPlaces.appBarTitle}
         />
       }
     >

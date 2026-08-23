@@ -53,7 +53,7 @@ export function SavedPlacesOnboardingScreen({
                 onAction: onOpenSettings,
               }
             : {})}
-          title={ES.appName}
+          title={ES.savedPlaces.appBarTitle}
         />
       }
     >
