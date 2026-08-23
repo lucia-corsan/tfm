@@ -1,5 +1,21 @@
 # Journal de desarrollo
 
+## 23 de agosto de 2026 — Orientación bajo demanda mediante brújula
+
+Se añadió una comprobación voluntaria que compara el eje del teléfono con el
+siguiente tramo de la geometría. La decisión exige tres lecturas de precisión
+media o alta, limita su dispersión y evita depender de vértices casi
+coincidentes. El resultado se conserva en pantalla, activa un pulso corto y se
+anuncia mediante TalkBack o TTS sin dos voces simultáneas. El control para
+repetir la comprobación precede a «Anterior» y «Terminar».
+
+Las pruebas automáticas cubren geometría, aritmética circular, estabilidad,
+errores, ciclo de vida y canales accesibles. La validación física y con personas
+continúa pendiente; por tanto, el texto solo describe la orientación aproximada
+del teléfono y no afirma que sea seguro avanzar. Decisión completa en
+[Orientación mediante brújula](product/orientacion-brujula.md) y protocolo en
+[Validación de la orientación](evaluation/validacion-orientacion-brujula.md).
+
 ## 18 de agosto de 2026 — Semana 4, día 5: estabilización y demostración
 
 Se auditó el MVP contra los criterios fijados al inicio y se separó evidencia

@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 21 de agosto de 2026.
+Última actualización: 23 de agosto de 2026.
 
 ## Propósito
 
@@ -29,6 +29,7 @@ esperadas por `AGENTS.md`.
 - [Especificación de la API](product/especificacion-api.md).
 - [Búsqueda y selección de lugares](product/busqueda-lugares.md).
 - [GPS y rerouting](product/gps-rerouting.md).
+- [Comprobación de orientación mediante la brújula](product/orientacion-brujula.md).
 - [Narración, TalkBack y TTS](product/narracion-talkback-tts.md).
 - [Sistema de diseño de la aplicación móvil](product/sistema-diseno-app.md).
 - [Perfil inicial y preferencias de comparación](product/perfil-inicial-preferencias.md).
@@ -53,6 +54,7 @@ esperadas por `AGENTS.md`.
 - [Calibración de la deduplicación espacial](evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor entre rutas y OSM](evaluation/calibracion-corredor-osm.md).
 - [Calibración del detector de desviación](evaluation/calibracion-detector-desviacion.md).
+- [Validación de la orientación mediante la brújula](evaluation/validacion-orientacion-brujula.md).
 - [Calibración y evaluación del aprendizaje adaptativo](evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje con rutas ORS enriquecidas con OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
 - [Diagnóstico de capacidad informativa de las elecciones](evaluation/diagnostico-capacidad-informativa.md).

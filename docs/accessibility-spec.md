@@ -111,6 +111,17 @@ disponibles los controles manuales. El avance automático no puede saltar más d
 una instrucción por muestra y nunca elimina la posibilidad de avanzar o
 retroceder mediante botones accesibles.
 
+La comprobación de orientación mediante brújula es voluntaria y se sitúa antes
+de los controles «Anterior» y «Terminar». Solo responde después de varias
+lecturas precisas y estables. El resultado permanece visible, produce un único
+pulso de finalización y se anuncia mediante TalkBack o TTS sin superponer ambas
+voces. Su lenguaje describe la dirección aproximada del teléfono respecto del
+siguiente tramo; nunca garantiza la orientación corporal, la ausencia de
+obstáculos ni la seguridad para avanzar. La persona puede repetirla cuando lo
+necesite y el estado se reinicia al cambiar de instrucción. La especificación
+completa y sus límites se encuentran en
+[Comprobación de orientación mediante la brújula](product/orientacion-brujula.md).
+
 La confirmación de una desviación se presenta como una pantalla completa que
 sitúa el foco inicial en su título.
 La explicación aclara que la ubicación solo se enviará si se confirma. Las
