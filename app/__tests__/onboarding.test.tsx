@@ -21,6 +21,18 @@ import {
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { ES } from '../i18n/es';
 
+interface QuestionnaireEvaluationCase {
+  answers: Parameters<typeof buildProfileFromAnswers>[0];
+  expected_profile: ReturnType<typeof buildProfileFromAnswers>;
+}
+
+interface QuestionnaireEvaluationFixture {
+  profiles: QuestionnaireEvaluationCase[];
+  schema_version: string;
+}
+
+const questionnaireEvaluation = require('../../shared/onboarding-questionnaire-evaluation.json') as QuestionnaireEvaluationFixture;
+
 let mockScreenReaderStatus = 'disabled';
 
 jest.mock('@/features/speech/useScreenReaderStatus', () => ({
@@ -200,6 +212,19 @@ describe('configuración inicial', () => {
     expect(profile.declared_weights.crossing_support).toBe(1);
     expect(profile.declared_weights.surface).toBe(2);
     expect(profile.declared_weights.complex_crossings).toBe(3);
+  });
+
+  test('coincide con los perfiles compartidos del nuevo experimento', () => {
+    expect(questionnaireEvaluation.schema_version).toBe(
+      'onboarding-questionnaire-evaluation-v1',
+    );
+    expect(questionnaireEvaluation.profiles).toHaveLength(4);
+
+    questionnaireEvaluation.profiles.forEach((profileCase) => {
+      expect(buildProfileFromAnswers(profileCase.answers)).toEqual(
+        profileCase.expected_profile,
+      );
+    });
   });
 
   test('recupera un perfil equilibrado si todas las prioridades quedan a cero', () => {

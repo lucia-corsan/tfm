@@ -1,0 +1,218 @@
+{
+  "schema_version": "onboarding-questionnaire-evaluation-v1",
+  "description": "Casos matemáticos completos para evaluar la traducción real del cuestionario y el aprendizaje; no representan perfiles clínicos.",
+  "profiles": [
+    {
+      "profile_id": "questionnaire_distance",
+      "name": "Prioridad declarada a distancia y certeza",
+      "answers": {
+        "adaptiveLearning": true,
+        "detour": "ten",
+        "presentation": "system",
+        "profileMode": "personalized",
+        "priorities": {
+          "complex_crossings": "low",
+          "crossing_support": "low",
+          "distance": "high",
+          "orientation_complexity": "low",
+          "sidewalk_evidence": "low",
+          "slope": "low",
+          "surface": "none",
+          "uncertainty": "medium"
+        },
+        "speech": "onDemand",
+        "speechRate": "normal",
+        "steps": "inform"
+      },
+      "expected_profile": {
+        "avoid_incompatible_crossings": true,
+        "avoid_steps": false,
+        "declared_weights": {
+          "complex_crossings": 1,
+          "crossing_support": 1,
+          "distance": 3,
+          "orientation_complexity": 1,
+          "sidewalk_evidence": 1,
+          "slope": 1,
+          "steps": 0,
+          "surface": 0,
+          "uncertainty": 2
+        },
+        "maximum_detour_ratio": 1.1,
+        "maximum_slope_percent": null,
+        "profile_id": "onboarding_profile",
+        "require_pedestrian_access": true
+      },
+      "latent_refinement_weights": {
+        "complex_crossings": 0.8,
+        "crossing_support": 1.1,
+        "distance": 3.7,
+        "orientation_complexity": 0.9,
+        "sidewalk_evidence": 0.9,
+        "slope": 0.7,
+        "steps": 0,
+        "surface": 0,
+        "uncertainty": 2.3
+      }
+    },
+    {
+      "profile_id": "questionnaire_crossings",
+      "name": "Prioridad declarada a cruces y ayudas",
+      "answers": {
+        "adaptiveLearning": true,
+        "detour": "fifty",
+        "presentation": "highContrast",
+        "profileMode": "personalized",
+        "priorities": {
+          "complex_crossings": "high",
+          "crossing_support": "high",
+          "distance": "low",
+          "orientation_complexity": "medium",
+          "sidewalk_evidence": "medium",
+          "slope": "low",
+          "surface": "low",
+          "uncertainty": "medium"
+        },
+        "speech": "automatic",
+        "speechRate": "slow",
+        "steps": "avoid"
+      },
+      "expected_profile": {
+        "avoid_incompatible_crossings": true,
+        "avoid_steps": false,
+        "declared_weights": {
+          "complex_crossings": 3,
+          "crossing_support": 3,
+          "distance": 1,
+          "orientation_complexity": 2,
+          "sidewalk_evidence": 2,
+          "slope": 1,
+          "steps": 3,
+          "surface": 1,
+          "uncertainty": 2
+        },
+        "maximum_detour_ratio": 1.5,
+        "maximum_slope_percent": null,
+        "profile_id": "onboarding_profile",
+        "require_pedestrian_access": true
+      },
+      "latent_refinement_weights": {
+        "complex_crossings": 3.4,
+        "crossing_support": 3.7,
+        "distance": 0.8,
+        "orientation_complexity": 2.1,
+        "sidewalk_evidence": 1.8,
+        "slope": 0.9,
+        "steps": 3.1,
+        "surface": 0.8,
+        "uncertainty": 2.4
+      }
+    },
+    {
+      "profile_id": "questionnaire_orientation",
+      "name": "Prioridad declarada a orientación y certeza",
+      "answers": {
+        "adaptiveLearning": true,
+        "detour": "twentyFive",
+        "presentation": "largeText",
+        "profileMode": "personalized",
+        "priorities": {
+          "complex_crossings": "medium",
+          "crossing_support": "medium",
+          "distance": "low",
+          "orientation_complexity": "high",
+          "sidewalk_evidence": "low",
+          "slope": "medium",
+          "surface": "low",
+          "uncertainty": "high"
+        },
+        "speech": "never",
+        "speechRate": "fast",
+        "steps": "inform"
+      },
+      "expected_profile": {
+        "avoid_incompatible_crossings": true,
+        "avoid_steps": false,
+        "declared_weights": {
+          "complex_crossings": 2,
+          "crossing_support": 2,
+          "distance": 1,
+          "orientation_complexity": 3,
+          "sidewalk_evidence": 1,
+          "slope": 2,
+          "steps": 0,
+          "surface": 1,
+          "uncertainty": 3
+        },
+        "maximum_detour_ratio": 1.25,
+        "maximum_slope_percent": null,
+        "profile_id": "onboarding_profile",
+        "require_pedestrian_access": true
+      },
+      "latent_refinement_weights": {
+        "complex_crossings": 1.7,
+        "crossing_support": 2.1,
+        "distance": 0.8,
+        "orientation_complexity": 3.5,
+        "sidewalk_evidence": 0.8,
+        "slope": 1.8,
+        "steps": 0,
+        "surface": 0.7,
+        "uncertainty": 3.2
+      }
+    },
+    {
+      "profile_id": "questionnaire_continuity",
+      "name": "Prioridad declarada a continuidad peatonal",
+      "answers": {
+        "adaptiveLearning": true,
+        "detour": "double",
+        "presentation": "both",
+        "profileMode": "personalized",
+        "priorities": {
+          "complex_crossings": "low",
+          "crossing_support": "medium",
+          "distance": "low",
+          "orientation_complexity": "low",
+          "sidewalk_evidence": "high",
+          "slope": "medium",
+          "surface": "high",
+          "uncertainty": "medium"
+        },
+        "speech": "automatic",
+        "speechRate": "very_fast",
+        "steps": "exclude"
+      },
+      "expected_profile": {
+        "avoid_incompatible_crossings": true,
+        "avoid_steps": true,
+        "declared_weights": {
+          "complex_crossings": 1,
+          "crossing_support": 2,
+          "distance": 1,
+          "orientation_complexity": 1,
+          "sidewalk_evidence": 3,
+          "slope": 2,
+          "steps": 3,
+          "surface": 3,
+          "uncertainty": 2
+        },
+        "maximum_detour_ratio": 2,
+        "maximum_slope_percent": null,
+        "profile_id": "onboarding_profile",
+        "require_pedestrian_access": true
+      },
+      "latent_refinement_weights": {
+        "complex_crossings": 0.8,
+        "crossing_support": 1.8,
+        "distance": 0.8,
+        "orientation_complexity": 0.7,
+        "sidewalk_evidence": 3.5,
+        "slope": 1.9,
+        "steps": 3.7,
+        "surface": 3.2,
+        "uncertainty": 2.1
+      }
+    }
+  ]
+}
