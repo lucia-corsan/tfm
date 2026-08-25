@@ -1,7 +1,7 @@
 # 7. Conclusiones y trabajo futuro
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Respuesta a los objetivos
 
@@ -36,6 +36,23 @@ un 75 % o un 100 % de la preferencia latente. La aportación no es un sustituto
 universal del cuestionario, sino un mecanismo opcional de corrección gradual
 que requiere control de la persona y una activación conservadora.
 
+La evaluación posterior con las catorce preguntas vigentes refuerza ese matiz.
+Se conservaron los experimentos anteriores y se añadieron cuatro formularios
+completos, dos condiciones de preferencia y dos bancos de rutas. Después de
+sesenta elecciones, la adaptación quedó entre 5,67 y 20,83 puntos por debajo
+del perfil fijo. En la única condición con una preferencia fina oculta apareció
+una mejora transitoria de 0,27 puntos tras cinco elecciones, pero no se mantuvo.
+El perfil fijo alcanzó entre 94,07 % y 100 %, de modo que el formulario actual
+actúa como una inicialización fuerte dentro de la simulación y deja poco margen
+para corregir sin introducir error.
+
+Esto no elimina la contribución de IA ni contradice el resultado positivo con
+perfiles imprecisos. Delimita su uso responsable: la clasificación adaptativa
+es un mecanismo experimental capaz de aprender, pero no debe ganar influencia
+solo porque existan más interacciones. El perfil declarado se conserva como
+ancla y cualquier adaptación futura debe demostrar, sobre elecciones
+posteriores no usadas para entrenar, que mejora realmente el orden fijo.
+
 ## Contribuciones
 
 - Modelo de accesibilidad con incertidumbre explícita.
@@ -62,6 +79,13 @@ pruebas automáticas y una comprobación funcional en Android Emulator, pero la
 evaluación longitudinal con elecciones reales y el estudio con participantes
 permanecen pendientes.
 
+`EXP-009` utiliza la transformación real del cuestionario, pero las respuestas
+y elecciones siguen siendo simuladas. Sus cuatro configuraciones no prueban la
+comprensión de las preguntas ni representan la diversidad de la población. El
+10 % de inconsistencia es un supuesto de robustez, y las semillas del banco
+ORS+OSM reutilizan las mismas calles. Por ello, el resultado justifica una
+política conservadora, no una estimación de eficacia poblacional.
+
 El diagnóstico posterior también tiene validez limitada: se evaluó con el
 banco sintético diseñado para ser informativo y con un único banco real
 reducido. Un umbral conservador puede bloquear preferencias especializadas en
@@ -77,6 +101,8 @@ pocas dimensiones, por lo que no se ha integrado como decisión automática.
 - Análisis de preferencias que cambian según el contexto.
 - Replicación del diagnóstico de capacidad informativa y validación temporal
   de pesos fijos frente a adaptativos antes de automatizar su influencia.
+- Evaluación longitudinal del cuestionario completo con elecciones consentidas
+  y separación entre una ventana de aprendizaje y otra de validación.
 
 ## Fuente interna
 
@@ -84,4 +110,5 @@ pocas dimensiones, por lo que no se ha integrado como decisión automática.
 - [Resultados](../evaluation/resultados.md).
 - [Interpretación de la transferencia del aprendizaje](../evaluation/evaluacion-aprendizaje-rutas-reales.md#interpretación-detallada-para-la-memoria-y-la-defensa).
 - [Diagnóstico de capacidad informativa](../evaluation/diagnostico-capacidad-informativa.md).
+- [Evaluación con el cuestionario completo](../evaluation/evaluacion-aprendizaje-cuestionario-real.md).
 - [Journal](../journal.md).

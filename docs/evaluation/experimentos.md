@@ -1,7 +1,7 @@
 # Registro de experimentos
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Convención
@@ -25,6 +25,36 @@ cambia, se crea una nueva versión y se enlaza la anterior.
 | EXP-006 | 11 de agosto de 2026 | ¿Qué ancho asocia evidencia OSM sin incorporar demasiada infraestructura próxima? | Tres rutas reales y una instantánea OSM fija | Corredor general de 10 m | Validación técnica superada | `docs/evaluation/calibracion-corredor-osm.md` |
 | EXP-007 | 18 de agosto de 2026 | ¿La mejora adaptativa se transfiere a costes de rutas ORS enriquecidas con OSM? | 12 pares fijados; 4 de aprendizaje y 3 de evaluación resultaron aptos | Ruta más corta y pesos fijos | Validación real-sintética completada, transferencia no observada | `docs/evaluation/evaluacion-aprendizaje-rutas-reales.md` |
 | EXP-008 | 18 de agosto de 2026 | ¿Un diagnóstico estructural distingue elecciones informativas de comparaciones repetidas y poco variadas? | Bancos de `EXP-002` y `EXP-007`, 4 perfiles y 20 semillas | Ocho elecciones sin comprobar su diversidad | Validación técnica superada; integración automática aplazada | `docs/evaluation/diagnostico-capacidad-informativa.md` |
+| EXP-009 | 25 de agosto de 2026 | ¿El aprendizaje mejora perfiles producidos por el cuestionario completo? | 4 formularios de 14 respuestas, 2 condiciones, 2 bancos y 20 semillas | Ruta más corta y perfil declarado fijo | Validación simulada completada; mejora adaptativa no observada | `docs/evaluation/evaluacion-aprendizaje-cuestionario-real.md` |
+
+### EXP-009 — Aprendizaje desde el cuestionario completo
+
+- Fecha: 25 de agosto de 2026.
+- Pregunta: ¿la configuración adaptativa congelada mejora un perfil generado
+  por las catorce preguntas vigentes, tanto cuando la declaración es coherente
+  como cuando oculta diferencias finas entre prioridades ordinales?
+- Datos: cuatro formularios matemáticos completos, veinte semillas, 10 % de
+  elecciones inconsistentes y 60 elecciones. Se evaluaron un banco sintético
+  informativo y el banco ORS+OSM limitado de `EXP-007`.
+- Control de implementación: un archivo compartido comprueba que TypeScript y
+  Python producen exactamente las mismas restricciones y pesos. Voz,
+  presentación y consentimiento se incluyen, pero no modifican rutas.
+- Resultado: después de 60 elecciones, el adaptativo quedó 13,18 puntos por
+  debajo del fijo en la condición sintética coherente y 5,67 puntos por debajo
+  cuando existía preferencia fina no expresada. En el banco ORS+OSM, las
+  diferencias fueron −20,83 y −14,90 puntos, respectivamente.
+- Evolución: en la condición sintética de refinamiento apareció una mejora
+  transitoria de 0,27 puntos tras cinco elecciones; desapareció a partir de la
+  décima. No se observó una mejora estable en ninguna condición final.
+- Decisión: mantener el cuestionario como ancla, el aprendizaje desactivado al
+  inicio, voluntario y reversible. No aumentar su influencia sin capacidad
+  informativa y una comprobación posterior de que supera al sistema fijo.
+- Interpretación: completa `EXP-002` y `EXP-007`; no los sustituye. Demuestra
+  que la utilidad depende de la precisión inicial y de los ejemplos observados,
+  no que el algoritmo carezca siempre de valor.
+- Evidencia: [protocolo y resultados completos](evaluacion-aprendizaje-cuestionario-real.md),
+  cinco CSV sanitizados, una figura, once pruebas Python y una prueba de paridad
+  TypeScript con cuatro casos.
 
 ### EXP-008 — Capacidad informativa de las elecciones
 

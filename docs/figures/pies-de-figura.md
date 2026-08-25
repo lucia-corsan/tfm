@@ -1,7 +1,7 @@
 # Pies de figura y tabla
 
 Estado: `En implementación`  
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Convención
 
@@ -64,6 +64,19 @@ Las semillas del segundo comparten las mismas cuatro situaciones de aprendizaje
 aptas y solo cambian orden y ruido. La figura valida la separación de estos dos
 bancos, no la exactitud general del diagnóstico ni la calidad de una ruta.
 Fuente: `EXP-002`, OpenRouteService y OpenStreetMap; elaboración propia.
+
+## FIG-12 — Aprendizaje con perfiles del cuestionario completo
+
+Exactitud media de la primera ruta después de sesenta elecciones simuladas. Se
+comparan los pesos declarados fijos y la clasificación adaptativa para cuatro
+configuraciones completas del cuestionario, veinte semillas y un 10 % de
+elecciones inconsistentes. El panel izquierdo usa situaciones sintéticas con
+compensaciones en las nueve dimensiones; el derecho conserva las rutas ORS
+enriquecidas con OSM de `EXP-007`. «Preferencia fina no expresada» mantiene las
+mismas categorías ordinales del formulario, pero introduce diferencias menores
+dentro de ellas. La figura muestra una simulación, no resultados con
+participantes ni una medida de seguridad o accesibilidad física. Fuente:
+OpenRouteService y OpenStreetMap en el panel derecho; elaboración propia.
 
 ## Plantilla
 

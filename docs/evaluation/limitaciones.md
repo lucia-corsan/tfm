@@ -1,7 +1,7 @@
 # Limitaciones y amenazas a la validez
 
 Estado: `En implementación`  
-Última actualización: 18 de agosto de 2026
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Datos
@@ -103,6 +103,24 @@ Responsabilidad principal: `evaluation`
 - El ruido puede aumentar el número de firmas distintas al invertir una misma
   comparación, aunque no añada un contexto nuevo. Por ello el contador no se
   usa de forma aislada.
+- `EXP-009` utiliza las catorce preguntas reales de la aplicación, pero sus
+  cuatro formularios son configuraciones matemáticas y no respuestas de
+  participantes. El experimento valida la traducción y el comportamiento del
+  algoritmo, no la validez psicométrica del cuestionario.
+- La condición de preferencia fina conserva la familia lineal del clasificador.
+  No representa preferencias dependientes de destino, hora, familiaridad,
+  fatiga u otros factores contextuales.
+- El 10 % de elecciones inconsistentes de `EXP-009` es un supuesto de prueba,
+  no una frecuencia medida en personas ciegas o con baja visión.
+- El sistema fijo alcanza entre 94,07 % y 100 % en las condiciones finales de
+  `EXP-009`. Ese efecto techo reduce el margen de mejora y hace especialmente
+  visible cualquier actualización perjudicial.
+- La mejora adaptativa de 0,27 puntos observada en la quinta elección del banco
+  sintético con refinamiento fue transitoria y desapareció a partir de la
+  décima. No puede presentarse como aprendizaje estable.
+- Los intervalos del banco ORS+OSM agrupan variación por semilla, pero las
+  semillas reutilizan las mismas calles. Un intervalo estrecho no aporta
+  validez poblacional ni independencia espacial.
 
 ## Tecnología
 
@@ -137,4 +155,7 @@ Responsabilidad principal: `evaluation`
 - Registro completo de experimentos y fallos.
 - Diagnóstico de capacidad informativa desacoplado de la activación automática
   hasta su replicación y validación temporal independiente.
+- Perfil declarado como referencia principal y aprendizaje voluntario,
+  reversible y sujeto en el futuro a una comprobación posterior frente al
+  sistema fijo antes de aumentar su influencia.
 - Lenguaje que evita afirmar accesibilidad absoluta.

@@ -1,7 +1,7 @@
 # Guion de la memoria y mapa de fuentes
 
 Estado: `En implementación`  
-Última actualización: 17 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Regla de trabajo
 
@@ -50,7 +50,8 @@ pero no se presentarán como aportaciones propias de IA.
 
 - Ampliación de los resultados cuantitativos a elecciones de participantes.
 - Evaluación con usuarios del aprendizaje adaptativo; `EXP-002`, la integración
-  móvil y `EXP-007` con costes ORS+OSM ya están completados.
+  móvil, `EXP-007` con costes ORS+OSM y `EXP-009` con el cuestionario completo
+  ya están completados como simulaciones.
 - Sensibilidad de pesos y umbrales.
 - Pruebas de usabilidad con TalkBack y personas de la población objetivo; la
   validación funcional en emulador ya está completada.

@@ -1,7 +1,7 @@
 # Plan de evaluación académica
 
 Estado: `Vigente`  
-Última actualización: 18 de agosto de 2026
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Preguntas de evaluación
@@ -126,3 +126,5 @@ disponibilidad después de restricciones y coste, sin afirmar exhaustividad.
   OSM y conservar el resultado negativo de transferencia.
 - [x] Ejecutar `EXP-008` para distinguir cantidad de elecciones de capacidad
   informativa y conservar su decisión de no integración automática.
+- [x] Ejecutar `EXP-009` con cuatro formularios completos, dos condiciones de
+  preferencia y dos bancos, manteniendo `EXP-007` como evidencia histórica.

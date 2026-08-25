@@ -1,7 +1,7 @@
 # 3. Metodología
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Diseño general
 
@@ -85,6 +85,23 @@ por el resultado positivo de `EXP-002`; el banco real limitado se etiqueta como
 insuficiente por el diagnóstico de transferencia de `EXP-007`. Esta etiqueta no
 se extrapola a otros historiales ni a personas.
 
+### Evaluación con el cuestionario vigente
+
+Después de conectar las catorce preguntas se añadió `EXP-009`, sin eliminar ni
+reescribir las evaluaciones anteriores. Cuatro formularios completos se
+versionaron en un archivo compartido y se comprobó que TypeScript y Python
+producen exactamente los mismos pesos y restricciones. Las respuestas de voz,
+presentación y consentimiento se incluyeron como control para verificar que no
+alteran el ranking.
+
+El diseño factorial combina dos niveles de calidad declarativa —coherencia
+exacta o preferencia fina no expresada por la escala ordinal— con dos bancos de
+rutas —sintético informativo u ORS+OSM limitado—. Se conservaron la
+configuración congelada, el ruido del 10 %, las veinte semillas y las sesenta
+elecciones. Esta estructura permite separar tres causas: un perfil inicial
+preciso, una señal latente corregible y unas rutas con poca capacidad para
+distinguir prioridades.
+
 ## Reproducibilidad
 
 Entornos fijados, cachés, *fixtures*, pruebas automatizadas y registro de
@@ -161,4 +178,5 @@ el doble conteo y se puede comprobar explícitamente la monotonía.
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [EXP-007 con rutas ORS y OSM](../evaluation/evaluacion-aprendizaje-rutas-reales.md).
+- [EXP-009 con el cuestionario completo](../evaluation/evaluacion-aprendizaje-cuestionario-real.md).
 - [Entorno](../operations/entorno-desarrollo.md).

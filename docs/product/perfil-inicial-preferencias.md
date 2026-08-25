@@ -569,7 +569,10 @@ usuarios reales.
   ellos.
 - La calidad de las respuestas puede variar. El aprendizaje es opcional porque
   los experimentos muestran que ayuda cuando el perfil inicial es impreciso,
-  pero puede perjudicar si ya representa muy bien a la persona.
+  pero puede perjudicar si ya representa muy bien a la persona. `EXP-009`
+  utilizó cuatro formularios completos y no observó una mejora adaptativa final
+  en ninguna de sus cuatro condiciones; por ello el cuestionario se conserva
+  como ancla y el aprendizaje sigue desactivado inicialmente.
 - Los modos visuales están implementados, pero necesitan validación manual con
   la escala máxima de Android y evaluación con participantes; no afectan a la
   seguridad ni al ranking.
@@ -606,8 +609,12 @@ usuarios reales.
   exista evidencia cartográfica suficientemente fiable para puntuarlas.
 - [ ] Incorporar una acción explícita para borrar todo el perfil local desde
   ajustes, además de poder editarlo o restablecer el equilibrado al omitirlo.
+- [ ] Validar temporalmente los pesos aprendidos frente al perfil fijo antes de
+  permitir que aumente su influencia en una evolución del producto.
 
 ## Referencias y evidencias
+
+- [Evaluación del aprendizaje con el cuestionario completo](../evaluation/evaluacion-aprendizaje-cuestionario-real.md).
 
 - Cohen, A. y Dalyot, S. (2021). «Route planning for blind pedestrians using
   OpenStreetMap». *Environment and Planning B: Urban Analytics and City

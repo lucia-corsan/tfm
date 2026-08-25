@@ -1,7 +1,7 @@
 # 6. Evaluación y resultados
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Estrategia general
 
@@ -190,7 +190,7 @@ las rutas descartadas. También se recreó el almacenamiento para confirmar la
 recuperación del estado y se inyectaron datos dañados para verificar la vuelta
 segura al perfil declarado.
 
-La batería completa alcanza 283 pruebas en el backend y 151 en la app, sin
+La batería completa alcanza 294 pruebas en el backend y 183 en la app, sin
 errores de Ruff, ESLint o TypeScript. Se comprobó además que los pesos efectivos
 llegan por separado a comparación y recálculo, y que una restricción crítica
 continúa descartando la ruta aunque esos pesos favorezcan sus demás
@@ -287,6 +287,88 @@ comprobar variedad y contraste mantiene bloqueado el banco limitado. La figura
 no representa exactitud de rutas, sino la proporción de historiales con
 estructura suficiente para plantear una adaptación.
 
+## Evaluación posterior con el cuestionario completo
+
+Los experimentos anteriores se conservaron porque describen preguntas y fases
+reales del desarrollo. Sin embargo, `EXP-007` se ejecutó antes de que las
+catorce preguntas de configuración estuvieran conectadas al ranking. Para no
+atribuir su resultado negativo a un perfil que todavía no existía, se añadió
+`EXP-009` como experimento independiente.
+
+Se construyeron cuatro formularios completos que activan prioridades a
+distancia y certeza, cruces y ayudas, orientación y certeza, o continuidad
+peatonal. No representan diagnósticos ni tipos de persona; son configuraciones
+matemáticas. Un archivo compartido permite comprobar que el código TypeScript
+de la aplicación y el evaluador Python producen exactamente los mismos pesos,
+la misma política de escalones y el mismo desvío máximo. Las preguntas de voz,
+presentación y consentimiento se incluyen para recorrer el formulario entero,
+pero se verificó que no alteran las rutas.
+
+El protocolo cruzó dos factores. El primero fue la calidad de la declaración:
+
+- **cuestionario coherente:** los pesos declarados son exactamente los que
+  producen las elecciones simuladas;
+- **preferencia fina no expresada:** se conservan las categorías ordinales,
+  pero existen pequeñas diferencias ocultas entre dimensiones que recibieron
+  la misma respuesta.
+
+El segundo fue el banco de rutas: situaciones sintéticas con compensaciones en
+las nueve dimensiones o los costes ORS+OSM limitados de `EXP-007`. Se
+mantuvieron sin recalibración los parámetros de `EXP-002`, veinte semillas,
+10 % de elecciones inconsistentes, sesenta elecciones y 160 situaciones
+reservadas por ejecución sintética.
+
+### Resultados finales
+
+| Banco | Condición | Ruta más corta | Perfil fijo | Adaptativo | Diferencia adaptativo − fijo |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Sintético informativo | Coherente | 45,41 % | **100,00 %** | 86,82 % | −13,18 puntos |
+| Sintético informativo | Refinamiento | 45,50 % | **94,07 %** | 88,40 % | −5,67 puntos |
+| ORS+OSM limitado | Coherente | 60,42 % | **100,00 %** | 79,17 % | −20,83 puntos |
+| ORS+OSM limitado | Refinamiento | 60,42 % | **100,00 %** | 85,10 % | −14,90 puntos |
+
+La tabla utiliza exactitud de la primera ruta después de sesenta elecciones.
+Los intervalos aproximados del 95 % para el sistema adaptativo fueron
+85,71–87,93 % y 87,52–89,28 % en el banco sintético, y 79,17–79,17 % y
+84,49–85,72 % en el real. El intervalo real sin amplitud refleja que las
+semillas comparten rutas y acabaron con el mismo resultado agregado; no implica
+certeza sobre otras calles o personas.
+
+La condición de refinamiento permitía, en principio, que las elecciones
+aportaran información que la escala de cuatro niveles no recoge. Se observó
+una mejora inicial mínima después de cinco elecciones —94,34 % frente a
+94,07 %—, pero desapareció en la décima y terminó en 88,40 %. El mayor salto de
+los pesos efectivos fue 0,0900. Por tanto, la caída no se debió a un cambio
+aislado y abrupto, sino a la acumulación de ajustes pequeños afectados por ruido
+y por una señal que no generalizó a las situaciones reservadas.
+
+### Relación entre los tres experimentos de aprendizaje
+
+Los resultados no son contradictorios porque parten de condiciones distintas:
+
+1. `EXP-002` demuestra capacidad algorítmica cuando el perfil solo contiene un
+   25 % de la preferencia latente: el adaptativo mejora 10,41 puntos.
+2. `EXP-007` demuestra que esa ventaja no se transfiere automáticamente a un
+   banco ORS+OSM pequeño y poco discriminante: pierde 25 puntos frente al fijo.
+3. `EXP-009` comprueba el formulario vigente: el perfil fijo ya acierta entre
+   94,07 % y 100 % en las cuatro condiciones finales y la adaptación actual no
+   consigue una mejora estable.
+
+En consecuencia, la aportación de IA no se formula como una superioridad
+universal. El sistema aprende comparaciones y puede corregir una declaración
+imprecisa, pero el cuestionario completo debe actuar como ancla. El aprendizaje
+permanece voluntario, local y reversible. Como trabajo futuro se propone una
+activación condicionada no solo a la cantidad y variedad de elecciones, sino a
+una validación temporal: antes de aumentar la influencia aprendida, el sistema
+deberá superar al perfil fijo sobre elecciones nuevas que no se hayan usado
+para actualizarlo.
+
+La figura 12 muestra los resultados finales de ambos bancos. Su separación
+visual evita confundir la capacidad matemática del simulador con la limitada
+transferencia del conjunto real. Todos los CSV por ejecución y el protocolo
+preespecificado se conservan para que el análisis pueda reproducirse sin
+eliminar los resultados negativos.
+
 ## Resultados de datos, rutas y GPS
 
 La calibración espacial de rutas seleccionó 2 m de tolerancia, 98 % de
@@ -318,6 +400,9 @@ La evaluación demuestra que:
   perjudicar una declaración ya exacta.
 - no transfiere automáticamente esa mejora a un banco pequeño de costes reales
   cuando las elecciones de aprendizaje no distinguen los perfiles.
+- con el cuestionario completo, no supera al perfil fijo en las cuatro
+  comparaciones finales y solo presenta una mejora temprana transitoria en una
+  condición de refinamiento.
 
 No demuestra que:
 
@@ -357,6 +442,7 @@ reales enriquecidas y, después, un protocolo con personas y consentimiento.
 - [Aprendizaje adaptativo](../research/aprendizaje-adaptativo.md).
 - [EXP-002](../evaluation/calibracion-aprendizaje-adaptativo.md).
 - [EXP-007 con rutas ORS y OSM](../evaluation/evaluacion-aprendizaje-rutas-reales.md).
+- [EXP-009 con el cuestionario completo](../evaluation/evaluacion-aprendizaje-cuestionario-real.md).
 - [Generación de candidatas](../research/generacion-rutas-candidatas.md).
 - [Calibración espacial](../evaluation/calibracion-deduplicacion-espacial.md).
 - [Calibración del corredor OSM](../evaluation/calibracion-corredor-osm.md).

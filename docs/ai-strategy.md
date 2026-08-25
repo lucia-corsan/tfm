@@ -1,7 +1,7 @@
 # Estrategia de inteligencia artificial
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Contribución principal
 
@@ -91,10 +91,21 @@ capacidad de reconocer esos dos casos contrastados, no una regla universal. El
 diagnóstico permanece desacoplado de la activación automática hasta evaluarlo
 con más zonas y con una ventana posterior independiente.
 
+`EXP-009` incorporó después cuatro configuraciones completas de las catorce
+preguntas vigentes. En dos bancos y dos condiciones, el perfil fijo alcanzó
+entre 94,07 % y 100 % de exactitud final, mientras el adaptativo quedó entre
+5,67 y 20,83 puntos por debajo. La única mejora fue transitoria: +0,27 puntos
+después de cinco elecciones en una condición de preferencia fina no expresada.
+Este resultado conserva la demostración de capacidad de `EXP-002`, pero sitúa
+el cuestionario completo como ancla y exige una validación temporal antes de
+aumentar la influencia aprendida.
+
 La metodología, las fórmulas, los resultados y las amenazas a la validez se
 encuentran en [Aprendizaje adaptativo](research/aprendizaje-adaptativo.md), en
 [EXP-002](evaluation/calibracion-aprendizaje-adaptativo.md), en la
 [integración móvil](research/integracion-aprendizaje-adaptativo-app.md) y en la
 [evaluación con costes ORS+OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
 La respuesta metodológica a la señal limitada se documenta en
-[EXP-008](evaluation/diagnostico-capacidad-informativa.md).
+[EXP-008](evaluation/diagnostico-capacidad-informativa.md), y la comprobación
+del formulario vigente, en
+[EXP-009](evaluation/evaluacion-aprendizaje-cuestionario-real.md).

@@ -1,7 +1,7 @@
 # Cierre y criterios de aceptación del MVP
 
 Estado: `Validado`  
-Última actualización: 18 de agosto de 2026  
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Problema que resuelve
@@ -84,7 +84,7 @@ posible.
 | Recálculo solo después de confirmar | Automático y manual | Aceptar y rechazar producen estados distintos y seguros. |
 | Adecuación, confianza, incertidumbre y razones | Automático y manual | Se muestran por alternativa y no se convierten en una garantía absoluta. |
 | Flujo principal compatible con TalkBack | Manual | Validado en Pixel 9 virtual; falta evaluación con personas ciegas o con baja visión. |
-| Valor añadido del ranking adaptativo | Parcial | Es positivo en el banco sintético y negativo en el banco real reducido. La aportación demostrada es el algoritmo acotado y el análisis de cuándo existe señal suficiente, no una mejora universal. |
+| Valor añadido del ranking adaptativo | Parcial | Es positivo con perfiles sintéticos imprecisos, negativo en el banco real reducido y no mejora al perfil completo en `EXP-009`. La aportación demostrada es el algoritmo acotado y el análisis de cuándo existe señal suficiente, no una mejora universal. |
 | Separación entre IA y tecnologías auxiliares | Documental | La memoria distingue aprendizaje y ranking de ORS, OSM, GPS, recálculo, TalkBack y TTS. |
 
 ## Verificación automática reproducible
@@ -150,4 +150,3 @@ validación con usuarios.
 - [Guía de demostración](../operations/guia-demostracion.md).
 - `scripts/verificar-mvp.sh`.
 - `.github/workflows/backend.yml` y `.github/workflows/mobile.yml`.
-

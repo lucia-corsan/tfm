@@ -1,7 +1,7 @@
 # Resultados de evaluación
 
 Estado: `Validado`
-Última actualización: 18 de agosto de 2026
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `evaluation`
 
 ## Resumen ejecutivo
@@ -19,6 +19,12 @@ resultado negativo de transferencia: 75 % adaptativo frente a 100 % fijo sobre
 tres pares reservados aptos. La integración móvil
 del aprendizaje está validada automática y funcionalmente en Android Emulator,
 incluida la persistencia después de cerrar y reabrir la app.
+`EXP-009` evaluó después las catorce preguntas vigentes y conservó íntegro el
+resultado anterior. Con un perfil inicial mucho más informativo, la adaptación
+no superó al sistema fijo en ninguna de las cuatro comparaciones finales. Este
+hallazgo restringe la contribución: el aprendizaje puede recuperar señal cuando
+la declaración es imprecisa, pero no debe modificar automáticamente un perfil
+completo sin demostrar primero una mejora posterior.
 
 ## Integración de rutas reales
 
@@ -130,7 +136,7 @@ dañado y excluye coordenadas y direcciones del registro. Los endpoints de
 comparación y recálculo conservan separados los pesos declarados y efectivos y
 siguen rechazando una alternativa crítica con cualquier mezcla aprendida.
 
-La suite completa alcanza 283 pruebas del backend y 153 de la aplicación, sin
+La suite completa alcanza 294 pruebas del backend y 183 de la aplicación, sin
 incidencias en Ruff, ESLint ni TypeScript. Esto valida la coherencia técnica de
 la integración, no su utilidad ni comprensibilidad para personas ciegas o con
 baja visión. Esa diferencia impide sumar las pruebas de software a la evidencia
@@ -199,6 +205,52 @@ predicciones fijas y adaptativas sobre elecciones no usadas para entrenar. La
 política de producto sigue siendo aprendizaje voluntario y desactivado al
 inicio. El protocolo, la figura y los artefactos están en
 [EXP-008](diagnostico-capacidad-informativa.md).
+
+### Evaluación con el cuestionario completo
+
+`EXP-009` se diseñó porque `EXP-007` era anterior al formulario definitivo. No
+se borró ni reescribió aquel resultado: se añadió un protocolo que usa cuatro
+configuraciones completas de las catorce preguntas y comprueba que Python y
+TypeScript generan el mismo perfil. Las diez respuestas relacionadas con rutas
+se traducen a restricciones y pesos; voz, velocidad, presentación y
+consentimiento se incluyen como control negativo y no cambian el ranking.
+
+Se separaron dos condiciones. En «cuestionario coherente», la preferencia
+simulada coincide exactamente con lo declarado. En «preferencia fina no
+expresada», conserva las mismas categorías 0–3, pero dos prioridades de la
+misma categoría pueden tener pesos ligeramente diferentes. Ambas condiciones
+se ejecutaron en situaciones sintéticas informativas y en el banco ORS+OSM
+limitado, con veinte semillas, 10 % de elecciones inconsistentes y sesenta
+actualizaciones.
+
+| Banco | Condición | Fijo | Adaptativo | Diferencia |
+| --- | --- | ---: | ---: | ---: |
+| Sintético informativo | Coherente | **100,00 %** | 86,82 % | −13,18 puntos |
+| Sintético informativo | Refinamiento | **94,07 %** | 88,40 % | −5,67 puntos |
+| ORS+OSM limitado | Coherente | **100,00 %** | 79,17 % | −20,83 puntos |
+| ORS+OSM limitado | Refinamiento | **100,00 %** | 85,10 % | −14,90 puntos |
+
+En la condición sintética de refinamiento hubo una mejora pequeña tras cinco
+elecciones —94,34 % frente a 94,07 %—, pero no persistió. Al llegar a diez
+elecciones ya era negativa. La degradación final apareció con saltos efectivos
+acotados, por lo que se atribuye al efecto acumulado de ruido y ajustes poco
+generalizables, no a un único cambio abrupto.
+
+El resultado matiza `EXP-002`: allí el cuestionario simulado solo contenía un
+25 % de la señal y existía amplio margen de corrección; aquí las respuestas
+vigentes producen una referencia inicial fuerte. Incluso la condición diseñada
+para ofrecer una preferencia latente corregible deja poco margen y no permite
+que la configuración congelada compense sus errores. En el banco real se añade
+el efecto techo y la escasa variedad ya diagnosticada.
+
+La decisión es conservar el perfil declarado como ancla y mantener el
+aprendizaje voluntario, reversible y desactivado inicialmente. Una evolución
+responsable debe exigir tanto variedad en las comparaciones como una validación
+temporal: los pesos aprendidos solo deberían aumentar su influencia después de
+superar al perfil fijo sobre elecciones posteriores que no se usaron para
+actualizarlos. La evaluación completa y los artefactos reproducibles se
+encuentran en
+[EXP-009](evaluacion-aprendizaje-cuestionario-real.md).
 
 ## Incertidumbre y explicaciones
 
@@ -305,7 +357,7 @@ instrucciones sean fáciles de seguir en la calle ni que el momento de cada avis
 sea adecuado. Esas cuestiones requieren recorridos controlados y evaluación con
 personas usuarias.
 
-La validación automática alcanza 283 pruebas de backend y 157 de la aplicación,
+La validación automática alcanza 294 pruebas de backend y 183 de la aplicación,
 distribuidas estas últimas en veinticinco grupos. Se ha ampliado con casos
 específicos de voz, velocidad y detección del lector de pantalla, además de
 Ruff, TypeScript y ESLint. La política comprobada solicita `es-ES`, transmite
@@ -345,4 +397,5 @@ sustituye una evaluación de usabilidad con participantes.
 | EXP-005A | 100 % en 10 pares; 0 falsos positivos | 10 m, 85 % y 5 % | 2 m, 98 % y 3 % | Umbral conservador integrado; generalización pendiente |
 | EXP-006 | 418 elementos; confianza media 0,391 | Corredor de 10 m | Corredor de 5 m | Menos contaminación potencial con cobertura útil; revisión manual pendiente |
 | EXP-007 | 75,00 % frente a 100,00 % fijo | Pesos declarados fijos | Clasificación adaptativa sobre costes ORS+OSM | Transferencia no observada; conjunto pequeño, señal no discriminante y efecto techo |
+| EXP-009 | 86,82–88,40 % frente a 94,07–100,00 % fijo en sintético; 79,17–85,10 % frente a 100,00 % fijo en ORS+OSM | Perfil completo declarado | Adaptación desde las 14 respuestas | Mejora final no observada; el cuestionario actúa como ancla fuerte y se exige validación temporal antes de adaptar |
 | VAL-002 | 4 niveles; 0 llamadas TTS con TalkBack; validación auditiva sin incidencias | Voz normal y manual | TTS configurable y condicionado | Coordinación funcional superada; evaluación con usuarios pendiente |

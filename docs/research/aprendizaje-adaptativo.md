@@ -1,7 +1,7 @@
 # Aprendizaje adaptativo de preferencias
 
 Estado: `En implementación`
-Última actualización: 18 de agosto de 2026
+Última actualización: 25 de agosto de 2026
 Responsabilidad principal: `research`
 
 ## Problema que resuelve
@@ -46,6 +46,13 @@ todos los perfiles proporcionaron las mismas elecciones y el adaptativo no
 superó a unos pesos fijos que ya acertaban el 100 % de las primeras posiciones
 reservadas. Esto confirma que el modelo necesita comparaciones informativas y
 refuerza su activación voluntaria, reversible y desactivada inicialmente.
+
+La evaluación posterior con el cuestionario completo se documenta en
+[EXP-009](../evaluation/evaluacion-aprendizaje-cuestionario-real.md). Cuatro
+formularios reales de catorce respuestas produjeron perfiles iniciales mucho
+más informativos. La adaptación no superó al sistema fijo en ninguna de las
+cuatro condiciones finales, por lo que la declaración se conserva como ancla y
+la capacidad de aprender no se confunde con una mejora garantizada.
 
 ## Requisitos
 
@@ -424,6 +431,20 @@ dimensiones podría quedar bloqueada. Su valor actual es doble: convierte la
 limitación de `EXP-007` en una medida auditable y demuestra por qué contar
 interacciones no basta para justificar influencia aprendida.
 
+`EXP-009` evaluó además la transformación vigente de las catorce preguntas. En
+el banco sintético, el perfil fijo alcanzó 100 % cuando era exactamente
+coherente y 94,07 % cuando ocultaba diferencias finas; el adaptativo terminó en
+86,82 % y 88,40 %. En el banco ORS+OSM, el fijo alcanzó 100 % y el adaptativo,
+79,17 % y 85,10 %. Una mejora de 0,27 puntos tras cinco elecciones en la
+condición sintética de refinamiento desapareció a partir de la décima.
+
+El resultado separa capacidad y utilidad. El algoritmo sí modifica los pesos y
+`EXP-002` demuestra que recupera una señal conocida cuando la declaración es
+imprecisa. Sin embargo, con el formulario completo la configuración actual no
+aporta una corrección estable. Una evolución deberá usar el diagnóstico de
+capacidad informativa y una ventana de validación posterior antes de permitir
+que los pesos aprendidos ganen influencia.
+
 ## Riesgos y limitaciones
 
 - El usuario sintético elige con la misma familia lineal que el modelo aprende;
@@ -449,6 +470,8 @@ interacciones no basta para justificar influencia aprendida.
   longitudinales y trabajar con participantes.
 - El diagnóstico de capacidad informativa se ha validado solo sobre dos bancos
   contrastados y no decide todavía el comportamiento del producto.
+- `EXP-009` utiliza preguntas reales, pero formularios y elecciones simulados;
+  no valida el cuestionario con participantes ni estima su eficacia.
 
 ## Texto base para la memoria
 
@@ -491,6 +514,14 @@ después de sesenta. El resultado muestra que la cantidad no sustituye la
 variedad, pero no autoriza todavía una activación automática: se requiere
 replicación en otros escenarios y una evaluación temporal independiente.
 
+Al repetir finalmente la evaluación con cuatro configuraciones completas del
+cuestionario, el sistema fijo alcanzó entre 94,07 % y 100 % y el adaptativo no
+lo superó en ninguna comparación final. La mejora transitoria de 0,27 puntos
+observada tras cinco elecciones no se sostuvo. Esta evidencia sitúa el perfil
+declarado como referencia principal y convierte la adaptación en una función
+experimental cuya influencia futura deberá ganarse mediante validación sobre
+elecciones posteriores.
+
 ## Trabajo pendiente
 
 - [x] Fijar la formulación y calibrar sus hiperparámetros.
@@ -504,6 +535,8 @@ replicación en otros escenarios y una evaluación temporal independiente.
 - [x] Repetir la evaluación con costes de rutas ORS enriquecidas con OSM.
 - [x] Implementar y evaluar un diagnóstico estructural de capacidad
   informativa sin conectarlo todavía al ranking.
+- [x] Repetir la evaluación con la transformación real del cuestionario
+  completo y conservar el resultado negativo.
 - [ ] Ampliar esa evaluación con pares que distingan perfiles y más
   alternativas aceptadas.
 - [ ] Calibrar una activación que proteja perfiles iniciales ya precisos.

@@ -1,5 +1,23 @@
 # Journal de desarrollo
 
+## 25 de agosto de 2026 — Aprendizaje con el cuestionario completo
+
+Se conservó `EXP-007` y se añadió `EXP-009` para evaluar la transformación real
+de las catorce preguntas. Cuatro formularios completos se compartieron entre
+TypeScript y Python y se cruzaron con dos condiciones de preferencia y dos
+bancos de rutas. Después de sesenta elecciones, la adaptación no superó al
+perfil fijo: quedó entre 5,67 y 20,83 puntos por debajo en las cuatro
+comparaciones finales. Una mejora sintética de 0,27 puntos tras cinco
+elecciones fue transitoria.
+
+El resultado delimita la contribución sin ocultar evidencia: `EXP-002` conserva
+la demostración positiva con perfiles imprecisos y `EXP-007`, la transferencia
+negativa sobre rutas limitadas. Con el formulario vigente, el perfil declarado
+actúa como ancla fuerte. El aprendizaje se mantiene voluntario y reversible, y
+una evolución deberá validar sus pesos frente al sistema fijo antes de aumentar
+su influencia. Protocolo, tablas, figura y artefactos en la
+[evaluación con el cuestionario completo](evaluation/evaluacion-aprendizaje-cuestionario-real.md).
+
 ## 23 de agosto de 2026 — Orientación bajo demanda mediante brújula
 
 Se añadió una comprobación voluntaria que compara el eje del teléfono con el

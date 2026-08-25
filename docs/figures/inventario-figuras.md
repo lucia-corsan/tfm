@@ -1,7 +1,7 @@
 # Inventario de figuras y tablas
 
 Estado: `En implementación`  
-Última actualización: 18 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 | ID | Contenido | Capítulo | Estado | Archivo final |
 | --- | --- | --- | --- | --- |
@@ -16,6 +16,7 @@ Estado: `En implementación`
 | FIG-09 | Sensibilidad de umbrales GPS | Evaluación | Pendiente | — |
 | FIG-10 | Transferencia del aprendizaje a rutas ORS enriquecidas con OSM | Evaluación | Generada | `docs/figures/aprendizaje-rutas-reales.png` |
 | FIG-11 | Cantidad de elecciones frente a capacidad informativa | Evaluación | Generada | `docs/figures/capacidad-informativa-aprendizaje.png` |
+| FIG-12 | Aprendizaje con perfiles del cuestionario completo | Evaluación | Generada | `docs/figures/aprendizaje-cuestionario.png` |
 
 ## Requisitos gráficos
 
@@ -38,6 +39,11 @@ La figura 11 utiliza dos paneles con la misma escala: la izquierda muestra el
 fallo de una regla basada solo en cantidad y la derecha añade variedad y
 contraste. El desplazamiento mínimo de los marcadores evita ocultar dos series
 cuando sus valores coinciden.
+
+La figura 12 separa el banco sintético informativo del banco ORS+OSM limitado y
+contrasta una declaración coherente con una preferencia fina no expresada. Las
+barras muestran solo el resultado final fijo y adaptativo para evitar ocultar
+el mensaje principal con las numerosas curvas intermedias.
 
 ## Fuente del flujo metodológico
 

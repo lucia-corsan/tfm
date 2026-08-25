@@ -1,6 +1,6 @@
 # Índice y convención de la documentación
 
-Última actualización: 23 de agosto de 2026.
+Última actualización: 25 de agosto de 2026.
 
 ## Propósito
 
@@ -57,6 +57,7 @@ esperadas por `AGENTS.md`.
 - [Validación de la orientación mediante la brújula](evaluation/validacion-orientacion-brujula.md).
 - [Calibración y evaluación del aprendizaje adaptativo](evaluation/calibracion-aprendizaje-adaptativo.md).
 - [Evaluación del aprendizaje con rutas ORS enriquecidas con OSM](evaluation/evaluacion-aprendizaje-rutas-reales.md).
+- [Evaluación del aprendizaje con el cuestionario completo](evaluation/evaluacion-aprendizaje-cuestionario-real.md).
 - [Diagnóstico de capacidad informativa de las elecciones](evaluation/diagnostico-capacidad-informativa.md).
 - [Cierre y criterios de aceptación del MVP](evaluation/cierre-mvp.md).
 - [Registro de experimentos](evaluation/experimentos.md).
