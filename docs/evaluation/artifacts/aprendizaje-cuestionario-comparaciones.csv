@@ -1,0 +1,5 @@
+bank,bank_label,condition,condition_label,paired_runs,seed_clusters,adaptive_top1_improvement,adaptive_top1_improvement_ci95_low,adaptive_top1_improvement_ci95_high,mean_regret_reduction,adaptive_wins,ties,adaptive_losses
+real_limited,Rutas ORS+OSM limitadas,exact,Cuestionario coherente,80,20,-0.20833333333333334,-0.20833333333333334,-0.20833333333333334,-0.0032369080766936945,0,20,60
+real_limited,Rutas ORS+OSM limitadas,latent_refinement,Preferencia fina no expresada,80,20,-0.14895833333333336,-0.15508333333333335,-0.14283333333333337,-0.0031431752352886685,0,39,41
+synthetic_informative,Situaciones sintéticas informativas,exact,Cuestionario coherente,80,20,-0.13179687499999998,-0.1428796491988753,-0.12071410080112466,-0.0031152130868763806,0,0,80
+synthetic_informative,Situaciones sintéticas informativas,latent_refinement,Preferencia fina no expresada,80,20,-0.05671875,-0.0651880408644532,-0.04824945913554679,-0.0018534416781419312,8,4,68
